@@ -1,36 +1,70 @@
-# History files
+.Rproj.user
 .Rhistory
-.Rapp.history
-
-# Session Data files
 .RData
+.Ruserdata
 
-# Example code in package build process
-*-Ex.R
+# Ignore the sphinx build output
+/build
+_build
 
-# Output files from R CMD build
-/*.tar.gz
 
-# Output files from R CMD check
-/*.Rcheck/
+# Ignore the data folder for now, maybe gitlfs later
+source/_static/data/
 
-# RStudio files
-.Rproj.user/
+# Ignore the intermediate file created by previews or knit
+md/
+figures/
+*.html
+*.md
 
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
+# Ignore Binary files for now
+*.tif
+*.zip
+*.rds
 
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
+# =========================
+# Operating System Files
+# =========================
 
-# knitr and R markdown default cache directories
-/*_cache/
-/cache/
+# OSX
+# =========================
 
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
+.DS_Store
+.AppleDouble
+.LSOverride
 
-# Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
-rsconnect/
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+.Rproj.user
+
+# Windows
+# =======
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk

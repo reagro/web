@@ -1,0 +1,15 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Rule-based models
+
+## Modeling yield responses to nutrient management with QUEFTS 
+
+Description of QUEFTS model and its applications within TAMASA. Description of data required, how to set up NOTs, how to calibrate.
+
+
+## Ecocrop 
+?
+
+## Other..

@@ -1,0 +1,9 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Fertilizer use profitability
+
+Integration of biophysical and economic data to understand farmer decision making: the case of fertilizer profitability
+Include complete R code for spatial ex ante framework. 
+Primary authors: Sebastian Palmas, Jordan, Robert?, Camila?

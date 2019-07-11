@@ -1,0 +1,19 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Varieties
+
+
+## Mother-baby
+
+Sieg Snapp
+
+
+## Mother-baby
+
+Sieg Snapp
+
+## Crowd sourcing
+
+Jacob van Etten

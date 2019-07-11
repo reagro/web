@@ -1,0 +1,28 @@
+# Introduction
+
+
+This is the overall conceptual framework, outlining and linking the different components of agronomy at scale.
+
+
+## Agronomy at scale
+
+The need to understand spatial and temporal variation in agriculture is somewhat in conflict with the traditional research approach in agronomy, in which research is focused on well-managed trials at experimental stations. While this approach remains fundamental to much agronomic understanding, the understanding generated from such experimental data may lack generality because i) they do not sufficiently capture the large spatial and temporal variability in growing conditions on farmer fields; ii) conditions on these fields are generally more marginal; ad iii) the usefulness of agricultural technology can be strongly affectd by local social and economic conditions such as market prices. 
+
+
+## Rationale for agronomy investments
+
+
+
+## A vision for what a modern agronomy R&D systems
+
+
+## Private and public sectors
+
+Provision of public information goods to stimulate private investment
+Articulation of where public investments can help to clarify business case for private sector investments in agronomy trials, etc. (e.g. fertilizer industry)
+
+
+## Roadmap to the contents of this handbook
+
+
+
