@@ -1,3 +1,7 @@
+*.rst
+!index.rst
+aws.bat
+
 .Rproj.user
 .Rhistory
 .RData
@@ -12,6 +16,7 @@ _build
 source/_static/data/
 
 # Ignore the intermediate file created by previews or knit
+txt/
 md/
 figures/
 *.html
@@ -68,3 +73,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
