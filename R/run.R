@@ -42,11 +42,24 @@ do_build <- function(option) {
 	file.copy(ff1, ff2, overwrite=TRUE)
 }
 
-do_knit <- function(option) {
+do_knit <- function(option, quiet=TRUE) {
 
-	ff <- list.files("_R", pattern='.Rmd$', ignore.case=TRUE, full.names=TRUE)
-	kf <- list.files(".", pattern='\\.rst')
+	ff <- list.files("_R", pattern='.Rmd$', ignore.case=TRUE, full.names=TRUE, recursive=TRUE)
+	kf <- list.files(".", pattern='\\.rst$', recursive=TRUE)
 	kf <- kf[-grep("index.rst", kf, ignore.case=TRUE)]
+
+
+	dir.create('figures/', showWarnings=FALSE)
+	dir.create('txt/', showWarnings=FALSE)
+	u <- unique(gsub("_R", "", dirname(ff)))
+	u <- u[u!=""]
+	u <- gsub("/", "", u)
+	for (d in u) {
+		dir.create(d, showWarnings=FALSE, TRUE)
+		dir.create(file.path(d, 'figures'), showWarnings=FALSE)
+		dir.create(file.path(d, 'txt'), showWarnings=FALSE)
+	}
+	
 	if (option=="clean"){
 		file.remove(kf)
 		file.remove(list.files("txt", full=TRUE))
@@ -54,10 +67,12 @@ do_knit <- function(option) {
 	} else { 
 		if (length(kf) > 0 ) {
 			stime <- file.info(ff)
-			stime <- data.frame(f=raster::extension(basename(rownames(stime)), ""), stime = stime$mtime, stringsAsFactors=FALSE)
+			fn <- gsub("_R", ".", raster::extension((rownames(stime)), ""))
+			stime <- data.frame(f=fn, stime = stime$mtime, stringsAsFactors=FALSE)
 
 			btime <- file.info(kf)
-			btime <- data.frame(f=raster::extension(basename(rownames(btime)), ""), btime = btime$mtime, stringsAsFactors=FALSE)
+			fn <- paste0("./", raster::extension((rownames(btime)), ""))
+			btime <- data.frame(f=fn, btime = btime$mtime, stringsAsFactors=FALSE)
 
 			m <- merge(stime, btime, by=1, all.x=TRUE)
 			m[is.na(m$btime), 'btime'] <- as.POSIXct(as.Date('2000-01-01'))
@@ -68,24 +83,40 @@ do_knit <- function(option) {
 	}
 	if (length(ff) > 0) {
 		library(knitr)
-		dir.create('figures/', showWarnings=FALSE)
-		dir.create('txt/', showWarnings=FALSE)
-		md <-  raster::extension(basename(ff), '.md')
-		rst <- raster::extension(basename(ff), '.rst')
-		rcd <- file.path("txt", paste0(basename(md), ".txt"))
+		outf <- gsub("_R/", "", ff)
+		md <-  raster::extension(outf, '.md')
+		rst <- raster::extension(outf, '.rst')
+		txtp <- file.path(dirname(outf), "txt", basename(outf))
+		rcd <- raster::extension(txtp, '.txt')
 		
 		opts_chunk$set(
 			dev        = 'png',
-			fig.path   = 'figures/',
 			fig.width  = 6,	fig.height = 6,
+			fig.path = 'figures/',
 			fig.cap="",
 			collapse   = TRUE
 		)
 		
 		for (i in 1:length(ff)) {
-			cat(paste("   ", raster::extension(basename(ff[i]), ""), "\n"))
-			knit(ff[i], md[i], envir = new.env(), encoding='UTF-8', quiet=TRUE)
+		
+			dn <- dirname(rst[i])
+			if (dn != ".") {
+				opts_chunk$set(
+					fig.path = paste0(dn, '/figures/')
+				)
+				fdirclean <- TRUE
+			} else {
+				fdirclean <- FALSE
+			}
+			cat(paste("   ", raster::extension(outf[i], ""), "\n"))
+			knit(ff[i], md[i], envir = new.env(), encoding='UTF-8', quiet=quiet)
 			purl(ff[i], rcd[i], quiet=TRUE)
+			if (fdirclean) {
+				x <- readLines(md[i])
+				j <- grep("png", x)
+				x[j] = gsub(paste0(dn, "/"), "", x[j])
+				writeLines(x, md[i])
+			}
 			pc <- paste('pandoc',  md[i], '-f markdown -t rst -o', rst[i])
 			sysfun(pc)
 			file.remove(md[i])
@@ -102,7 +133,7 @@ for (ch in chapter) {
 	if (cmd == "build") {
 		do_build(option)
 	} else {
-		do_knit(option)
+		do_knit(option, quiet=TRUE)
 	}
 }
 setwd(oldpath)

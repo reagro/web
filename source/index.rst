@@ -5,32 +5,31 @@ This handbook provides background materials to learn about Regional Agronomy. Th
 
 .. topic:: 1. `Introduction <introduction/index.html>`__  
 
-  | Regional Agronomy (`pdf </introduction/introduction.pdf>`__)
+  | Regional Agronomy 
   | 
   
 .. topic:: 2. `Data  <data/index.html>`__
 
-  | Data collection and organization (`pdf </data/data.pdf>`__)
+  | Data collection and organization 
   | 
 
 
 .. topic:: 3. `Methods <methods/index.html>`__
 
-  | A discussion of modeling methods (`pdf </methods/methods.pdf>`__)
+  | A discussion of modeling methods 
   |  
 
   
 .. topic:: 4. `Tools <tools/index.html>`__
 
-  | Tools for data analysis and modeling (`pdf </tools/tools.pdf>`__)
+  | Tools for data analysis and modeling 
   |  
 
   
 .. topic:: 5. `Integration <cases/index.html>`__
 
-   | Case studies that showcase particular topics and workflows. (`pdf </cases/cases.pdf>`__)
+   | Case studies that showcase particular topics and workflows. 
    |
-
 
       
 
