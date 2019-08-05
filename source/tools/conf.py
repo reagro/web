@@ -249,7 +249,7 @@ latex_use_parts = False
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'models', u'Models',
+    (master_doc, 'tools', u'tools',
      [author], 1)
 ]
 
@@ -263,8 +263,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'models', u'Models',
-     author, 'Models', 'Models',
+    (master_doc, 'tools', u'tools',
+     author, 'tools', 'tools',
      'Miscellaneous'),
 ]
 

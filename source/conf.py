@@ -9,6 +9,12 @@ import os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
 
+
+# rh setup
+def setup(app):
+    app.add_css_file('custom.css')
+
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -38,7 +44,7 @@ source_parsers = {
 master_doc = 'index'
 
 # General information about the project.
-project = u'Introduction'
+project = u'Regional Agronomy'
 copyright = u'2019, the Authors'
 author = u''
 
@@ -197,7 +203,7 @@ html_show_sphinx = False
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'IntrotoRdoc'
+htmlhelp_basename = 'reagronomy'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -219,7 +225,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'introduction.tex', u'Introduction',
+    (master_doc, 'reagronomy.tex', u'reagronomy',
      u'Authors', 'manual'),
 ]
 
@@ -249,7 +255,7 @@ latex_use_parts = False
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'introduction', u'Introduction',
+    (master_doc, 'reagronomy', u'reagronomy',
      [author], 1)
 ]
 
@@ -263,8 +269,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Introduction', u'Introduction',
-     author, 'Introduction', 'Introduction',
+    (master_doc, 'reagronomy', u'reagronomy',
+     author, 'reagronomy', 'reagronomy',
      'Miscellaneous'),
 ]
 
