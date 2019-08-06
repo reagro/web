@@ -1,2 +1,0 @@
-# Agrononmy at Scale
-
