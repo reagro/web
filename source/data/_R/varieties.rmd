@@ -1,0 +1,10 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Varieties
+
+Collecting data on varietal adoption
+
+Ask Jacob van Etten
+

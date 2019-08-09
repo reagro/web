@@ -1,0 +1,96 @@
+```{r setup, include=FALSE}
+  knitr::opts_chunk$set(
+  echo = TRUE,  collapse = TRUE, comment = "#>"
+)
+```
+
+# Spatial QUEFTS
+
+Sebastian Palmas and Robert Hijmans
+
+
+
+Here we show how to spatially model QUEFTS. We will run an example using data from Tanzania.
+
+## Chapter requirements
+
+We use the R package `Rquefts`. It is not on CRAN yet (it will be there soon) but you can easily install it like this:
+
+```{r pckgs} 
+if (!require(Rquefts)) {source("https://install-github.me/cropmodels/Rquefts")}
+library(Rquefts)
+```
+
+We use example data from the `reagro` package. 
+
+```{r} 
+if (!require(reagro)) {source("https://install-github.me/regagro/reagro")}
+library(reagro)
+```
+
+
+## Soil data
+
+We use soil raster data from SoilGrids. The pH values are on a scale of 10*pH. We need to divide them by 10 to get proper pH values.
+
+```{r Loading soil rfiles}
+
+library(raster)
+fSOC <- system.file("tza/TZA_ORC.tif", package="reagro")
+fK <- system.file("tza/TZA_EXK.tif", package="reagro")
+fpH <- system.file("tza/TZA_PH.tif", package="reagro")
+SOC <- raster(fSOC)
+Kex <- raster(fK) 
+pH <- raster(fpH) / 10
+```
+
+Need to fix this, there is P data in soilgrids:
+
+"There is no P olsen raster in soilgrids, in the code below we create a constant P Olsen layer by using the soilC layer as a template and assigning all cells a value of 15."
+
+
+From these chemical soil properties, we can use QUEFTS to compute the soil nutrient supply.
+
+```{r compute soil nutrient supply}
+library(Rquefts)
+supply <- brick(raster(pH), nl=3)
+values(supply) <- nutSupply(pH, SOC, Kex, Polsen=15)
+supply
+```
+
+We have some negative values (let's remove them. Let's see what happens when we use real P values)
+
+```{r clamp}
+supply <- clamp(supply, 1, Inf)
+names(supply) <- c("Ns", "Ps", "Ks")
+supply
+plot(supply)
+```
+
+
+## Water limited yield
+
+For attainable yield, we use a raster of water-limited yield estimated by the GYGA project. 
+
+```{r WY}
+fy <- system.file("tza/TZA_YW.tif", package="reagro")
+Ya <- raster(fy)
+```
+
+## Running QUEFTS
+
+```{r set up a q model}
+library(Rquefts)
+maize <- quefts_crop("Maize")
+fertilizer <- list(N=64, P=20, K=0)
+q <- quefts(crop=maize, fert=fertilizer)
+```
+
+In this example, 64 kg/ha of N and 20 kg/ha of P comes from using 100 kg/ha of Urea and 100 kg/ha of DAP.
+
+```{r Running}
+yield <- raster(Ya)
+values(yield) <- run(q, supply, Ya)
+plot(yield)
+```
+

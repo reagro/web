@@ -1,0 +1,17 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Input and output prices
+
+
+
+## fertilizer prices
+
+
+
+
+## maize prices 
+
+
+

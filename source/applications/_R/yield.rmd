@@ -1,0 +1,30 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Yield potential
+
+Camila Bonila et al 
+
+## Concepts 
+
+(See simulation chapter for details)
+
+Potential yield 
+Water-limited yield
+Nutrient-limited yield
+
+
+## Crop simulation
+
+
+
+## Interpolation
+
+
+
+## Metamodels 
+
+
+
+

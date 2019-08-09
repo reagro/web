@@ -1,0 +1,23 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Response to fertilizer
+
+
+## Empirical model 
+
+
+
+## QUEFTS
+
+
+
+## Dynamic simulation
+
+
+
+## Comparison
+
+
+

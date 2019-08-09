@@ -1,0 +1,19 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Crop calendars
+
+Estimating crop calendars with
+
+## simulation models 
+
+
+
+## remote sensing 
+
+
+
+## compare 
+
+With each other and with static databases
+

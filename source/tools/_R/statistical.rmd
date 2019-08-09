@@ -1,0 +1,41 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Statistical models 
+
+
+## Prediction and inference
+
+## The overfitting vs. underfitting trade-off
+
+## Linear regression
+
+### Model selection
+### Lasso and Rigde regression
+### Logistic regression and LDA
+
+
+## Flexible models (Machine learning)
+
+### Random Forest
+
+### SVM
+
+### ANN
+
+
+
+
+## Understanding model properties
+
+Opening the "black box"
+
+### Variable importance
+
+### Partial respoinse 
+
+## Model evaluation 
+
+### Cross validation
+

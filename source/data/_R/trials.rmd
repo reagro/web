@@ -1,0 +1,19 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Trials
+
+Discuss "new agronomy" trials
+
+## many vs few 
+
+many simple trials across regions vs a few major trials
+
+
+## mother-baby
+
+Ask Sieg
+
+
+
