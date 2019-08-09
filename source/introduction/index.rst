@@ -35,12 +35,12 @@ This book is intended for students, practitioners and researchers in agricultura
 
 You also need to have a basic understand of the *R* `computing language and environment <https://www.r-project.org/>`__. We use *R* in the examples througout this book. If you are new to *R* you can look at this `introduction <https://rspatial.org/intr>`__. As we use a lot of spatial (geographic) data, we should first learn about the basics of that too, for example by going through `these materials <https://rspatial.org/spatial>`__. 
 
-We use *R* because that is the most widely used computing environment in Regional Agronomy, and because it is free software. In some cases there would be alternative, and perhaps better ways to implement a particular workflow, but in our worked examples we stick to *R* to it straightforward to understand and reproduce them. We generally do not refer to stand-alone software that must be used through a user-interface. While such software is very useful, or even indispensable, for some types of work, we strive for fully reproducible workflows. That means that all data manipulation must be done with scripts.
+We use *R* because that is the most widely used computing environment in Regional Agronomy, and because it is free software. In some cases there would be alternative, and perhaps better ways to implement a particular workflow, but in our worked examples we mostly stick to *R* to keep it straightforward to understand and reproduce them. We generally do not refer to stand-alone software that must be used through a user-interface although we will have links to a few web-based visual apps. While such software is very useful, or even indispensable, for some types of work, we strive for fully reproducible workflows. That means that all data manipulation must be done with scripts. We do include a few examples about dealing with large quantities of (satellite) data using Google Earth Engine and clould computing with Amazon Web Services. 
 
 
 Acknowledgments
 ---------------
-Authors are listed at the top of each chapter. The book is edited by Robert Hijmans and Jordan Chamberlin. You can contact us at <rhijmans@ucdavis.edu> and <j.chamberlin@cgiar.org>. 
+Contirbuting authors are listed at the top of each chapter. The book is edited by Robert Hijmans and Jordan Chamberlin. You can contact us at <rhijmans@ucdavis.edu> and <j.chamberlin@cgiar.org>. 
 
 This work was partly supported by a grant to `CIMMYT <https://www.cimmyt.org/>`__ by the `Bill and Melinda Gates Foundation <https://www.gatesfoundation.org/>`__.
 
