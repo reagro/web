@@ -1,23 +1,94 @@
 ```{r setup, include=FALSE}
   knitr::opts_chunk$set(
-  echo = TRUE,  collapse = TRUE, comment = "#>"
-)
+  echo = TRUE,  collapse = TRUE, comment = "#>")
+
+  library(Rquefts)  
 ```
 
 # QUEFTS
 
-Here we show the use of the `QUEFTS` model. QUEFTS stands for *QUantitative Evaluation of the Fertility of Tropical Soils*. It is a simple and elegant model that can estimate the amount of fertilizer needed to reach a particular crop yield; or to estimate the crop yield given the amount of fertilizer applied. To run the model, you need soil and crop parameters, as well as the amount of fertilizer applied, and the attainable crop biomass production. In this context, the attainable production that is either the maximum production in the absence of nutrient limitation, or another (lower) target biomass production. 
+## Introduction
 
+This chapter describes the `QUEFTS` model. QUEFTS stands for *QUantitative Evaluation of the Fertility of Tropical Soils*. It is a simple rule-based model to estimate crop yield given the amount of fertilizer applied, or to estimate the amount of fertilizer needed to reach a particular yield. 
+
+To run the model, you need soil and crop parameters, as well as the amount of fertilizer applied, and the attainable crop biomass production. In this context, the attainable production that is either the maximum production in the absence of nutrient limitation, or another (lower) target biomass production. 
+
+QUEFTS was first described in: *B.H. Janssen, F.C.T. Guiking, D. van der Eijk, E.M.A. Smaling, J. Wolf and H.van Reuler. 1990. A system for quantitative evaluation of the fertility of tropical soils (QUEFTS)*. [Geoderma 46: 299-318](https://www.sciencedirect.com/science/article/pii/001670619090021Z). 
+
+
+## Requirements
+
+We will use the R package `Rquefts`. You can install it from CRAN.
+
+```{r package} 
+if (!require(Rquefts)) { install.packages("Rquefts") }
+```
 
 ## Technical background
 
-QUEFTS was first described in 
+### Potential supply of nutrients
 
-B.H. Janssen, F.C.T. Guiking, D. van der Eijk, E.M.A. Smaling, J. Wolf and H.van Reuler. 1990. *A system for quantitative evaluation of the fertility of tropical soils (QUEFTS)*. `Geoderma 46: 299-318 <https://www.sciencedirect.com/science/article/pii/001670619090021Z>`__.
+The model uses soil properties to estimate the potential soil supply of nitrogen (N), phosphorus (P) and potassium (K). This is done based on relationships between chemical properties of the topsoil and the maximum quantity of those nutrients that can be taken up by the crop, if no other nutrients limiting growth. This amount is crop and soil specific and can be determined through experiments where all other nutrients are in ample supply. The target nutrient thus becomes the most limiting, and the maximum soil supply of that nutrient can then be estimated from the crop's nutrient uptake, and related to soil properties such as pH, and organic carbon content (Janssen et al., 1990). The equations used by QUEFTS to calculate the potential supplies of nutrients from soil properties were derived from empirical data of field trials in Suriname and Kenya. They are thought to be applicable to well drained, deep soils, that have a pH(H20) in the range 4.5-7.0, and values for organic carbon below 70 g/kg, P-Olsen below 30 mg/kg and exchangeable potassium below 30 mmol/kg.  
+
+Let's have a look at this relationship. Below we compute the nutrient supply for a range of pH values, and given different levels for the other chemical properties.
+
+```{r supply} 
+library(Rquefts)
+# range of pH values
+ph <- seq(4, 8, 1)
+s <- nutSupply(ph, SOC=1.5, Kex=1, Polsen=1)
+cbind(ph, s)
+```
+
+With a more detailed range of pH values, to make plots.
+
+```{r phsupply} 
+ph <- seq(4, 8, 0.25)
+# three combinations
+s1 <- nutSupply(ph, SOC=15, Kex=5, Polsen=5)
+s2 <- nutSupply(ph, SOC=30, Kex=10, Polsen=10)
+s3 <- nutSupply(ph, SOC=45, Kex=20, Polsen=20)
+```
+
+Now plots of the effect of pH on N, P and K supply, for three situations (low, medium and high levels of organic matter, exchangeble K, and Olsen-P).
+
+```{r phsupply2, fig.width=10} 
+par(mfrow=c(1,3))
+
+for (supply in c("N_base_supply", "P_base_supply", "K_base_supply")) {
+  plot(ph, s3[,supply], xlab="pH", ylab=paste(supply, "(kg/ha)"), type="l", ylim=c(0,max(s3[,supply])))
+  lines(ph, s2[,supply])
+  lines(ph, s1[,supply])
+}
+```
+
+This shows that P-supply is highest at a *pH*=6, for any Olsen-P level. N-supply decreases with *pH* (given the amount of soil Carbon), and K-supply increases with *pH* (given the amount of exchangeble K).
+
+Now let's look at nutrient supply for varying levels of Soil Carbon.
+
+```{r omsupply, width=10} 
+# unit is g/kg
+om <- seq(0, 70, 5)
+# three combinations
+s1 <- nutSupply(pH=5.5, SOC=om, Kex=5, Polsen=5)
+s2 <- nutSupply(pH=5.5, SOC=om, Kex=10, Polsen=10)
+s3 <- nutSupply(pH=5.5, SOC=om, Kex=20, Polsen=20)
+
+# and plot
+par(mfrow=c(1,3))
+for (supply in c("N_base_supply", "P_base_supply", "K_base_supply")) {
+  plot(om, s3[,supply], xlab="Soil Carbon (g/kg)", ylab=paste(supply, "(kg/ha)"), type="l", ylim=c(0,max(s3[,supply])))
+  lines(om, s2[,supply])
+  lines(om, s1[,supply])
+}
+```
+
+This shows that organic carbon has a strong positive effect on available N and P, but a negative effect on K availability (given the amount of exchangable K). 
+
+We can assume that these relationships are robust, at least for the conditions that they were designed for (pH(H20) 4.5-7.0, organic carbon below 70 g/kg, P-Olsen below 30 mg/kg and exchangeable potassium below 30 mmol/kg). But with more data, they could be re-estimated, also for other conditions.
 
 
-The model uses soil properties to estimate the potential soil supply of nitrogen (N), phosphorus (P) and potassium (K). This is done based on relationships between chemical properties of the topsoil and the maximum quantity of those nutrients that can be taken up by the crop, if no other nutrients limiting growth. This amount is crop and soil specific and can be determined through experiments where all other nutrients are in ample supply. The target nutrient thus becomes the most limiting, and the maximum soil supply of that nutrient can then be estimated from the crop's nutrient uptake, and related to soil properties such as pH, and organic carbon content (Janssen et al., 1990). The equations used by QUEFTS to calculate the potential supplies of nutrients from soil properties were derived from empirical data of field trials in Suriname and Kenya. They could be applicable to well drained, deep soils, that have a pH(H20) in the range 4.5–7.0, and values for organic carbon below 70 g/kg, P-Olsen below 30 mg/kg and exchangeable potassium below 30 mmol/kg.  
-
+### Actual nutrient uptake
 
 The actual uptake of each nutrient is estimated as a function of the potential soil supply of that nutrient, taking into account the potential soil supply of the other two nutrients, and the maximum nutrient concentrations in the vegetative and generative organs of the crop. 
 
@@ -30,16 +101,6 @@ TO DO: illustrate the procedure numerically and graphically
 
 TO DO: discuss limitations based on the Sattari et al paper
 
-
-## Chapter requirements
-
-We will use the R package `Rquefts`. It is not on CRAN yet (it will be there soon) but you can easily install it like this:
-
-```{r} 
-if (!require(Rquefts)) {
-source("https://install-github.me/cropmodels/Rquefts")
-}
-```
 
 
 ## Create and run a model
@@ -80,7 +141,7 @@ If the crop has biological nitrogen fixation (in symbiosis with *Rhizobium*) you
 
 library(Rquefts)
 
-rice <- quefts_crop("Barley")
+rice <- quefts_crop("Rice")
 q <- quefts(crop=rice)
 q$leaf_att <- 2651
 q$stem_att <- 5053
@@ -102,6 +163,32 @@ par(mfrow=c(1,2))
 plot(N, yield, type="l", lwd=2)
 Efficiency = yield / N
 plot(N, Efficiency, type="l", lwd=2)
+```
+
+
+```{r}
+
+f <- expand.grid(N=seq(0,400,10), P=seq(0,400,10), K=c(0,200))
+x <- rep(NA, nrow(f))
+for (i in 1:nrow(f)) {0
+	q$N <- f$N[i] 
+	q$P <- f$P[i] 
+	q$K <- f$K[i] 
+	x[i] <- run(q)["store_lim"]
+}
+x <- cbind(f, x)
+
+# display results
+library(raster  )
+r0 <- rasterFromXYZ(x[x$K==0, -3])
+r200 <- rasterFromXYZ(x[x$K==200, -3])
+
+par(mfrow=c(1,2))
+plot(r0, xlab="N fertilizer", ylab="P fertilizer", las=1, main="K=0")
+contour(r0, add=TRUE)
+plot(r200, xlab="N fertilizer", ylab="P fertilizer", las=1, main="K=200")
+contour(r200, add=TRUE)
+#plot(stack(r0, r200))
 ```
 
 

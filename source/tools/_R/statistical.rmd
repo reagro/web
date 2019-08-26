@@ -2,17 +2,251 @@
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Statistical models 
+# Statistical modeling 
+
+Statistical methods assist in the use of evidence for description, understanding and prediction of phenomena of interest. This chapter is about *prediction*, but we start with a very brief discussion of methods for formal understanding (inference). 
+
+## Inference
+
+Introductory statistics classes in agronomy and other life sciences have traditionally focused on methods to support  *understanding*. These courses teach probability distribution based inference through hypothesis testing, preferably using data from randomized controlled trials (RCTs). They may also introduce linear regression. There is a good reason for that: this inferential approach underpins most natural science. Perhaps the most prominent statistician of all time, R.A. Fisher, developed the Analyis of Variance (ANOVA) method to analyze crop trials when he was employed at the Rothamsted Experimental Station. 
+
+Data from trials (experiments) tends to have some unexplained ("random") variation because of differences in the objects used for testing. Each experimental plot is a little different, or, in the case of medicine or social sciences, each individual may respond a little different to a pill or other stimulus. In classical statistics, a main concern is, therefore, whether an observed difference between treatments is likely to be caused by chance (not a significant difference) or not (a significant difference). For example, you may employ a *t-test* to see if the effect of *treatment A* is significantly different from the effect of *treatment B*. Statistical significance is expressed as a probability (*p-value*) that an observed difference was caused by chance. The lower this probability, the more certain we are that the observed difference is not a fluke. To use this type of framework properly, great care needs to be taken in data collection and processing, to assure that the data conform to assumptions on which the tests are based. For examples, a variable may need to be normally distributed, observations may need to be independent of each other, and measurements should not have much error. 
+
+There has been a lot of recent work on alternative inferenital approaches through the development and use of model selection methods, multi-level models, and in Bayesian inference. The [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) book is a good practical resource to learn about these new approaches to scientific understanding. 
+
+But the topic if this chapter is *prediction* not *formal inference*. Even though we won't mind to also gain understanding from our data, our goal is learning, not understanding. An analogy is that you do not necessarily need to understand how something works (for example a car) to be able to use it; but you do need to able to evaluate whether it is fit for a particular purpose, or whether you should consuder getting a more useful vehicle --- and this *may* require some understanding of how cars work.   
 
 
-## Prediction and inference
+## Prediction
 
-## The overfitting vs. underfitting trade-off
+Statisitcal prediction has gained a lot of attention over the past decades. In part because of new needs and the availability of much more data, and of new algorithms. Whereas inferential statistics has emphasized the need for a few (orthogonal, independent) variables and high quality data, these new algorithms are used in the context of many variables and large noisy data sets. 
+
+Some of these new algorithms are referred to as "machine learning" methods. We avoid that term here and we use the more general term "regression" or "supervised statistical learning" methods here. This encompasses a suite of methods that start with simple linear regression and end with complex algorithms such as neural networks. These more complex methods form the backbone of much modern "data science" methods. Data science is the use of statistical methods together with efficient and reproducible procedures to acquire, curate, and manipulate (large quantities of) data. In other words, data science is at the intersection data management and software development and (supervised) statistical learning. This chapter outlines some important features of statistcal learning. We focus on the model over-fitting versus under-fitting; model evaluation and interpretation; and model application. 
+
+Much of what we discuss is based on [An Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/). This is very accessible book that you can [download for free](https://web.stanford.edu/~hastie/pub.htm#books). It comes with exercises in *R* and a lot of on-line learning materials such as [this free MOOC](https://lagunita.stanford.edu/courses/HumanitiesSciences/StatLearning/Winter2016/about). If the subject matter of this chapter intrigues you, you should not hesitate to read it. 
+
+
+## Supervised learning
+
+"Supervised learning" refers to building a model with a data set that includes records that have values for a response variable of interest (for example, crop yield), and for predictor variables (for example, rainfall and fertilizer application rates). 
+
+In matrix notation these models have the form  $\hat{Y} = \hat{f}(X) + \epsilon$,  where $\hat(Y)$ (Y-hat) are the model estimates of the variable of interest (a vector); $X$ is the matrix with predictor variables; and $\epsilon$ (epsilon) is the unexplained variation. The art is to find the most appropriate function $\hat{f}$ (f-hat) --- that is the one that most closely resembles the *true* function $f$. 
+
+## Over-fitting versus under-fitting
+
+Over-fitting a model means that the model fits the data that was used to build the model very well --- in fact too good. Let's look at that with a simple data set where we have a response variable `y` and a single predictor variable `x`. 
+
+```{r}
+x <- c(35, 47.2, 20.7, 27.1, 42.5, 40.1, 28.2, 35.8, 47.4, 
+		21.3, 39, 30.6, 18.7, 8.4, 45.8, 14, 47.3, 31.5, 38, 32)
+y <- c(9, 11.5, 7.6, 8.8, 9.8, 11, 8.2, 8.6, 11.4, 7.4, 
+		11.1, 7.9, 6, 4.6, 12.3, 6.1, 11.4, 8.8, 10.3, 9.4)
+plot(x, y)
+```
+
+We could build a simple linear regression model like this
+```{r}
+mlr <- lm(y~x)
+plot(x, y, pch=20, cex=1.5, las=1)
+abline(mlr, col="red", lwd=3) 
+summary(mlr)
+```
+
+A linear regression model takes the form $\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ...$  where $\beta_0$ is the intercept and the other $\beta$s are slopes. In this case we found $\hat{f}$  to be  *`r cf = round(coefficients(mlr), 2); paste0("y = ", cf[1], " + ", cf[2], "x")`*.  
+
+I hope you will agree that this looks very good. The line seems to capture the general trend; the model R^2^-0.92, and the *p-values* for the model parameters are very small (strong support for the intercept and slope being unequal to zero). But can we do better?
+
+Linear regression models with a single predictor variable are not very flexible. Let's try another extreme, a spline function. A spline model is referred as a non-parametric model (this is a misnomer, it has, in fact, a lot of parameters, so many that we do not want to consider them, as we cannot easily interpret them).
+
+```{r}
+# create the function from the data
+sf <- splinefun(x, y)
+# x prediction points
+px <- seq(1, 50, 0.25)
+# predictions
+py <- sf(px)
+
+plot(x, y, pch=20, cex=2, las=1)
+abline(mlr, col="red", lwd=3) 
+lines(px, py, col="blue", lwd=3)
+```
+
+Wow. Model `sf` seems perfect. Let's compare the two models with the Root Mean Squared Error (RMSE) statistic. Here is a function that implements it. 
+
+```{r}
+rmse <- function(obs, prd, na.rm=FALSE) {
+	sqrt(mean((obs - prd)^2, na.rm=na.rm))
+}
+```
+Let's test it
+
+```{r}
+# no difference
+rmse(1:10, 1:10)
+# a small difference
+rmse(1:10, 2:11)
+# rather different
+rmse(1:10, 10:1)
+``` 
+
+Now, let's use if for the two models
+
+```{r}
+# linear regression
+plr <- predict(mlr, data.frame(x=x))
+rmse(y, plr)
+
+# spline
+psf <- sf(x)
+rmse(y, psf)
+```
+
+By this measure, the spline model is perfect. The linear regression model might still be good for purpose, but it does not look as good as the spline model.
+
+However, we made a major mistake in our model evaluation procedure. We should not evaluate the model with the same data that we used to build the model. Because if we do so, we are guarenteed to select models that are overfit. To illustrate this, let's split the data in a two samples (this is not generally the best practise, see the section on cross-validation).
+
+```{r}
+n <- length(x)
+set.seed(321)
+i <- sample(n, 0.5 * n)
+i
+xa <- x[i]
+ya <- y[i]
+xb <- x[-i]
+yb <- y[-i]
+```
+
+Now train (fit) and test (evaluate) the models again. First use sample "a" to train and sample "b" to test. 
+
+```{r}
+mlr_a <- lm(ya~xa)
+sf_a <- splinefun(xa, ya)
+plr_a <- predict(mlr_a, data.frame(xa=xb))
+psf_a <- sf_a(xb)
+rmse(yb, plr_a)
+rmse(ya, plr_b)
+```
+Now use sample "a" to test and sample "b" to train. 
+
+```{r}
+mlr_b <- lm(yb~xb)
+sf_b <- splinefun(xb, yb)
+plr_b <- predict(mlr_b, data.frame(xb=xa))
+psf_b <- sf_b(xa)
+rmse(yb, psf_a)
+rmse(ya, psf_b)
+```
+
+```{r, echo=FALSE, include=FALSE}
+e <- c(rmse(yb, plr_a), rmse(ya, plr_b), rmse(yb, psf_a), rmse(ya, psf_b), NA, NA)
+e[5] <- mean(e[1:2])
+e[6] <- mean(e[3:4])
+e <- round(e,1)
+```
+
+In both cases the linear regression model peforms much better. The mean RMSE for the linear regression model is `r paste("(", e[1], "+", e[2], ")/2", "=", e[5])`, much smaller than for the the spline model `r paste("(", e[3], "+", e[4], ")/2", "=", e[6])`.
+Also note that the RMSE for the linear regression model is similar to the RMSE computed with the model training data when it was fit will all data (`r round(rmse(y, plr),2)`). That is also easy to see visually. 
+
+```{r}
+#set up the plot
+plot(x, y, las=1, cex=0, xlim=c(0,80), ylim=c(3,15))
+
+# original models
+abline(mlr, col="red", lwd=2, lty=3) 
+lines(px, py, col="blue", lwd=2, lty=3)
+
+# sample A models
+abline(mlr_a, lwd=2, col="red")
+lines(px, sf_a(px), lwd=2, col="blue")
+
+# sample B models
+abline(mlr_b, lwd=2, col="red", lty=2)
+lines(px, sf_b(px), lwd=2, col="blue", lty=2)
+
+# sample A and B points
+points(xa, ya, cex=1.5)
+points(xb, yb, cex=1.5, pch=19)
+
+# a complex legend
+legend("bottomright", pch=c(1,19,rep(NA, 10)), lty=c(NA, NA, rep(c(NA, NA,1,2,3),2)), lwd=2, , pt.cex=1.5, bg="white",
+	legend=c("Sample A", "Sample B", "", "Linear regression", "sample a", "sample b", "all data", "", "Spline model", "sample a", "sample b", "all data"), 
+	col=c("black", "black", "white", "white", rep("red", 3), "white", "white", rep("blue", 3))
+)
+
+```
+
+The spline model fit the training data perfectly, but that made it predict spectacularly bad for some of testing data. The linear regression model is not very flexible, so it did not change much when it only got the subset of data. This is an important feature. The linear model has **low variance**. That is, the estimated model does not change much when it is estimated with slightly different input data (do not confuse this use of the word "variance" with how it can be used to describe variability in a sample of quantitative observations). This is very important as a model only has value if it has some generality, not if it just fits a particular dataset. Note that the RMSE are essteniall for an interpolation problem. When `x` is between 15 and 40, the spline model is much worse than the linear regression model, but the three models (all data, sample A, and sample B) are somewhat similar. However, if we were to use these models for extrapolation (in practical terms, think predicting to a different region, group of people, time period), the results would be dramatically unreliable as the different spline models show extreme, but opposite responses. This does not mean that the linear model is right --- we have no data for x < 8 or x > 48.  
+
+Well, in this case, we actually do have . The data for `x` and `y` were sampled (and then rounded to 1 decimal) from a *known function* --- we do not have these for the real world, but we can generate them to learn about modeling methods. We used the function `f` below.
+
+```{r}
+f <- function(x) x/10 + sin(x) + sqrt(x)
+X <- seq(1,50,0.1)
+plot(X, f(X), type="l")
+```
+
+And the following procedure to create the sample data.
+```{r}
+set.seed(2)
+sx <- sample(X, 20)
+sy <- f(sx)
+```
+
+
+So is single variable linear regression always better than a spline model? No. It depends. It depends on how linear the relationship between x and y, and it also depends on the sample size. The more complex the model, and the larger the sample size, the better the spline might do. Here is simple example where the spline model does better.  
+
+The true model.
+```{r}
+f <- function(x) {x - x^2 + x^3*sin(x)}
+X <- seq(1,50,0.1)
+Y <- f(X) 
+plot(X, Y, type="l")
+```
+
+Two samples (without error).
+```{r} 
+set.seed(2)
+xa <- sample(X, 40)
+ya <- f(xa) 
+xb <- sample(X, 40)
+yb <- f(xb) 
+```
+
+The two models again
+```{r}
+mlr <- lm(ya~xa)
+sf <- splinefun(xa, ya)
+rmse(yb, predict(mlr, data.frame(xa=xb)))
+rmse(yb, sf(xb))
+
+mlr <- lm(yb~xb)
+sf <- splinefun(xb, yb)
+rmse(ya, predict(mlr, data.frame(xb=xa)))
+rmse(ya, sf(xa))
+```
+
+In both instances, the spline model RSME is about five times smaller. 
+
+```{r}
+px <- seq(1, 50, 0.25)
+py <- sf(px)
+plot(X, Y, type="l", lwd=3, las=1)
+points(xa, ya, cex=1.5)
+points(xb, yb, pch=19, cex=1.5)
+abline(mlr, col="red", lwd=2) 
+lines(px, py, col="blue", lwd=2)
+
+legend("bottomleft", pch=c(1,19,rep(NA, 10)), lty=c(NA, NA, rep(c(NA, NA,1,2,3),2)), lwd=2, , pt.cex=1.5, bg="white",
+	legend=c("Sample A", "Sample B", "", "Linear regression", "sample a", "sample b", "all data", "", "Spline model", "sample a", "sample b", "all data"), 
+	col=c("black", "black", "white", "white", rep("red", 3), "white", "white", rep("blue", 3))
+)
+```
+
 
 ## Linear regression
 
 ### Model selection
-### Lasso and Rigde regression
+### Lasso and Ridge regression
 ### Logistic regression and LDA
 
 
@@ -23,8 +257,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ### SVM
 
 ### ANN
-
-
 
 
 ## Understanding model properties
