@@ -1,4 +1,8 @@
 ```{r setup, include=FALSE}
+library(knitr)
+library(dismo)
+library(randomForest)
+library(rpart)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -326,40 +330,40 @@ d2 <- d[-i,]
 These are the variables we have.
 
 ```{r, echo=FALSE}
-d = data.frame(variable=c('yield', 'N', 'P', 'K', 'temp', 'precip', 'ExchP', 'TotK', 'ExchAl', 'TotN', 'sand', 'clay', 'SOC', 'pH', 'AWC'),
+dtab <- data.frame(variable=c('yield', 'N', 'P', 'K', 'temp', 'precip', 'ExchP', 'TotK', 'ExchAl', 'TotN', 'sand', 'clay', 'SOC', 'pH', 'AWC'),
 description=c('crop yield (kg/ha)', 'N fertilizer (kg/ha)', 'P fertilizer (kg/ha)', 'K fertilizer (kg/ha)', 'Average temperature', 'Annual precipitation', 'Soil exchangeble P', 'Soil total K', 'Soil exchangeble Al', 'Soil total N', 'Soil franction sand (%)', 'Soil fraction clay (%)', 'Soil organic carbon (g/kg)', 'Soil pH', 'Soil water holding capacity'))
-kable(d)
+kable(dtab)
 ```
-
 
 
 ## Classification and Regression Trees
 
 Before we look at the RandomForest, we first consider what the *forest* is made up of: *trees*. Specifically, the Classification and Regression Trees (CART) algorithm. 
 
-Suppose we were interested in estimating soil organic carbon (SOC) across locations in West Africa. Suppose we have a lot of data on soil pH and the fraction of the soil that is sand (which are both cheap and easy to measure), and precipitation data as well (which is available for any location). Can we build a model that predicts SOC from pH, sand and precipitation? 
+Suppose we were interested in estimating soil organic carbon (SOC) across locations in West Africa. Suppose we have a lot of data on soil pH and the fraction of the soil that is sand or clay (cheap and easy to measure), and precipitation and temperature data as well (which is available for any location). Can we build a model that predicts SOC from pH, sand and precipitation? 
 
-```{r}
-par(mfrow=c(2,2), mai=rep(0.5, 4))
-for (v in c("SOC", "pH", "precip", "sand")) {
+```{r, fig.width=10}
+par(mfrow=c(2,3), mai=rep(0.5, 4))
+for (v in c("SOC", "pH", "precip", "temp", "clay", "sand")) {
 	boxplot(d[,v], main=v)
 }
 ```
 
 Let's first run a linear regression model
 ```{r}
-lrm <- lm(SOC~pH+precip+sand, data=d1)
-summary(m)
+model <- SOC~pH+precip+temp+sand+clay
+lrm <- lm(model, data=d1)
+summary(lrm)
 rmsenull(d2$SOC, predict(lrm, d2))
 ```
 
-We see that all the predictor variables are highly significant, but that the R^2^ is low. Perhaps we could improve the model by including interaction terms, but let's not go down that path here. 
+We see that all the predictor variables are highly significant, and the R^2^ is not that bad. Perhaps we could improve the model by including interaction terms, but let's not go down that path here. 
 
 Instead we use CART. CART recursively partitiones the data set using a threshold for one variable at a time to create groups that are as homogeneous as possible.
 
 ```{r}
 library(rpart)
-cart <- rpart(SOC~pH+precip+sand, data=d1)
+cart <- rpart(model, data=d1)
 rmsenull(d2$SOC, predict(cart, d2))
 ```
 
@@ -379,7 +383,7 @@ cart
 ``` 
 This shows, for example, that if we only used the first split (sand >=43.75), we get two groups. One group with 724 observations and a predicted (i.e., average) SOC of 12.38. The other group has 118 observations, and a predicted SOC of 23.3. 
 
-The big numbers express the remaining deviance. The Null deviance is 40810.6, but after the first split is has gone down to (19693.6 + 9037.7) = 28731.3.
+The big numbers express the remaining deviance (a goodness-of-fit statistic for a model). The Null deviance is 40810.6, but after the first split is has gone down to (19693.6 + 9037.7) = 28731.3.
  
 The Null deviance can be computed like this 
 ```{r}
@@ -401,7 +405,7 @@ It has reduced the deviance to `r rdev`%.
 Let's turn the data sets, and build a CART model with sub-dataset `d2` (and evaluate with `d1`).
 
 ```{r}
-cart2 <- rpart(SOC~pH+precip+sand, data=d2)
+cart2 <- rpart(model, data=d2)
 rmsenull(d1$SOC, predict(cart2, d1))
 ```
 
@@ -455,7 +459,7 @@ predictions <- matrix(nrow=nrow(d2), ncol=n)
 eval <- rep(NA, n)
 for (i in 1:n) {
 	k <- sample(nrow(d1), replace=TRUE)
-	cartmod <- rpart(SOC~pH+precip+sand, data=d1[k,])
+	cartmod <- rpart(model, data=d1[k,])
 	p <- predict(cartmod, d2)
 	eval[i] <- rmsenull(d2$SOC, p)
 	predictions[, i] <- p
@@ -501,7 +505,7 @@ Enough said. Let's create a Random Forest model.
 
 ```{r}
 library(randomForest)
-rf <- randomForest(SOC~pH+precip+sand, data=d1)
+rf <- randomForest(model, data=d1)
 rf
 ```	
 
@@ -526,20 +530,25 @@ round(100 * (1 - var(d2$SOC - p) / var(d2$SOC)), 1)
 
 Instead of the data splitting that we used above, you always want to use the *full dataset* to fit your final model. The model that you will use. To evaluate the model, you should cross-validation. 
 
-In cross-validation the data is divided into groups. Typically into 5 or 10 groups. 
+In cross-validation the data is divided into *k* groups. Typically into 5 or 10 groups. Each group is used once for model testing, and *k-1* times for model training. An extreme case that is "leave-one out", where *k* is equal to the number of records, bu this is generally not considered a good pracise.
 
-
+Let's make the groups. 5 in this case. 
 ```{r}
 n <- 5
 library(dismo)
 set.seed(31415)
 k <- kfold(d, n)
 table(k)
+```
+
+Now do the cross-validation, and compute a number of statistics of interest. 
+
+```{r}
 rfRMSE <- rfRMSEnull <- rfvarexp <- rfcor <- rep(NA, n)
 for (i in 1:n) {
 	test <- d[k==i, ]
 	train <- d[k!=i, ]
-	m <- randomForest(SOC~pH+precip+sand, data=train)
+	m <- randomForest(model, data=train)
 	p <- predict(m, test)
 	rfRMSE[i] <- rmse(test$SOC, p)
 	rfRMSEnull[i] <- rmsenull(test$SOC, p)
@@ -552,19 +561,14 @@ mean(rfvarexp)
 mean(rfcor)
 ```
 
-Compare with linear regression
+We can use the same procedure for any other predictive model. Here we compare with linear regression.
 
 ```{r}
-n <- 5
-library(dismo)
-set.seed(31415)
-k <- kfold(d, n)
-table(k)
 lmRMSE <- lmRMSEnull <- lmvarexp <- lmcor <- rep(NA, n)
 for (i in 1:n) {
 	test <- d[k==i, ]
 	train <- d[k!=i, ]
-	m <- lm(SOC~pH+precip+sand, data=train)
+	m <- lm(model, data=train)
 	p <- predict(m, test)
 	lmRMSE[i] <- rmse(test$SOC, p)
 	lmRMSEnull[i] <- rmsenull(test$SOC, p)
@@ -577,31 +581,153 @@ mean(lmvarexp)
 mean(lmcor)
 ```
 
-Purpose: 
-Get a sense of quality. 
-Compare models to select or to average models. 
-Optimize models (parameters such as ntry, nodesize)
+An important purpose of cross-validation is to get a sense of the quality of the model. But this is often not straighforward. Whether the quality of a model is sufficient depends on the purpose, and may require further numerical analysis. 
+
+Using cross-validation results is more straighforward in the context of model comparison. It can be used to select the best model, or, often more appropriate, to average a set of good models --- perhaps a average weighted by the RMSE. 
+
+Finally, cross-valdiation is important to find optimal values for "nuisance parameters" that needt to be set to regularize or otherwise parametrize a model. Examples for the randomForest methods are parameters such as `ntry` and `nodesize`. See ?randomForest.
 
 
-## Opening the "black box"
+## Opening the box
+
+Machine learning type regression models are sometimes described as "black boxes" --- we cannot see what is going on inside. Afer all, we do not have a few simple parameters as we might have with a linear regression model. Well, the box has a lid, and we can look inside. 
+
+Here we show two general methods, "variable importance" and "partial response" that are available in for the R randomForest type models, but are really applicable to any predictive model.
+
 
 ### Variable importance
 
+Which variables are important, which are not?
+
 ```{r}
-m <- randomForest(SOC~pH+precip+sand, data=d)
-varImpPlot(m)
+rfm <- randomForest(model, data=d)
+varImpPlot(rfm)
 ```
 
-rf <- randomForest(SOC~pH+precip+sand, data=d)
+Intuitively this is very easy to understand: "clay" and "precip" are very important; "temp" is not. The "Increase in Node Purity" (IncNodePurity) expresses the change in the homogeneity of the of the groups created by the trees (using the Gini coefficient as a measure). What is expressed is the decrease in said purity if a particular variable has no information. If a variable has no information to begin with, the decrase would be zero. 
 
+The notion of node purity is specific to tree-models. But the notion of variable importance is not. We can also use the change in RMSE to look at variable importance. 
 
+Here is a function that computes variable importance for any model (that has a "predict" methods) in R (but only for quantiative variables; it is little more work for categorical variables).
 
+```{r}
+varimp <- function(mod, dat, vars, n=10) {
+	RMSE <- matrix(nrow=n, ncol=length(vars))
+	colnames(RMSE) <- vars
+	for (i in 1:length(vars)) {
+	rd <- dat
+	v <- vars[i]
+		for (j in 1:n) {
+			rd[[v]] <- sample(rd[[v]])
+			p <- predict(mod, rd)
+			RMSE[j,i] <- rmse(rd$SOC, p)
+		}
+	}
+	return(RMSE)
+}
+``` 
 
+Let's use the fuction for our Random Forest model.
+
+```{r, pvars}
+predvars <- c("pH", "precip", "clay", "sand", "temp")
+vi <- varimp(rfm, d, predvars)
+vimean <- colMeans(vi)
+p <- predict(m, d)
+RMSEfull <- rmse(d$SOC, p)
+x <- sort(vimean - RMSEfull)
+dotchart(x)
+```
+
+Not exactly the same as what `varImpPlot` gave us; but pretty much the same message.
+
+We can use the same function for the linear regression model
+
+```{r}
+mlr <- lm(model, data=d)
+vi <- varimp(mlr, d, predvars)
+vimean <- colMeans(vi)
+p <- predict(m, d)
+RMSEfull <- rmse(d$SOC, p)
+x <- sort(vimean - RMSEfull)
+dotchart(x)
+```
 
 ### Partial response plots 
 
+Another interesting concept is the partial response plot. It shows the response of the model to one variable, with the other variables held constant.
 
+```{r}
+par(mfrow=c(2,2), mai=c(.75,rep(0.5,3)))
+for (i in 1:4) {
+	partialPlot(rfm, d, predvars[i], xlab=predvars[i], main="")
+}
+```
+
+Do you think these responeses make sense? That is, do they conform to what you know about soil science (if anything)?
+
+You have to interpret these plots with caution as it does not show interactions; and these can be very important. 
+
+To show interactipons we can make partial plots for two variables (to be done), but let's first make a general implemenation. The `partialPlot` funcion comes with the `randomForest` package. Here is a generic implementation that works with any model with a predict method.
+
+```{r}
+partialresponse <- function(mod, dat, var, nsteps=25) {
+	rng <- range(dat[[var]])
+	increment <- (rng[2] - rng[1])/(nsteps-2)
+	steps <- seq(rng[1]-increment, rng[2]+increment, increment)
+	res <- rep(NA, length(steps))
+	for (i in 1:length(steps)) {
+		dat[[var]] <- steps[i]
+		p <- predict(mod, dat)
+		res[i] <- mean(p)
+	}
+	res <- cbind(steps, res)
+	colnames(res) <- c(var, "p")
+	res
+}
+``` 
+
+Let's use it for `pH` with the Random Forest model
+
+
+```{r}
+pr_pH <- partialresponse(rfm, d, "pH")
+plot(pr_pH, type="l")
+rug(quantile(d$pH, seq(0, 1, 0.1)))
+```
+
+And for the linear regression model 
+
+```{r}
+lrm <- lm(model, data=d)
+pr_pH <- partialresponse(lrm, d, "pH")
+plot(pr_pH, type="l")
+rug(quantile(d$pH, seq(0, 1, 0.1)))
+```
 
 
 ## Conclusions
+
+- statistical modeling for inference is not the same as prediction
+
+- a major concern in prediction is the bias-variance trade-off (underfitting, overfitting)
+
+- predictive models are evaluated with cross-validation 
+
+- cross-validation is also used to estimate ("nuisance") parameters 
+
+- there are general tools to inspect the properties of predictive models (variable importance, partial responses).
+
+- machine learning is easy to do, but harder to understand, at first
+
+- machine learning algorithms are not that hard to understand!
+
+
+### What we did not talk about 
+
+- Random Forest can also do supervised classification (that is, predict classes) --- come back tomorrow
+
+- Random Forest can also do unsupervised classification  --- come back tomorrow
+
+
 
