@@ -38,8 +38,8 @@ source_parsers = {
 master_doc = 'index'
 
 # General information about the project.
-project = u'Integration'
-copyright = u'2016-2019, Authors'
+project = u'cases'
+copyright = u'2019, Authors'
 author = u'Authors'
 
 # The version info for the project you're documenting, acts as replacement for

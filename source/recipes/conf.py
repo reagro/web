@@ -38,8 +38,8 @@ source_parsers = {
 master_doc = 'index'
 
 # General information about the project.
-project = u'applications'
-copyright = u'2016-2019, Authors'
+project = u'recipes'
+copyright = u'2019, Authors'
 author = u'Authors'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -197,7 +197,7 @@ html_show_sphinx = False
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'applications'
+htmlhelp_basename = 'recipes'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -219,7 +219,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'applications.tex', u'applications',
+    (master_doc, 'recipes.tex', u'recipes',
      u'Authors', 'manual'),
 ]
 
@@ -249,7 +249,7 @@ latex_use_parts = False
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'applications', u'applications',
+    (master_doc, 'recipes', u'recipes',
      [author], 1)
 ]
 
@@ -263,8 +263,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'applications', u'applications',
-     author, 'applications', 'applications',
+    (master_doc, 'recipes', u'recipes',
+     author, 'recipes', 'recipes',
      'Miscellaneous'),
 ]
 
