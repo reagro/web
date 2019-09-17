@@ -8,11 +8,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Statistical modeling 
 
-Statistical methods can assist in the use of evidence for description, understanding and prediction of phenomena of interest. This chapter is about *prediction*, but we start with a very brief discussion of methods for formal understanding (*inference*) as that is what most are familiar with. 
+*Robert Hijmans*, University of California, Davis
+
+
+## Introduction
+
+Statistical methods can assist in the use of evidence for description, understanding and prediction of phenomena of interest. This chapter is about *prediction*, but we start with a very brief discussion of methods for formal understanding (*inference*) as that is what most agromists are familiar with. 
+
+
+## Chapter requirements.
+
+For this chapter you need the following *R* packages: `randomForest`, `rpart`, and `dismo`. They are all available for download from CRAN [see these instructions](/installation.html) about installing *R* packages.
+
 
 ## Inference
 
-Introductory statistics classes have traditionally focused on methods to support *understanding*. These courses teach probability distribution based inference through hypothesis testing, preferably using data from randomized controlled trials (RCTs). They may also introduce linear regression. There is a good reason for that: this inferential approach underpins most researc in the sciences. Perhaps the most prominent statistician of all time, R.A. Fisher, developed the Analysis of Variance (ANOVA) method to analyze crop trials when he was employed at the Rothamsted Experimental Station. 
+Introductory statistics classes in agromonmy (and most other fields) have traditionally focused on methods to support *understanding*. These courses teach probability distribution based inference through hypothesis testing, preferably using data from randomized controlled trials (RCTs). They may also introduce linear regression. There is a good reason for that: this inferential approach underpins most researc in the sciences. Perhaps the most prominent statistician of all time, R.A. Fisher, developed the Analysis of Variance (ANOVA) method to analyze crop trials when he was employed at the Rothamsted Experimental Station. 
 
 Data from trials (experiments) tends to have some unexplained ("random") variation because of differences in the objects used for testing. Each experimental plot is a little different, or, in the case of medicine or social sciences, each individual may respond a little different to a pill or other stimulus. In classical statistics, a main concern is, therefore, whether an observed difference between treatments is likely to be caused by chance (not a significant difference) or not (a significant difference). For example, you may employ a *t-test* to see if the effect of *treatment A* is significantly different from the effect of *treatment B*. Statistical significance is expressed as a probability (*p-value*) that an observed difference was caused by chance. The lower this probability, the more certain we are that the observed difference is not a fluke. To use this type of framework properly, great care needs to be taken in data collection and processing, to assure that the data conform to assumptions on which the tests are based. For examples, a variable may need to be normally distributed, observations may need to be independent of each other, and measurements should not have much error. 
 
@@ -318,11 +329,7 @@ There are various algorithms than can be used to make relatively complex models 
 To illustrate the use of Random Forest, we use some data from West Africa on soil fertility and crop response to fertilizer. These data are part of a larger study described in a forthcoming paper (Bonilla et al.). 
 
 ```{r}
-filename <- file.path(dirname(tempdir()), "soilfert.rds")
-if (!file.exists(filename)) {
-	download.file("http://gfc.ucdavis.edu/events/ifpri/data/soilfert.rds",  filename, mode="wb")
-}
-d <- readRDS(filename)
+d <- reagro::reagro_data("soilfert")
 dim(d)
 head(d)
 ```
@@ -339,8 +346,8 @@ d2 <- d[-i,]
 These are the variables we have.
 
 ```{r, echo=FALSE}
-dtab <- data.frame(variable=c('yield', 'temp', 'precip', 'ExchP', 'TotK', 'ExchAl', 'TotN', 'sand', 'clay', 'SOC', 'pH', 'AWC', 'fert'),
-description=c('crop yield (kg/ha)', 'Average temperature', 'Annual precipitation', 'Soil exchangeble P', 'Soil total K', 'Soil exchangeble Al', 'Soil total N', 'Soil franction sand (%)', 'Soil fraction clay (%)', 'Soil organic carbon (g/kg)', 'Soil pH', 'Soil water holding capacity', 'fertilizer (index) kg/ha'))
+dtab <- data.frame(variable=c('temp', 'precip', 'ExchP', 'TotK', 'ExchAl', 'TotN', 'sand', 'clay', 'SOC', 'pH', 'AWC', 'fert'),
+description=c('Average temperature', 'Annual precipitation', 'Soil exchangeble P', 'Soil total K', 'Soil exchangeble Al', 'Soil total N', 'Soil franction sand (%)', 'Soil fraction clay (%)', 'Soil organic carbon (g/kg)', 'Soil pH', 'Soil water holding capacity', 'fertilizer (index) kg/ha'))
 kable(dtab)
 ```
 
@@ -744,11 +751,18 @@ OK, that one is not too surprising. But it is nice that it works for *any* regre
 - machine learning algorithms are not that hard to understand!
 
 
-### What we did not talk about 
+### What we did not discuss
 
-- Random Forest can also do supervised classification (that is, predict classes) --- come back tomorrow
+- Random Forest can also do supervised classification (that is, predict classes) --- see an example [here](/tools/remote-sensing/crops.html).
 
-- Random Forest can also do unsupervised classification  --- come back tomorrow
+- Other examples:  
 
+- Random Forest can also do unsupervised classification... 
+
+
+
+## Citation
+
+Hijmans, R.J., 2019. Statistical modeling. In: Hijmans, R.J. and J. Chamberlin. Regional Agronomy: a pratical handbook. CIMMYT. https:/reagro.org/tools/statistical.html
 
 

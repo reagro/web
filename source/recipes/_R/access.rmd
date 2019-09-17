@@ -1,20 +1,37 @@
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-#setwd("C:/github/regagro/work/MarketAccess")
 ```
-
 # Market access
 
+*Sebastian Palmas*, [CIMMYT](https://www.cimmyt.org/)
 
-Many rural producers often face serious difficulties in accessing markets to sell their goods in the marketplace. They are constrained by their remote location and high transportation costs.  We will create a market access map for Tanzania considering road access and land cover classes. 
+
+## Editor's Notes 
+
+This shows a lot of interesting spatial operations. These need more explanation througout.
+You have create a travel cost surface. You can use that to compute market access. Perhaps with the gdistance package.
+
+The decisions you have made need more discussion, explanation (e.g. units) and justification where possible. Please cite the literature. E.g. Andy Nelson's work. 
+
+And perhaps follow that approach more closely?
+
+Also see some comments in the text.
+
+And I may have made changes that are not correct --- the final result does not look correct --- please fix were need be.
+
+## Introduction
+
+Many rural producers often face serious difficulties in accessing markets to sell their goods in the marketplace. They are constrained by their remote location and high transportation costs. We will estimate market access for Tanzania considering road access and land cover classes. 
 
 ## Chapter requirements.
 
-You need the following packages: `terra`, `geodata`, and `reagro`. See [these instructions](/installation.html) about installing them.
+For this chapter you need the following `R` packages: `terra`, `geodata`, and `reagro`. See [these instructions](/installation.html) about installing these packages.
 
+We first create a cost surface for transportation. 
 
-## Elevation and Slope
+## Transportation cost surface 
+
+### Elevation and Slope
 
 The first factor we consider is slope. Slope is an important factor in travel costs. Flatter terrain is easier to travel through than sloping areas. We use the `geodata` package to download elevation data and then create a slope layer using the `terra::slope` function. 
 
@@ -25,19 +42,28 @@ tza_slope <- slope(tza_alt, unit="radians", neighbors=8)
 plot(tza_slope, main="Slope")
 ```
 
-We use the slope layer obtained above to create a decay coefficient that will be appied to each pixel in the cost surface.
+We use the slope layer obtained above to create a decay coefficient that will be appied to each grid cell in the cost surface.
+
+We use a decay coefficient of 1.5. This governs how much the slope impacts the speed
+
+EXPLAIN MORE
+
 
 ```{r}
-decay <- 1.5 ## this is the decay coefficient; governs how much the slope impacts the speed
+decay <- 1.5
 slope_cost <- exp( decay * tan(tza_slope) )
+names(slope_cost) <- "slope_cost"
 ```
 
 We will the slope layer as template for the other rasters that we will create.
 
 
-## Road Data
+### Roads
 
-### Get highway data from Open Street Map
+#### Open Street Map data
+
+Ed: Perhaps this section should be a recipe on its own.
+
 
 Road access is important predictor of market access.
 
@@ -104,34 +130,41 @@ lines(roads[roads$highway == "primary", ], lwd=4, col="red")
 ```
 
 
-### Preparing cost surface rasters for roads
+#### Road cost surface
 
 The road types have different moving speeds and, therefore, costs. Primary roads have faster speeds and lower travel costs than secondary and tertiary roads.
 
-
-We then need to create rasterized versions of the highway layers. The values of the rasters will be the travel costs of moving through the highway. We will use `raster` package functions for this.
-
-We use the slope layer as template for the rasterization.
+We rasterize the roads. The values of the rasters reflect the travel costs of moving through a cell by road (if there is one). We use the slope layer as template for the rasterization.
 
 ```{r rasterize}
 cfile <- "rdcost.tif"
+
 if (!file.exists(cfile)) {
-  i <- match(roads$highway, roadtypes)
-  roads$speed <- c(0.001, 0.0015, 0.002)[i]
-  #rasterizing the vector images and exporting to files
-  rd_cost <- rasterize(roads, tza_slope, values="speed", filename=cfile, overwrite=TRUE)
+
+	i <- match(roads$highway, roadtypes)
+	roads$speed <- c(0.001, 0.0015, 0.002)[i]
+	
+	rd_cost <- rasterize(roads, tza_slope, values="speed", filename=cfile, wopt=list(names="slope_cost"))
+	
 } else {
-  rd_cost <- rast(cfile)
+	# no need to repeat if we already have done this
+	rd_cost <- rast(cfile)
 } 
+
 plot(rd_cost)
 ```
 
 
-## Land Cover costs
+### Land Cover
 
 Land cover affects the access of a certain point. A point inside a closed forest has lower accessibility than a point within croplands or within bare areas.
 
-In this example, we will use the GLOBCOVER 2009 Version 2.3 classificaiton for Tanzania. In order to be able to analyze all layers, we need to have them all in the same projection and resolution. We will use the slope layer as the template for all layers.
+In this example, we will use the GLOBCOVER 2009 Version 2.3 classification for Tanzania. 
+INSERT URL
+
+We included these data the reagro package.
+
+To In order to be able to analyze all layers, we need to have them all in the same projection and resolution. We will use the slope layer as the template for all layers.
 
 ```{r}
 tza_lc <- reagro_data("TZA_globcover")
@@ -139,7 +172,9 @@ plot(tza_lc, main = "GLOBCOVER 2009 v2.3 land classes")
 lines(adm)
 ```
 
-Creating a travel cost surface depending on land cover requires an associated travel cost for each land class. For this, we created a table to use to reclassify the data and apply the classify function with this table to obtain the new raster.
+Creating a travel cost surface depending on land cover requires an associated travel cost for each land class.
+
+Below we create a table to assign travel cost values to each land cover class. 
 
 ```{r}
 rc <- data.frame(from=as.vector(unique(tza_lc)), to=0.02)
@@ -152,14 +187,13 @@ rc$from[rc$from == 220] <- 0.13
 
 #reclassifying
 tza_lc_cost <- classify(tza_lc, rc) 
-
 ```
 
 
 ```{r}
 lcfname <- "lc_cost.tif"
 if (!file.exists(lcfname)) {
-  lc_cost <- warp(tza_lc_cost, tza_slope, filename=lcfname, overwrite=TRUE)
+  lc_cost <- warp(tza_lc_cost, tza_slope, filename=lcfname, wopt=list(names="lc_cost"))
 } else {
   lc_cost <- rast(lcfname)
 }
@@ -167,11 +201,11 @@ if (!file.exists(lcfname)) {
 
 
 ```{r}
-plot(lc_cost, main = "Travel costs depending on land class", leg.main = "")
+plot(lc_cost, main = "Travel costs depending on land cover class")
 ```
 
 
-## Combining all land cover costs
+### Combining all travel costs
 
 Now that we have all travel cost surfaces what we will use, we then need to combine them into a single travel cost layer that keeps only the minimum cost associated of moving though each grid cell. In this case, we combine the three cost layers in a SpatRaster object and apply the `min` function to obtain the minimum value in each grid cell.
 
@@ -181,12 +215,22 @@ Now that we have all travel cost surfaces what we will use, we then need to comb
 all_cost <- c(rd_cost, lc_cost, slope_cost)
 
 #getting the minimum value of each grid cell
-cost <- min(all_cost)
-```
+cost <- min(all_cost, na.rm=TRUE)
 
-
-```{r}
 plot(cost, main="Final cost layer")
 ```
 
+
+## Market access
+
+With the cost surface, we can compute market access .... 
+
+
+## References
+
+
+
+## Citation 
+
+Palmas, S., 2019. Spatial model of market access. In: Hijmans, R.J. and J. Chamberlin. Regional Agronomy: a pratical handbook. CIMMYT. https:/reagro.org/recipes/access.html
 

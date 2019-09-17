@@ -1,5 +1,6 @@
 Regional Agronomy
 =================
+*A practical handbook*
 
 This book provides background materials to learn practical skills in Regional Agronomy. That is, the use of agronomy and related disciplines, to better understand and help improve agricultural production across large geographic regions. The material is divided into the following five sections.
 
