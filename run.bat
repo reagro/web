@@ -12,7 +12,7 @@ set arg2=%2
 set arg3=%3
 
 if %arg2% == all (
-	for %%i in (introduction data tools cases) do Rscript.exe --vanilla R\run.R %arg1% %%i %arg3%
+	for %%i in (introduction data recipes cases) do Rscript.exe --vanilla R\run.R %arg1% %%i %arg3%
 ) else (
 	Rscript.exe --vanilla R\run.R %arg1% %arg2% %arg3%
 )

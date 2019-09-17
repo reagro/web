@@ -21,17 +21,20 @@ This book provides background materials to learn practical skills in Regional Ag
   |  
 
   
-.. topic:: 4. `Applications <applications/index.html>`__
+.. topic:: 4. `Recipes <applications/index.html>`__
 
-   | Examples of how the tools and methods can be applied to crate data products  
+   | Examples of how the tools and methods can be applied to create data products that can be part of larger projects  
    |
 
 
 .. topic:: 5  `Case studies <cases/index.html>`__
 
-   | A collection of case studies in which regional data is used to answer critical questions 
+   | Case studies that use regional agronomy methods to answer important questions 
    |
       
+      
+
+
 
 .. This is the table of contents, must be here, but can be hidden so we can format how we like above.
 
@@ -42,7 +45,7 @@ This book provides background materials to learn practical skills in Regional Ag
    introduction/index.rst
    data/index.rst
    tools/index.rst
-   applications/index.rst
+   recipes/index.rst
    cases/index.rst
    
  

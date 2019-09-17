@@ -1,0 +1,192 @@
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#setwd("C:/github/regagro/work/MarketAccess")
+```
+
+# Market access
+
+
+Many rural producers often face serious difficulties in accessing markets to sell their goods in the marketplace. They are constrained by their remote location and high transportation costs.  We will create a market access map for Tanzania considering road access and land cover classes. 
+
+## Chapter requirements.
+
+You need the following packages: `terra`, `geodata`, and `reagro`. See [these instructions](/installation.html) about installing them.
+
+
+## Elevation and Slope
+
+The first factor we consider is slope. Slope is an important factor in travel costs. Flatter terrain is easier to travel through than sloping areas. We use the `geodata` package to download elevation data and then create a slope layer using the `terra::slope` function. 
+
+```{r slope, message=FALSE}
+library(geodata)
+tza_alt <- elevation_30s("Tanzania", path=".")
+tza_slope <- slope(tza_alt, unit="radians", neighbors=8)
+plot(tza_slope, main="Slope")
+```
+
+We use the slope layer obtained above to create a decay coefficient that will be appied to each pixel in the cost surface.
+
+```{r}
+decay <- 1.5 ## this is the decay coefficient; governs how much the slope impacts the speed
+slope_cost <- exp( decay * tan(tza_slope) )
+```
+
+We will the slope layer as template for the other rasters that we will create.
+
+
+## Road Data
+
+### Get highway data from Open Street Map
+
+Road access is important predictor of market access.
+
+Market access estimates should account for road distance from a point. However, not all roads are equal. You can travel faster over a highway, and probably more cheaply per unit distance, than over a dirt road.
+
+A good source of roads data is Open Street Map (OSM). (expand what it is, and limitations (completeness?))
+
+You can download OSM data in *R* using the [osmdata](https://cran.r-project.org/web/packages/osmdata/index.html) package. You can only download a certain amount of data in a single request, so typically you need to a number of requests for adjacent regions and then combine the results. We used the first level administrative boundaries of Tanzania (also downloaded with the geodata package) for this. 
+
+```{r gadm, message=FALSE, warning=FALSE}
+adm <- gadm("TZA", level = 1, path=".")
+```
+
+We wanted data for primary, secondary and tertiary highways in Tanzania. Below is a helper function to accomplish this. 
+
+```{r rdtp}
+library(osmdata)
+
+roadtypes <- c("primary", "secondary", "tertiary")
+
+getOSMdata <- function(obj, key, value) {
+    b <- sp::bbox(obj)
+    q <- osmdata::opq(b)
+    q <- osmdata::add_osm_feature(q, key, value)
+    d <- osmdata::osmdata_sp(q)
+    d$osm_lines[, key]
+}
+
+```
+
+The below takes a long time to run. It may also fail because of the relative fraility of the OSM servers (or rather then enourmous number of requests that they get).
+
+```{r getOSM, eval=FALSE}
+x <- lapply(seq_along(adm), function(i) getOSMdata(adm[i, ], "highway", roadtypes))
+```
+
+Now put the results together 
+
+
+```{r processOSM, eval=FALSE}
+# combine the results for each area
+rd <- do.call(bind, x)
+# remove anything outside of Tanzania
+rd <- crop(rd, adm)
+# aggregate by type, also removing duplicates line parts
+roads <- aggregate(rd, "highway")
+```
+
+The OSM data is very detailed. Much more than we need in most analysis. We simplified it with the `rmapshaper` package to store less data and so that the example runs faster. 
+
+```{r simplr, eval=FALSE}
+library(rmapshaper)
+roads <- ms_simplify(roads, keep=0.01)
+```
+The results was put in the reagro package, and that is where we get it from
+
+```{r plotRoads}
+library(reagro)
+roads <- reagro_data("tza_roads")
+plot(tza_slope)
+lines(roads)
+lines(roads[roads$highway == "secondary", ], lwd=2, col="blue")
+lines(roads[roads$highway == "primary", ], lwd=4, col="red")
+```
+
+
+### Preparing cost surface rasters for roads
+
+The road types have different moving speeds and, therefore, costs. Primary roads have faster speeds and lower travel costs than secondary and tertiary roads.
+
+
+We then need to create rasterized versions of the highway layers. The values of the rasters will be the travel costs of moving through the highway. We will use `raster` package functions for this.
+
+We use the slope layer as template for the rasterization.
+
+```{r rasterize}
+cfile <- "rdcost.tif"
+if (!file.exists(cfile)) {
+  i <- match(roads$highway, roadtypes)
+  roads$speed <- c(0.001, 0.0015, 0.002)[i]
+  #rasterizing the vector images and exporting to files
+  rd_cost <- rasterize(roads, tza_slope, values="speed", filename=cfile, overwrite=TRUE)
+} else {
+  rd_cost <- rast(cfile)
+} 
+plot(rd_cost)
+```
+
+
+## Land Cover costs
+
+Land cover affects the access of a certain point. A point inside a closed forest has lower accessibility than a point within croplands or within bare areas.
+
+In this example, we will use the GLOBCOVER 2009 Version 2.3 classificaiton for Tanzania. In order to be able to analyze all layers, we need to have them all in the same projection and resolution. We will use the slope layer as the template for all layers.
+
+```{r}
+tza_lc <- reagro_data("TZA_globcover")
+plot(tza_lc, main = "GLOBCOVER 2009 v2.3 land classes")
+lines(adm)
+```
+
+Creating a travel cost surface depending on land cover requires an associated travel cost for each land class. For this, we created a table to use to reclassify the data and apply the classify function with this table to obtain the new raster.
+
+```{r}
+rc <- data.frame(from=as.vector(unique(tza_lc)), to=0.02)
+rc$from[rc$from %in% c(190,200)] <- 0.01
+rc$from[rc$from == 160] <- 0.03
+rc$from[rc$from %in% c(40,50,70)] <- 0.04
+rc$from[rc$from == 170] <- 0.05
+rc$from[rc$from == 210] <- 0.11
+rc$from[rc$from == 220] <- 0.13
+
+#reclassifying
+tza_lc_cost <- classify(tza_lc, rc) 
+
+```
+
+
+```{r}
+lcfname <- "lc_cost.tif"
+if (!file.exists(lcfname)) {
+  lc_cost <- warp(tza_lc_cost, tza_slope, filename=lcfname, overwrite=TRUE)
+} else {
+  lc_cost <- rast(lcfname)
+}
+```
+
+
+```{r}
+plot(lc_cost, main = "Travel costs depending on land class", leg.main = "")
+```
+
+
+## Combining all land cover costs
+
+Now that we have all travel cost surfaces what we will use, we then need to combine them into a single travel cost layer that keeps only the minimum cost associated of moving though each grid cell. In this case, we combine the three cost layers in a SpatRaster object and apply the `min` function to obtain the minimum value in each grid cell.
+
+
+```{r}
+# Combine the cost layers
+all_cost <- c(rd_cost, lc_cost, slope_cost)
+
+#getting the minimum value of each grid cell
+cost <- min(all_cost)
+```
+
+
+```{r}
+plot(cost, main="Final cost layer")
+```
+
+

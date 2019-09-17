@@ -106,7 +106,7 @@ rmse(1:10, 2:11)
 rmse(1:10, 10:1)
 ``` 
 
-So the more different the observed and predicted data are, the higher the RMSE. The scale of the RMSE is in units of the data. To make it easier to interpret RMSE values, you may want to express them relative to a Null model. A Null model is a simple, perhaps naive model, that can serve as an important benchmark. To evaluate a complex model it is often not of prime interest to know how good it does, but rather how much better it does than a Null model. 
+So the more different the observed and predicted data are, the higher the RMSE. The scale of the RMSE is in units of the data. To make it easier to interpret RMSE values, you can express them relative to a Null model. A Null model is a simple, perhaps naive model, that can serve as an important benchmark. To evaluate a complex model it is often not of prime interest to know how good it does, but rather how much better it does than a Null model. 
 
 With the example data above, a good Null Model might be the mean value of the observed data. 
 
@@ -115,7 +115,7 @@ null <- rmse(1:10, mean(1:10))
 null
 ```
 
-As a function, that could look like this.
+A function that computes the RMSE relative to a NULL model could look like this.
 ```{r}
 rmsenull <- function(obs, pred, na.rm=FALSE) {
 	r <- rmse(obs, pred, na.rm=na.rm)
@@ -126,16 +126,17 @@ rmsenull <- function(obs, pred, na.rm=FALSE) {
 
 Let's use it.
 ```{r}
+rmsenull(1:10, 1:10)
 rmsenull(1:10, 2:11)
 rmsenull(1:10, 10:1)
 ```
 
-So, the prediction `2:11` explains `r round(100* rmsenull(1:10, 2:11))`% of the Null model. That is very good!
+A perfect model explains 100% of the RMSE of the Null model. In the example above, the prediction `2:11` explains `r round(100* rmsenull(1:10, 2:11))`% of the Null model. That is very good! The prediction `10:1` is *worse* than the Null model.
 
 
 ### Compare models
 
-Now we can use our `rmsenull` method with our two models.
+Now we can use our `rmsenull` method with our two models, and compare their performance.
 
 For the linear regression model
 ```{r}
@@ -148,7 +149,7 @@ psf <- sf(x)
 rmsenull(y, psf)
 ```
 
-By this measure, the spline model is perfect. The linear regression model might still be good for purpose, but it does not look as good as the spline model.
+By this measure, the spline model is perfect. The linear regression model might still be fit for purpose, but it does not look as good as the spline model.
 
 However, we made a major mistake in our model evaluation procedure. We should not evaluate the model with the same data that we used to build the model. Because if we do so, we are guarenteed to select models that are overfit. To illustrate this, let's split the data in a two samples (this is not generally the best practise, see the section on cross-validation).
 
@@ -181,7 +182,7 @@ sf_b <- splinefun(xb, yb)
 plr_b <- predict(mlr_b, data.frame(xb=xa))
 psf_b <- sf_b(xa)
 rmsenull(ya, psf_b)
-rmsenull(ya, psf_b)
+rmsenull(ya, plr_b)
 ```
 
 ```{r, echo=FALSE, include=FALSE}
@@ -193,7 +194,7 @@ e <- round(e,2)
 
 In both cases the linear regression model peforms much better. The mean RMSE, relative to the Null model, for the linear regression model is `r paste("(", e[1], "+", e[2], ")/2", "=", e[5])`, much smaller than for the the spline model `r paste("(", e[3], "+", e[4], ")/2", "=", e[6])`. Also note that the RMSE for the linear regression model is similar to the RMSE computed with the model training data when it was fit will all data (`r round(rmsenull(y, plr),2)`). That is also easy to see visually. 
 
-```{r}
+```{r, fig.width=10, fig.height=10}
 #set up the plot
 plot(x, y, las=1, cex=0, xlim=c(0,80), ylim=c(3,15))
 
@@ -226,7 +227,7 @@ The spline model fit the training data perfectly, but that made it predict spect
 
 ### The true model 
 
-Well, in this case, we actually do have . The data for `x` and `y` were sampled (and then rounded to 1 decimal) from a *known function* --- we do not have these for the real world, but we can generate them to learn about modeling methods. We used the function `f` below.
+Well, in this case, we actually do have . The data for `x` and `y` were sampled (and then rounded to 1 decimal) from a *known function* --- we do not have these for the real world. But we can use functions like that to generate data to learn about modeling methods. We used the function `f` below to generate the data used in this section.
 
 ```{r}
 f <- function(x) x/10 + sin(x) + sqrt(x)
@@ -241,10 +242,12 @@ sx <- sample(X, 20)
 sy <- f(sx)
 ```
 
+So, the linear model clearly was wrong. But, then, all model are wrong. Some models are more useful than others, and the linear model might be close enough to be fit for purpose.
+
 
 ### Can flexible models be good?
 
-So is single variable linear regression always better than a spline model? No. It depends. It depends on how linear the relationship between x and y, and it also depends on the sample size. The more complex the model, and the larger the sample size, the better the spline might do. Here is simple example where the spline model does better.  
+So is a single variable linear regression always better than a spline model? No. It depends. It depends on how linear the relationship between x and y, and it also depends on the sample size. The more complex the model, and the larger the sample size, the better the spline might do. Here is simple example where the spline model does better.  
 
 The true model.
 ```{r}
@@ -254,7 +257,8 @@ Y <- f(X)
 plot(X, Y, type="l")
 ```
 
-Two samples (without error).
+Two samples from the true model. Here we do not add error to the data --- but that is often done to simulate the effect of measurment error. It is easy to do with a function like `runif` or `rnorm`.
+
 ```{r} 
 set.seed(2)
 xa <- sample(X, 40)
@@ -263,7 +267,8 @@ xb <- sample(X, 40)
 yb <- f(xb) 
 ```
 
-The two models again
+And compare the two models again
+
 ```{r}
 mlr <- lm(ya~xa)
 sf <- splinefun(xa, ya)
@@ -303,15 +308,14 @@ There is much more to say about linear regression. In practice you often have ma
 
 With each parameter you add flexibility to the model. That can lead to overfitting, and a loss of interpretability. See the sections on stepwise model selection, and on lasso and ridge regression in [ISLR](https://web.stanford.edu/~hastie/pub.htm#books) for detailed discussion.
 
-Like in lasso and ridge regression, spline models you can be constrained (made less flexible) through some form of regularization. In these "smoothing spline" models, there is a penalty function that reduces the amount of flexibility. 
-
+Like in lasso and ridge regression, spline models can be constrained (made less flexible) through some form of regularization. In these "smoothing spline" models, there is a penalty function that reduces the amount of flexibility. 
 
 
 ## Complex models
 
-There are various algorithms than can be used to make relatively complex models for predictions with large data sets, with many variables, of which sevaral may contribute to the model, perhaps with complex interactions, and likely noisy data. Popular examples of such ("machine learning") algorithms include Random Forest, Support Vector Machines (SVM), and Artifical Neural Networks (ANN). Here we focus on the Random Forest algorithm as an example. 
+There are various algorithms than can be used to make relatively complex models for predictions with large data sets, with many variables, of which several may contribute to the model, perhaps with complex interactions, and likely noisy data. Popular examples of such ("machine learning") algorithms include Random Forest, Support Vector Machines (SVM), and Artificial Neural Networks (ANN). Here we focus on the Random Forest algorithm as an example. 
 
-To illustrate the use of Random Forest, we use some data from West Africa on soil fertility and crop response to fertilizer. This is part of data for a forthcoming paper (Bonilla et al.). 
+To illustrate the use of Random Forest, we use some data from West Africa on soil fertility and crop response to fertilizer. These data are part of a larger study described in a forthcoming paper (Bonilla et al.). 
 
 ```{r}
 filename <- file.path(dirname(tempdir()), "soilfert.rds")
@@ -323,7 +327,7 @@ dim(d)
 head(d)
 ```
 
-Again, we create two sub-datasets
+Again, we create two sub-datasets.
 
 ```{r}
 set.seed(2019)
@@ -569,7 +573,7 @@ mean(rfvarexp)
 mean(rfcor)
 ```
 
-We can use the same procedure for any other predictive model. Here we compare with linear regression.
+We can use the same procedure for any other predictive model. Here we show that for our linear regression model.
 
 ```{r}
 lmRMSE <- lmRMSEnull <- lmvarexp <- lmcor <- rep(NA, n)
