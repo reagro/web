@@ -1,6 +1,6 @@
 *.rst
 !index.rst
-aws.bat
+syncaws.bat
 
 .Rproj.user
 .Rhistory
