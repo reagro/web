@@ -28,7 +28,7 @@ This book provides background materials to learn practical skills in Regional Ag
    |
 
 
-.. topic:: 5  `Case studies <cases/index.html>`__
+.. topic:: 5.  `Case studies <cases/index.html>`__
 
    | Case studies that use regional agronomy methods to answer important questions 
    |

@@ -21,7 +21,7 @@ The last two chapters are on `rule-based <rule-based.html/index.html>`__ models 
    :maxdepth: 3
    :hidden:
 
-   statistical
+   statistical/index
    interpolation
    downscaling
    remote-sensing/index 
