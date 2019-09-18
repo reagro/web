@@ -107,7 +107,7 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #html_theme = 'alabaster'
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'rtd'
 #html_theme = 'sphinxdoc'
 #html_theme = 'pyramid'
 
@@ -118,12 +118,13 @@ html_theme = 'sphinx_rtd_theme'
 #html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-#html_theme_path = []
+html_theme_path = ['_theme/']
+
 
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-#html_title = None
+html_title = 'Regional Agronomy'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None

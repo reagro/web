@@ -45,5 +45,3 @@ Hijmans, R.J., 2019. Statistical modeling. In: Hijmans, R.J. and J. Chamberlin. 
    randomforest
    evaluation
 
-
-

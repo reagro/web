@@ -11,9 +11,7 @@ This section covers data collection techniques.
    cropcuts
    surveys
    sampling
-   drones
    varieties
-   reuse
    spatial
    
     

@@ -28,7 +28,6 @@ g <- gsub("source/", "", g)
 h <- file.path("build/html/_sources", g)
 h <- gsub("\\.txt$", ".R.txt", h)
 y <- file.copy(f, h, overwrite=TRUE)
-x <- file.remove(h)
 
 
 # copy pdf manuals

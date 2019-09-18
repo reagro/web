@@ -6,5 +6,4 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Collecting data on varietal adoption
 
-Ask Jacob van Etten
 

@@ -8,7 +8,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Synthesis of research findings comparing alternative crop cut protocols (including Ear Analyzer photo), comparing cost/accuracy tradeoffs; include replicable protocols and ODK forms for data collection.
 
-Primary author: Haile, Frederic, Tesfaye, Jordan
 
 
 ## Appendix 1.	Crop cut protocols
