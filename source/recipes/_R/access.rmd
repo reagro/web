@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Editor's Notes 
 
-This shows a lot of interesting spatial operations. These need more explanation througout.
+This shows a lot of interesting spatial operations. These need more explanation throughout.
 You have create a travel cost surface. You can use that to compute market access. Perhaps with the gdistance package.
 
 The decisions you have made need more discussion, explanation (e.g. units) and justification where possible. Please cite the literature. E.g. Andy Nelson's work. 

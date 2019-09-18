@@ -1,5 +1,7 @@
 *.rst
 !index.rst
+!error.rst
+!installation.rst
 syncaws.bat
 
 .Rproj.user
@@ -12,9 +14,6 @@ syncaws.bat
 _build
 
 
-# Ignore the data folder for now, maybe gitlfs later
-source/_static/data/
-
 # Ignore the intermediate file created by previews or knit
 txt/
 md/
@@ -22,7 +21,7 @@ figures/
 *.html
 *.md
 
-# Ignore Binary files for now
+# Ignore data
 *.tif
 *.zip
 *.rds
