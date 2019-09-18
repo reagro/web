@@ -5,14 +5,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Supervised learning
 
-*Robert Hijmans*, University of California, Davis
-
 
 ## Introduction
 
 "Supervised learning" refers to building a model with a data set that includes records that have values for a response variable of interest (for example, crop yield), and for predictor variables (for example, rainfall and fertilizer application rates). 
 
-In matrix notation these models have the form  $\hat{Y} = \hat{f}(X) + \epsilon$,  where $\hat{Y}$ (Y-hat) is a vector of model predictions for the variable of interest; $X$ is the matrix with predictor variables; and $\epsilon$ (epsilon) is the unexplained variation. The art is to find the most appropriate function $\hat{f}$ (f-hat) --- that is the one that most closely resembles the *true* function $f$. In the next paragraph, we illustrate that the best model is not necessarily the model that minimzes the unexplained variation ($\epsilon$).
+In matrix notation these models have the form  $\hat{Y} = \hat{f}(X) + \epsilon$,  where $\hat{Y}$ (Y-hat) is a vector of model predictions for the variable of interest; $X$ is the matrix with predictor variables; and $\epsilon$ (epsilon) is the unexplained variation. The art is to find the most appropriate function $\hat{f}$ (f-hat) --- that is the one that most closely resembles the *true* function $f$. In the next paragraph, we illustrate that the best model is not necessarily the model that minimizes the unexplained variation ($\epsilon$).
 
 
 
@@ -22,7 +20,7 @@ In matrix notation these models have the form  $\hat{Y} = \hat{f}(X) + \epsilon$
 
 Over-fitting a model means that the model fits the data that was used to build the model very well --- in fact too good. Let's look at that with a simple data set where we have a response variable `y` and a single predictor variable `x`. 
 
-```{r}
+```{r sup_learn_1}
 x <- c(35, 47.2, 20.7, 27.1, 42.5, 40.1, 28.2, 35.8, 47.4, 
 		21.3, 39, 30.6, 18.7, 8.4, 45.8, 14, 47.3, 31.5, 38, 32)
 y <- c(9, 11.5, 7.6, 8.8, 9.8, 11, 8.2, 8.6, 11.4, 7.4, 
@@ -31,7 +29,8 @@ plot(x, y)
 ```
 
 We could build a simple linear regression model like this
-```{r}
+
+```{r sup_learn_10}
 mlr <- lm(y~x)
 plot(x, y, pch=20, cex=1.5, las=1)
 abline(mlr, col="red", lwd=3) 
@@ -46,7 +45,7 @@ I hope you will agree that this looks very good. The line seems to capture the g
 
 Linear regression models with a single predictor variable are not very flexible. Let's try another extreme, a spline function. A spline model is referred as a non-parametric model (this is a misnomer, it has, in fact, a lot of parameters, so many that we do not want to consider them, as we cannot easily interpret them). 
 
-```{r}
+```{r sup_learn_20}
 # create the function from the data
 sf <- splinefun(x, y)
 # x prediction points
@@ -68,14 +67,14 @@ The Root Mean Squared Error (RMSE) is a commonly used metric to compare models w
 
 Here is a function that implements RMSE. 
 
-```{r}
+```{r sup_learn_30}
 rmse <- function(obs, prd, na.rm=FALSE) {
 	sqrt(mean((obs - prd)^2, na.rm=na.rm))
 }
 ```
 Let's test this new function. We have observed values of 1 to 10, and a three different predictions.
 
-```{r}
+```{r sup_learn_40}
 # no difference, perfect model
 rmse(1:10, 1:10)
 # a small difference, not bad
@@ -88,13 +87,13 @@ So the more different the observed and predicted data are, the higher the RMSE. 
 
 With the example data above, a good Null Model might be the mean value of the observed data. 
 
-```{r}
+```{r sup_learn_50}
 null <- rmse(1:10, mean(1:10))
 null
 ```
 
 A function that computes the RMSE relative to a NULL model could look like this.
-```{r}
+```{r sup_learn_60}
 rmsenull <- function(obs, pred, na.rm=FALSE) {
 	r <- rmse(obs, pred, na.rm=na.rm)
 	null <- rmse(obs, mean(obs))
@@ -117,12 +116,12 @@ A perfect model explains 100% of the RMSE of the Null model. In the example abov
 Now we can use our `rmsenull` method with our two models, and compare their performance.
 
 For the linear regression model
-```{r}
+```{r sup_learn_70}
 plr <- predict(mlr, data.frame(x=x))
 rmsenull(y, plr)
 ```
 And for the spline model 
-```{r}
+```{r sup_learn_80}
 psf <- sf(x)
 rmsenull(y, psf)
 ```
@@ -131,7 +130,7 @@ By this measure, the spline model is perfect. The linear regression model might 
 
 However, we made a major mistake in our model evaluation procedure. We should not evaluate the model with the same data that we used to build the model. Because if we do so, we are guarenteed to select models that are overfit. To illustrate this, let's split the data in a two samples (this is not generally the best practise, see the section on cross-validation).
 
-```{r}
+```{r sup_learn_90}
 n <- length(x)
 set.seed(321)
 i <- sample(n, 0.5 * n)
@@ -144,7 +143,7 @@ yb <- y[-i]
 
 Now train (fit) and test (evaluate) the models again. First use sample "a" to train and sample "b" to test. 
 
-```{r}
+```{r sup_learn_100}
 mlr_a <- lm(ya~xa)
 sf_a <- splinefun(xa, ya)
 plr_a <- predict(mlr_a, data.frame(xa=xb))
@@ -154,7 +153,7 @@ rmsenull(yb, psf_a)
 ```
 Now use sample "a" to test and sample "b" to train. 
 
-```{r}
+```{r sup_learn_110}
 mlr_b <- lm(yb~xb)
 sf_b <- splinefun(xb, yb)
 plr_b <- predict(mlr_b, data.frame(xb=xa))
@@ -163,7 +162,7 @@ rmsenull(ya, psf_b)
 rmsenull(ya, plr_b)
 ```
 
-```{r, echo=FALSE, include=FALSE}
+```{r sup_learn_120, echo=FALSE, include=FALSE}
 e <- c(rmsenull(yb, plr_a), rmsenull(ya, plr_b), rmsenull(yb, psf_a), rmsenull(ya, psf_b), NA, NA)
 e[5] <- mean(e[1:2])
 e[6] <- mean(e[3:4])
@@ -172,7 +171,7 @@ e <- round(e,2)
 
 In both cases the linear regression model peforms much better. The mean RMSE, relative to the Null model, for the linear regression model is `r paste("(", e[1], "+", e[2], ")/2", "=", e[5])`, much smaller than for the the spline model `r paste("(", e[3], "+", e[4], ")/2", "=", e[6])`. Also note that the RMSE for the linear regression model is similar to the RMSE computed with the model training data when it was fit will all data (`r round(rmsenull(y, plr),2)`). That is also easy to see visually. 
 
-```{r, fig.width=10, fig.height=10}
+```{r sup_learn_130, fig.width=10, fig.height=10}
 #set up the plot
 plot(x, y, las=1, cex=0, xlim=c(0,80), ylim=c(3,15))
 
@@ -207,14 +206,14 @@ The spline model fit the training data perfectly, but that made it predict spect
 
 Well, in this case, we actually do have . The data for `x` and `y` were sampled (and then rounded to 1 decimal) from a *known function* --- we do not have these for the real world. But we can use functions like that to generate data to learn about modeling methods. We used the function `f` below to generate the data used in this section.
 
-```{r}
+```{r sup_learn_140}
 f <- function(x) x/10 + sin(x) + sqrt(x)
 X <- seq(1,50,0.1)
 plot(X, f(X), type="l")
 ```
 
 And the following procedure to create the sample data.
-```{r}
+```{r sup_learn_150}
 set.seed(2)
 sx <- sample(X, 20)
 sy <- f(sx)
@@ -227,8 +226,9 @@ So, the linear model clearly was wrong. But, then, all model are wrong. Some mod
 
 So is a single variable linear regression always better than a spline model? No. It depends. It depends on how linear the relationship between x and y, and it also depends on the sample size. The more complex the model, and the larger the sample size, the better the spline might do. Here is simple example where the spline model does better.  
 
-The true model.
-```{r}
+The true model:
+
+```{r sup_learn_160}
 f <- function(x) {x - x^2 + x^3*sin(x)}
 X <- seq(1,50,0.1)
 Y <- f(X) 
@@ -237,7 +237,7 @@ plot(X, Y, type="l")
 
 Two samples from the true model. Here we do not add error to the data --- but that is often done to simulate the effect of measurment error. It is easy to do with a function like `runif` or `rnorm`.
 
-```{r} 
+```{r sup_learn_170} 
 set.seed(2)
 xa <- sample(X, 40)
 ya <- f(xa) 
@@ -247,7 +247,7 @@ yb <- f(xb)
 
 And compare the two models again
 
-```{r}
+```{r sup_learn_180}
 mlr <- lm(ya~xa)
 sf <- splinefun(xa, ya)
 rmsenull(yb, predict(mlr, data.frame(xa=xb)))
@@ -261,7 +261,7 @@ rmsenull(ya, sf(xa))
 
 In both instances, the spline model RSME is about five times smaller. 
 
-```{r}
+```{r sup_learn_190}
 px <- seq(1, 50, 0.25)
 py <- sf(px)
 plot(X, Y, type="l", lwd=3, las=1)
@@ -294,6 +294,7 @@ Like in lasso and ridge regression, spline models can be constrained (made less 
 There are various algorithms than can be used to make relatively complex models for predictions with large data sets, with many variables, of which several may contribute to the model, perhaps with complex interactions, and likely noisy data. Popular examples of such ("machine learning") algorithms include Random Forest, Support Vector Machines (SVM), and Artificial Neural Networks (ANN). 
 
 The next chapter focuses on the Random Forest algorithm as an example. 
+
 
 
 ## Citation

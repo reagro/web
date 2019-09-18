@@ -1,30 +1,30 @@
 ```{r setup, include=FALSE}
 library(knitr)
-library(dismo)
-library(randomForest)
-library(rpart)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduction to Random Forest
+# Random Forest
 
-*Robert Hijmans*, University of California, Davis
+RandomForest is one of the most widely used "machine-learning" regression methods. This chapters shows how to use the method and how to inspect and evaluate RandomForest models.
 
-
-## Introduction
-
-tbd.
 
 ## Chapter requirements
 
 For this chapter you need the following *R* packages: `randomForest`, `rpart`, `reagro`, and `dismo`. They are all available for download from CRAN [see these instructions](/installation.html) about installing *R* packages.
+
+```{r randfor_req, message=FALSE}
+library(dismo)
+library(randomForest)
+library(rpart)
+```
 
 
 ## Data
 
 To illustrate the use of Random Forest, we use some data from West Africa on soil fertility and crop response to fertilizer. These data are part of a larger study described in a forthcoming paper (Bonilla et al.). 
 
-```{r}
+
+```{r randfor_1}
 d <- reagro::reagro_data("soilfert")
 dim(d)
 head(d)
@@ -32,7 +32,7 @@ head(d)
 
 We create two sub-datasets.
 
-```{r}
+```{r randfor_10}
 set.seed(2019)
 i <- sample(nrow(d), 0.5*nrow(d))
 d1 <- d[i,]
@@ -41,7 +41,7 @@ d2 <- d[-i,]
 
 These are the variables we have.
 
-```{r, echo=FALSE}
+```{r randfor_20, echo=FALSE}
 dtab <- data.frame(variable=c('temp', 'precip', 'ExchP', 'TotK', 'ExchAl', 'TotN', 'sand', 'clay', 'SOC', 'pH', 'AWC', 'fert'),
 description=c('Average temperature', 'Annual precipitation', 'Soil exchangeble P', 'Soil total K', 'Soil exchangeble Al', 'Soil total N', 'Soil franction sand (%)', 'Soil fraction clay (%)', 'Soil organic carbon (g/kg)', 'Soil pH', 'Soil water holding capacity', 'fertilizer (index) kg/ha'))
 kable(dtab)
@@ -54,15 +54,16 @@ Before we look at the RandomForest, we first consider what the *forest* is made 
 
 Suppose we were interested in estimating soil organic carbon (SOC) across locations in West Africa. Suppose we have a lot of data on soil pH and the fraction of the soil that is sand or clay (cheap and easy to measure), and precipitation and temperature data as well (which is available for any location). Can we build a model that predicts SOC from pH, sand and precipitation? 
 
-```{r, fig.width=10}
+```{r randfor_30, fig.width=10}
 par(mfrow=c(2,3), mai=rep(0.5, 4))
 for (v in c("SOC", "pH", "precip", "temp", "clay", "sand")) {
 	boxplot(d[,v], main=v)
 }
 ```
 
-Let's first run a linear regression model
-```{r}
+Let's first make a linear regression model.
+
+```{r randfor_40}
 model <- SOC~pH+precip+temp+sand+clay
 lrm <- lm(model, data=d1)
 summary(lrm)
@@ -73,16 +74,15 @@ We see that all the predictor variables are highly significant, and the R^2^ is 
 
 Instead we use CART. CART recursively partitions the data set using a threshold for one variable at a time to create groups that are as homogeneous as possible.
 
-```{r}
-library(rpart)
-cart <- rpart(model, data=d1)
+```{r randfor_50}
+cart <- rpart::rpart(model, data=d1)
 reagro::RMSE_null(d2$SOC, predict(cart, d2))
 ```
 
 We see that RMSE_null is much better than the simple (perhaps overlay simplistic) linear model. CART explains about 58% of the unexplained variation, whereas the linear model explains only 21%. That is interesting. Let's look at the model. We can inspect it like this.
 
 
-```{r, fig.width=10, fig.width=8}
+```{r randfor_60, fig.width=10, fig.width=8}
 plot(cart)
 text(cart)
 ``` 
@@ -90,7 +90,7 @@ text(cart)
 It may take a little effort at first, but once you get used to it, CART models are easy to understand. You can navigate down the tree. If the condition is *true* you go left, else you go right. So if `clay < 25.75` and `precip < 1248`, SOC is predicted to be 8.7 (the value of the "leaf". That is rather low (0.9% organic C, or about 1.5% soil organic matter) as might be expected on very sandy soil under relatively dry conditions. Notice how variables are used many times, in effect creating step-functions and interactions. Also note that with this tree, we end up with 13 possible predictions (the tree has 13 leaves).  
 
 We get a bit more detail, at the expense of visual pleasure, when we print the model like this.
-```{r}
+```{r randfor_70}
 cart
 ``` 
 This shows, for example, that if we only used the first split (clay< 25.75), we get two groups. One group with 651 observations and a predicted (i.e., average) SOC of 11.8. The other group has 191 observations, and a predicted SOC of 21.2. 
@@ -98,7 +98,7 @@ This shows, for example, that if we only used the first split (clay< 25.75), we 
 The big numbers express the remaining deviance (a goodness-of-fit statistic for a model). The Null deviance is 40810.6, but after the first split is has gone down to (15525 + 12315) = 27840.
  
 The Null deviance can be computed like this 
-```{r}
+```{r randfor_75}
 nulldev <- function(x) {
 	sum((x - mean(x))^2)
 }	
@@ -106,7 +106,7 @@ nulldev(d1$SOC)
 ``` 
 We can compare that with the deviance of the cart model.
 
-```{r}
+```{r randfor_80}
 cdev <- sum(cart$frame[cart$frame$var == "<leaf>", "dev"])
 cdev
 rdev <- round(100 * cdev / nulldev(d1$SOC))	
@@ -117,15 +117,15 @@ The model has reduced the deviance to `r rdev`%.
 
 Let's turn the data sets, and build a CART model with sub-dataset `d2` (and evaluate with `d1`).
 
-```{r}
-cart2 <- rpart(model, data=d2)
+```{r randfor_90}
+cart2 <- rpart::rpart(model, data=d2)
 reagro::RMSE_null(d1$SOC, predict(cart2, d1))
 ```
 
 That is very similar to the result for `d1` (`r round(reagro::RMSE_null(d2$SOC, predict(cart, d2)), 2)`).
 We can also check if the CART model overfits the data much by comparing RMSE computed with the test data with the RMSE computed with the train data. 
 
-```{r}
+```{r randfor_95}
 # model 1, test data
 reagro::RMSE_null(d2$SOC, predict(cart, d2))
 # model 1, train data
@@ -138,7 +138,8 @@ reagro::RMSE_null(d2$SOC, predict(cart2, d2))
 
 The rmse with the training data is higher than with the testing data. That suggest that there is some overfitting, but it is not much. In this case we also seem to have low variance, in the sense that the models look similar (see below). That is not a general result --- CART models tend to have high variance. They can also overfit the data. A lot depends on how far you let the tree grow. In this case we used default stopping rules (nodes are not split if it has fewer than 20 observations or if any of the resulting nodes would get less than 7 observations), see `?rpart.control`, that avoided these problems. Trees that are grown very deep tend to overfit: they have low bias, but very high variance. 
 
-```{r, fig.width=10}
+
+```{r randfor_100, fig.width=10}
 par(mfrow=c(1,2))
 plot(cart)
 text(cart, cex=0.8)
@@ -159,7 +160,7 @@ Random Forest builds many (> 100) CART models (we will call them *trees*) to cre
 
 It would not be of any use to build the *same* tree 100s of times. Each tree is build with a bootstrapped sample of the records. A bootstrap sample is a random sample with replacement. Thus the number of records is the same for each tree, but some records are not included, and some records are included more than once. On average, about 2/3 of the records are included in a sample. Here is the computational proof of that:
 
-```{r}
+```{r randfor_110}
 mean(replicate(10000, length(unique(sample(100, replace=TRUE)))))
 ```
 
@@ -167,7 +168,7 @@ When a Random Forest model makes a prediction, a prediction is made for each tre
 
 Let's illustrate bagging by making 10 models with boostrapped data. Each model is used to make a prediction to test data, and evaluated.  
 
-```{r}
+```{r randfor_120}
 n <- 10
 set.seed(99)
 predictions <- matrix(nrow=nrow(d2), ncol=n)
@@ -182,13 +183,13 @@ for (i in 1:n) {
 ```
 
 For each "unseen" case in `d2` we now have five predictions 
-```{r}
+```{r randfor_130}
 head(predictions)
 ```
 
 We can average the individual model predictions to get our ensemble prediction.
 
-```{r}
+```{r randfor_140}
 pavg <- apply(predictions, 1, mean)
 ```
 
@@ -198,14 +199,14 @@ round(eval, 3)
 ```
 
 But the score for the ensemble model is quite a bit higher than the mean value is for the individual models!
-```{r}
+```{r randfor_150}
 mean(eval)
 reagro::RMSE_null(d2$SOC, pavg)
 ```
 
 And also higher than the original model (without bootstrapping)....
 
-```{r}
+```{r randfor_160}
 reagro::RMSE_null(d2$SOC, predict(cart, d2))
 ```
 
@@ -218,7 +219,7 @@ Random Forest has another randomization procedure. In a regression tree, the dat
 
 Enough said. Let's create a Random Forest model.
 
-```{r}
+```{r randfor_170}
 library(randomForest)
 rf <- randomForest(model, data=d1)
 rf
@@ -228,12 +229,12 @@ That's it. Given reasonable software for data analysis, creating a machine learn
 
 Compare reported results with ours 
 
-```{r}
+```{r randfor_180}
 p <- predict(rf, d2)
 reagro::RMSE_null(d2$SOC, p)
 ```
 
-```{r}
+```{r randfor_190}
 # Mean of squared residuals
 reagro::RMSE(d2$SOC, p)^2
 # % Var explained:
@@ -248,7 +249,7 @@ Instead of the data splitting that we used above, you always want to use the *fu
 In cross-validation the data is divided into *k* groups. Typically into 5 or 10 groups. Each group is used once for model testing, and *k-1* times for model training. An extreme case that is "leave-one out", where *k* is equal to the number of records, bu this is generally not considered a good practise.
 
 Let's make the groups. 5 in this case. 
-```{r}
+```{r randfor_200}
 n <- 5
 library(dismo)
 set.seed(31415)
@@ -258,7 +259,7 @@ table(k)
 
 Now do the cross-validation, and compute a number of statistics of interest. 
 
-```{r}
+```{r randfor_210}
 rfRMSE <- rfRMSE_null <- rfvarexp <- rfcor <- rep(NA, n)
 for (i in 1:n) {
 	test <- d[k==i, ]
@@ -278,7 +279,7 @@ mean(rfcor)
 
 We can use the same procedure for any other predictive model. Here we show that for our linear regression model.
 
-```{r}
+```{r randfor_220}
 lmRMSE <- lmRMSE_null <- lmvarexp <- lmcor <- rep(NA, n)
 for (i in 1:n) {
 	test <- d[k==i, ]
@@ -314,7 +315,7 @@ Here we show two general methods, "variable importance" and "partial response" t
 
 Which variables are important, which are not?
 
-```{r}
+```{r randfor_230}
 rfm <- randomForest(model, data=d)
 varImpPlot(rfm)
 ```
@@ -327,7 +328,7 @@ Here is a function that computes variable importance for any model (that has a "
 
 To assess importance for a variable, we randomize its values of that variable, without touching the other variables. We then use the model to make a prediction and compute a model evaluation statistic (here we use RMSE). Because of the vagaries of randomization we do this a number of times. We compare the average RMSE of the model predictions made with the randomized data, with the RMSE of predictions with the original data. If the difference is large, the variable is important. If the difference is small, the variable is not important.  
 
-```{r}
+```{r randfor_240}
 varimp <- function(mod, dat, vars, n=10) {
 	RMSE <- matrix(nrow=n, ncol=length(vars))
 	colnames(RMSE) <- vars
@@ -346,7 +347,7 @@ varimp <- function(mod, dat, vars, n=10) {
 
 Let's use the fuction for our Random Forest model.
 
-```{r, pvars}
+```{r randfor_250}
 predvars <- c("pH", "precip", "clay", "sand", "temp")
 vi <- varimp(rfm, d, predvars)
 vimean <- colMeans(vi)
@@ -360,7 +361,7 @@ Not exactly the same as what `varImpPlot` gave us; but pretty much the same mess
 
 We can use the same function for the linear regression model
 
-```{r}
+```{r randfor_260}
 mlr <- lm(model, data=d)
 vi <- varimp(mlr, d, predvars)
 vimean <- colMeans(vi)
@@ -374,7 +375,7 @@ dotchart(x)
 
 Another interesting concept is the partial response plot. It shows the response of the model to one variable, with the other variables held constant.
 
-```{r}
+```{r randfor_270}
 par(mfrow=c(2,2), mai=c(.75,rep(0.5,3)))
 partialPlot(rfm, d, "pH")
 partialPlot(rfm, d, "clay")
@@ -390,7 +391,7 @@ To show interactions we can make partial plots for two variables (to be done), b
 
 In the function we create a sequence of values for the variable of interest. We then loop over that sequence. In each iteration, all values for the variable of interest in the original data are replaced with a single value from the sequence. The values of all other variables stay the same. The model is used to make a prediction for all records, and these predictions are averaged. Together these predictions form the partial response.
 
-```{r}
+```{r randfor_280}
 partialresponse <- function(mod, dat, var, nsteps=25, rng=NULL) {
 	if (is.null(rng)) { rng <- range(dat[[var]]) }
 	increment <- (rng[2] - rng[1])/(nsteps-2)
@@ -410,7 +411,7 @@ partialresponse <- function(mod, dat, var, nsteps=25, rng=NULL) {
 Let's use it for `pH` with the Random Forest model
 
 
-```{r}
+```{r randfor_290}
 pr_pH <- partialresponse(rfm, d, "pH")
 plot(pr_pH, type="l")
 rug(quantile(d$pH, seq(0, 1, 0.1)))
@@ -420,7 +421,7 @@ Very similar to what the `partialPlot` function returned.
 
 And now for the linear regression model. 
 
-```{r}
+```{r randfor_300}
 lrm <- lm(model, data=d)
 pr_pH <- partialresponse(lrm, d, "pH")
 plot(pr_pH, type="l")
