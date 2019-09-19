@@ -29,5 +29,6 @@ The following packages need a compiler. You will have one on linux or mac, but o
 
 	devtools::install.github("rspatial/terra")
 	devtools::install.github("cropmodels/Rquefts")
+	devtools::install.github("rspatial/geodata")
 
 
