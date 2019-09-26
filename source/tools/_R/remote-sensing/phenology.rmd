@@ -1,0 +1,9 @@
+```{r, global_options, echo=FALSE, message=FALSE}
+library(knitr)
+```
+
+# Crop phenology 
+
+Observing planting and harvesting times (crop calendars)
+
+

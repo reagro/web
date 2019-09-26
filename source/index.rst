@@ -40,7 +40,7 @@ This book provides background materials to learn practical skills in Regional Ag
 .. This is the table of contents, must be here, but can be hidden so we can format how we like above.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :hidden:
 
    introduction/index.rst

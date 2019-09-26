@@ -18,7 +18,7 @@ The last two chapters are on `rule-based <rule-based.html/index.html>`__ models 
 
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 5
    :hidden:
 
    statistical/index

@@ -1,9 +1,7 @@
-```{r, global_options, tidy = TRUE, echo=FALSE, message=FALSE}
+```{r, global_options, echo=FALSE, message=FALSE}
 library(knitr)
 library(agrin)
 library(randomForest)
-
-opts_chunk$set(tidy.opts=list(width.cutoff=60))
 ```
 # Crop mapping with satellite data
 

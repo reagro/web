@@ -1,8 +1,4 @@
 ```{r setup, include=FALSE}
-  knitr::opts_chunk$set(
-  echo = TRUE,  collapse = TRUE, comment = "#>")
-
-  library(Rquefts)  
 ```
 
 # QUEFTS
@@ -20,8 +16,9 @@ QUEFTS was first described in: *B.H. Janssen, F.C.T. Guiking, D. van der Eijk, E
 
 We will use the R package `Rquefts`. You can install it from CRAN.
 
-```{r package} 
+```{r package, message=FALSE} 
 if (!require(Rquefts)) { install.packages("Rquefts") }
+library(Rquefts)  
 ```
 
 ## Technical background
