@@ -8,11 +8,6 @@ Chapter three shows approaches to estimate yield potential using simulation and 
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
  
    access
-   prices
-   calendar
-   yield   
-   fertresponse
-   climatechange   

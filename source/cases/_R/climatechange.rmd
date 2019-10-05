@@ -1,8 +1,4 @@
-```{r setup, include=FALSE}
-
-```
-
-# Climate change
+# Climate change effect on potatoes
 
 
 ## Concepts 

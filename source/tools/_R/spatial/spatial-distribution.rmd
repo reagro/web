@@ -2,5 +2,5 @@
 
 ```
 
-# Another case
+# Spatial distribution models
 

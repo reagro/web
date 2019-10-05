@@ -1,8 +1,4 @@
-```{r setup, include=FALSE}
-
-```
-
-# Response to fertilizer
+# Crop response to fertilizer
 
 
 ## Empirical model 

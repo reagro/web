@@ -5,13 +5,13 @@ This section covers data collection techniques.
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 4
 
    trials
    cropcuts
    surveys
    sampling
    varieties
-   spatial
+   spatial/index
    
     

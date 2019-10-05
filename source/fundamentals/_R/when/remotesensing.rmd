@@ -1,0 +1,7 @@
+# Estimating crop calendars with remote sensing
+
+Hongfei Wang
+
+
+Sentinel with “phenorice”
+

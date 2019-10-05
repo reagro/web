@@ -16,6 +16,11 @@ Statistical modeling
   | Everything you always wanted to know but never dared to ask
   | 
 
+.. topic:: `Neural Nets <randomforest.html>`__  
+
+  | Are you ready for deep learning?
+  | 
+
 .. topic:: `Model evaluation <evaluation.html>`__  
 
   | Evaluating predictive models
@@ -30,5 +35,6 @@ Statistical modeling
    prediction
    supervised
    randomforest
+   neuralnets
    evaluation
 

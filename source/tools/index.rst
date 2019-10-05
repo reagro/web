@@ -22,8 +22,7 @@ The last two chapters are on `rule-based <rule-based.html/index.html>`__ models 
    :hidden:
 
    statistical/index
-   interpolation
-   downscaling
+   spatial/index
    remote-sensing/index 
    rule-based/index
-   simulation
+   simulation/index

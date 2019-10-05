@@ -1,8 +1,4 @@
-```{r setup, include=FALSE}
-
-```
-
-# Yield potential
+# Estimating yield potential
 
 Camila Bonila et al 
 
@@ -19,12 +15,5 @@ Nutrient-limited yield
 
 
 
-## Interpolation
-
-
-
 ## Metamodels 
-
-
-
 

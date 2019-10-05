@@ -1,20 +1,4 @@
-```{r setup, include=FALSE}
-
-```
-
-# Simulation models
-
-## Statistical vs mechanistic models
-
-
-
-## Models 
-
-### LINTUL
-
-
-
-### WOFOST
+# WOFOST
 
 Here is an example
 
