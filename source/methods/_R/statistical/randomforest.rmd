@@ -244,7 +244,8 @@ Instead of the data splitting that we used above, you always want to use the *fu
 
 In cross-validation the data is divided into *k* groups. Typically into 5 or 10 groups. Each group is used once for model testing, and *k-1* times for model training. An extreme case that is "leave-one out", where *k* is equal to the number of records, bu this is generally not considered a good practise.
 
-Let's make the groups. 5 in this case. 
+Let's make 5 groups.
+
 ```{r randfor_200}
 n <- 5
 library(predicts)
@@ -320,36 +321,27 @@ Intuitively this is very easy to understand: "clay" and "precip" are very import
 
 The notion of node purity is specific to tree-models. But the notion of variable importance is not. We can also use the change in RMSE to look at variable importance. 
 
-Here is a function that computes variable importance for any model (that has a "predict" methods) in R (but only for quantitative variables; it is little more work for categorical variables).
-
-To assess importance for a variable, we randomize its values of that variable, without touching the other variables. We then use the model to make a prediction and compute a model evaluation statistic (here we use RMSE). Because of the vagaries of randomization we do this a number of times. We compare the average RMSE of the model predictions made with the randomized data, with the RMSE of predictions with the original data. If the difference is large, the variable is important. If the difference is small, the variable is not important.  
+Here is a general function that computes variable importance for any model (that has a "predict" methods) in R.
 
 ```{r randfor_240}
-varimp <- function(mod, dat, vars, n=10) {
-	RMSE <- matrix(nrow=n, ncol=length(vars))
-	colnames(RMSE) <- vars
-	for (i in 1:length(vars)) {
-	rd <- dat
-	v <- vars[i]
-		for (j in 1:n) {
-			rd[[v]] <- sample(rd[[v]])
-			p <- predict(mod, rd)
-			RMSE[j,i] <- predicts::RMSE(rd$SOC, p)
-		}
-	}
-	return(RMSE)
-}
+library(predicts)
+predicts::varImportance
 ``` 
 
-Let's use the function for our Random Forest model.
+To assess importance for a variable, the function randomizes the values of that variable, without touching the other variables. It then use the model to make a prediction and compute a model evaluation statistic (here RMSE is used). Because of the vagaries of randomization this is done a number of times. The average RMSE is then compared with the RMSE of predictions with the original data. If the difference is large, the variable is important. If the difference is small, the variable is not important.  
+
+
+Now let's use the function for our Random Forest model.
 
 ```{r randfor_250}
 predvars <- c("pH", "precip", "clay", "sand", "temp")
-vi <- varimp(rfm, d, predvars)
+vi <- predicts::varImportance(rfm, d, predvars)
+
 vimean <- colMeans(vi)
 p <- predict(m, d)
 RMSEfull <- predicts::RMSE(d$SOC, p)
 x <- sort(vimean - RMSEfull)
+
 dotchart(x)
 ```
 
@@ -359,7 +351,7 @@ We can use the same function for the linear regression model
 
 ```{r randfor_260}
 mlr <- lm(model, data=d)
-vi <- varimp(mlr, d, predvars)
+vi <- predicts::varImportance(mlr, d, predvars)
 vimean <- colMeans(vi)
 p <- predict(m, d)
 RMSEfull <- predicts::RMSE(d$SOC, p)
@@ -383,32 +375,19 @@ Do you think these responses make sense? That is, do they conform to what you kn
 
 You have to interpret these plots with caution as it does not show interactions; and these can be very important. 
 
-To show interactions we can make partial plots for two variables (to be done), but let's first make a general implementation. The `partialPlot` function comes with the `randomForest` package. Here is a generic implementation that works with any model with a predict method.
-
-In the function we create a sequence of values for the variable of interest. We then loop over that sequence. In each iteration, all values for the variable of interest in the original data are replaced with a single value from the sequence. The values of all other variables stay the same. The model is used to make a prediction for all records, and these predictions are averaged. Together these predictions form the partial response.
+The `partialPlot` function comes with the `randomForest` package. Here is a generic implementation that works with any model with a predict method.
 
 ```{r randfor_280}
-partialresponse <- function(mod, dat, var, nsteps=25, rng=NULL) {
-	if (is.null(rng)) { rng <- range(dat[[var]]) }
-	increment <- (rng[2] - rng[1])/(nsteps-2)
-	steps <- seq(rng[1]-increment, rng[2]+increment, increment)
-	res <- rep(NA, length(steps))
-	for (i in 1:length(steps)) {
-		dat[[var]] <- steps[i]
-		p <- predict(mod, dat)
-		res[i] <- mean(p)
-	}
-	res <- cbind(steps, res)
-	colnames(res) <- c(var, "p")
-	res
-}
+predicts::partialResponse
 ``` 
+
+The function first creates a sequence of values for the variable of interest. It then loops over that sequence. In each iteration, all values for the variable of interest are replaced with a single value while the values of all other variables stay the same. The model is used to make a prediction for all records, and these predictions are averaged. 
 
 Let's use it for `pH` with the Random Forest model
 
 
 ```{r randfor_290}
-pr_pH <- partialResponse(rfm, d, "pH")
+pr_pH <- predicts::partialResponse(rfm, d, "pH")
 plot(pr_pH, type="l")
 rug(quantile(d$pH, seq(0, 1, 0.1)))
 ```
@@ -419,13 +398,14 @@ And now for the linear regression model.
 
 ```{r randfor_300}
 lrm <- lm(model, data=d)
-pr_pH <- partialresponse(lrm, d, "pH")
+pr_pH <- predicts::partialResponse(lrm, d, "pH")
 plot(pr_pH, type="l")
 rug(quantile(d$pH, seq(0, 1, 0.1)))
 ```
 
 OK, that one is not too surprising. But it is nice that it works for *any* regression type model.
 
+To do: show interactions
 
 ## Conclusions
 

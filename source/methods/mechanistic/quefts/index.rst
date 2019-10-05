@@ -1,5 +1,5 @@
-Rule-based models
-=================
+QUEFTS
+======
 
 .. topic:: `QUEFTS <quefts.html>`__  
 
@@ -10,12 +10,6 @@ Rule-based models
 .. topic:: `Spatial QUEFTS <quefts_spatial.html>`__  
 
   | Spatial modeling with QUEFTS
-  | 
-
-
-.. topic:: `Ecocrop <ecocrop.html>`__  
-
-  | Predicting crop adaptation with Ecocrop
   | 
 
 

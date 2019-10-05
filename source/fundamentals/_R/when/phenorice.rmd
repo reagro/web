@@ -3,5 +3,7 @@
 Hongfei Wang
 
 
-Sentinel with “phenorice”
+NDVI time series 
+
+“phenorice”
 

@@ -1,7 +1,0 @@
-```{r, global_options, tidy = TRUE, echo=FALSE, message=FALSE}
-library(knitr)
-```
-
-# Crop yield estimation
-
-

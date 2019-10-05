@@ -1,4 +1,4 @@
-# Simulation models
+# Introduction
 
 ## Statistical vs mechanistic models
 

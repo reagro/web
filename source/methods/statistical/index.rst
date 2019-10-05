@@ -1,7 +1,7 @@
 Statistical modeling
 ====================
 
-.. topic:: `Introduction <prediction-inference.html>`__  
+.. topic:: `Introduction <prediction.html>`__  
 
   | Inference and prediction
   | 
@@ -16,7 +16,7 @@ Statistical modeling
   | Everything you always wanted to know but never dared to ask
   | 
 
-.. topic:: `Neural Nets <randomforest.html>`__  
+.. topic:: `Neural Nets <neuralnets.html>`__  
 
   | Are you ready for deep learning?
   | 

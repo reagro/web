@@ -2,7 +2,9 @@
 
 ## Introduction
 
-This chapter describes the `QUEFTS` model. QUEFTS stands for *QUantitative Evaluation of the Fertility of Tropical Soils*. It is a simple rule-based model to estimate crop yield given a few soil properties and the amount of fertilizer applied, or to estimate the amount of fertilizer needed to reach a particular yield. QUEFTS was first described in: *B.H. Janssen, F.C.T. Guiking, D. van der Eijk, E.M.A. Smaling, J. Wolf and H.van Reuler. 1990. A system for quantitative evaluation of the fertility of tropical soils (QUEFTS)*. [Geoderma 46: 299-318](https://www.sciencedirect.com/science/article/pii/001670619090021Z). 
+This chapter describes the `QUEFTS` model. QUEFTS stands for *QUantitative Evaluation of the Fertility of Tropical Soils*. It is a simple rule-based model to estimate crop yield given a few soil properties and the amount of fertilizer applied, or to estimate the amount of fertilizer needed to reach a particular yield. 
+
+QUEFTS was first described in: **B.H. Janssen, F.C.T. Guiking, D. van der Eijk, E.M.A. Smaling, J. Wolf and H.van Reuler. 1990. *A system for quantitative evaluation of the fertility of tropical soils (QUEFTS)*. [Geoderma 46: 299-318](https://www.sciencedirect.com/science/article/pii/001670619090021Z)**. 
 
 To run the model, you need soil and crop parameters, as well as the amount of fertilizer applied, and the attainable crop production. In this context, the attainable production that is either the maximum production in the absence of nutrient limitation. 
 

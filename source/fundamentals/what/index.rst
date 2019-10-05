@@ -11,3 +11,5 @@ Crop yield and the presence of crop diseases.
    secondary
    remotesensing
    simulation
+   prices 
+   

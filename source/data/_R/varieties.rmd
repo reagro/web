@@ -1,9 +1,0 @@
-```{r setup, include=FALSE}
-
-```
-
-# Varieties
-
-Collecting data on varietal adoption
-
-

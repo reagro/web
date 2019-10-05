@@ -26,8 +26,12 @@ Here is how you can get the Sentinel data for this tutorial.
 workdir <- file.path(dirname(tempdir()))
 datadir <- file.path(workdir, "agrin/sentinel")
 dir.create(datadir, showWarnings = FALSE, recursive=TRUE)
+```
+
+Get the ground observations
+
+```
 library(agrin)
-datadir
 ff <- crop_data("sentinel1", datadir)
 head(ff)
 ```

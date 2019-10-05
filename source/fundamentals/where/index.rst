@@ -8,5 +8,6 @@ Crop and varietal distribution
    :hidden:
  
    datasources
-   remotesensing
    modeling
+   rs_crops
+   gee/index   
