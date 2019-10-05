@@ -1,49 +1,43 @@
 Regional Agronomy
 =================
-*A practical handbook*
 
-This book provides background materials to learn practical skills in Regional Agronomy. That is, the use of agronomy and related disciplines "at scale", to better understand and help improve agricultural production across large geographic regions. The material is divided into the following six parts.
+.. code:: r
+
+	a practical handbook
 
 
-.. topic:: Part I. `Introduction <introduction/index.html>`__  
+The aim of this book is to teach practical skills in *Regional Agronomy*, the use of agronomy and related disciplines *"at scale"*, to better understand and help improve agricultural production across large geographic regions. The material is divided into the following six parts.
+
+
+.. topic:: *Part* I  ---  `Introduction <introduction/index.html>`__  
 
   | What is Regional Agronomy, and what is this book about?
-  | 
 
   
-.. topic:: Part II. `Data <data/index.html>`__
+.. topic:: *Part* II ---  `Data <data/index.html>`__
 
-  | Data collection methods
-  | 
-
-
-.. topic:: Part III. `Modeling methods <methods/index.html>`__
-
-  | A primer of different predictive modeling methods, and on using these methods with spatial data 
-  |  
+  | Data collection methods. In the field and at the computer.
 
 
-.. topic:: Part IV. `Fundamentals <fundamentals/index.html>`__
+.. topic:: *Part* III ---  `Modeling methods <methods/index.html>`__
 
-  | Creating intermediate data products, that are fundamental inputs to further analysis
-  | 
+  | A primer of predictive modeling methods, and on using these methods with spatial data 
+
+
+.. topic:: *Part* IV --- `Fundamentals <fundamentals/index.html>`__
+
+  | Creating intermediate data products that are fundamental inputs to further analysis
 
   
-
-.. topic:: Part V.  `Case studies <cases/index.html>`__
+.. topic:: *Part* V ---  `Case studies <cases/index.html>`__
 
    | Case studies that use regional agronomy methods to answer important questions 
-   |
       
 
-.. topic:: Part VI. `Recipes <applications/index.html>`__
+.. topic:: *Part* VI --- `Recipes <applications/index.html>`__
 
-   | A collection of miscellanous set of examples that can help in problem solving
-   |
+   | A miscellaneous collection of examples that can help in problem solving
       
-
-
-
 
 .. toctree::
    :maxdepth: 5

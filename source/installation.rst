@@ -3,33 +3,27 @@
 R packages
 ==========
 
-`terra` is the main package for spatial data we use in this book. This is a simpler and faster replacement of the `raster` package. You can learn about `using terra here <https://rspatial.org/terra>`__ .
-
-
-
-Installation
-============
-
-For installations from github, via `install_github` you need to first install the devtools package from CRAN
+Most of the R packages we used can be installed from `CRAN <https://cran.r-project.org/>__` with `install.packages`. For example, 
 
 .. code:: r
 
-	install.packages("devtools")
+    install.packages("randomForest")
 
 
-Now you can do 
+There is a number of packages that we use that have not been released to CRAN yet. These packages, including `terra`, `predicts` and `reagro`, are on github and can be install from there as shown below. 
 
 .. code:: r
+
+    source("https://install-github.me/reagro/reagro")
+    source("https://install-github.me/rspatial/predicts")
 	
-	devtools::install.github("reagro/reagro")
 
-
-The following packages need a compiler. You will have one on linux or mac, but on windows you first need to install `Rtools <https://cran.r-project.org/bin/windows/Rtools/>`__. This is for the time being. By the end of the year the packages that require compilation will be on CRAN.
+Installing the `terra` package can be more challanging because it needs to be compiled. That is not a problem on linux or mac, but on windows you first need to install `Rtools <https://cran.r-project.org/bin/windows/Rtools/>`__. This is for the time being. By the end of the year the packages that require compilation will be on CRAN. Or a compiled download will be made available. The package can be installed like this:
 
 
 .. code:: r
-
+    
+	library(devtools)
 	devtools::install.github("rspatial/terra")
-	devtools::install.github("cropmodels/Rquefts")
 
 

@@ -1,7 +1,7 @@
 Case studies
 ============
 
-Here we present a number of case studies. In these studies the tecniques described in earlier parts of this book come together. 
+Here we present a number of case studies. In these studies the techniques described in earlier parts of this book come together. 
 
 
 In the first chapter a combination of machine learning and mechanistic models is used to estimate input (fertilizer) and output (maize) prices. The second chapter discussed approaches to estimate crop calendars (planting and harvesting times).

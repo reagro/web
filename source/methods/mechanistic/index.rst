@@ -4,37 +4,22 @@ Mechanistic models
 .. topic:: `Introduction <introduction.html>`__  
 
   | What is mechanistic modeling
-  | 
 
-
-.. topic:: `QUEFTS <quefts/quefts.html>`__  
+.. topic:: `QUEFTS <quefts>`__  
 
   | Modeling crop response to fertlizer response
-  | 
-
 
 .. topic:: `Ecocrop <ecocrop.html>`__  
 
   | Prediction the potential distribution of a species
-  | 
 
+.. topic:: `Dynamic crop models <simulation>`__  
 
-.. topic:: `LINTUL <lintul.html>`__  
+  | LINTUL, WOFOST, APSIM, ....
 
-  | The LINTUL model
-  | 
+.. topic:: `Disease models <disease.html>`__  
 
-.. topic:: `WOFOST <wofost.html>`__  
-
-  | The WOFOST model
-  | 
-
-
-.. topic:: `APSIM <apsim.html>`__  
-
-  | The APSIM model
-  | 
-
+  | Potato late blight and rice diseases
 
 
 .. toctree::
@@ -44,7 +29,6 @@ Mechanistic models
    introduction
    quefts/index
    ecocrop
-   lintul
-   wofost
-   apsim
+   simulation/index
+   disease/index
 

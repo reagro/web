@@ -1,4 +1,3 @@
-
 # Random Forest
 
 RandomForest is one of the most widely used "machine-learning" regression methods. This chapters shows how to use the method and how to inspect and evaluate RandomForest models.
