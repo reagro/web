@@ -6,7 +6,7 @@ Regional Agronomy
 	a practical handbook
 
 
-The aim of this book is to teach practical skills in *Regional Agronomy*, the use of agronomy and related disciplines *"at scale"*, to better understand and help improve agricultural production across large geographic regions. The material is divided into the following six parts.
+The aim of this book is to teach practical analytical skills in *Regional Agronomy*, the use of agronomy and related disciplines *"at scale"*, to better understand and help improve agricultural production across large geographic regions. The material is divided into the following six parts.
 
 
 .. topic:: *Part* I  ---  `Introduction <introduction/index.html>`__  

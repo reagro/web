@@ -8,7 +8,6 @@ QUEFTS was first described in: **B.H. Janssen, F.C.T. Guiking, D. van der Eijk, 
 
 To run the model, you need soil and crop parameters, as well as the amount of fertilizer applied, and the attainable crop production. In this context, the attainable production that is either the maximum production in the absence of nutrient limitation. 
 
-
 ## Chapter requirements
 
 We use *R* package `Rquefts`. You can [install](/installation.html) it from CRAN.

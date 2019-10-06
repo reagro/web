@@ -25,7 +25,7 @@ Statistical models
 
 .. toctree::
    :hidden: 
-   :maxdepth: 1
+   :maxdepth: 3
    
    prediction
    supervised

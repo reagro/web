@@ -1,13 +1,17 @@
 Case studies
 ============
 
-Here we present a number of case studies. In these studies the techniques described in earlier parts of this book come together. 
+In this section we present a number of case studies that implement and combine some of the techniques described in earlier sections of this book. 
 
+In the first chapter a combination of machine learning and mechanistic models is used the response of crops to fertilizers. 
 
-In the first chapter a combination of machine learning and mechanistic models is used to estimate input (fertilizer) and output (maize) prices. The second chapter discussed approaches to estimate crop calendars (planting and harvesting times).
-Chapter three shows approaches to estimate yield potential using simulation and regression models. Chapter four shows an example of an empirical "big data" approach to estimate the response to fertilizer. 
+The second chapter builds on that, and on estimated input and output prices to estimate the profitability of fertilizer use. 
+
+In the third chapter, the potential benefit of a new variety is evaluated. 
 
 In the fourth chapter, approaches to estimating climate change effects are discussed. 
+
+Chapter five evaluated the effect of diversification and biofortification on local diets.
 
 
 .. toctree::
