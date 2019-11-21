@@ -1,18 +1,25 @@
-```{r, echo=FALSE, message=FALSE}
-library(knitr)
-```
+# Exploring data in Google Earth Engine
 
-## Exploring remote sensing data in Google Earth Engine
+*by* Anruddah Ghosh, University of California, Davis
 
-In this exercise, we show how you can search, find and visualize satellite data available through  [Google Earth Engine](https://developers.google.com/earth-engine/). We also describe different methods to mask clouds, create cloud free composites, calculate spectral indices, and finally export results. In this exercise we use Landsat data, but most of the examples can also be applied to any other satellite data available through Earth Engine. Learn more about the list of satellite data in [Earth Engine Data Catalog
+
+## Introduction
+
+
+Here we show how you can search, find and visualize satellite data available through  [Google Earth Engine](https://developers.google.com/earth-engine/). We also describe different methods to mask clouds, create cloud free composites, calculate spectral indices, and finally export results. In this exercise we use Landsat data, but most of the examples can also be applied to any other satellite data available through Earth Engine. Learn more about the list of satellite data in [Earth Engine Data Catalog
 ](https://developers.google.com/earth-engine/datasets/).
 
-*Prerequisites:* Create a [Google Earth Engine account](https://code.earthengine.google.com/) if you do not have one. Use [this link](https://signup.earthengine.google.com/#!/) to sign-up for a free account with an existing Google account.
 
-### 5-min javascript
+## Chapter requirements
+
+You need to have a [Google Earth Engine account](https://code.earthengine.google.com/), or create one if you do not have one. You can [sign-up for a free account](https://signup.earthengine.google.com/#!/) using an existing Google account.
+
+## 5-min javascript
+
 You can use Earth Engine via an [online interface](https://code.earthengine.google.com/) that requires javascript or use [Python](https://developers.google.com/earth-engine/python_install). We will use the first option and learn some basic JavaScript necessary for the tutorials. 
 
-**Using code editor** 
+
+### The code editor
 
 Open your browser (Google Chrome preferred), go to [Earth Engine Editor](code.earthengine.google.com) and start typing the following and click Run. Please note that the code does not allow running single line or selected lines at a time. All the lines in the code editor will be executed at the same time. Therefore we will keep on adding/writing new lines and not remove the old ones.
 
@@ -28,7 +35,7 @@ print("I like ", season);
 // print("Hello Mars!")
 ```
 
-**Basic Javascript data types**
+### Basic Javascript data types
 
 Most of these are declared with `var`.
 
@@ -73,9 +80,9 @@ print('Print stuff:', object.crops);
 
 ```
 
-**Functions**
+### Functions
 
-Functions are helpful to reuse to same lines of codes multiple times and improve readability of codes.
+Functions are helpful to reuse to same lines of code multiple times and improve code readability.
 
 ```{js function,  eval = FALSE}
 
@@ -113,7 +120,8 @@ var sequence = ee.List.sequence(1, 5);
 print('Sequence:', sequence);
 ```
 
-**Applying functions multiple times**
+#### Applying functions
+
 
 We can apply the functions on the list of numbers.  
 
@@ -131,7 +139,7 @@ We will see the results are significantly different. `sum1` values are not human
 *Optional* To better understand what is happening here, you can read the section on [client vs server](https://developers.google.com/earth-engine/client_server).
 
 
-### Search, find and visualize image
+## Search, find and visualize image
 
 To inspect any image (also called a scene) covering the area of interest (AOI), first we define the aoi (it can be a set of coordinates, points or polygons). We use the aoi location to filter the any image collection (e.g. all scenes captured by Landsat 8) and then use specific date ranges to limit the searches. In the following steps we show how to achieve this: 
 
@@ -206,15 +214,15 @@ print('Least cloudy Landsat scene of the year:', image2);
 Map.addLayer(image, visParams, "Landsat least cloudy image");  
 ```
 
-**Exercise**  
+## Exercise 1
 
 i. Visualize false color composite image (NIR:red:green).    
 
 ii. Create a dictionary of the image information and metadata properties including tile ID, resolution, projection, collection time and cloud cover.       
 
-### Spectral Indices
+## Spectral Indices
 
-Next we learn how to compute different vegetation indices and use thresholds to find specific land covers.
+Next we compute different vegetation indices and use thresholds to find specific land covers.
 
 ```{js ndvi, eval = FALSE}
 // Method 1: Using available function
@@ -258,7 +266,7 @@ Map.addLayer(green, ndviViz, 'vegetations');
 ```
 
 
-**Exercise**       
+## Exercise 2       
 
 i. Use `image` to compute a spectral index for enhancing water (hint: NDWI = (green - NIR) / (green + NIR)) and built-up areas (hint: NDBI = (SWIR - NIR) / (SWIR + NIR)).   
 
@@ -267,7 +275,7 @@ ii. Visualize the results of `NDWI` and `NDBI`.
 iii. Use a threshold to find the water and built locations.    
 
 
-### Cloud Mask
+## Cloud Mask
 
 So far we worked with the least cloudy image. But to Now we define a function for cloud-masking of Landsat surface reflectance data using the quality band supplied by USGS.
 
@@ -359,7 +367,9 @@ Export.image.toDrive({
 ```
 
 
-**Exercise** The following function can be used to mask cloud in [USGS Landsat 8 Collection TOA Reflectance](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T1_TOA). Use this function to mask cloud in TOA product and recreate the workflow above.     
+## Exercise 3
+
+The following function can be used to mask cloud in [USGS Landsat 8 Collection TOA Reflectance](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T1_TOA). Use this function to mask cloud in TOA product and recreate the workflow above.     
 
 ```{js createComposite2, eval = FALSE}
 

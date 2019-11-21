@@ -18,7 +18,7 @@ cmd <- args[1]
 stopifnot(cmd %in% c("knit", "build"))
 
 # "introduction" is rst only
-chapters <- c("data", "methods", "fundamentals", "recipes", "cases")
+chapters <- c("fundamentals", "recipes", "cases", "methods", "data")
 chapter <- tolower(args[2])
 if (chapter == "all") {
 # this is problematic as there is a lot of function hiding 

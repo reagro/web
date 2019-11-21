@@ -1,6 +1,20 @@
 # WOFOST
 
-Here is an example
+WOFOST ("WOrld FOod STudies") is a mechanistic crop growth model that was originally developed to assess the yield potential of various annual crops in the tropics. It was one of the first application-oriented models to be derived from the more theoretical model SUCROS developed in Wageningen. 
+
+WOFOST is a dynamic model with a time step of one day. It uses a set of *state variables* (e.g. biomass or leaf area index) that are updated at each time-step by the computed values of rate variables (e.g. carbon flux) for that day. Values of the rate variables are calculated from information about the current state variables and from external environmental (e.g. solar radiation). 
+
+The model describes the growth and production of annual crops in physical terms determined by crop species, soil type, hydrologic conditions and weather during the growing season. WOFOST calculates crop yields under three principal growth constraints which results in three theoretically defined situations that are hierarchically ordered according to increasing analytical complexity:
+
+ 1. **Potential production:** crop growth is limited by light and temperature regime only; 
+
+ 2. **Water-limited production:** moisture supply may limit crop growth; 
+
+WOFOST models one growing season from emergence to maturity in which crop growth and soil water balance are described with a time resolution of one day and the nutrient uptake is calculated for the whole growing season at once.  
+
+
+
+## Example run
 
 Input data
 
@@ -39,11 +53,4 @@ head(d)
 tail(d)
 plot(d[,'step'], d[, 'LAI'])
 ```
-
-
-## APSIM
-
-
-
-## DSSAT
 

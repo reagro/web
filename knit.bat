@@ -10,7 +10,7 @@ set arg1=%1
 set arg2=%2
 
 if %arg1% == all (
-	for %%i in (data tools fundamentals recipes cases) do Rscript.exe --vanilla R\run.R knit %%i %arg2%
+	for %%i in (data fundamentals recipes cases methods) do Rscript.exe --vanilla R\run.R knit %%i %arg2%
 ) else (
 	Rscript.exe --vanilla R\run.R knit %arg1% %arg2%
 )

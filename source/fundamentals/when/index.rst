@@ -12,5 +12,5 @@ Crop calendars
    :hidden:
 
    datasources
-   phenorice
+   phenology
    simulation

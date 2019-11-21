@@ -1,8 +1,8 @@
 *.rst
 !index.rst
 !error.rst
+!autors.rst
 !installation.rst
-!prediction-inference.rst
 syncaws.bat
 
 .Rproj.user

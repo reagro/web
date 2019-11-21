@@ -1,9 +1,0 @@
-# Estimating crop calendars with remote sensing
-
-Hongfei Wang
-
-
-NDVI time series 
-
-“phenorice”
-
