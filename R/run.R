@@ -18,7 +18,7 @@ cmd <- args[1]
 stopifnot(cmd %in% c("knit", "build"))
 
 # "introduction" is rst only
-chapters <- c("data", "tools", "recipes", "cases")
+chapters <- c("data", "methods", "fundamentals", "recipes", "cases")
 chapter <- tolower(args[2])
 if (chapter == "all") {
 # this is problematic as there is a lot of function hiding 
@@ -54,7 +54,7 @@ do_knit <- function(option, quiet=TRUE) {
 	dir.create('txt/', showWarnings=FALSE)
 	u <- unique(gsub("_R", "", dirname(ff)))
 	u <- u[u!=""]
-	u <- gsub("/", "", u)
+	u <- gsub("^/", "", u)
 	for (d in u) {
 		dir.create(d, showWarnings=FALSE, TRUE)
 		dir.create(file.path(d, 'figures'), showWarnings=FALSE)
@@ -97,6 +97,8 @@ do_knit <- function(option, quiet=TRUE) {
 			fig.cap="",
 			collapse   = TRUE
 		)
+		#opts_chunk$set(tidy.opts=list(width.cutoff=60))
+
 		
 		for (i in 1:length(ff)) {
 		

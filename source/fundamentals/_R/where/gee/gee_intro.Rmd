@@ -1,0 +1,381 @@
+```{r, echo=FALSE, message=FALSE}
+library(knitr)
+```
+
+## Exploring remote sensing data in Google Earth Engine
+
+In this exercise, we show how you can search, find and visualize satellite data available through  [Google Earth Engine](https://developers.google.com/earth-engine/). We also describe different methods to mask clouds, create cloud free composites, calculate spectral indices, and finally export results. In this exercise we use Landsat data, but most of the examples can also be applied to any other satellite data available through Earth Engine. Learn more about the list of satellite data in [Earth Engine Data Catalog
+](https://developers.google.com/earth-engine/datasets/).
+
+*Prerequisites:* Create a [Google Earth Engine account](https://code.earthengine.google.com/) if you do not have one. Use [this link](https://signup.earthengine.google.com/#!/) to sign-up for a free account with an existing Google account.
+
+### 5-min javascript
+You can use Earth Engine via an [online interface](https://code.earthengine.google.com/) that requires javascript or use [Python](https://developers.google.com/earth-engine/python_install). We will use the first option and learn some basic JavaScript necessary for the tutorials. 
+
+**Using code editor** 
+
+Open your browser (Google Chrome preferred), go to [Earth Engine Editor](code.earthengine.google.com) and start typing the following and click Run. Please note that the code does not allow running single line or selected lines at a time. All the lines in the code editor will be executed at the same time. Therefore we will keep on adding/writing new lines and not remove the old ones.
+
+```{js javascript-intro,  eval = FALSE}
+print("Hello World!");
+
+// variable
+var season = "rain";
+
+print("I like ", season);
+
+// To comment use this
+// print("Hello Mars!")
+```
+
+**Basic Javascript data types**
+
+Most of these are declared with `var`.
+
+1. Strings: Use single (or double) quotes to make a string. 
+
+2. Numbers: Numerics.
+
+3. Lists: Defines with square brackets [ ] to store multiple objects. 
+
+4. Objects: Dictionaries of key: value pairs with curly brackets { }.
+
+Now see one example for each of them
+
+```{js datatypes,  eval = FALSE}
+
+// Store a number in a variable.
+var number = 10;
+print('The answer is:', number);
+
+// Use square brackets [] to make a list.
+var numbers = [0, 1, 1, 2, 3, 5];
+print('List of numbers:', numbers);
+
+// Make a list of strings.
+var strings = ['a', 'b', 'c', 'd', 'e'];
+print('List of strings:', strings);
+
+// Use curly brackets {} to make a dictionary of key:value pairs.
+var object = {
+  season: 'longrain',
+  year: 2019,
+  crops: ['maize', 'rice']
+};
+
+print('Dictionary:', object);
+
+// Access dictionary items using square brackets.
+print('Print year:', object['year']);
+
+// Access dictionary items using dot notation.
+print('Print stuff:', object.crops);
+
+```
+
+**Functions**
+
+Functions are helpful to reuse to same lines of codes multiple times and improve readability of codes.
+
+```{js function,  eval = FALSE}
+
+// Basic structure
+var myFunction = function(parameter) {
+  // do something
+  statement;
+  return statement;
+};
+
+```
+
+Write an actual function
+
+```{js function1,  eval = FALSE}
+
+// Basic structure
+var addnumber = function(number) {
+  var newvalue =  number + 10
+  return newvalue;
+};
+
+print(addnumber(20))
+```
+
+Earth Engine has a large number of in-built functions. You can find them in the *Doc* tab (upper left corner of the code editor).
+
+```{js function2,  eval = FALSE}
+
+// Make a sequence the hard way.
+var eeList = ee.List([1, 2, 3, 4, 5]);
+
+// Make a sequence the easy way!
+var sequence = ee.List.sequence(1, 5);
+print('Sequence:', sequence);
+```
+
+**Applying functions multiple times**
+
+We can apply the functions on the list of numbers.  
+
+```{js function3,  eval = FALSE}
+
+var sum1 = sequence.map(addnumber);
+print("EE server computed objects ", sum1)
+
+var sum2  = numbers.map(addnumber)
+print("EE client computed objects ", sum2)
+```
+
+We will see the results are significantly different. `sum1` values are not human readable. This is depends on how Earth Engine works and sooner or later you may come across this kind of situations.   
+
+*Optional* To better understand what is happening here, you can read the section on [client vs server](https://developers.google.com/earth-engine/client_server).
+
+
+### Search, find and visualize image
+
+To inspect any image (also called a scene) covering the area of interest (AOI), first we define the aoi (it can be a set of coordinates, points or polygons). We use the aoi location to filter the any image collection (e.g. all scenes captured by Landsat 8) and then use specific date ranges to limit the searches. In the following steps we show how to achieve this: 
+
+**Search location:**	Search for 'Nairobi' in the [Earth Engine playground](https://developers.google.com/earth-engine/playground) search bar at the top and click the result to pan and zoom the map to Nairobi.  
+
+**Use geometry tool:**	Use the geometry tools (upper right corner in the map) to make a point in Nairobi (*Important*: exit the drawing tool when you are finished).  Name the resultant import `point` by clicking on the import name (`geometry` by default).      
+
+**Import satellite data:**	Search `landsat 8 surface reflectance` and import the `USGS Landsat 8 Surface Reflectance Tier 1` ImageCollection.    
+
+**Spatial filter:** Use the point you just created to find the data only over Nairobi
+
+**Temporal filter:** Use a range of dates to confine the search results within a specific time period: 
+
+```{js Landsat-SR, eval = FALSE}
+var collection = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR');  
+
+
+// Construct start and end dates:
+var start = ee.Date('2018-01-01');
+var end = ee.Date('2018-12-31');     
+
+
+//Filter the Landsat 8 collection using the point and the dates
+var filteredCollection = collection.filterBounds(point).filterDate(start, end);    
+                        
+// Inspect number of tiles returned after the search; we will use the one with more tiles
+print(filteredCollection.size());
+
+
+// Also Inspect one file
+var image = filteredCollection.first();
+print(image);
+
+
+// print the band names
+print(image.bandNames());
+
+
+// Center the map on the image.
+Map.centerObject(point, 9);   
+
+
+// Image display
+Map.addLayer(image, {}, "Landsat surface reflectance");    
+
+// We specify visualization parameters in a JavaScript dictionary for better plots
+var visParams = {
+  bands: ['B4', 'B3', 'B2'],
+  min: 0,
+  max: 3000,
+};    
+
+Map.addLayer(image, visParams, "Landsat surface reflectance");
+```
+
+
+Learn more about image information read the [page on image information and metadata]( https://developers.google.com/earth-engine/image_info)
+
+
+We can sort the image collection by cloud cover. Often this is helpful find the least cloudy scene within a season.
+
+```{js sort_cloud_cover, eval = FALSE}
+
+var image = filteredCollection
+              // Sort the collection by a metadata property.
+              .sort('CLOUD_COVER')
+              // Get the first image out of this collection.
+              .first();
+
+print('Least cloudy Landsat scene of the year:', image2);   
+
+Map.addLayer(image, visParams, "Landsat least cloudy image");  
+```
+
+**Exercise**  
+
+i. Visualize false color composite image (NIR:red:green).    
+
+ii. Create a dictionary of the image information and metadata properties including tile ID, resolution, projection, collection time and cloud cover.       
+
+### Spectral Indices
+
+Next we learn how to compute different vegetation indices and use thresholds to find specific land covers.
+
+```{js ndvi, eval = FALSE}
+// Method 1: Using available function
+var ndvi = image.normalizedDifference(['B5', 'B4']);    
+
+// Display the results
+var ndviParams = {min: -1, max: 1, palette: ['blue', 'white', 'green']};
+Map.addLayer(ndvi, ndviParams, 'NDVI');     
+
+
+// Method 2: Using band arithmetic
+var nir = image.select('B5');
+var red = image.select('B4');
+var ndvi2 = nir.subtract(red).divide(nir.add(red)).rename('NDVI');     
+
+// Method 3: Using image expressions
+var ndvi3 = image.expression(
+    '(NIR - RED) / (NIR + RED)', {
+      'NIR': image.select('B5'),
+      'RED': image.select('B4')
+});       
+
+```
+
+Image expressions offer some flexibilities and are extremely useful for complicated indices such as EVI
+
+We can use the `NDVI` layer and our knowledge of the study area and try to find green areas.
+
+```{js threhold, eval = FALSE}
+// Create binary images from thresholds on NDVI.
+// This threshold is excpected to detect green areas
+var veg = ndvi.gt(0.4);     
+
+//Mask areas with the binary image
+var green = veg.updateMask(veg);        
+
+// Define visualization parameters for the spectral indices.
+var ndviViz = {min: -1, max: 1, palette: ['FF0000', '00FF00']};              
+
+Map.addLayer(green, ndviViz, 'vegetations');                
+```
+
+
+**Exercise**       
+
+i. Use `image` to compute a spectral index for enhancing water (hint: NDWI = (green - NIR) / (green + NIR)) and built-up areas (hint: NDBI = (SWIR - NIR) / (SWIR + NIR)).   
+
+ii. Visualize the results of `NDWI` and `NDBI`.     
+
+iii. Use a threshold to find the water and built locations.    
+
+
+### Cloud Mask
+
+So far we worked with the least cloudy image. But to Now we define a function for cloud-masking of Landsat surface reflectance data using the quality band supplied by USGS.
+
+```{js Landat-SR-Cloud, eval = FALSE}
+/**
+ * Function to mask clouds based on the pixel_qa band of Landsat 8 SR data.
+ * @param {ee.Image} image input Landsat 8 SR image
+ * @return {ee.Image} cloudmasked Landsat 8 image
+ */
+function maskL8sr(image) {
+  // Bits 3 and 5 are cloud shadow and cloud, respectively.
+  var cloudShadowBitMask = (1 << 3);
+  var cloudsBitMask = (1 << 5);
+  // Get the pixel QA band.
+  var qa = image.select('pixel_qa');
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
+                 .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
+  return image.updateMask(mask);
+}
+```
+
+We can apply this function for one image. 
+
+```{js Landat-SR-Cloud-mask1, eval = FALSE}
+
+var image = filteredCollection.first();
+
+var image_masked = maskL8sr(image);
+
+Map.addLayer(image, visParams, "Landsat tile with cloud");
+Map.addLayer(image_masked, visParams, "Landsat tile cloud masked");
+
+```
+
+We also use this function over entire collection and compare composites before and after cloud masking.
+
+```{js Landat-SR-Cloud-mask2, eval = FALSE}
+
+var maskedCollection = filteredCollection.map(maskL8sr);
+
+Map.addLayer(filteredCollection.median(), visParams, "Landsat composite with cloud");
+Map.addLayer(maskedCollection.median(), visParams, "Landsat composite cloud masked");
+```
+
+
+The tiles returned after cloud masking are not mosaiced or stacked, and there are gaps in them after due to the masking of clouds. We first combine ([reduce](https://developers.google.com/earth-engine/ic_reducing)) the tiles to create a single composite image representing one or multiple statistics (e.g. mean, median, standard deviation, percentiles) of the observations. This is same as `[app]` function in (https://rdrr.io/github/rspatial/terra/man/app.html) function in `terra` package.  
+
+
+```{js createComposite1, eval = FALSE}
+// here we compute the following composites
+// general structure: ImageCollection.reduce(ee.Reducer.Name(parameter));
+
+// Mean
+var mean = maskedCollection.reduce(ee.Reducer.mean());
+
+//alternate: var mean = maskedCollection.mean();
+
+// Median
+var med = maskedCollection.reduce(ee.Reducer.median());
+
+//alternate: var med = maskedCollection.median();
+  
+// Standard Deviation
+var sd = maskedCollection.reduce(ee.Reducer.stdDev());
+
+```
+
+**Exercise** Visualize different composites we created above to learn more about their differences.
+
+Once we are satisfied with the results of the percentile products, we can export the composites to Google Drive for future uses.
+
+```{js export_result, eval = FALSE}
+
+var CRS = 'EPSG:4326'; // Only if you want export in specific reference system
+
+mean = mean.select(["B2_mean","B3_mean","B4_mean","B5_mean"])
+
+Export.image.toDrive({
+  image: mean,
+  description: 'exporting-composite-to-drive',
+  fileNamePrefix: 'narirobi_landsat_composite', 
+  folder: 'GEE_export', // Name of the Google Drive folder
+  scale: 30,
+  maxPixels: 1e13,
+  crs: CRS
+});
+
+```
+
+
+**Exercise** The following function can be used to mask cloud in [USGS Landsat 8 Collection TOA Reflectance](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T1_TOA). Use this function to mask cloud in TOA product and recreate the workflow above.     
+
+```{js createComposite2, eval = FALSE}
+
+// Simple Cloud Score
+var maskCloudsTOA = function(image, th) {
+  var scored = ee.Algorithms.Landsat.simpleCloudScore(image);
+  
+  //Specify cloud threshold (0-100)- lower number masks out more clouds
+  var mask = scored.select(['cloud']).lte(th);
+  
+  //Make sure no band is just under zero
+  var allBandsGT = image.reduce(ee.Reducer.min()).gt(-0.001);
+  return image.updateMask(mask.and(allBandsGT));
+};
+
+var toa_dataset = ee.ImageCollection('LANDSAT/LC08/C01/T1_TOA');
+
+```
+

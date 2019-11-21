@@ -1,0 +1,49 @@
+# WOFOST
+
+Here is an example
+
+Input data
+
+```{r}
+library(Rwofost)
+w <- example_weather()
+# radiation should be in kJ
+w$srad <- w$srad * 1000
+head(w)
+```
+
+Crop parameters
+```{r}
+crop <- wofost_crop('barley')
+```
+
+Soil parameters
+```{r}
+soil <- wofost_soil('ec1')
+```
+
+
+```{r}
+contr <- wofost_control()
+contr$modelstart <- as.Date("2012-02-06")
+```
+
+Run model
+```{r}
+d <- wofost(crop, w, soil, contr)
+```
+
+Inspect output
+```{r}
+head(d)
+tail(d)
+plot(d[,'step'], d[, 'LAI'])
+```
+
+
+## APSIM
+
+
+
+## DSSAT
+

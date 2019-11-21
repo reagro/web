@@ -1,0 +1,19 @@
+# Estimating yield potential
+
+Camila Bonila et al 
+
+## Concepts 
+
+(See simulation chapter for details)
+
+Potential yield 
+Water-limited yield
+Nutrient-limited yield
+
+
+## Crop simulation
+
+
+
+## Metamodels 
+

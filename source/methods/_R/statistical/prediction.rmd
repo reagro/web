@@ -1,0 +1,34 @@
+# Models for prediction
+
+
+## Introduction
+
+Statistical methods can assist in the use of evidence for description, understanding and prediction of phenomena of interest. This chapter is about *prediction*, but we start with a very brief discussion of methods for formal understanding (*inference*) as that is what most agronomists are familiar with. 
+
+
+## Inference
+
+Introductory statistics classes in agromonmy (and most other fields) have traditionally focused on methods to support *understanding*. These courses teach probability distribution based inference through hypothesis testing, preferably using data from randomized controlled trials (RCTs). They may also introduce linear regression. There is a good reason for that: this inferential approach underpins most researc in the sciences. Perhaps the most prominent statistician of all time, R.A. Fisher, developed the Analysis of Variance (ANOVA) method to analyze crop trials when he was employed at the Rothamsted Experimental Station. 
+
+Data from trials (experiments) tends to have some unexplained ("random") variation because of differences in the objects used for testing. Each experimental plot is a little different, or, in the case of medicine or social sciences, each individual may respond a little different to a pill or other stimulus. In classical statistics, a main concern is, therefore, whether an observed difference between treatments is likely to be caused by chance (not a significant difference) or not (a significant difference). For example, you may employ a *t-test* to see if the effect of *treatment A* is significantly different from the effect of *treatment B*. Statistical significance is expressed as a probability (*p-value*) that an observed difference was caused by chance. The lower this probability, the more certain we are that the observed difference is not a fluke. To use this type of framework properly, great care needs to be taken in data collection and processing, to assure that the data conform to assumptions on which the tests are based. For examples, a variable may need to be normally distributed, observations may need to be independent of each other, and measurements should not have much error. 
+
+There has been a lot of recent work on alternative inferential approaches through the development and use of model selection methods, multi-level models, and in Bayesian inference. The [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) book is a good practical resource to learn about these new approaches to scientific understanding. 
+
+But the topic if this chapter is *prediction* not *formal inference*. Even though we won't mind to also gain understanding from our data, our goal is learning, not understanding. An analogy is that you do not necessarily need to understand how something works (for example a car) to be able to use it; but you do need to able to evaluate whether it is fit for a particular purpose, or whether you should consider getting a more useful vehicle --- and this *may* require some understanding of how cars work.   
+
+
+## Prediction
+
+Statistical prediction has gained a lot of attention over the past decades. In part because of new needs and the availability of much more data, and of new algorithms. Whereas inferential statistics has emphasized the need for a few (orthogonal, independent) variables and high quality data, these new algorithms are used in the context of many variables and large noisy data sets. 
+
+Some of these new algorithms are referred to as "machine learning" methods. We avoid that term here and we use the more general term "regression" or "supervised statistical learning" methods here. This encompasses a suite of methods that start with simple linear regression and end with complex algorithms such as neural networks. These more complex methods form the backbone of much modern "data science" methods. Data science is the use of statistical methods together with efficient and reproducible procedures to acquire, curate, and manipulate (large quantities of) data. In other words, data science is at the intersection data management and software development and (supervised) statistical learning. This chapter outlines some important features of statistical learning. We focus on the model over-fitting versus under-fitting; model evaluation and interpretation; and model application. 
+
+Much of what we discuss is based on [An Introduction to Statistical Learning](http://faculty.marshall.usc.edu/gareth-james/ISL/). This is very accessible book that you can [download for free](https://web.stanford.edu/~hastie/pub.htm#books). It comes with exercises in *R* and a lot of on-line learning materials such as [this free MOOC](https://lagunita.stanford.edu/courses/HumanitiesSciences/StatLearning/Winter2016/about). If the subject matter of this chapter intrigues you, you should not hesitate to read it. 
+
+
+
+## Citation
+
+Hijmans, R.J., 2019. Statistical modeling. In: Hijmans, R.J. and J. Chamberlin. Regional Agronomy: a pratical handbook. CIMMYT. https:/reagro.org/tools/statistical/
+
+

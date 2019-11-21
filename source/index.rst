@@ -1,52 +1,52 @@
 Regional Agronomy
 =================
-*A practical handbook*
 
-This book provides background materials to learn practical skills in Regional Agronomy. That is, the use of agronomy and related disciplines, to better understand and help improve agricultural production across large geographic regions. The material is divided into the following five sections.
+.. code:: r
+
+	a practical handbook
 
 
-.. topic:: 1. `Introduction <introduction/index.html>`__  
+The aim of this book is to teach practical analytical skills in *Regional Agronomy*, the use of agronomy and related disciplines *"at scale"*, to better understand and help improve agricultural production across large geographic regions. The material is divided into the following six parts.
+
+
+.. topic:: *Part* I  ---  `Introduction <introduction/index.html>`__  
 
   | What is Regional Agronomy, and what is this book about?
-  | 
-  
-.. topic:: 2. `Data <data/index.html>`__
-
-  | Data collection methods
-  | 
-
-
-.. topic:: 3. `Methods and Tools <tools/index.html>`__
-
-  | Modeling methods, their implementation, and using them with spatial data 
-  |  
 
   
-.. topic:: 4. `Recipes <applications/index.html>`__
+.. topic:: *Part* II ---  `Data <data/index.html>`__
 
-   | Examples of how the tools and methods can be applied to create data products that can be part of larger projects  
-   |
+  | Data collection methods. In the field and at the computer.
 
 
-.. topic:: 5.  `Case studies <cases/index.html>`__
+.. topic:: *Part* III ---  `Modeling methods <methods/index.html>`__
+
+  | A primer of predictive modeling methods, and on using these methods with spatial data 
+
+
+.. topic:: *Part* IV --- `Fundamentals <fundamentals/index.html>`__
+
+  | Creating intermediate data products that are fundamental inputs to further analysis
+
+  
+.. topic:: *Part* V ---  `Case studies <cases/index.html>`__
 
    | Case studies that use regional agronomy methods to answer important questions 
-   |
-      
       
 
+.. topic:: *Part* VI --- `Recipes <applications/index.html>`__
 
-
-.. This is the table of contents, must be here, but can be hidden so we can format how we like above.
+   | A miscellaneous collection of examples that can help in problem solving
+      
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :hidden:
 
    introduction/index.rst
    data/index.rst
-   tools/index.rst
-   recipes/index.rst
+   methods/index.rst
+   fundamentals/index.rst
    cases/index.rst
-   
- 
+   recipes/index.rst
+

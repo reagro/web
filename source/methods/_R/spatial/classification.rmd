@@ -1,0 +1,12 @@
+# Satellite sensors
+
+
+We first provide a brief overview of sensors. Then we illustrate crop mapping, phenology mapping, and yield estimation. The last section shows how to do these things in Google Earth Engine.
+
+## MODIS
+
+## SENTINEL
+
+## LANDSAT
+
+

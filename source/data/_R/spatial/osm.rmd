@@ -1,0 +1,53 @@
+# Open Street Map data
+
+A good source of roads data is Open Street Map (OSM). (expand what it is, and limitations (completeness?))
+
+You can download OSM data in *R* using the [osmdata](https://cran.r-project.org/web/packages/osmdata/index.html) package. You can only download a certain amount of data in a single request, so typically you need to a number of requests for adjacent regions and then combine the results. We used the first level administrative boundaries of Tanzania (also downloaded with the geodata package) for this. 
+
+```{r gadm, message=FALSE, warning=FALSE}
+library(geodata)
+adm <- gadm("TZA", level = 1, path=".")
+```
+
+We want data for primary, secondary and tertiary highways in Tanzania. Below is a helper function to accomplish this. 
+
+```{r rdtp}
+library(osmdata)
+
+roadtypes <- c("primary", "secondary", "tertiary")
+
+getOSMdata <- function(obj, key, value) {
+    b <- sp::bbox(obj)
+    q <- osmdata::opq(b)
+    q <- osmdata::add_osm_feature(q, key, value)
+    d <- osmdata::osmdata_sp(q)
+    d$osm_lines[, key]
+}
+
+```
+
+The below takes a long time to run. It may also fail because of the relative fraility of the OSM servers (or rather then enourmous number of requests that they get).
+
+```{r getOSM, eval=FALSE}
+x <- lapply(seq_along(adm), function(i) getOSMdata(adm[i, ], "highway", roadtypes))
+```
+
+Now put the results together 
+
+
+```{r processOSM, eval=FALSE}
+# combine the results for each area
+rd <- do.call(bind, x)
+# remove anything outside of Tanzania
+rd <- crop(rd, adm)
+# aggregate by type, also removing duplicates line parts
+roads <- aggregate(rd, "highway")
+```
+
+The OSM data is very detailed. Much more than we need in most analysis. We simplified it with the `rmapshaper` package to store less data and so that the example runs faster. 
+
+```{r simplr, eval=FALSE}
+library(rmapshaper)
+roads <- ms_simplify(roads, keep=0.01)
+```
+

@@ -1,0 +1,17 @@
+```{r setup, include=FALSE}
+
+```
+
+# Input and output prices
+
+
+
+## fertilizer prices
+
+
+
+
+## maize prices 
+
+
+
