@@ -22,4 +22,5 @@ Chapter five evaluated the effect of diversification and biofortification on loc
    fertprof
    exantevariety   
    climatechange   
-   insurance
+   croptrials
+   insurance/index

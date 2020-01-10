@@ -1,0 +1,693 @@
+{
+  "status": ["OK"],
+  "data": {
+    "id": [11055],
+    "identifier": ["10548190"],
+    "persistentUrl": ["http://hdl.handle.net/11529/10548190"],
+    "protocol": ["hdl"],
+    "authority": ["11529"],
+    "publisher": ["CIMMYT Research Data & Software Repository Network"],
+    "publicationDate": ["2019-06-25"],
+    "latestVersion": {
+      "id": [2078],
+      "versionNumber": [1],
+      "versionMinorNumber": [0],
+      "versionState": ["RELEASED"],
+      "distributionDate": ["2019"],
+      "productionDate": ["Production Date"],
+      "lastUpdateTime": ["2019-06-24T23:10:09Z"],
+      "releaseTime": ["2019-06-24T23:10:09Z"],
+      "createTime": ["2019-06-03T05:17:54Z"],
+      "license": ["NONE"],
+      "termsOfUse": ["<p>   <b>PLEASE READ THIS CAREFULLY BEFORE ACCESSING DATA FROM THIS REPOSITORY<\/b>  <\/p>  <p>  <b>Agreement Acceptance Procedure<\/b>  <\/p>  <p>  By clicking on the acceptance button which follows this Agreement, you indicate acceptance of this agreement. Such acceptance is on your own behalf, either as an independent individual or to perform your job duties/obligations, subject to the terms and conditions below.   <\/p>  <p>  If you do not accept these terms and conditions, you will not be able t\r\no access data from this repository.  <\/p>  <p>  <center><b>AGREEMENT FOR ACCESS AND USE OF DATA FROM THIS REPOSITORY<\/b><\/center>  <\/p>  <p>  <b>1. Definitions<\/b>  <\/p>  <p>  <b>1.1<\/b> In this Agreement except where a different interpretation is clear from or necessary in the context, the following capitalised terms have the following meanings:  <\/p>  <p>  <table border=\"1\"> <tr valign=\"top\"> <td> <b>Data<\/b> <\/td> <td> All the numbers, characters, values of qualitative or quantitative variabl\r\nes related to an item which are directly generated and/or captured from research-related activities as well as processed, aggregated, interpreted, commented, codified or in any way analysed data taking on a meaning (the latter referred to as Information) that the User is permitted to retrieve from the Database or other online resources under this Agreement.\r\n<\/td> <\/tr> <tr valign=\"top\"> <td> <b>Database<\/b> <\/td> <td> The online computer-based repositories of indexed data and collections of related data records (datasets) that constitute the databases that form part of the CIMMYT Research Data Repository. <\/td> <\/tr> <tr valign=\"top\"> <td> <b>Intellectual Property<\/b> <\/td> <td> Any law existing in any jurisdiction that protects the rights contained in Data and Database. <\/td> <\/tr> <tr valign=\"top\"> <td> <b>Provider<\/b> <\/td> <td> The Internationa\r\nl Maize and Wheat Improvement Center (CIMMYT) <\/td> <\/tr> <tr valign=\"top\"> <td> <b>User<\/b> <\/td> <td> The individual who has accepted this Agreement by downloading Data available in Database. <\/td> <\/tr> <\/table>  <\/p>  <p>  <b>1.2<\/b> Headings are used in this Agreement for the convenience of the parties only and shall not be deemed to be any indications of the meaning of the clauses to which they relate.  <\/p>  <p>  <b>1.3<\/b> In this Agreement:  <\/p>  <p>  &#160;<b>1.3.1<\/b> words importing\r\nthe singular number shall include the plural and vice versa  <\/p>  <p>  &#160;<b>1.3.2<\/b> words importing any particular gender shall include all other genders  <\/p>  <p>  &#160;<b>1.3.3<\/b> references to persons shall include bodies of persons whether corporate or incorporate  <\/p>  <p>  &#160;<b>1.3.4<\/b> words importing the whole shall be treated as including a reference to any part of the whole  <\/p>  <p>  <b>2. Use of the Data and Database<\/b>  <\/p>  <p>  <b>2.1<\/b> The Provider grants to\r\nthe User a non-exclusive non-transferable license to use the Data in accordance with this Agreement. If the User agrees upon this agreement to perform activities related to their job duties/obligations, the User must make sure this agreement is neither contrary to such employment obligations/duties nor violated while performing them.\r\n<\/p>  <p>  <b>2.2<\/b> The User may make copies of the Data for personal use as follows:  <\/p>  <p>  &#160;<b>2.2.1<\/b> By temporarily displaying on a computer terminal the Data retrieved from the Database; and  <\/p>  <p>  &#160;<b>2.2.2<\/b> By making one copy on paper of the Data retrieved from the Database; and  <\/p>  <p>  &#160;<b>2.2.3<\/b> By downloading and storing by electronic means a copy of the Data on the User&#8217;s own equipment or equipment under his control.  <\/p>  <p>  <b>2.3<\/b>\r\nThe User may only use copies of the Data for the purposes of research, teaching and education, and for preparing publications, subject to the restrictions below.\r\n<\/p>  <p>  <b>2.4<\/b> The User is allowed to share the Data for formal educational and teaching purposes, provided that the students that have access to the Data are clearly informed that access is conditioned to not redistributing the Data. The user shall not redistribute the Data for any other purpose without the prior written consent of the Provider. Instead, the User shall refer interested new users to the Database to download the Data directly.    <\/p>  <p>  <b>2.5<\/b> The User shall acknow\r\nledge and reference the use of the Data and Database in all publications using the general citation provided CIMMYT Research Data Repository or the specific citation associated with an individual dataset.\r\n<\/p>  <p>  <b>2.6<\/b> The User shall not seek any form of intellectual property rights or other legal rights over Data and/or Databases accessed. This clause shall survive termination of this agreement.  <\/p>  <p>  <a name=\"twodotseven\"><\/a><b>2.7<\/b> The User shall stop using the Data and immediately contact the Provider for guidance in case of risk or suspicion of violating terms and conditions of this agreement, whether such violation is directly made by the User or by any person or entity to\r\nwhom voluntarily or involuntarily the User provided or permitted access to the Data, whether while performing their job duties/obligations or during the performance of their personal activities.\r\n<\/p>  <p>  <b>3. Term<\/b>  <\/p>  <p>  Subject to <a href=\"#six\">Clause 6<\/a>, this Agreement will continue in force for as long as the User is in possession of the Data.  <\/p>  <p>  <b>4. Intellectual Property<\/b>  <\/p>  <p>  <b>4.1<\/b> All rights including Intellectual Property Rights in the Data and Database are owned by the Provider and/or jointly between the Provider and its research partners.  <\/p>  <p>  <b>4.2<\/b> The User acknowledges that his or her permission to use the Data and Databas\r\ne is limited to the rights expressly conferred by this Agreement.\r\n<\/p>  <p>  <b>5. Liability and indemnity<\/b>  <\/p>  <p>  <b>5.1<\/b> The User acknowledges to the Provider and agrees that the Provider makes no express or implied warranties as to the merchantability or fitness for a particular purpose of the Data or Database.  <\/p>  <p>  <b>5.2<\/b> Although the Provider takes care in ensuring the accuracy of the Data and/or Database according to scientific standards, the Provider shall have no liability to the User in contract tort or otherwise for any loss or\r\ndamage which the User suffers (whether direct consequential or any other form of loss) as a result of any error or inaccuracy in the Data or Database or as a result of using the Data or Database. The User is encouraged to contact the Provider immediately for any errors or inaccuracies discovered in the Data or Database, and the Provider undertakes to take urgent action to address such errors or inaccuracies.\r\n<\/p>  <p>  <a name=\"six\"><\/a> <b>6. Termination<\/b>  <\/p>  <p>  <b>6.1<\/b> The Provider or User may terminate this Agreement by thirty (30) days&#8217; notice to the other party without providing any reasons for termination.  <\/p>  <p>  <b>6.2<\/b> This Agreement shall immediately terminate if the User:  <\/p>  <p>  &#160;<b>6.2.1<\/b> breaches any provision of this Agreement that is not capable of being remedied;  <\/p>  <p>  &#160;<b>6.2.2<\/b> materially breaches any provision of this Agreement th\r\nat is capable of being remedied but not remedied within thirty (30) days as of the date of notice sent to the User by the Provider; or\r\n<\/p>  <p>  &#160;<b>6.2.3<\/b> enters into an arrangement for the benefit of creditors, becomes insolvent, files for protection under bankruptcy laws or otherwise seeks relief from creditors or anything analogous to the matters stated hereinbefore under any applicable law.  <\/p>  <p>  <b>6.3<\/b> Upon termination of this Agreement, the User must return and/or destroy copies of the Data within seven (7) days of the date on which termination takes effect and certify to the Provider that this has bee\r\nn complied with. This clause shall survive termination of this agreement.\r\n<\/p>  <p>  <b>6.4<\/b> Termination of this Agreement shall not affect any obligation by either party to the other which are outstanding as at the effective date of termination nor any of the provisions of this Agreement which are expressed to survive termination.  <\/p>  <p>  <b>7. General<\/b>  <\/p>  <p>  <b>7.1 Force majeure<\/b>  <\/p>  <p>  Neither party shall have any liability or be deemed to be in breach of this Agreement for any delays or failures in performance which result from circumstance\r\ns beyond the reasonable control of the parties, including, without limitation, fire, flood, riots, strikes, epidemics, war (declared or undeclared and including the continuance, expansion or new outbreak of any war or conflict now in existence), embargoes and governmental actions or decrees. Notwithstanding the foregoing, User will still be bound to obligations under\r\n<a href=\"#twodotseven\">Clause 2.7<\/a>.  <\/p>  <p>  <b>7.2 Entire Agreement<\/b>  <\/p>  <p>  This Agreement contains the whole agreement between the parties and supersedes any prior oral or written agreements, arrangements or understandings between them in relation to its subject matter and the parties confirm that they have not entered into this Agreement upon the basis of any representations that are not expressly incorporated into this Agreement. No oral explanation or oral information given by\r\nany party shall alter or affect the interpretation of this Agreement.\r\n<\/p>  <p>  <b>7.3 Reservation of rights<\/b>  <\/p>  <p>  All rights not specifically and expressly granted to the User by this Agreement are reserved to the Provider. The Provider reserves the right to vary the terms of this Agreement by general online notification or other forms of notification to the User.  <\/p>  <p>  <b>7.4 Notices<\/b>  <\/p>  <p>  Any notice consent or the like (in this clause referred to generally as &quot;Notice&quot;) required or permitted to be given under this Agreement s\r\nhall be binding upon the User if sent by the Provider via electronic mail and shall be deemed given at the time of its actual transmission provided that the Provider does not receive any indication that the electronic mail message has not been successfully transmitted to the User.\r\n<\/p>  <p>  <b>7.5 Non-Waiver of Remedies<\/b>  <\/p>  <p>  &#160;<b>7.5.1<\/b> No failure or delay by either party in exercising any of its rights under this Agreement shall be deemed to be a waiver of that right, and no waiver by either party of any breach of this Agreement by the other shall be considered as a waiver of any subsequent breach of the same or any other provision.  <\/p>  <p>  &#160;<b>7.5.2<\/b> Any provision of this Agreement may be waived if, but only if, such waiver is in writing a\r\nnd is signed, by the party against whom the waiver is to be effective.\r\n<\/p>  <p>  <b>7.6 Invalid Clauses<\/b>  <\/p>  <p>  If any provision or part of this Agreement is held to be invalid, amendments to this Agreement may be made by the addition or deletion of wording as appropriate to remove the invalid part or provision but otherwise retain the provision and the other provisions of this Agreement to the maximum extent permissible under applicable law.  <\/p>  <p>  <b>7.7 Assignment<\/b>  <\/p>  <p>  This Agreement shall be personal to the User and shall not be assigne\r\nd or transferred without the prior written consent of the Provider.\r\n<\/p>  <p>  <b>7.8 Dispute Resolution<\/b>  <\/p>  <p>  &#160;<b>7.8.1<\/b> Any disagreements between the parties concerning the interpretation or application of this Agreement shall be settled amicably by negotiation in the first instance, failing which all disputes arising out of or in connection with it shall be finally settled under the Rules of Arbitration of the International Chamber of Commerce by one or more arbitrators appointed in accordance with the said Rules.  <\/p>  <p>  &#160;<b>7.8.2<\r\n/b> This Agreement shall be governed by general principles of law to the exclusion of any national system of law. Such general principles of law shall be deemed to include the UNIDROIT Principles of International Commercial Contracts 2010.  <\/p>"],
+      "metadataBlocks": {
+        "citation": {
+          "displayName": ["Citation Metadata"],
+          "fields": [
+            {
+              "typeName": "title",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": ["Replication Data for: Nonlinear heat effects on African maize as evidenced by historical yield trials"]
+            },
+            {
+              "typeName": "author",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "authorName": {
+                    "typeName": "authorName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Lobell, David B."
+                  },
+                  "authorAffiliation": {
+                    "typeName": "authorAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Stanford University"
+                  },
+                  "authorIdentifierScheme": {
+                    "typeName": "authorIdentifierScheme",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "ORCID"
+                  },
+                  "authorIdentifier": {
+                    "typeName": "authorIdentifier",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "0000-0002-5969-3476"
+                  }
+                },
+                {
+                  "authorName": {
+                    "typeName": "authorName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Banziger, Marianne"
+                  },
+                  "authorAffiliation": {
+                    "typeName": "authorAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "CIMMYT"
+                  },
+                  "authorIdentifierScheme": {
+                    "typeName": "authorIdentifierScheme",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "ORCID"
+                  },
+                  "authorIdentifier": {
+                    "typeName": "authorIdentifier",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "0000-0002-8330-7993"
+                  }
+                },
+                {
+                  "authorName": {
+                    "typeName": "authorName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Magorokosho, Cosmos"
+                  },
+                  "authorAffiliation": {
+                    "typeName": "authorAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "CIMMYT"
+                  },
+                  "authorIdentifierScheme": {
+                    "typeName": "authorIdentifierScheme",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "ORCID"
+                  },
+                  "authorIdentifier": {
+                    "typeName": "authorIdentifier",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "0000-0003-3177-1791"
+                  }
+                },
+                {
+                  "authorName": {
+                    "typeName": "authorName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Vivek, Bindiganavile"
+                  },
+                  "authorAffiliation": {
+                    "typeName": "authorAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "CIMMYT"
+                  },
+                  "authorIdentifierScheme": {
+                    "typeName": "authorIdentifierScheme",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "ORCID"
+                  },
+                  "authorIdentifier": {
+                    "typeName": "authorIdentifier",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "0000-0002-2492-6751"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "datasetContact",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "datasetContactName": {
+                    "typeName": "datasetContactName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Lobell, David. B."
+                  },
+                  "datasetContactAffiliation": {
+                    "typeName": "datasetContactAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Stanford University"
+                  },
+                  "datasetContactEmail": {
+                    "typeName": "datasetContactEmail",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "dlobell@stanford.edu"
+                  }
+                },
+                {
+                  "datasetContactName": {
+                    "typeName": "datasetContactName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "CIMMYT Research Data Team"
+                  },
+                  "datasetContactAffiliation": {
+                    "typeName": "datasetContactAffiliation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "CIMMYT"
+                  },
+                  "datasetContactEmail": {
+                    "typeName": "datasetContactEmail",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "CIMMYT-Research-Data@cgiar.org"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "dsDescription",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "dsDescriptionValue": {
+                    "typeName": "dsDescriptionValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "This dataset provides supplementary files for the trials and sites described in the 2011 paper in https://www.nature.com/nclimate/ available at https://dx.doi.org/10.1038/NCLIMATE1043"
+                  },
+                  "dsDescriptionDate": {
+                    "typeName": "dsDescriptionDate",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "2019"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "subject",
+              "multiple": true,
+              "typeClass": "controlledVocabulary",
+              "value": ["Agricultural Sciences"]
+            },
+            {
+              "typeName": "keyword",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "keywordValue": {
+                    "typeName": "keywordValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Grain yield"
+                  },
+                  "keywordVocabulary": {
+                    "typeName": "keywordVocabulary",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Crop Ontology"
+                  },
+                  "keywordVocabularyURI": {
+                    "typeName": "keywordVocabularyURI",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "http://www.cropontology.org/ontology/CO_321/Wheat"
+                  }
+                },
+                {
+                  "keywordValue": {
+                    "typeName": "keywordValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Maize"
+                  },
+                  "keywordVocabulary": {
+                    "typeName": "keywordVocabulary",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "AGROVOC"
+                  },
+                  "keywordVocabularyURI": {
+                    "typeName": "keywordVocabularyURI",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "http://aims.fao.org/aos/agrovoc/c_12332"
+                  }
+                },
+                {
+                  "keywordValue": {
+                    "typeName": "keywordValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Zea mays"
+                  },
+                  "keywordVocabulary": {
+                    "typeName": "keywordVocabulary",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "AGROVOC"
+                  },
+                  "keywordVocabularyURI": {
+                    "typeName": "keywordVocabularyURI",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "http://aims.fao.org/aos/agrovoc/c_8504"
+                  }
+                },
+                {
+                  "keywordValue": {
+                    "typeName": "keywordValue",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Agricultural research"
+                  },
+                  "keywordVocabulary": {
+                    "typeName": "keywordVocabulary",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "AGROVOC"
+                  },
+                  "keywordVocabularyURI": {
+                    "typeName": "keywordVocabularyURI",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "http://aims.fao.org/aos/agrovoc/c_8679"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "publication",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "publicationIDType": {
+                    "typeName": "publicationIDType",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "doi"
+                  },
+                  "publicationIDNumber": {
+                    "typeName": "publicationIDNumber",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "10.1038/NCLIMATE1043"
+                  },
+                  "publicationURL": {
+                    "typeName": "publicationURL",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "https://dx.doi.org/10.1038/NCLIMATE1043"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "language",
+              "multiple": true,
+              "typeClass": "controlledVocabulary",
+              "value": ["English"]
+            },
+            {
+              "typeName": "producer",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "producerName": {
+                    "typeName": "producerName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "International Maize and Wheat Improvement Center"
+                  },
+                  "producerAbbreviation": {
+                    "typeName": "producerAbbreviation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "CIMMYT"
+                  },
+                  "producerURL": {
+                    "typeName": "producerURL",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "http://www.cimmyt.org/"
+                  },
+                  "producerLogoURL": {
+                    "typeName": "producerLogoURL",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "https://data.cimmyt.org/logos/cimmyt.png"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "productionDate",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": ["2019"]
+            },
+            {
+              "typeName": "productionPlace",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": ["El Batan, Mexico"]
+            },
+            {
+              "typeName": "contributor",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "contributorType": {
+                    "typeName": "contributorType",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Other"
+                  },
+                  "contributorName": {
+                    "typeName": "contributorName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "CGIAR Research Program on Maize (MAIZE)"
+                  }
+                },
+                {
+                  "contributorType": {
+                    "typeName": "contributorType",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Research Group"
+                  },
+                  "contributorName": {
+                    "typeName": "contributorName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "Global Maize Program (GMP)"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "distributor",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "distributorName": {
+                    "typeName": "distributorName",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "International Maize and Wheat Improvement Center"
+                  },
+                  "distributorAbbreviation": {
+                    "typeName": "distributorAbbreviation",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "CIMMYT"
+                  },
+                  "distributorURL": {
+                    "typeName": "distributorURL",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "http://www.cimmyt.org/"
+                  },
+                  "distributorLogoURL": {
+                    "typeName": "distributorLogoURL",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "https://data.cimmyt.org/logos/cimmyt.png"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "distributionDate",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": ["2019"]
+            },
+            {
+              "typeName": "depositor",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": ["Dreher, Kate"]
+            },
+            {
+              "typeName": "dateOfDeposit",
+              "multiple": false,
+              "typeClass": "primitive",
+              "value": ["2019-06-03"]
+            },
+            {
+              "typeName": "dateOfCollection",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "dateOfCollectionStart": {
+                    "typeName": "dateOfCollectionStart",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "1999"
+                  },
+                  "dateOfCollectionEnd": {
+                    "typeName": "dateOfCollectionEnd",
+                    "multiple": false,
+                    "typeClass": "primitive",
+                    "value": "2007"
+                  }
+                }
+              ]
+            },
+            {
+              "typeName": "kindOfData",
+              "multiple": true,
+              "typeClass": "primitive",
+              "value": ["Experimental data, Phenotypic data"]
+            }
+          ]
+        },
+        "geospatial": {
+          "displayName": ["Geospatial Metadata"],
+          "fields": [
+            {
+              "typeName": "geographicCoverage",
+              "multiple": true,
+              "typeClass": "compound",
+              "value": [
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Angola"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Botswana"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Congo"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Eritrea"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Ethiopia"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Kenya"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Lesotho"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Malawi"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Mozambique"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Namibia"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "South Africa"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Swaziland"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Tanzania, United Republic of"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Uganda"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Congo, the Democratic Republic of the"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Zambia"
+                  }
+                },
+                {
+                  "country": {
+                    "typeName": "country",
+                    "multiple": false,
+                    "typeClass": "controlledVocabulary",
+                    "value": "Zimbabwe"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "files": [
+        {
+          "description": "Geographical coordinates of the sites used in the analysis",
+          "label": "EIL_site_latlon.zip.gz",
+          "version": 1,
+          "datasetVersionId": 2078,
+          "dataFile": {
+            "id": 11307,
+            "filename": "EIL_site_latlon.zip.gz",
+            "contentType": "application/x-gzip",
+            "filesize": 3291,
+            "description": "Geographical coordinates of the sites used in the analysis",
+            "storageIdentifier": "16b7ffe4e66-e1ebf6dafcde",
+            "originalFormatLabel": "UNKNOWN",
+            "rootDataFileId": -1,
+            "md5": "3129b287ac247912d9ff7f7a3742bc43",
+            "checksum": {
+              "type": "MD5",
+              "value": "3129b287ac247912d9ff7f7a3742bc43"
+            }
+          }
+        },
+        {
+          "description": "Analyzed data related to phenology, yield, and climate variables",
+          "label": "maizedata.lobell.sep2011.csv.zip.gz",
+          "version": 1,
+          "datasetVersionId": 2078,
+          "dataFile": {
+            "id": 11306,
+            "filename": "maizedata.lobell.sep2011.csv.zip.gz",
+            "contentType": "application/x-gzip",
+            "filesize": 1154210,
+            "description": "Analyzed data related to phenology, yield, and climate variables",
+            "storageIdentifier": "16b7ffcf7e7-337e21cc410f",
+            "originalFormatLabel": "UNKNOWN",
+            "rootDataFileId": -1,
+            "md5": "cfad1d8a976027fa02ea5a0026721250",
+            "checksum": {
+              "type": "MD5",
+              "value": "cfad1d8a976027fa02ea5a0026721250"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

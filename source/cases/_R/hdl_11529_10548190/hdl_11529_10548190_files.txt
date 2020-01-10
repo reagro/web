@@ -1,0 +1,3 @@
+"","id","filename","contentType","filesize","description","storageIdentifier","originalFormatLabel","rootDataFileId","md5"
+"1",11307,"EIL_site_latlon.zip.gz","application/x-gzip",3291,"Geographical coordinates of the sites used in the analysis","16b7ffe4e66-e1ebf6dafcde","UNKNOWN",-1,"3129b287ac247912d9ff7f7a3742bc43"
+"2",11306,"maizedata.lobell.sep2011.csv.zip.gz","application/x-gzip",1154210,"Analyzed data related to phenology, yield, and climate variables","16b7ffcf7e7-337e21cc410f","UNKNOWN",-1,"cfad1d8a976027fa02ea5a0026721250"

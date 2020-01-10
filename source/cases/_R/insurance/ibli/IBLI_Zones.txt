@@ -1,0 +1,17 @@
+No.	Sub location	IBLI index zone
+1	Dakabaricha	Central/Gadamoji
+2	Dirib Gombo	Central/Gadamoji
+3	Sagante	Central/Gadamoji
+4	Bubisa	Maikona
+5	El Gade	Maikona
+6	Kalacha	Maikona
+7	Turbi	Maikona
+8	Karare	Central/Gadamoji
+9	Kargi	Loiyangalani
+10	Kurkum	Loiyangalani
+11	Logologo	Laisamis
+12	Illaut	Laisamis
+13	Lontolio	Laisamis
+14	Loyangalani	Loiyangalani
+15	Ngurunit	Laisamis
+16	South Horr	Loiyangalani

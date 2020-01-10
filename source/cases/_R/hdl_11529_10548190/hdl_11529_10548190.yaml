@@ -1,0 +1,8 @@
+uri: https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548190
+files:
+- name: ./hdl_11529_10548190/EIL_site_latlon.zip.gz
+  type: data
+  format: gz
+- name: ./hdl_11529_10548190/maizedata.lobell.sep2011.csv.zip.gz
+  type: data
+  format: gz

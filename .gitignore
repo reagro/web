@@ -26,6 +26,8 @@ figures/
 *.tif
 *.zip
 *.rds
+*.bil
+*.hdr
 
 # =========================
 # Operating System Files
