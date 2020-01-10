@@ -1,0 +1,112 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Livestock mortality
+
+## Introduction
+
+In this section we explore Marsabit [household survey data](http://data.ilri.org/portal/dataset/ibli-marsabit-r1) collected by ILRI in Marsabit between 2008 and 2015. 
+
+First let us explore losses table dataset.
+
+```{r lossdata, message=FALSE}
+library(agrins)
+d <- data_ibli("marsabit_losses")
+d[1:5, c(1:6, 9:10)]
+```
+
+Here is a list of the variables we have access to.
+
+```{r lossvariables, echo=FALSE}
+vars <- c("hhid", "sublocation", "year", "month", "animal", "cause", "cause_other", "where", "totalloss", "adultloss", "unique household ID", "sublocation name", "year of loss event", "month of loss event", "animal species", "cause of loss", "other causes not on list", "at base or satellite camp?", "number of animals lost?", "number of adult animals lost (>= 3 years for cattle/camel, >= 6 months for sheep/goat)")
+vars <- matrix(vars, ncol=2)
+colnames(vars) <- c("name", "description")
+knitr::kable(vars, caption="Livestock los variables")
+```
+
+From the data we can observer three livestock species.
+
+```{r animals}
+table(d$animal)
+x <- tapply(d$totalloss, d$animal, sum, na.rm=TRUE)
+barplot(x, col=rainbow(3), las=1)
+```
+
+There are many more "shoats" (sheep/goats) that die. But 1 cow is much more valuable than 1 goat. One way to compare these species better, is to use Tropical Livestock Units (TLUs). A cow has a value of 1, camel 1.429 (1/0.7), and a shoat has a TLU value of 0.1 (1/10). Compute TLU values for each animal type.
+
+```{r animals2}
+x
+tlu <- c(camel=1.4, cattle=1, shoat=0.1)
+xtlu <- x * tlu
+barplot(xtlu, col=rainbow(3), las=1)
+```
+
+In terms of TLU, overall mortality is about the same for each species. We can also use TLU to combine the species. 
+
+```{r tlu}
+animals <- match(trimws(d$animal), c("Goat/Sheep", "Camel", "Cattle"))
+anitlu <- tlu[animals]
+youngloss <- d$totalloss - d$adultloss
+d$tluloss <- (d$adultloss + youngloss/2) * anitlu
+
+```
+
+Now we can sum up the number of TLUs lost per month.
+
+```{r tluloss}
+a <- aggregate(d[, "tluloss", drop=FALSE], d[, c("year", "month")], sum, na.rm=TRUE)
+a <- a[order(a$year, a$month), ]
+time <- as.Date(paste(a$year, a$month, 15, sep="-"))
+plot(time, a$tluloss, ylab="Loss (TLU)")
+```
+
+We see high overall losses in 2009 and 2011. In the next chapter we will relate these losses to NDVI.
+
+The losses in 2008 are very low (because data collection started in 2009). Also note that no household survey was done in 2014 as noted in [code book](http://data.ilri.org/portal/dataset/ibli-marsabit-r1).
+
+```{r tab}
+xtabs(tluloss ~ month+year, d)
+```
+
+
+## Causes of death
+
+```{r barplot1}
+cause <- tapply(d$tluloss, d$cause, sum, na.rm=TRUE)
+x <- sort(round(cause))
+par(mai=c(1,2,1,1))
+barplot(x, horiz=T, las=1)
+```
+
+Clearly starvation associated with drought is a major cause of death, followed by disease.
+
+Let's simplify to three classes. 
+
+```{r barplot2}
+i <- d$cause %in% c("Starvation/Drought", "Disease")
+d$cause2 <- "Other"
+d$cause2[i] <- d$cause[i]
+d$cause2[d$cause2 == "Starvation/Drought"] <- "Starvation"
+```
+
+And now we aggregate the values by calendar year.
+
+```{r mort40}
+yc <- aggregate(d[, "tluloss", drop=FALSE], d[, c("cause2", "year")], sum, na.rm=TRUE)
+head(yc)
+```
+
+Some more manipulation to create a stacked barplot.
+
+```{r mort50}
+r <- reshape(yc, direction="wide", idvar="cause2", timevar="year")
+colnames(r) <- gsub("tluloss.", "", colnames(r))
+r <- as.matrix(r)
+rownames(r) <- r[,1]
+barplot(r[,-1], legend =  rownames(r), las=2, args.leg=list(cex=1))
+```
+
+Again we see two outlier years with very high losses. In the other years, we also see some starvation, but generally there are more losses because of disease and other factors. 
+

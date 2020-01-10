@@ -1,0 +1,17 @@
+name	new name	description
+hhid		unique ID assigned to each interviewed household that is consistent over all rounds
+Season2	season	season: SRSD or LRLD begining from 2008 SRSD
+animaltype7	type	"Camel, Cattle, Shoat, TLU, TLU per capita"
+s6q1	stock	stock
+s6q24	loss	loss
+s6q30	intake	intake
+s6q39	offtake	offtake
+s6q47	birth	birth
+s6q51	slaughter	slaughter
+stock_beginning		number of animals in the begining of the season
+mortality_rate		
+intake_rate		
+offtake_rate		
+birth_rate		
+slaughter_rate		
+growth_rate		

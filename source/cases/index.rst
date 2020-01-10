@@ -16,9 +16,10 @@ Chapter five evaluated the effect of diversification and biofortification on loc
 
 .. toctree::
    :hidden:
-   :maxdepth: 3
+   :maxdepth: 5
 
    fertresponse
    fertprof
    exantevariety   
    climatechange   
+   insurance

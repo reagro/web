@@ -1,7 +1,7 @@
 Spatial models
 ==============
 
-.. topic:: `Introduction <spatial-modeling.html>`__  
+.. topic:: `Introduction <modeling.html>`__  
 
   | An overview of spatial modeling techniques
   
@@ -9,7 +9,7 @@ Spatial models
 
   | Spatial interpolation
   
-.. topic:: `SDM <spatial-distribution.html>`__  
+.. topic:: `SDM <distribution.html>`__  
 
   | Spatial distribution modeling
   
@@ -25,7 +25,7 @@ Spatial models
 
   | Improving the spatial resolution of data
   
-.. topic:: `Evaluation <spatial-evaluation.html>`__  
+.. topic:: `Evaluation <evaluation.html>`__  
 
   | Evaluating spatial predictive models
   
@@ -35,10 +35,10 @@ Spatial models
    :hidden: 
    :maxdepth: 4
    
-   spatial-modeling
+   modeling
    interpolation
-   spatial-distribution
+   distribution
    classification
    downscaling
-   spatial-evaluation
+   evaluation
 

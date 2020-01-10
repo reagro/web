@@ -1,0 +1,28 @@
+# Introduction
+
+## Background
+
+This case study discusses index based livestock insurance in northern Kenya (Marsabit). The main source if income in these regions in pastoralism. Droughts can lead to a strong decline in forage availability and reduce livestock growth and milk production, and lead to livestock mortality.
+
+In index based insurance, losses are not assessed through field visits or other direct means. Field based estimation of loss is difficult to manage for a number of reasons, including the the high cost of field visits, and moral hazard.
+
+Instead losses are estimated with an index (proxy) that is relatively cheap and easy to compute, and that is related with the loss. Here we use remote sensing data. Specifically, we use computed NDVI vegetation index, as an indicator of forag0e availability, and use that to predict livestock mortality, and design and evaluate an insurance program. 
+
+The work presented here is based on an insurance program designed by the [International Livestock Research Institute](https://www.ilri.org/), (ILRI), known as the [Index Based Livestock Insurance (IBLI)](https://ibli.ilri.org/) program. See [Chantarat et al. (2013)](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1539-6975.2012.01463.x) for a discussion. 
+
+We use data from Marsabit, a county in Northern Kenya adjacent to Borena, in southern Ethiopia. There are two seasons: the long rain--long dry (*LRLD*) season from March to September and the short rain--short dry (*SRSD*) from October to February.
+
+## Workflow
+
+Low forage availability affects livestock growth (meat production) and milk production. It can also lead to livestock mortality. Whereas in crop insurance the emphasis is on the loss of production (crop yield), here we focus on the livestock mortality (the loss of assets). Ideally, both aspects would be considered together, but tracking production from livestock is much harder than tracking mortality (which is difficult enough). 
+
+The main idea is to predict livestock mortality using an index derived from satellite data and design and evaluate a contract based on that.  
+
+In the next sections we show 
+
+1) How to use NOAA-AVHRR data to compute the mean NDVI, for each insurance and season (by year) and derive indices from that (we compute z-scored NDVI).  
+
+2) How to build a regression model that can be used to predict livestock mortality from the NDVI index
+
+3) How to use this relationshop to design and evaluate an insurance program. 
+
