@@ -20,7 +20,7 @@ for (f in fff) {
 	writeLines(d, f)	
 }
 
-cat("copying source and pdf\n\n")
+cat("copying source\n\n")
 f <- list.files("source", patt='\\.txt$', recursive=TRUE, full=TRUE)
 f <- grep("/txt/", f, value=TRUE)
 g <- gsub("txt/", "", f)
@@ -31,12 +31,15 @@ y <- file.copy(f, h, overwrite=TRUE)
 
 
 # copy pdf manuals
-f <- list.files("source", patt='.pdf$', recursive=TRUE, full=TRUE)
-if(length(f) < 4) {warning("pdf files missing")}
-g <- gsub("/_build/latex", "", f)
-g <- gsub("source/", "", g)
-h <- file.path("build/html", g)
-y <- file.copy(f, h, overwrite=TRUE)
-stopifnot(all(y))
+# shell("make pdf")
+# cat("copying pdfs\n\n")
+#f <- list.files("source", patt='.pdf$', recursive=TRUE, full=TRUE)
+#if(length(f) < 4) {warning("pdf files missing")}
+#g <- gsub("/_build/latex", "", f)
+#g <- gsub("source/", "", g)
+#h <- file.path("build/html", g)
+#dir.create(dirname(h), TRUE, FALSE)
+#y <- file.copy(f, h, overwrite=TRUE)
+#stopifnot(all(y))
 
 
