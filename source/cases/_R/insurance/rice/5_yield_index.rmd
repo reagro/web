@@ -140,7 +140,7 @@ head(idx, n=3)
 
 We have 5 different metrics computed for the growing season from MODIS data. They are all aggregated by zone.
 
-```{r, echo=FALSE}
+```{r rice88, echo=FALSE}
 x = c("region", "Region", "zone", "zone name", "year", "year", "ndvi", "ndvi index", "evi index", "evi", "gpp", "Gross Primary Productivity index", "et", "evapo-transpiration index", "lai", "leaf area index")
 m <- matrix(x, ncol=2, byrow=TRUE)
 colnames(m) <- c("variable", "description")
@@ -228,7 +228,7 @@ The "zone" paramter, allows for each zone to have its own intercept. Note that t
 
 We can also something entirely different, such as Random Forest
 
-```{r, message=FALSE}
+```{r rice99, message=FALSE}
 library(randomForest)
 rf <- randomForest(y_zt ~ gpp+evi+ndvi+gpp+et, data=z)
 rf
@@ -312,14 +312,14 @@ Note that `m1` comes out as the best model (lowest RMSE), but `m2` and `m3` are 
 
 We can make a plot of osberved vs predicted values for the models. Here for `m1`.
 
-```{r}
+```{r rice100}
 plot(z$y_zt, predict(m1), xlim=c(750, 3000), ylim=c(750, 3000), xlab="observed yield (kg/ha)", ylab="predicted yield (kg/ha)")
 abline(a=0,b=1, col="red")
 ```
 
 
 Saving the models
-```{r}
+```{r rice110}
 mods <- list(m1=m1, m2=m2, m3=m3, m4=m4)
 saveRDS(mods, "rice_models.rds")
 ```

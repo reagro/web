@@ -23,7 +23,7 @@ if (!require(agro))  source("https://install-github.me/reagro/agro")
 Now we can use the package to download the data
 
 
-```{r}  
+```{r trials10}  
 ff <- agro::get_data_from_uri("hdl:11529/10548190", ".")
 ff
 ```
@@ -31,33 +31,33 @@ ff
 We have two "gz" (GNU zip) files. We can g-unzip these
 
 
-```{r, message=FALSE}  
+```{r trials20, message=FALSE}  
 print(R.utils::gunzip(ff[1], remove=FALSE, overwrite=TRUE))
 print(R.utils::gunzip(ff[2], remove=FALSE, overwrite=TRUE))
 ```
 
 Now we have zip files that we can unzip
 
-```{r}  
+```{r trials30}  
 unzip("hdl_11529_10548190/EIL_site_latlon.zip")
 unzip("hdl_11529_10548190/maizedata.lobell.sep2011.csv.zip")
 ```
 
 Read the data
 
-```{r}  
+```{r trials40}  
 location <- read.csv('EIL_site_latlon.csv', stringsAsFactors=FALSE)
 maize_all <- read.csv('maizedata.lobell.sep2011.csv', stringsAsFactors=FALSE)
 ```
 
 ## Explore 
 
-```{r}
+```{r trials50}
 head(location)
 dim(maize_all)
 ```
 
-```{r}
+```{r trials60}
 maize <- maize_all[,c(1:9)]
 maize$yield <- round(exp(maize$logYield), 1)
 
@@ -66,13 +66,13 @@ plot(sort(maize$yield))
 ```
 
 
-```{r, fig.width=10}
+```{r trials70, fig.width=10}
 par(mfrow=c(1,2))
 boxplot(yield ~ Management, data=maize, horizontal=TRUE, las=2)
 boxplot(yield ~ vargroup, data=maize, horizontal=TRUE, las=2)
 ```
 
-```{r}
+```{r trials80}
 library(maptools)
 data(wrld_simpl)
 plot(location$Longitude, location$Latitude, col="red", pch=20)
@@ -81,12 +81,12 @@ plot(wrld_simpl, add=TRUE)
 
 ## Combine 
 
-```{r}
+```{r trials90}
 d <- merge(location, maize, by.x="LocationID", by.y="sitecode")
 ```
 
 
-```{r}
+```{r trials100}
 dsub <- d[, c("yield","Longitude", "Latitude", "Management", "vargroup", "Country" )]
 da <- aggregate(yield ~ ., data=dsub, median)
 #da <- aggregate(d[,"yield",drop=FALSE], d[,-1], data=dsub, median)
@@ -98,7 +98,7 @@ dopt <- da[da$Management=="Optimal", ]
 
 ## Model
 
-```{r, message=FALSE}
+```{r trials110, message=FALSE}
 head(da)
 library(randomForest)
 m <- randomForest(yield ~ Longitude + Latitude, data=da)
@@ -108,7 +108,7 @@ plot(da$yield, p)
 abline(0,1)
 ```
 
-```{r}
+```{r trials120}
 library(raster)
 e <- extent(c(-22, 60, -37, 24))
 aoi <- raster(ext=e, res=1/6)
@@ -125,7 +125,7 @@ p2 <- predict(s, m)
 ```
 
 
-```{r}
+```{r trials130}
 bio <- getData("worldclim", var="bio", res="10")
 plot(bio)
 e <- extract(bio, da[, c("Longitude", "Latitude")])
@@ -135,7 +135,7 @@ x <- predict(bio, m, ext=aoi)
 plot(x)
 ```
 
-```{r}
+```{r trials140}
 de <- cbind(da, e)
 head(de)
 de$Country = NULL
@@ -146,7 +146,7 @@ m2
 varImpPlot(m2)
 ```
 
-```{r}
+```{r trials150}
 afbio <- crop(bio, s)
 predictors <- stack(afbio, s)
 df <- data.frame(Management="Optimal", vargroup="EPOP", stringsAsFactors = F)
@@ -162,9 +162,4 @@ Now determine which vargroup performs best where, on average?
 Do this for optimal and for drought?
 
 when done, make it better...
-
-
-
-
-
 

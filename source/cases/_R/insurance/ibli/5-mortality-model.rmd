@@ -117,7 +117,7 @@ lines(m$x, m$lower, lty=2)
 
 Same thing after a little generalization. 
 
-```{r}
+```{r ibli510}
 x <- dd
 x$NDVI = round(x$NDVI, 1)
 a <- aggregate(x[, "mortality_rate", drop=FALSE], x[, "NDVI", drop=FALSE], mean)
@@ -131,7 +131,7 @@ lines(ma$x, ma$lower, lty=2)
 
 Compare predicted with observed mortality rates
 
-```{r}
+```{r ibli520}
 ml <- loess(mortality_rate ~ NDVI, data=dd)
 p <- predict(ml, d)
 plot(d$mortality_rate, p, xlab="mortality rate", ylab="predicted")
@@ -144,7 +144,7 @@ saveRDS(d, "pred_mort1.rds")
 
 Predict mortality in other years based on their *zNDVI*.
 
-```{r, fig.height=8}
+```{r , ibli530, fig.height=8}
 ndvi$predicted_mortality <- predict(ml, ndvi)
 par(mai=c(1,2,1,1))
 boxplot(ndvi$predicted_mortality ~ ndvi$year_season, las=1, cex.axis=.5, horizontal=TRUE, xlab="zNDVI predicted Mortality rate", ylab="", cex=.25, col=rainbow(32))

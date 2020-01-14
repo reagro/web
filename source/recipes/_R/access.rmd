@@ -8,7 +8,7 @@
 
 Small scale farmers in developing countries are often characterised by their spatial dispersion. This factor gives them serious difficulties in accessing markets in urban centers where they can sell their goods or put them in a situation where they have to travel long distances in the uncertainty of finding a market for their production. Overall, this low market access may result in an uncertainty of income and failure in selling their products at a profit, or at a value enough to buy farm inputs such as fertilizer, pesticides, and improved technologies. Small-scale farmer thus enter poverty cycles as a consequence of poor market access [(Barrett, 2008)](#references). The work by [(Weiss, et al., 2018)](#references) highlighted the global disparities in accessibility relative to wealth, with sub-Saharan Africa being one of the areas with less access to markets.
 
-Market access is [(in part)](https://doi.org/10.1016/j.worlddev.2012.06.004) a function of distance to market centers and transport infrastructure. Prices of outputs may be more volatile as the distance to market increases [(Moctar et al., 2015)](#references) and inadequate road infrastructure increases the costs of tranportation for smallholder farmers [(Obare, 2003)](#references)
+Market access is [(in part)](https://doi.org/10.1016/j.worlddev.2012.06.004) a function of distance to market centers and transport infrastructure. Prices of outputs may be more volatile as the distance to market increases [(Moctar et al., 2015)](#references) and inadequate road infrastructure increases the costs of transportation for smallholder farmers [(Obare, 2003)](#references)
 
 The availability of open data sources such as Open Street Map gives researchers the possibility to capture market centers and infrastructure networks with unprecented detail and precision, specially in areas with low availability of data, such as sub-Saharan Africa.
 
@@ -41,7 +41,7 @@ plot(tza_slope, main="Slope")
 
 We use the slope layer obtained above to create a decay coefficient that governs how much the slope impacts the speed and that we will apply to each grid cell in the cost surface. We use a decay coefficient of 1.5.
 
-```{r}
+```{r access20}
 decay <- 1.5
 slope_cost <- exp( decay * tan(tza_slope) )
 names(slope_cost) <- "slope_cost"
@@ -65,13 +65,13 @@ However, there are several cons of using OSM data. Because OSM depends on mappin
 
 You can download OSM data in *R* using the [osmdata](https://cran.r-project.org/web/packages/osmdata/index.html) package. You can only download a certain amount of data in a single request, so typically you need to a number of requests for adjacent regions and then combine the results. We used the first level administrative boundaries of Tanzania (also downloaded with the geodata package) for this. 
 
-```{r gadm, message=FALSE, warning=FALSE}
+```{r access30, message=FALSE, warning=FALSE}
 adm <- gadm("TZA", level = 1, path=".")
 ```
 
 We wanted data for primary, secondary and tertiary highways in Tanzania. Below is a helper function to accomplish this. 
 
-```{r rdtp}
+```{r access40}
 library(osmdata)
 
 getOSMlines <- function(obj, key, value) {
@@ -89,14 +89,14 @@ This code below applies the function to each polygon in the `adm` layer. It extr
 
 The below takes a long time to run. It may also fail because of the relative fraility of the OSM servers (or rather the enourmous number of requests that they get).
 
-```{r getOSM, eval=FALSE}
+```{r access_getOSM, eval=FALSE}
 x <- lapply(seq_along(adm), function(i) getOSMlines(adm[i, ], "highway", roadtypes))
 ```
 
 Now put the results together 
 
 
-```{r processOSM, eval=FALSE}
+```{r access_processOSM, eval=FALSE}
 # combine the results for each area
 rd <- do.call(bind, x)
 # remove anything outside of Tanzania
@@ -107,13 +107,13 @@ roads <- aggregate(rd, "highway")
 
 The OSM data is very detailed. Much more than we need in most analysis. We simplified it with the `rmapshaper` package to store less data and so that the example runs faster. 
 
-```{r simplr, eval=FALSE}
+```{r access_simplr, eval=FALSE}
 library(rmapshaper)
 roads <- ms_simplify(roads, keep=0.01)
 ```
 The result was put in the reagrodata package, and that is where we get it from
 
-```{r plotRoads}
+```{r access_plotRoads}
 library(reagrodata)
 roads <- reagro_data("tza_roads")
 plot(tza_slope)
@@ -130,7 +130,7 @@ We rasterize the roads. The values of the rasters reflect the travel costs (in m
 
 The values of the final 
 
-```{r rasterize}
+```{r access_rasterize}
 cfile <- "rdcost.tif"
 
 if (!file.exists(cfile)) {
@@ -150,11 +150,12 @@ plot(rd_cost, main="Travel cost (min/m")
 
 
 ### Land Cover
+
 Environmental factors generally contribute to travel speeds off the transport network, such as land cover. Different types of land cover have different travel speeds depending on their "friction" or their easeness of movement. For example, overland (on foot) movement through a closed forest is slower than movement through croplands or bare areas. S
 
 In this example, we will use the GLOBCOVER 2009 Version 2.3 land cover classification for Tanzania. More information about this classification can be gound in the [ESA GlobCover portal](http://due.esrin.esa.int/page_globcover.php). We included these data the reagro package.
 
-```{r}
+```{r access_lc}
 tza_lc <- reagro_data("TZA_globcover")
 plot(tza_lc, main = "GLOBCOVER 2009 v2.3 land classes")
 lines(adm)
@@ -162,7 +163,7 @@ lines(adm)
 
 As mentioned above, creating a travel cost surface depending on land cover requires an associated travel cost for each land class. urveys, such as the one the Weiss et al., (2018) paper can be performed to obtain estimates of how long it takes individuals to traverse each land cover type. For now, we assign some travel cost values to the different land cover classes in Tanzania.
 
-```{r, echo = FALSE}
+```{r accesstab, echo = FALSE}
 library(knitr)
 text_tbl <- data.frame(
   Value = c(40,50,70,160,170,190,200,210,220),
@@ -181,7 +182,7 @@ text_tbl <- data.frame(
 kable(text_tbl)
 ```
 
-```{r}
+```{r access200}
 rc <- data.frame(from=as.vector(unique(tza_lc)), to=0.02)
 rc$from[rc$from %in% c(190,200)] <- 0.01
 rc$from[rc$from == 160] <- 0.03
@@ -195,7 +196,7 @@ tza_lc_cost <- classify(tza_lc, rc)
 ```
 
 
-```{r}
+```{r access210}
 lcfname <- "lc_cost.tif"
 if (!file.exists(lcfname)) {
   lc_cost <- warp(tza_lc_cost, tza_slope, filename=lcfname, wopt=list(names="lc_cost"))
@@ -205,7 +206,7 @@ if (!file.exists(lcfname)) {
 ```
 
 
-```{r}
+```{r access220}
 plot(lc_cost, main = "Travel costs (min/m) depending on land cover class")
 ```
 
@@ -214,7 +215,7 @@ plot(lc_cost, main = "Travel costs (min/m) depending on land cover class")
 
 Now that we have all travel cost surfaces what we will use, we then need to combine them into a single travel cost layer that keeps only the minimum cost associated of moving though each grid cell. In this case, we combine the three cost layers in a SpatRaster object and apply the `min` function to obtain the minimum value in each grid cell.
 
-```{r}
+```{r access230}
 # Combine the cost layers
 all_cost <- c(rd_cost, lc_cost)
 
@@ -239,7 +240,7 @@ Now with the location of the cities, we can calculate the access cost using `acc
 
 We first need to install the package.
 
-```{r, eval=FALSE}
+```{r access240, eval=FALSE}
 install.packages("gdistance")
 ```
 
@@ -247,7 +248,7 @@ We first need to create a transition object from the cost rasters using the `tra
 
 The transition object represent the weights given to each connection between pixels (nodes). In `gdistance`, the transition matrix is expected to have conductance values. The conductance
 
-```{r}
+```{r access250}
 # Combine the cost layers
 library(gdistance)
 
@@ -259,7 +260,8 @@ trans <- transition(cost,transitionFunction=mean, directions= 8)
 
 ```
 Because the transition layer is based on a lon-lat projection and covers a large area, it requires geocorrection for map distortion as well as for diagonal connections between grid cells.
-```{r}
+
+```{r access260}
 trans <- geoCorrection(trans, type="c")
 ```
   
@@ -267,7 +269,7 @@ With the transition object, we can now calculate access using the `accCost` func
 
 In this code below, we make create a spatialpoint object with locations of some cities in Tanzania. In theory, cities locations can also be obtained using from OSM using `osmdata`. For, now we will supply some locations manually in form of a matrix.
 
-```{r}
+```{r access270}
 lat=c(-6.17, -6.81, -5.02, -2.51, -3.65, -8.90, -3.34, -3.36, -10.67)
 lon=c(35.74, 37.66, 32.80, 32.90, 33.42, 33.46, 37.34, 36.68, 35.64)
 cities <- SpatialPoints(cbind(lon, lat))
@@ -293,7 +295,6 @@ Stifel, D. and Minten, B., 2017,. Market Access, Well-being, and Nutrition: Evid
 Weiss, D.J., et al., 2018. A global map of travel time to cities to assess inequalities in accessibility in 2015. Nature 553:333-336. [doi:10.1038/nature25181](https://doi.org/10.1038/nature25181). 
 
 World Bank, 2016. Measuring rural access : using new technologies (English). Washington, D.C.: World Bank Group. http://documents.worldbank.org/curated/en/367391472117815229/Measuring-rural-access-using-new-technologies
-
 
  
 

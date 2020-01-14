@@ -25,6 +25,6 @@ $$
 \hat{Y} = \hat{f}(S) + \epsilon
 $$
 
-\hat{f} is often a Kriging method, such as universal Kriging or regression Kriging, but there are other methods as well, for example, Inverse-Distance Weighted (IDW) and Thin Plate Spline (TPS) interpolation. 
+$\hat{f}$ is often a Kriging method, such as universal Kriging or regression Kriging, but there are other methods as well, for example, Inverse-Distance Weighted (IDW) and Thin Plate Spline (TPS) interpolation. 
 
 
