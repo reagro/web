@@ -11,7 +11,7 @@ To design and evaluate an index based insurance contract, we need to understand 
 Mortality was computed from [survey data](http://data.ilri.org/portal/dataset/ibli-marsabit-r1) collected in Marsabit between 2008 and 2015. First read the data.
 
 ```{r Household1, message=FALSE}
-library(agrins)
+library(reagrodata)
 mort <- data_ibli("marsabit_mortality.rds")
 mort[1:5, 1:7]
 ```

@@ -18,7 +18,7 @@ We first further pre-process the MODIS data we obtained in the previous chapter,
 First download EVI and NDFI generated from all MOD09A1 data for the study area between 2010 and 2019.  
  
 ```{r download_data}
-library(agrins)
+library(reagrodata)
 datadir <- file.path(dirname(tempdir()), "agrins")
 vidir <- file.path(datadir, "vi")
 dir.create(vidir, recursive = TRUE, showWarnings = FALSE)

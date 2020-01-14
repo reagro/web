@@ -16,7 +16,7 @@ In the previous chapters we have worked on identifying rice area, and the comput
 We use a pre-prepared dataset with rice yield data that was collected through a farm survey. The numbers are based on the recollection of the farmers. 
 
 ```{r a1, message=FALSE}
-library(agrins)
+library(reagrodata)
 d <- data_rice("yield")
 head(d, n=3)
 ```
@@ -109,7 +109,7 @@ head(z, 3)
 Here are the variables we now have (in data.frames `d` for farmer level and `z` for zone level)
 
 ```{r y95, echo=FALSE}
-x = c("region", "Region", "zone", "zone name", "year", "year", "fid", "farmer ID", "y", "reported yield for a farmer (i) in a year (t)", "y_zt", "mean zone yield in a year t", "y_z", "long term average zone yield") 
+x <- c("region", "Region", "zone", "zone name", "year", "year", "fid", "farmer ID", "y", "reported yield for a farmer (i) in a year (t)", "y_zt", "mean zone yield in a year t", "y_z", "long term average zone yield") 
       
 m <- matrix(x, ncol=2, byrow=TRUE)
 colnames(m) <- c("variable", "description")
@@ -273,10 +273,10 @@ rmse <- function(observed, predicted){
 Now set up the "k-folds" and the output structure. 
 
 ```{r reg60}
-library(predicts)
+library(agro)
 k <- 5
 set.seed(123)
-f <- kfold(z, k)
+f <- agro::make_groups(z, k)
 result <- matrix(nrow=k, ncol=5)
 colnames(result) <- c("m1", "m2", "m3", "m4", "rf")
 ```

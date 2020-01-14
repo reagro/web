@@ -33,7 +33,7 @@ where *U* is the utility derived from income *y*, and $\rho$ (rho) expresses the
 Below you can see how this is expressed as a R function in the agrins package. Note that we add an option to scale the values between zero and one --- to make it easier to plot them. 
 
 ```{r util, message=FALSE}
-library(agrins)
+library(agro)
 utility
 ```
 
@@ -84,13 +84,13 @@ Utilties are odd things to compare as they have no direct absolute interpretatio
 A certainty equivalent expresses the value of a variable income in the equivalent income if it were stable. It can be computed from utility like this
 
 ```{r}
-agrins::ce_utility
+agro::ce_utility
 ```
 
-But we will use the `agrins::ce_income` function instead to compute certainty equivalents directly from income. 
+But we will use the `agro::ce_income` function instead to compute certainty equivalents directly from income. 
 
 ```{r}
-agrins::ce_income
+agro::ce_income
 ```
 
 Back to households A and B. Let's compute their certainty equivalent incomes.

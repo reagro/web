@@ -9,7 +9,7 @@ We discussed these procedures in detail [here](https://gfc.ucdavis.edu/events/ag
 First we get the area of interest. Normally you would get this from a file (e.g. a shapefile). See `?terra::vect` for reading such files.
 
 ```{r aoi, message=FALSE}
-library(agrins)
+library(reagrodata)
 aoi <- data_ibli("marsabit") 
 aoi
 ```

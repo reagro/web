@@ -13,28 +13,29 @@ The data is on CIMMYT's dataverse.
 
 https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548190
 
-The ID is "hdl:11529/10548190" and we can download the data with the "agdasci" package (under development). Install the package like this:
+The ID is "hdl:11529/10548190" and we can download the data with the "agro" package. This package is under development. You can install it like this (if need be):
 
 
 ```{r}  
-if (!require(agro)) devtools::install_github("reagro/agro")
+if (!require(agro))  source("https://install-github.me/reagro/agro")
 ```
-
 
 Now we can use the package to download the data
 
+
 ```{r}  
-ff <- agro::get_data_from_uri("https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548190", ".")
+ff <- agro::get_data_from_uri("hdl:11529/10548190", ".")
 ff
 ```
 
-We have two "gnu zip" files. Unzip these
+We have two "gz" (GNU zip) files. We can g-unzip these
 
 
 ```{r, message=FALSE}  
 print(R.utils::gunzip(ff[1], remove=FALSE, overwrite=TRUE))
 print(R.utils::gunzip(ff[2], remove=FALSE, overwrite=TRUE))
 ```
+
 Now we have zip files that we can unzip
 
 ```{r}  

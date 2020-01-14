@@ -17,7 +17,7 @@ We also used that information to calculate different vegetation indices from the
 ```{r load_rice_phenology, message=FALSE}
 # load packages
 library(luna)
-library(agrins)
+library(reagrodata)
 
 # set directories
 datadir <- file.path(dirname(tempdir()), "agrins")
@@ -188,7 +188,7 @@ Once we have the metrics values estimated for the entire study region, we can fi
 
 ```{r spatial_agg_metrics}
 # get insurance zones
-z <- agrins::data_rice("zones")
+z <- reagrodata::data_rice("zones")
 plot(z, main = "zones")
 
 # transform z to the crs of arm

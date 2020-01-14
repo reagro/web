@@ -4,7 +4,7 @@
 
 Use the insurance scheme designed in the previous [chapter](6-design.html). 
 
-First load mortality predictions data.
+First load the mortality predictions data.
 
 ```{r eval10}
 d <- readRDS("pred_mort1.rds")
@@ -33,11 +33,11 @@ What do you make of the plots? What of a plot of payouts versus *zNDVI*?
 plot(pay~NDVI, data=d, col="red")
 ```
 
-We now need to assess the welfare of index insurance to the pastoralists. So get the CE function.
+We now need to assess the welfare of index insurance to the pastoralists. We use the certainty equivalent function.
 
 ```{r util}
-library(agrins)
-ce_income
+library(agro)
+agro::ce_income
 ```
 
 Let us compute the premium that is paid for IBLI insurance as equivalent to the expected payouts with a mark up of 25%. We will basically compare the IBLI welfare based on the observed mortality (*base*) and predicted mortality (*insurance*).
@@ -114,7 +114,7 @@ abline(h=0, col="red")
 
 ```
 
-From the plot you can observe that pastrolist with risk aversion less than 1.5 do not derive any value from the insurance. However, those with higher risk aversion derive more benefit from the insurance as the fall above the zero line.
+From the plot you can observe that pastoralists with a risk aversion less than 1.5 do not derive any value from the insurance. However, those with higher risk aversion derive more benefit from the insurance as the fall above the zero line.
 
 ## Simulation
 

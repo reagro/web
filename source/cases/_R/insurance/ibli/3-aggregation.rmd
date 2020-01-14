@@ -5,7 +5,7 @@
 For the entire analysis we use precomputed NDVI for the period between 2008 to 2015. The next code block downloads the pre-processed data. The first time this takes a while. After that, it should be quick as the data won't be downloaded again if they are still on your disk.
 
 ```{r NDVIdownload, message=FALSE}
-library(agrins)
+library(reagrodata)
 ndvidir <- file.path(dirname(tempdir()), "agrins/ndvi")
 files <- data_ibli("marsabit_modis_ndvi", ndvidir)
 head(basename(files))

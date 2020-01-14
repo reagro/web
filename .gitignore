@@ -29,6 +29,9 @@ figures/
 *.bil
 *.hdr
 
+*.log
+*.pdf
+
 # =========================
 # Operating System Files
 # =========================

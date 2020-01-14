@@ -47,7 +47,7 @@ Next we download MODIS tiles that we need. More details can be found [here](http
 ```{r downloadMODIS, message=FALSE}
 library(terra)
 library(luna)
-library(agrins)
+library(reagrodata)
 
 # study area
 aoi <- data_rice("zones") 

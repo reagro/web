@@ -14,7 +14,7 @@ Here we evaluate the same contract as in the previous chapter. But we use predic
 First we predict yield for all years.
 
 ```{r, message=FALSE}
-library(agrins)
+library(reagrodata)
 mods <- readRDS("rice_models.rds")
 m1 <- mods$m1
 idx <- data_rice("indices")

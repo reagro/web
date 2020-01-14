@@ -12,7 +12,7 @@ In this section we explore Marsabit [household survey data](http://data.ilri.org
 First let us explore losses table dataset.
 
 ```{r lossdata, message=FALSE}
-library(agrins)
+library(reagrodata)
 d <- data_ibli("marsabit_losses")
 d[1:5, c(1:6, 9:10)]
 ```

@@ -1,5 +1,4 @@
 ```{r setup, include=FALSE}
-
 ```
 # Market access
 
@@ -19,7 +18,7 @@ In this example, we use minutes per meter as the measure for travel cost.
 
 ## Chapter requirements.
 
-For this chapter you need the following `R` packages: `terra`, `geodata`, and `reagro`. See [these instructions](/installation.html) about installing these packages.
+For this chapter you need the following `R` packages: `terra`, `geodata`, and `reagrodata`. See [these instructions](/installation.html) about installing these packages.
 
 We first create a cost surface for transportation. 
 
@@ -112,10 +111,10 @@ The OSM data is very detailed. Much more than we need in most analysis. We simpl
 library(rmapshaper)
 roads <- ms_simplify(roads, keep=0.01)
 ```
-The result was put in the reagro package, and that is where we get it from
+The result was put in the reagrodata package, and that is where we get it from
 
 ```{r plotRoads}
-library(reagro)
+library(reagrodata)
 roads <- reagro_data("tza_roads")
 plot(tza_slope)
 lines(roads)
