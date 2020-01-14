@@ -32,14 +32,14 @@ where *U* is the utility derived from income *y*, and $\rho$ (rho) expresses the
 
 Below you can see how this is expressed as a R function in the agrins package. Note that we add an option to scale the values between zero and one --- to make it easier to plot them. 
 
-```{r util, message=FALSE}
+```{r ins_util, message=FALSE}
 library(agro)
 utility
 ```
 
 Let's make a plot to illustrate the effect of changing $\rho$.
 
-```{r utilgraph}
+```{r ins_utilgraph}
 income <- seq(1,1000,10)
 rhos <- c(0, 0.5, 1, 1.5)
 cols <- rainbow(4)
@@ -58,7 +58,7 @@ Higher values of rho correspond to higher levels risk aversion. But the utility 
 
 Let's put this in perspective with some income data for households A and B. The have the same mean income over 10 years. The income for household A varies, that for household B is always the same.
 
-```{r}
+```{r ins_30}
 A <- seq(100, 1000, 100)
 B <- rep(mean(A), 5)
 A
@@ -67,7 +67,7 @@ B
 
 We can now compute the utilities of these income stream. Here we use `rho=1.5`
 
-```{r}
+```{r ins_40}
 uA <- utility(A, rho=1.5)
 uB <- utility(B, rho=1.5)
 round(mean(uA), 3)
@@ -83,19 +83,19 @@ Utilties are odd things to compare as they have no direct absolute interpretatio
 
 A certainty equivalent expresses the value of a variable income in the equivalent income if it were stable. It can be computed from utility like this
 
-```{r}
+```{r ins_50}
 agro::ce_utility
 ```
 
 But we will use the `agro::ce_income` function instead to compute certainty equivalents directly from income. 
 
-```{r}
+```{r ins_60}
 agro::ce_income
 ```
 
 Back to households A and B. Let's compute their certainty equivalent incomes.
 
-```{r}
+```{r ins_70}
 ceA <- ce_income(A, rho=1.5)
 ceB <- ce_income(B, rho=1.5)
 ceA
@@ -106,7 +106,7 @@ The certainty equivalent for B is $`r ceB` (because their income is always `r B`
 
 Let's see how this depends on rho. 
 
-```{r}
+```{r ins_80}
 rho <- seq(0, 5, .1)
 cerho <- sapply(rho, function(i) ce_income(A, i))
 plot(rho, cerho, las=1, ylab="CE", type="l")

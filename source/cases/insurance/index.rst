@@ -4,7 +4,7 @@ Agricultural insurance
 This section introduces basic computational techniques to evaluate the benefit of agricultural index insurance programs. 
 
 
-.. topic:: 1. `Agricultural insurance <insurance/index.html>`__  
+.. topic:: 1. `Basic concepts <insurance/index.html>`__  
 
   | The basic concepts of evaluating agricultural index insurance
   | 

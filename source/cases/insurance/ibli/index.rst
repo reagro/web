@@ -1,7 +1,7 @@
 Livestock insurance
 ===================
 
-Marsabit livestock mortality insurance
+Livestock insurance in Northern Kenya
 
 .. toctree::
    :maxdepth: 5

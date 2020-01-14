@@ -1,12 +1,13 @@
-# Agricultural Insurance
+# Introduction
 
-## Introduction
+
+## The problem of variability
 
 Agricultural production is affected by environmental variability, notably by variation in rainfall. The direct effect is obvious: in bad years crop and animal production decline. This can lead to a strong reduction in household income. There also is a less obvious, but important, indirect effect as well: because of the risk of a bad year, investments in agriculture are often much lower than they ought to be. This means that production risk can make farm households much worse off.
 
 Agricultural insurance programs aim at addressing these problems by removing some of the risk of making investments in what turn out to be bad years. While taking insurance normally costs money, the benefits can be high if it avoids strong drops in income, at a low cost. 
 
-If the program is well designed, this can lead to increased protect farmers against the negative effects of bad years; and support a better overall food supply. A good insurance product minimizes the gap between losses incurred by a household and insurance payouts received. 
+If the program is well designed, this can lead to increased protect farmers against the negative effects of bad years, and support a better overall food supply. A good insurance product minimizes the gap between losses incurred by a household and insurance payouts received. 
 
 ## Index insurance
 
@@ -21,16 +22,10 @@ To have a useful agricultural index insurance program there should be sufficient
 
 For these reasons it is important to carefully evaluate the expected benefit to households of index insurance contracts. A worst case scenario would occur if insurance payouts are uncorrelated with farmer losses reducing the insurance to a lottery that costs them money. In that case, a household suffers from both loss and cost of insurance premiums. 
 
-Even if a program is well designed an insurance product may not be attractive to a household. It depends on how much produciton risk they are willing (or able) to take. Whether buying insurance is worth it for a household depends, among other things, on (a) how much they depend on the insured activity (do they have other sources of income); and (b) do the have other forms of insurance (for example, savings, or a community supports them when things get bad).
+Even if a program is well designed an insurance product may not be attractive to a household. It depends on how much production risk they are willing (or able) to take. Whether buying insurance is worth it for a household depends, among other things, on (a) how much they depend on the insured activity (do they have other sources of income); and (b) do the have other forms of insurance (for example, savings, or a community supports them when things get bad).
 
 ## This resource
 
 In the next chapters we discuss some of the basic methods that can be used to evaluate index insurance programs. These methods are then implemented in two case studies. One on rice insurance in Tanzania, and one on livestock insurance in Kenya.
 
-
-## References
-
-Jensen, Stoeffler, Fava, Vrieling, Atzberger, Meroni, Mude, and Carter, 2019, Does the design matter? Comparing satellite-based indices for insuring pastoralists against drought. *Ecological Economics* 174(1): 44--55 [url](https://doi.org/10.1016/j.ecolecon.2019.04.014)
-
-Carter, Michael and Tara Steinmetz (2018). “Quality Standards for Agricultural Index Insurance: An Agenda for Action,” in *State of Microfinance*, MunichRE.
 

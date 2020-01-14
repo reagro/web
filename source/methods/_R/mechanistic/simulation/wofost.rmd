@@ -19,7 +19,7 @@ WOFOST models one growing season from emergence to maturity in which crop growth
 
 Input data
 
-```{r}
+```{r wofost_0}
 library(Rwofost)
 w <- example_weather()
 # radiation should be in kJ
@@ -28,28 +28,28 @@ head(w)
 ```
 
 Crop parameters
-```{r}
+```{r wofost_10}
 crop <- wofost_crop('barley')
 ```
 
 Soil parameters
-```{r}
+```{r wofost_20}
 soil <- wofost_soil('ec1')
 ```
 
 
-```{r}
+```{r wofost_30}
 contr <- wofost_control()
 contr$modelstart <- as.Date("2012-02-06")
 ```
 
 Run model
-```{r}
+```{r wofost_40}
 d <- wofost(crop, w, soil, contr)
 ```
 
 Inspect output
-```{r}
+```{r wofost_50}
 head(d)
 tail(d)
 plot(d[,'step'], d[, 'LAI'])
