@@ -118,7 +118,7 @@ html_theme = 'rtd'
 #html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = ['_theme/']
+html_theme_path = ['../_theme/']
 
 
 
