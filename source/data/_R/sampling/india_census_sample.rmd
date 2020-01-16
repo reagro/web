@@ -1,0 +1,58 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Census based cluster-sample in India
+
+Anurag Ajay
+
+## Introduction
+
+This is what will be done here
+
+## Get data
+
+```{r sampindia01}
+library(readxl)
+x <- read_excel("PCA1001_2011_MDDS.xlsx")[, 1:10]
+head(x)
+dim(x)
+table(x$Level)
+district <- unique(x[x$Level == "DISTRICT", "Name"])
+district
+```
+
+## Population weighted sample of villages
+
+```{r sampindia10}
+villages <- x[x$Level == "VILLAGE" & x$TRU == "Rural", ]
+dim(x)
+samplesize <- 40
+
+i <- sample(nrow(villages), samplesize, prob=villages$No_HH)
+sel_villages <- villages[i, c(1:4, 7:10)]
+```
+
+Put the sub-district name back in
+
+```{r sampindia20}
+subdist <- unique(x[x$Level == "SUB-DISTRICT", c("Subdistt", "Name")])
+subdist
+colnames(subdist)[2] <- "Subdist"
+sel_villages <- merge(sel_villages, subdist, by="Subdistt")
+head(sel_villages)
+```
+
+Write to .csv (for use in excel)
+
+```{r sampindia30}
+sel_villages <- sel_villages[, c("State", "District", "Subdistt", "Town/Village", "Subdist", "Name", "No_HH")]
+
+sel_villages <- sel_villages[order(sel_villages$Subdist, sel_villages$Name), ]
+
+filename <- paste0(district, "_selected-villages.csv")
+filename
+write.csv(sel_villages, filename, row.names = FALSE)
+head(read.csv(filename))
+```

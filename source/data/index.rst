@@ -11,7 +11,7 @@ This section covers data collection techniques.
    trials
    cropcuts
    surveys
-   sampling
+   sampling/index
    spatial/index
    
     
