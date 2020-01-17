@@ -80,12 +80,10 @@ extractVoters <- function(f, housepattern,  namepattern){
   ss <- trimws(unlist(strsplit(s, "\r\n")))
 
   i <- grep(paste0("^", namepattern), ss)
-  si <- ss[i]
-  si <- trimws(unlist(strsplit(si, namepattern)))
+  si <- trimws(unlist(strsplit(ss[i], namepattern)))
 
   j <- grep(paste0("^", housepattern), ss)
-  sj <- ss[j]
-  sj <- trimws(unlist(strsplit(sj, housepattern)))
+  sj <- trimws(unlist(strsplit(ss[j], housepattern)))
   
   stopifnot(length(si) == length(sj))
   
@@ -107,6 +105,7 @@ housepat = "गतह सपखयच : "
 hn <- lapply(files, function(i) extractVoters(i, housepat, namepat))
 hn <- do.call(rbind, hn)
 hn <- unique(hn)
+head(hn)
 ```
 
 
@@ -114,6 +113,7 @@ Randomly select 15 house numbers (if possible link one member name against selec
 ```{r} 
 uhh <- unique(hn[, "household"])
 hns <- sample(uhh, 15)
+hns
 ```
 
 Get the selected hh and names
