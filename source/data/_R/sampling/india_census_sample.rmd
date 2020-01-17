@@ -5,13 +5,16 @@ editor_options:
 ---
 # Census based cluster-sample in India
 
-Anurag Ajay
+Anurag Ajay, CIMMYT
+
 
 ## Introduction
 
 This is what will be done here
 
+
 ## Get data
+
 
 ```{r sampindia01}
 library(readxl)
@@ -34,7 +37,7 @@ i <- sample(nrow(villages), samplesize, prob=villages$No_HH)
 sel_villages <- villages[i, c(1:4, 7:10)]
 ```
 
-Put the sub-district name back in
+Put the sub-district names back in
 
 ```{r sampindia20}
 subdist <- unique(x[x$Level == "SUB-DISTRICT", c("Subdistt", "Name")])
@@ -55,4 +58,47 @@ filename <- paste0(district, "_selected-villages.csv")
 filename
 write.csv(sel_villages, filename, row.names = FALSE)
 head(read.csv(filename))
+```
+
+
+## List of persons
+
+
+```
+library(pdftools)
+library(stringr)
+
+filename <- "*.pdf$"
+y <- pdf_text(filename)
+
+# ************************************************** #
+
+w <- str_extract_all(y,"ककपन ससखनप : \\d{1,4}")  
+# # <- ककपन ससखनप  for UPo कगकह सपखयच : for Bihar
+# ************************************************** #
+u <- str_extract_all(w, "[0-9.]+")
+
+x <- lapply(u, unique)
+
+
+for (i in seq_along(x)) {
+  filename = paste(z[[i]],".csv", sep = "")
+  write.table(x[i],filename, row.names = FALSE, col.names = FALSE)
+}
+
+files <- list.files(pattern="*.csv")
+
+allFiles <- llply(files, read.csv)
+
+combined <- do.call("rbind", allFiles)
+
+read_csv_filename <- function(files){
+  ret <- read.csv(files)
+  ret$Source <- files
+  ret
+}
+
+allFiles <- ldply(files, read_csv_filename)
+
+write.csv(allFiles, "finalHHNumber.csv")
 ```

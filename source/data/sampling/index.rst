@@ -1,24 +1,21 @@
 Spatial sampling
 ================
 
-Sampling frames for efficient representation of complex landscapes
+Spatial sampling, be it of soil qualities, crop performance, or agricultural activities is a fundamental data collection approach. In this section we discuss approaches to sampling strategies for efficient representation of environmental and/or social variability. 
 
-How to design sampling frames for soils, NOTs, etc. to represent large
-and diverse areas of interest; includes computer code….
+We cover .... 
 
-Collection of ODK forms and written protocols for use by others.
-Responsible: Kevin?
+Census-based cluster sampling in India. 
 
-Sampling frames for efficient representation of complex landscapes
-
-Collection of ODK forms and written protocols for use by others. Responsible: Kevin?
+We also discuss collection of ODK forms and written protocols.
 
 
 .. toctree::
    :maxdepth: 4
+   :hidden: 
+
 
    india_census_sample
-   hh_sample
    
     
 
