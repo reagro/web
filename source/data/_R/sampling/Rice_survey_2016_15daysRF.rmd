@@ -1,0 +1,269 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+#Rice survey 2106 (data analysis after including Rainfall (CHIRPS)) CART, BART & RandomForest 
+
+Author names
+
+## Introduction
+
+
+## Chapter requirements
+
+
+## Data 
+
+
+```{r}
+rice_npl <- read.csv("CART.csv", header=T)
+rice_npl_rf <- read.csv("Rice2016_rf15.csv", header=T)
+
+#load package dplyr for data management
+#library(dplyr)
+#Merge weather data with other data
+rice_rf <- merge (rice_npl, rice_npl_rf)
+
+#First manage the soil related variables before merging with rice_rf df 
+rice_soil <- read.csv("Rice_survey_soil_data_extracted_soilgrids.csv", header=T)
+ls(rice_soil)
+
+#Rice soil data need to be curated (all profiles data are same so just take the top layer data)
+ls(rice_soil)
+```
+
+
+Conversions to standard units
+
+```{r}
+# mg/kg to %
+rice_soil$SOC <-(rice_soil$ORCDRC_s1)/1000*100 
+rice_soil$PH <- (rice_soil$PHIHOX_s1)/10
+soil <- subset(rice_soil, select = c(hhid, SOC, PH, CLYPPT_s1, PHIKCL_s1, SLTPPT_s1, SNDPPT_s1)) 
+dim(soil)
+```
+
+
+Merge soil data with main file
+
+```{r}
+rice_rf1 <- merge (rice_rf, soil)
+dim(rice_rf1)
+summary(rice_rf1)
+
+dim(rice_rf1)
+ls(rice_rf1)
+colnames(rice_rf1)
+rice_rf1$SOC <- as.numeric(rice_rf1$SOC)
+rice_rf1$PH <- as.numeric(rice_rf1$PH)
+rice_rf1$CLYPPT_s1 <- as.numeric(rice_rf1$CLYPPT_s1)
+rice_rf1$SLTPPT_s1 <- as.numeric(rice_rf1$SLTPPT_s1)
+rice_rf1$SNDPPT_s1 <- as.numeric(rice_rf1$SNDPPT_s1)
+rice_rf1$PHIKCL_s1 <- as.numeric(rice_rf1$PHIKCL_s1)
+rice_rf1$q112_dist <- as.factor(rice_rf1$q112_dist)
+dim(rice_rf1)
+#write.csv(rice_rf1, "rice_rf1.csv")
+```
+
+Explore a bit with correlatioin plots
+```{r}
+#rice_c <- rice_rf1[, c(3,4,5,6,7,8,9,10,18,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41)]
+#View(rice_c)
+#library(corrplot)
+#dim(rice_c)
+#M <- cor(rice_c)
+#write.csv(M, "correlation.csv")
+#corrplot(M, method="ellipse")
+#corrplot(M, method="number")
+#str(rice_c)
+# I removed hhid, districts, lat & longitude colum
+```
+
+## k-means clustering 
+
+
+```{r}
+vars1 <- c("q117_gpslat", "q118_gpslong", "s_yield", "fym_kgha", "Nitrogen_kgha", "P2O5_kgha", "K2O_kgha", "Zn_kgha", "q244_noirrigrice","seeding_doy","transplant_doy","harvest_doi","June_15r","June_30r", "July_15r", "July_31r", "Aug_15r", "Aug_31r", "Sept_15r", "Sept_30r","SOC","PH", "CLYPPT_s1", "PHIKCL_s1", "SLTPPT_s1", "SNDPPT_s1")
+rice_km <- rice_rf1[, vars1]  
+
+##K-means clustering for wheat
+#library(sp)
+#isolates the covariates
+set.seed(1983)
+covar <- which(names(rice_km) == "q117_gpslat"):which(names(rice_km) == "SNDPPT_s1")
+scaledR <- scale(rice_km[,covar])
+
+#K-means clustering
+wss <- (nrow(rice_km))*sum(apply(rice_km,2,var))
+for (i in 1:26) wss[i] <- sum(kmeans(rice_km, 
+                                     centers=i)$withinss)
+plot(1:26, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares")
+
+#Using the "elbow method" it appears that the data is clustering in 2 (slighltly tilted) 
+rice_km$km3 <- kmeans(scaledR, centers=3, nstart=20, iter.max=20)$cluster
+kmCentroids <- aggregate(list(rice_km[,covar]), by=list(cluster=rice_km$km3), FUN=mean)
+k_meanstable <- rbind(t(table(rice_km$km3)), t(round(kmCentroids, 2)))
+
+#write.csv(k_meanstable, "k_meanstable.csv")
+```
+
+### Ploting clusters
+```{r, message=FALSE}
+library(ggmap)
+names(rice_km)
+qmplot(q118_gpslong, q117_gpslat, data=rice_km, color=as.factor(km3))
+```
+
+
+## For RandomForest model.........(1)
+
+```{r, message=FALSE}
+#summary(rice_rf1)
+#data=(rice_rf1)
+vars2 <- c('s_yield', 'fym_kgha', 'Nitrogen_kgha', 'P2O5_kgha', 'K2O_kgha', 'Zn_kgha', 'q202_soiltype', 'q204_landtype', 'q205_varietytype', 'q2012_seedsource', 'q244_noirrigrice', 'q281_weedensity', 'q282_weedcontrol', 'transplant_doy', 'seeding_days', 'June_15r', 'June_30r', 'July_15r', 'July_31r', 'Aug_15r', 'Aug_31r', 'Sept_15r', 'Sept_30r', 'SOC', 'PH', 'CLYPPT_s1', 'SLTPPT_s1', 'SNDPPT_s1')
+rice_rf1 <- rice_rf1[, vars2]
+
+#RandomForest
+#Creating training and testing datasets
+rows <- sample(x=nrow(rice_rf1), size=0.8 * nrow(rice_rf1))
+train <- rice_rf1[rows,]
+test <- rice_rf1[-rows,]
+
+##Creating basic random forest (1)
+library(randomForest)
+## randomForest 4.6-7
+## Type rfNews() to see new features/changes/bug fixes.
+set.seed(123457)
+
+model0 <- randomForest(s_yield~., data=train, importance=TRUE, maxnodes=10, mtry=5, ntree=1000,type=regression, na.action=na.omit)
+varImpPlot(model0, type=1)
+```
+
+```{r}
+model0$importance
+model0$importanceSD
+#varImpPlot(model0)
+#getTree(model0)
+imp<-varImpPlot(model0)
+```
+
+```{r}
+vars<-dimnames(imp)[[1]]
+imp <-data.frame(vars=vars,imp=as.numeric(imp[,1]))
+imp <-imp[order(imp$imp,decreasing=T),]
+imp
+```
+
+```{r}
+par(mfrow=c(1,2))
+varImpPlot(model0, main='Variable Importance Plot: Base Model')
+plot(model0, main='Error vs No. of trees plot: Base Model')
+```
+
+
+## Creating final random forest (2)
+
+```{r}
+set.seed(1234567)
+selected <- c(as.character(imp[1:27, 1]),'s_yield')
+model1 <- randomForest(s_yield~.,data=train[,selected],replace=T,ntree=1000)
+#model1
+par(mfrow=c(1,2))
+varImpPlot(model1,main='Variable Importance Plot: Final Model',pch=16,col='blue')
+plot(model0, main='Error vs No. of trees plot: Final Model',col='blue')
+
+#Base prediction (extra scripts lines from 126 to 132)..........(~!)
+#pred1 <- predict(object=model0, newdata = train)
+#actual1 <- train$s_yield
+#result1<-data.frame(actual1=actual1, predicted=pred1)
+#paste('Mean Squared error: ',mean(model0$mse))
+#paste('Root Mean Squared error: ',mean(sqrt(model0$mse)))
+#write.csv(result1, "rf_b.csv")
+```
+
+
+## Final solution 
+
+```{r}
+pred<-predict(object=model1,newdata=test)
+
+actual<-test$s_yield
+mf <-data.frame(actual=actual,predicted=pred)
+paste('Mean Squared error: ',mean(model1$mse))
+paste('Root Mean Squared error: ',mean(sqrt(model1$mse)))
+
+
+#R-squre predicting from RF predicited vs observed pfpn
+RF.rmse<-round(sqrt(mean( (mf$actual-mf$predicted)^2 , na.rm = TRUE )),0)
+print(RF.rmse)
+
+#R-square
+RF.r2<-round(summary(lm(actual~predicted, mf))$r.squared,3)
+print(RF.r2)
+```
+
+## Final solution 
+plotting predicted Vs observed
+
+```{r}
+library(ggplot2)
+ggplot(result)+
+  geom_point(aes(x=actual,y=predicted),alpha=0.6)+
+  ggtitle('Random Forest "rice_yield"') +
+  scale_x_continuous("Observed rice yield (kg/ha)",
+                     limits=c(0,10000),
+                     breaks=seq(0, 10000, 1000))+
+  scale_y_continuous("Predicted rice yield (kg/ha)",
+                     limits=c(0,10000),
+                     breaks=seq(0, 10000, 1000)) +
+  theme(axis.line = element_line(colour = "black"),
+        axis.text.y=element_text(size=8,angle = 90, hjust = 0.5, vjust=1),
+        axis.text.x = element_text(size=8)) +
+  geom_abline(intercept=0,size = 0.5)+
+  geom_smooth(aes(x=actual,y=predicted), method = "lm", se = FALSE, colour="red",linetype = 2,size = 0.75)+
+  annotate("text", x=700, y=9000, label= paste("RMSE:",RF.rmse))+
+  annotate("text", x=700, y=8500, label= paste("R^2: " ,RF.r2), parse=T)
+paste('Function Call: ', model1$call)
+```
+
+
+## Partial dependence plots
+
+```{r}
+vars <- colnames(rice_rf1)
+vars <- vars[vars != "s_yield"]
+par(mfrow=c(2,2))
+for (v in vars[1:4]) {
+  partialPlot(model1, rice_rf1, c(v), ylab = "Yield", main=v)
+}
+
+```
+
+
+## CART all the rice-survey data 
+
+```{r}
+library(rpart)				     
+library(rattle)					
+library(rpart.plot)				
+library(RColorBrewer)	
+
+fit.all <- rpart(s_yield~., rice_rf1, method = "anova", parms =list("gini", loss=lmat, byrow=TRUE))
+fit.all	
+
+# Cross validation
+printcp(fit.all) # display the results
+plotcp(fit.all) # visualize cross-validation results
+summary(fit.all) # detailed summary of splits
+
+# Prune tree # trim nodes with a complexity of less than ?cp?
+pfit.all<- prune(fit.all, cp= 0.014)
+#fancyRpartPlot(pfit.all, cex=0.7, main=, sub, caption)    # Plot tree
+fancyRpartPlot(pfit.all, cex=0.7)    # Plot tree
+
+pfit.all
+summary (pfit.all)	
+```
+
