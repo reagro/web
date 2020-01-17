@@ -24,3 +24,4 @@ Chapter five evaluated the effect of diversification and biofortification on loc
    climatechange   
    croptrials
    insurance/index
+   rice_nepal

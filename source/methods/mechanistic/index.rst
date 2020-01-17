@@ -5,7 +5,7 @@ Mechanistic models
 
   | What is mechanistic modeling
 
-.. topic:: `QUEFTS <quefts>`__  
+.. topic:: `QUEFTS <quefts.html>`__  
 
   | Modeling crop response to fertlizer response
 
@@ -13,7 +13,7 @@ Mechanistic models
 
   | Prediction the potential distribution of a species
 
-.. topic:: `Dynamic crop models <simulation>`__  
+.. topic:: `Dynamic crop models <simulation.html>`__  
 
   | LINTUL, WOFOST, APSIM, ....
 

@@ -3,7 +3,7 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-#Rice survey 2106 (data analysis after including Rainfall (CHIRPS)) CART, BART & RandomForest 
+# Explaining rice yield variability in Western Nepal
 
 Author names
 
@@ -17,16 +17,13 @@ Author names
 
 
 ```{r}
-rice_npl <- read.csv("CART.csv", header=T)
-rice_npl_rf <- read.csv("Rice2016_rf15.csv", header=T)
+rice_npl <- read.csv("rice_nepal_survey.csv", header=T)
+rice_npl_rf <- read.csv("rice_nepal_rain.csv", header=T)
 
-#load package dplyr for data management
-#library(dplyr)
-#Merge weather data with other data
 rice_rf <- merge (rice_npl, rice_npl_rf)
 
 #First manage the soil related variables before merging with rice_rf df 
-rice_soil <- read.csv("Rice_survey_soil_data_extracted_soilgrids.csv", header=T)
+rice_soil <- read.csv("rice_nepal_soil.csv")
 ls(rice_soil)
 
 #Rice soil data need to be curated (all profiles data are same so just take the top layer data)
@@ -101,6 +98,7 @@ for (i in 1:26) wss[i] <- sum(kmeans(rice_km,
 plot(1:26, wss, type="b", xlab="Number of Clusters",
      ylab="Within groups sum of squares")
 
+
 #Using the "elbow method" it appears that the data is clustering in 2 (slighltly tilted) 
 rice_km$km3 <- kmeans(scaledR, centers=3, nstart=20, iter.max=20)$cluster
 kmCentroids <- aggregate(list(rice_km[,covar]), by=list(cluster=rice_km$km3), FUN=mean)
@@ -113,59 +111,23 @@ k_meanstable <- rbind(t(table(rice_km$km3)), t(round(kmCentroids, 2)))
 ```{r, message=FALSE}
 library(ggmap)
 names(rice_km)
-qmplot(q118_gpslong, q117_gpslat, data=rice_km, color=as.factor(km3))
+#qmplot(q118_gpslong, q117_gpslat, data=rice_km, color=as.factor(km3))
 ```
 
 
-## For RandomForest model.........(1)
+## For RandomForest model
 
 ```{r, message=FALSE}
 #summary(rice_rf1)
 #data=(rice_rf1)
 vars2 <- c('s_yield', 'fym_kgha', 'Nitrogen_kgha', 'P2O5_kgha', 'K2O_kgha', 'Zn_kgha', 'q202_soiltype', 'q204_landtype', 'q205_varietytype', 'q2012_seedsource', 'q244_noirrigrice', 'q281_weedensity', 'q282_weedcontrol', 'transplant_doy', 'seeding_days', 'June_15r', 'June_30r', 'July_15r', 'July_31r', 'Aug_15r', 'Aug_31r', 'Sept_15r', 'Sept_30r', 'SOC', 'PH', 'CLYPPT_s1', 'SLTPPT_s1', 'SNDPPT_s1')
 rice_rf1 <- rice_rf1[, vars2]
+```
 
-#RandomForest
-#Creating training and testing datasets
-rows <- sample(x=nrow(rice_rf1), size=0.8 * nrow(rice_rf1))
-train <- rice_rf1[rows,]
-test <- rice_rf1[-rows,]
+## Creating random forest model
 
-##Creating basic random forest (1)
+```{r}
 library(randomForest)
-## randomForest 4.6-7
-## Type rfNews() to see new features/changes/bug fixes.
-set.seed(123457)
-
-model0 <- randomForest(s_yield~., data=train, importance=TRUE, maxnodes=10, mtry=5, ntree=1000,type=regression, na.action=na.omit)
-varImpPlot(model0, type=1)
-```
-
-```{r}
-model0$importance
-model0$importanceSD
-#varImpPlot(model0)
-#getTree(model0)
-imp<-varImpPlot(model0)
-```
-
-```{r}
-vars<-dimnames(imp)[[1]]
-imp <-data.frame(vars=vars,imp=as.numeric(imp[,1]))
-imp <-imp[order(imp$imp,decreasing=T),]
-imp
-```
-
-```{r}
-par(mfrow=c(1,2))
-varImpPlot(model0, main='Variable Importance Plot: Base Model')
-plot(model0, main='Error vs No. of trees plot: Base Model')
-```
-
-
-## Creating final random forest (2)
-
-```{r}
 set.seed(1234567)
 selected <- c(as.character(imp[1:27, 1]),'s_yield')
 model1 <- randomForest(s_yield~.,data=train[,selected],replace=T,ntree=1000)
@@ -199,17 +161,18 @@ paste('Root Mean Squared error: ',mean(sqrt(model1$mse)))
 RF.rmse<-round(sqrt(mean( (mf$actual-mf$predicted)^2 , na.rm = TRUE )),0)
 print(RF.rmse)
 
-#R-square
+# R-square
 RF.r2<-round(summary(lm(actual~predicted, mf))$r.squared,3)
 print(RF.r2)
 ```
+
 
 ## Final solution 
 plotting predicted Vs observed
 
 ```{r}
 library(ggplot2)
-ggplot(result)+
+ggplot(mf)+
   geom_point(aes(x=actual,y=predicted),alpha=0.6)+
   ggtitle('Random Forest "rice_yield"') +
   scale_x_continuous("Observed rice yield (kg/ha)",
@@ -236,7 +199,7 @@ vars <- colnames(rice_rf1)
 vars <- vars[vars != "s_yield"]
 par(mfrow=c(2,2))
 for (v in vars[1:4]) {
-  partialPlot(model1, rice_rf1, c(v), ylab = "Yield", main=v)
+  partialPlot(model1, rice_rf1, c(v), ylab = "Yield", xlab=v, main="")
 }
 
 ```
