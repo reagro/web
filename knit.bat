@@ -1,12 +1,12 @@
 @ECHO OFF
 
 rem example usage:
+rem knit 
 rem knit tools
-rem knit tools clean
-rem knit all 
+rem knit data clean
 rem knit all clean 
 
-Rscript.exe --vanilla R\run.R knit %1 %2
+Rscript.exe --vanilla _script\run.R knit %1 %2
 
 :end
 

@@ -1,18 +1,17 @@
 # Maize Agronomy in Tanzania
 
+## Introduction
+
 This case study looks looks at the data from the 2016 and 2017 Agronomy Panel Survey for Tanzania. This data is part of the household panel dataset under TAMASA, and includes agronomic, yield, and soil information. The dataset includes a farm and plot survey with sixteen sections, as well as a community level questionnaire. Additionally, an excel document is included that contains a description of the variable names.
 
 In this case study we will calculate basic summary statistics and compare the two years of panel data. The data can be found on the CIMMYT webset,  [here](https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548039) and [here](https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548038).  
 
 
-Download the data 
+## Download the data 
 
 ```{r getData}
-library(agro)
-ff2016 <- get_data_from_uri("https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548039", ".")
-# note the more general url for the 2nd dataset. This will forward to
-# https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548038
-ff2017 <- get_data_from_uri("http://hdl.handle.net/11529/10548038", ".")
+ff2016 <- agro::get_data_from_uri("hdl:11529/10548039", ".")
+ff2017 <- agro::get_data_from_uri("11529/10548038", ".")
 ff2016
 ff2017
 ```
@@ -127,6 +126,5 @@ summary(tamasa_fert$why_not_fertilizer)
 tamasa_all <- merge(tamasa_fert, tamasa_HH, by="hhid")
 cor(tamasa_all$age, tamasa_all$fertilizer_bin)
 
-#View(x2)
 ```
 

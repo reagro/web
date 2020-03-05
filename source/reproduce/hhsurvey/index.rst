@@ -1,5 +1,5 @@
-Survey data
-===========
+Surveys
+=======
 
 Case studies on reproducing the analysis of data from agricultural household surveys.
 

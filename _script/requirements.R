@@ -12,13 +12,14 @@ pkgs <- pkgs[nchar(pkgs) < 100]
 pkgs <- gsub("library\\(", "", pkgs)
 pkgs <- trimws(gsub(")", "", pkgs))
 pkgs <- sort(unique(c(pkgs, c("raster"))))
+pkgs <- gsub('\"', "", pkgs)
 #pkgs <- pkgs[!(pkgs=='rspatial')]
 
 ipkgs <- rownames(installed.packages())
 for (pk in pkgs) {
   if (!(pk %in% ipkgs)) {
 	print(paste("installing", pk))
-    install.packages(pkgs=pk, repos="https://cran.cnr.berkeley.edu/", quiet=TRUE)
+    install.packages(pkgs=pk, repos="https://cloud.r-project.org/", quiet=TRUE)
     library(pk, character.only=TRUE)
   }
 }

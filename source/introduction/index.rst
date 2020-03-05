@@ -48,10 +48,13 @@ Contributing authors are `listed here </authors.html>`__ and at the top of each 
 Acknowledgments
 ---------------
 
-This work was partly supported by a grant to `CIMMYT <https://www.cimmyt.org/>`__ by the `Bill and Melinda Gates Foundation <https://www.gatesfoundation.org/>`__.
+This work was partly supported by a grant to `CIMMYT <https://www.cimmyt.org/>`__ by the `Bill and Melinda Gates Foundation <https://www.gatesfoundation.org/>`__ and by the `CGIAR platform for Big in Agriculture <a href="https://bigdata.cgiar.org/">`_ to the University of California, Davis.
 
 .. raw:: html
 
     <embed>
+	<a href="https://bigdata.cgiar.org/"><img src="/_static/CGIAR_PforBD-Orange-logo220.png"  alt="BigData" width="200" height="40" align="left"></a>
+
     <a href="https://www.cimmyt.org/"><img src="/_static/cimmyt.svg" alt="CIMMYT" width="200" height="40" align="right"></a>
     </embed>
+

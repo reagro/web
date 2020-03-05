@@ -659,13 +659,15 @@ lda
 
 Finally, the authors of this article decide to use a multivariate probit (MVP) model to understand the influence of their chosen independent variables on whether or not households adopt the six sustainable intensification practices (SIPs). The MVP model is different from other probit models in that it incorporates the correlation of error terms and estimates the six probit models (one for each SIP) together. The authors justify this approach by stating that the technologies are interrelated, and thus univariate models are inefficient since "the same unobserved characteristics of farmers could influence the adoption of different SIPs"--especially through complementary and substitute SIPs (Kassie et al).
 
-Unfortunately, R does not have an easy platform for such a specific model, and we thus need to install a package made for this approach: "mvprobit". For purposes of simplicity in demonstrating the techique, we will reduce the number of independent and dependent variables from those used in the paper. Here, we show three simultaneous probit models, with dependent SIPs diversity, notill, and improvar, and just seven independent variables. 
+We need to install a package made for this approach: "mvprobit". For purposes of simplicity in demonstrating the techique, we will reduce the number of independent and dependent variables from those used in the paper. Here, we show three simultaneous probit models, with dependent SIPs diversity, notill, and improvar, and just seven independent variables. 
 
-```{r}
+mvProbit is no longer on CRAN
+
+```{r, eval = FALSE}
 #convert to boolean and matrix
 dept <- as.matrix(AllVar[,c(3,4,7)]>0)
 
-library(mvProbit)
+#library(mvProbit)
 mvprobit <- mvProbit(cbind(diversity, notill, manure) ~ livestock + plotdist + subpltown + sex + age + education  + size, data = cbind(dept, AllVar))
 summary(mvprobit)
 ```

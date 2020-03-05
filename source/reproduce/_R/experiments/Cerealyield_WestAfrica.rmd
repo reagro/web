@@ -1,30 +1,31 @@
 # Cereal yield in West Africa
 
+
 ## Introduction
 
-This case study follows the paper entitled "Cereal yield response to conservation agriculture practices in drylands of West Africa: A quantitative synthesis" by Bayala *et al*. (2012) which was published in the Journal of Arid Environments. You can access the [article here](https://www.sciencedirect.com/science/article/pii/S0140196311003120) (it is behind a paywall). The data was made available on the World Agroforestry Center [dataverse](https://doi.org/10.34725/DVN/1BLSQY).
+This case study follows the paper entitled "Cereal yield response to conservation agriculture practices in drylands of West Africa: A quantitative synthesis" by Bayala *et al*. (2012) which was published in the Journal of Arid Environments. You can access the [article here](https://www.sciencedirect.com/science/article/pii/S0140196311003120) (it is behind a paywall). The data was made available on the World Agroforestry Center [data repository](https://doi.org/10.34725/DVN/1BLSQY).
 
 This study provides a quantitative synthesis of the effect of conservation agriculture practices on crop yield in the drylands of West Africa. 
 
 
 ## Get the data
 
-We can download the data with `get_data_from_uri` from the `agro` package.
+We can download the data with the `get_data_from_uri` from the `agro` package.
 
-```{r}
+```{r data}
 ff <- agro::get_data_from_uri("doi:10.34725/DVN/1BLSQY", ".")
 ff
 ```
 
-You can see that we have a single Excel file that we can read with `readxl::read_excel`.
+You can see that we have a single Excel file that we can read with `readxl::read_excel`. But first we look at the names of the "sheets" in the file.
 
-```{r}
+```{r sheets}
 readxl::excel_sheets(ff)
 ``` 
 
-There are five sheets in the file. We need the sheets that have the grain and straw data. 
+There are five sheets. We need the sheets that have the grain and straw data. 
 
-```{r}
+```{r readxl}
 grain <- readxl::read_excel(ff, sheet = "Grain")
 straw <- readxl::read_excel(ff, sheet = "Straw")
 dim(straw)
@@ -34,7 +35,7 @@ colnames(grain)
 
 We wanted to quickly look at the "Rawdata" sheet too, to understand the difference. 
 
-```{r}
+```{r compare0}
 raw <- readxl::read_excel(ff, sheet = "Rawdata")
 dim(raw)
 dim(straw) + dim(grain)
@@ -43,20 +44,20 @@ table(raw$Component)
 
 It appears that records in `Rawdata` that are not straw or grain have been ignored. Creating multiple tables with subsets of the data is generally a bad idea because it may lead to errors due to copying, or when an error is corrected in one of the tables but not everywhere. We could have created the grain and straw subsets like this (showing for grain only)
 
-```{r}
+```{r compare1}
 grain2 <- raw[tolower(raw$Component) == "grain", ]
 ``` 
 
 To test if this is indeed gives us the same values, we first sort the both datasets. 
 
-```{r}
+```{r compare2}
 grain  <- grain[order(grain$PubN, grain$Treatment), ]
 grain2 <- grain2[order(grain2$PubN, grain2$Treatment), ]
 ```
 
 And then we can compare them
 
-```{r}
+```{r compare}
 all(grain == grain2, na.rm=TRUE)
 ```
 
@@ -65,32 +66,39 @@ all(grain == grain2, na.rm=TRUE)
 
 ## Organize data
 
-We also need to compute some new values (to be used below) and fix some values in the `Technology` variable in both tables.
+We need to fix some values in the `Technology` variable in both tables.
 
-```{r}
-compute_and_fixme <- function(x) {
-
-  x$D <- x$`Treatment yield` - x$`Control yield` 
-  
-  x$productivity = cut(x$`Control yield`, c(0, 0.5, 1, 1.5, 2, Inf))
-
+```{r fix}
+fixme <- function(x) {
   x$Technology[x$Technology == "Coppiced G. manure"] <- "Coppicing"
   x$Technology[x$Technology == "Rot-Ass"] <- "Rotations"
   x$Technology[x$Technology == "SWC"] <- "Soil water"
   x
 }
 
-grain <- compute_and_fixme(grain)
-straw <- compute_and_fixme(straw)
+grain <- fixme(grain)
+straw <- fixme(straw)
+```
+
+And we compute two new variables, to be used below in the analysis. `D` is the difference between the treatment and control yields. `productivity` classifies the control yield into 5 groups.
+
+```{r newvars}
+
+newvars <- function(x) {
+  x$D <- x$`Treatment yield` - x$`Control yield` 
+  x$productivity = cut(x$`Control yield`, c(0, 0.5, 1, 1.5, 2, Inf))
+}
+grain <- newvars(grain)
+straw <- newvars(straw)
 ```
 
 
 ## Tables 1 and 2
 
 
-Now we can reproduce Table 1 from the article: *Summary of statistics of mean difference in grain yield (D, t/ha) across all crops in different practices of conservation agriculture in four West African Sahelian countries (Burkina Faso, Mali, Niger and Senegal).*
+Now we can attempt to reproduce Table 1 from the article: *Summary of statistics of mean difference in grain yield (D, t/ha) across all crops in different practices of conservation agriculture in four West African Sahelian countries (Burkina Faso, Mali, Niger and Senegal).*
 
-Now compute the summary statistics. We use a function, so that we can use the same code for the next table.
+First we compute the summary statistics. We use a function, so that we can use the same code for the next table.
 
 ```{r tab1B}
 make_table <- function(x) {
@@ -122,14 +130,14 @@ make_table <- function(x) {
 }
 ```
 
-Now use the function
+And we use the function
 
 ```{r tab1C}
 tab1 <- make_table(grain)
 tab1
 ```
 
-Results look very similar. Except for the classes counts. But the published table is odd. There are intervals missing, and it is unclear what the exact intervals are. 
+Results look very similar. Except for the classes counts. But the published table is odd. There are intervals missing, and it is unclear what the exact intervals are; so we'll just leave it at that. 
 
 Recreating Table 2, *Summary of statistics of mean difference in straw biomass yield (D, t/ha) in different practices of conservation agriculture in four West African Sahelian countries (Burkina Faso, Mali, Niger and Senegal)* is now straightforward, because we can re-use the function defined above for Table 1.
 
@@ -182,7 +190,7 @@ for (crop in c("Sorghum", "Millet", "Maize")) {
 
 As figure 2 and 3 are similar, Here figure 3 is replicated. *Variation in mean difference in yield (across cereal crops) with soil and water conservation practices and site productivity in four West African Sahelian countries (Burkina Faso, Mali, Niger and Senegal). The broken line represents the point where the treatment and control yields are equal. 1 and 2 defined low potential, 3 and 4 medium potential and above 4 defined high potential sites. Vertical bars represent standard errors.*
 
-```{r}
+```{r xyz}
 g <- grain[grain$cropname != "", ]
 g$productivity <- as.integer(g$productivity)
 sciplot::lineplot.CI(productivity, D, group=cropname, data=g, 
@@ -199,16 +207,20 @@ abline(h=0, lwd=2, col="gray")
 
 ```{r}
 
-# Seperate data for grain yield of parkland based on rainfall class
+## Seperate data for grain yield of parkland based on rainfall class
 
-grain_pt1 <- grain_pt[which(grain_pt$Rainfall < 601), ]
-grain_pt2 <- grain_pt[which(grain_pt$Rainfall >= 601 & grain_pt$Rainfall <= 800), ]
-grain_pt3 <- grain_pt[which(grain_pt$Rainfall > 800), ]
+The methods section of the paper states that "Rainfall (long-term average of total annual) of sites was also classified as low (<600 mm), medium (600-800 mm) and high (>800 mm)."
 
-library(lme4)
-#lm_pt <- lmer(`Yield Gap` ~ Rainfall + (Rainfall|Site), data = grain_pt1)
+```{r rain}
+rain <- cut(grain_pt$Rainfall, c(0, 600, 800, Inf))
+levels(rain) <- c("low", "medium", "high")
 
-### Not sure which is random effects of the model
-
+grain_pt$raincls <- rain
 ```
 
+The authors also state that the effects of factors such as rainfall and site condition were determined by a mixed model analysis that allowed for average correlation of observations from the same study. That information is so sparse that we did not attempt to reproduce this model. But it would look like this, perhaps.
+
+```
+library(lme4)
+lm_pt <- lmer(`Yield Gap` ~ Rainfall + (Rainfall|Site), data = grain_pt)
+```

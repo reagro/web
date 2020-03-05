@@ -1,0 +1,299 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Rice Crop Cut Data
+
+In this chapter we analyze rice crop cut data from Odisha, collected by Iftikar et al., 2017:
+
+*Wasim Iftikar; Nabakishore Parida; Vivek Kumar; Narayan Chandra Banik; Amit Mishra, 2017, "Odisha Rice Crop Cut Data 2013 - 2016", hdl:11529/11111, CIMMYT Research Data & Software Repository Network, V2*
+
+The data are avaialble on the CIMMYT data repository
+https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/11111
+
+
+## Get the data
+
+We use the `agro` package to download the data.
+```{r get}
+ff <- agro::get_data_from_uri("hdl:11529/11111", ".")
+ff
+```
+
+We have two `.csv` files. One with data, and one with metadata. 
+
+```{r read}
+ff[1]
+d <- read.csv(ff[1], stringsAsFactors = FALSE)
+dim(d)
+```
+
+There are `r nrow(d)` records and `r ncol(d)` variables, with these names
+
+```{r colnames}
+colnames(d)
+```
+
+At this point it is good to explore the data a bit using functions such as `summary`, `View`, `plot` and `table`. For example 
+
+```{r table}
+table(d$Year)
+```
+
+Showing that we have data for four years.
+
+## Compute mean yield
+
+We are dealing with crop cut data, and our first interest is in the observed yield. There are three columns with "Yield" in the name. So let's check these out. 
+
+```{r y}
+yield <- d[, c("Yield_A", "Yield_B", "Yield_C")]
+head(yield)
+```
+
+Look's good, let's get the mean yield
+```{r y2, error=TRUE}
+y_avg <- rowMeans(yield)
+```
+
+Apparently, our yield data are not numeric. Let's check that. 
+
+```{r y4}
+sapply(yield, class)
+```
+
+We can change the character fields to numeric 
+
+```{r y6}
+y <- apply(yield, 2, as.numeric)
+``` 
+
+But now we get a warning saying that some values cannot be converted to numbers. Never just ignore warnings like this. You have to investigate why they occur before you can continue. Often this means that there is an error in the data. 
+
+Let's find some of the records that could not be converted.
+```{r y16}
+na_rows <- apply(is.na(y), 1, any)
+table(na_rows)
+nas <- which(na_rows)
+head(nas)
+yield[nas[1:5], ]
+```
+
+Ah, some records only have missing data indicated by `"-"`. Let's see if that is connected to the year of data collection.
+
+```{r y20}
+table(d$Year, na_rows)
+```
+
+It is indeed connected to the year. All records for 2013 have only one yield measurement, all other years have three samples per field.
+
+Instead of continuing, we should see what we can do to allow converting these data without getting a warning. We should be able to do that by first replacing the `"-"` with `NA`.
+
+```{r y30}
+yield[yield == "-"] <- NA
+y <- apply(yield, 2, as.numeric)
+```
+
+All right, with that problem solved, let's try again to compute the the mean yield for each row. Note that we have to use `na.rm=TRUE` to avoid getting missing values for 2013.
+
+```{r y40, error=TRUE}
+y_avg <- rowMeans(y, na.rm=TRUE)
+```
+
+To keep all records together, we can add `y_avg` back to our original data, data.frame `d`
+
+```{r y45}
+d$yield <- y_avg
+```
+
+Let's see what the yields look like in Odisha:
+
+```{r y50}
+plot(sort(d$yield))
+```
+
+Yikes, that does not look right. Let's look at the mean yield per year
+
+```{r y51}
+tapply(d$yield, d$Year, mean, na.rm=TRUE)
+```
+
+Or as a boxplot
+
+```{r y55}
+boxplot(yield~Year, data=d)
+```
+
+These are wildly different numbers. Perhaps different units? Let's consult the metadata!
+
+
+## Metadata
+
+The second file contains metadata (at least that is what the file name suggests).
+```{r m1}
+ff[2]
+md <- read.csv(ff[2], stringsAsFactors = FALSE, header=FALSE)
+head(md)
+```
+
+This `.csv` file did not have a "header" (no column/variable names), so we add them for clarity
+
+```{r m11}
+colnames(md) <- c("var", "value")
+```
+
+Let's look for the discription of our yield variables
+
+```{r m15}
+i <- grep("Yield", md$var)
+i
+md$var[i]
+```
+
+Note the space trailing "Yield_A "? Additional whitespace (space, tab) like that can be difficult to spot and cause a lot trouble later on, so let's remove all leading or trailing whitespace first. This is really very important for data processing, not so much for the meta-data, but it does not hurt to be careful. 
+
+```{r m21}
+md <- apply(md, 2, trimws)
+# apply returns a matrix, let's keep a data.frame (always with stringsAsFactors=FALSE)
+md <- data.frame(md, stringsAsFactors = FALSE)
+```
+
+Now inspect the values
+```{r m31}
+md$value[i]
+```
+
+The variables are the same, except for the "spot A", "spot B", and "spot C" bits. You can check that by removing the first part of each value and then taking the unique value. Note that in the pattern provided to the `gsub` function below the `.` serves a "wild card": it matches *any* character. Also note the presence of `\n` which represents a line break.
+
+```{r m41}
+ymd <- gsub("Grain weight at spot .\n", "", md$value[i])
+ymd <- unique(ymd)
+ymd
+```
+
+To show the effect of the line breaks, and to allow for easier reading, we can use `cat`
+```{r m51}
+cat(ymd)
+```
+
+All right, so different years have different units. That is unexpected. In most cases all values of a variable (column) in a data set have the same unit. But, unfortunately, that is not always the case --- and that can lead to a lot of errors (e.g. temperature in °F and °C, or elevation in meter and feet). Sometimes the unit is stored in another column, but in this case it is not, so we shall do that ourselves. Here we need to adjust for both the area harvested and the unit of mass used.
+
+First make a table of the unit by year. In this case I would do that "by hand":
+```{r m61}
+units <- data.frame(Year=2013:2016, area=c(25, 2*2.5 ,1 , 4), tokg=c(1,1,1000,1000))
+units
+```
+
+The `tokg` variable indicates by how much the number needs to be divided to get kg (from g).
+
+We already saw that in 2013 there was only one sample per field, but now we see that the plots were larger. So it appears that there was a change in the protocol from one larger sample to three smaller samples. 
+
+
+## Compute yield per ha
+
+We are now ready to adjust the yield data from the raw values to a single unit (we'll use kg/ha). First we merge the data `d` with the new table `units`. When using `merge` you have to be careful that you do not loose records because of bad matching of values. So I check the number of records before and after merging. 
+
+```{r ym1}
+dim(d)
+dm <- merge(d, units, by="Year")
+dim(dm)
+```
+
+The resulting data
+
+```{r ym2}
+head(dm[, c("Year", "yield", "area", "tokg")])
+tail(dm[, c("Year", "yield", "area", "tokg")])
+table(dm[, c("Year", "area")])
+```
+
+Compute yield in kg/ha
+
+```{r ym10}
+dm$yha <- (10000 / dm$area) * (dm$yield / dm$tokg)
+```
+
+Let's again check the numbers
+
+```{r ym15}
+tapply(dm$yha, dm$Year, mean, na.rm=TRUE)
+```
+
+The yield for 2015 is much too low now whereas the other values are plausible rice yields in kg/ha. So I assume that the 2015 data were, in fact, in kg/ha, and not in g/ha.
+
+```{r ym21}
+dm$tokg[dm$Year==2015] <- 1
+dm$yha <- (10000 / dm$area) * (dm$yield / dm$tokg)
+```
+
+Now the yield data look plausible
+
+```{r ym31}
+tapply(dm$yha, dm$Year, mean, na.rm=TRUE)
+boxplot(yha~Year, data=dm, col=rainbow(6), ylab="Yield (kg/ha)", cex.axis=1.25, cex.lab=1.25)
+```
+
+
+## Fertilizer 
+
+These are the fertilizer variables
+```{r f1}
+fert <- c("DAP_Total", "MoP_Total", "Urea_Total", "Urea_1_Top", "MoP_1_Top", "Urea_2_Top", "MoP_2_Top", "Urea_3_Top", "MoP_3_Top")
+md[md$var %in% fert, ]
+```
+
+A check to see if there are values. Get the max value for each variable by year.
+
+```{r f2}
+aggregate(dm[, fert], dm[,"Year",drop=FALSE], max, na.rm=TRUE)
+```
+
+Lots of warnings because there are no fertilizer data for 2016. Thus all values for that year are `NA` and you cannot get a `max` value in that case for a group that only has `NA`. You could use this function `function(i) ifelse(all(is.na(i)), NA, max(i, na.rm=TRUE)))` instead, to get rid of the warnings, but at the cost of tremendous verbosity.
+
+All right, 2016 is out. Alose notice that in 2013 and 2014 the maximum value of `Urea_Total` is 0, whereas there Urea_Top variables show that this should not be the case. The opposite is the case for 2015: there is Urea_Total data, but no data for the split applications.
+
+The situation is similar for `MoP_Total`, with no values in 2014. Let's fix that.
+
+
+```{r f10}
+i <- dm$Year %in% c(2013, 2014)
+sum(i)
+dm$Urea_Total[i] <- rowSums(dm[i, c("Urea_1_Top", "Urea_2_Top", "Urea_3_Top")])
+
+j <- dm$Year == 2014
+sum(j)
+dm$MoP_Total[j] <- rowSums(dm[j, c("MoP_1_Top", "MoP_2_Top", "MoP_3_Top")])
+```
+
+
+Let's check 
+```{r f20}
+df <- dm[dm$Year != 2016, ]
+aggregate(df[, fert[1:3]], df[,"Year",drop=FALSE], mean, na.rm=TRUE)
+```
+
+
+A quick model
+
+```{r f30}
+df <- na.omit(df[, c("Year", fert[1:3], "yha")])
+df$fert <- rowSums(df[, fert[1:3]])
+plot(yha~fert, data=df)
+m <- lm(yha ~ Year + fert, data=df)
+summary(m)
+
+mr <- randomForest::randomForest(yha ~ Year + DAP_Total + MoP_Total + Urea_Total, data=df)
+mr
+randomForest::partialPlot(mr, df, x.var="Urea_Total")
+
+
+mrs <- randomForest::randomForest(yha ~ Year + fert, data=df)
+mrs
+randomForest::partialPlot(mrs, df, x.var="fert")
+
+```

@@ -71,7 +71,7 @@ do_knit <- function(option, quiet=TRUE) {
 	} else { 
 		if (length(kf) > 0 ) {
 			stime <- file.info(ff)
-			fn <- gsub("_R", ".", raster::extension((rownames(stime)), ""))
+			fn <- gsub("_R/", "./", raster::extension((rownames(stime)), ""))
 			stime <- data.frame(f=fn, stime = stime$mtime, stringsAsFactors=FALSE)
 
 			btime <- file.info(kf)
