@@ -1,8 +1,13 @@
 *.rst
 !index.rst
 !error.rst
-!autors.rst
+!authors.rst
 !installation.rst
+!reproducibility.rst
+!trials.rst
+!surveys.rst
+!cropcuts.rst
+
 syncaws.bat
 
 .Rproj.user
