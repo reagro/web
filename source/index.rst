@@ -19,25 +19,26 @@ The aim of this book is to teach practical data science skills in *Regional Agro
   | Data collection methods. In the field and at the computer.
 
 
-.. topic:: *Part* III ---  `Modeling methods <methods/index.html>`__
+.. topic:: *Part* III ---  `Reproducibility <reproduce/index.html>`__
+
+  | Using data in reproducible workflows.
+
+
+.. topic:: *Part* IV ---  `Modeling methods <methods/index.html>`__
 
   | A primer of predictive modeling methods, and on using these methods with spatial data 
 
 
-.. topic:: *Part* IV --- `Fundamentals <fundamentals/index.html>`__
+.. topic:: *Part* V --- `Fundamentals <fundamentals/index.html>`__
 
   | Creating intermediate data products that are fundamental inputs to further analysis
 
   
-.. topic:: *Part* V ---  `Case studies <cases/index.html>`__
+.. topic:: *Part* VI ---  `Case studies <cases/index.html>`__
 
    | Case studies that use regional agronomy methods to answer important questions 
       
 
-.. topic:: *Part* VI --- `Recipes <applications/index.html>`__
-
-   | A miscellaneous collection of examples that can help in problem solving
-      
 
 .. toctree::
    :maxdepth: 10
@@ -45,8 +46,8 @@ The aim of this book is to teach practical data science skills in *Regional Agro
 
    introduction/index.rst
    data/index.rst
+   reproduce/index.rst
    methods/index.rst
    fundamentals/index.rst
    cases/index.rst
-   recipes/index.rst
-
+ 

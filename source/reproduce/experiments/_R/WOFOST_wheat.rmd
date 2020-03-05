@@ -1,0 +1,242 @@
+# Crop modelling with experimental data
+
+## 1. Background and introduction
+
+This case study is going to show how to apply crop model to simulate crop growth. WOFOST model and data from "Field experimental data for crop modeling of wheat growth response to nitrogen fertilizer, elevated CO2, water stress, and high temperature" were used. 
+
+The data organized by Kassie et al (2018) was published in the Open Data Journal for Agricultural Research. You can freely access the [article](https://library.wur.nl/ojs/index.php/ODJAR/article/view/15828) published in the Open Data Journal for Agricultural Research (ODJAR). The data can be [downloaded](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/V4P6PU) from the ODjAR Dataverse.
+ 
+The data includes five experiments. Here we only take one study about water deficient experiment at Lincoln in New Zealand as an example, to see how to apply the WOFOST model in *R* to simulate crop growth under water limitations. 
+
+## 2. Load R packages needed for this case study
+
+```{r package}
+library(Rwofost)
+library(dplyr)
+library(tidyr)
+library(stringr)
+```
+
+
+## 3. Prepare the data
+
+```{r getData}
+library(agro)
+ff <- get_data_from_uri("doi:10.7910/DVN/V4P6PU", ".")
+length(ff)
+head(ff)
+```
+
+### 3.1. Import the data
+
+Here, use readLines() to read wth file for weather data and read.delim() to read text files for management and results.
+
+```{r import}
+
+# Import weather data: NEWZLAND.WTH
+f <- ff[basename(ff) == "NEWZLAND.WTH"]
+f
+weather <- readLines(f)
+
+# Import management data
+f <- ff[basename(ff) == "Crop management_New Zealand.txt"]
+management <- read.delim(f)
+
+# Import reults from field experiment
+f <- ff[basename(ff) == "Experimental data_New Zealand.txt"]
+results <- read.delim(f)
+```
+
+
+### 3.2. Organize the data
+
+3.2.1. Organize weather data for the model
+
+The weather data is in character class, need to build a data frame for weather.
+
+```{r weatherdata}
+
+# Look at the weather data
+head(weather)
+
+# Remove the first 5 characters which is the information of this weather file 
+w1 <- weather[-c(1:5)]
+
+# Unlist characters
+w2 <- unlist( strsplit( w1 , "\\ " ))
+
+# Replace spaces with NA (as NA is filled as "99" in the orignal file)
+w2[w2 == ""] <- NA
+
+# Omit Na
+w2 <- na.omit(w2)
+
+# Make a matrix with 8 variables
+w3 <- matrix(w2, ncol = 8, byrow = T)
+
+# Formate date
+date <- w3[ ,1]
+year <- substr(date,1,2)
+year1 <- paste0("19", year)
+year <- as.integer(year1)
+doy <- as.integer(substr(date,3,5))
+date <- dateFromDoy(doy, year)
+
+# Select the weather data used for the model
+srad <- as.numeric(w3[ ,2]) * 1000
+tmin <- as.numeric(w3[ ,4])
+tmax <- as.numeric(w3[ ,3])
+vapr <- as.numeric(rep(NA, nrow(w3)))
+prec <- as.numeric(w3[ ,5])
+wind <- as.numeric(rep(NA, nrow(w3)))
+weather <- data.frame(date, srad, tmin, tmax, vapr, prec, wind)
+
+```
+
+3.2.2. Organize namagement data for the model
+
+```{r management1}
+
+# Subset irrigation info, here take treatment 11
+irri <- management[ which (management$X.1 == "Irrigation" & management$X..Field.Data.site.information == "11"), ]
+
+# Add column names
+colnames(irri) <- as.character(unlist(management[143, ]))
+
+```
+
+3.2.3. Organize results data
+
+```{r results}
+
+# Read the observations of growth
+f <- ff[basename(ff) == "Experimental data_New Zealand.txt"]
+ob <- read.delim(f, skip = 15, header = TRUE)
+
+# Subset results for treatment 11 
+ob1 <- ob[which (ob$X..Definitions == "11"), ]
+
+```
+
+
+### 3.3. Download the weather data to replace NA.
+
+```{r downloadweather}
+
+# Downloade weather data from online by lon and lat to replace vapr and wind
+we <- power_weather(172.39, -43.39)
+wth <- we@data
+
+# Subset period and replace the data
+wth1 <- subset(wth, date >= as.Date('1991-01-01'))
+weather$vapr <- wth1$vapr[1:nrow(weather)]
+weather$wind <- wth1$wind[1:nrow(weather)]
+
+```
+
+
+## 4. Work with WOFOST model 
+
+### 4.1 Input crop information
+
+```{r crop}
+
+# Choose wheat for this example
+crop <- wofost_crop('wheat_fra')
+
+```
+
+
+### 4.2 Input soil information
+
+```{r soil}
+
+# Set soil type
+soil <- wofost_soil('ec1')
+
+```
+
+
+### 4.3 Input management information
+
+```{r management2}
+
+# Set management condition
+contrl <- wofost_control()
+
+# Set location
+contrl$latitude <- -43.39
+  
+# Set sowing date
+contrl$modelstart <- as.Date("1991-06-08")
+
+# Set irrigation dates and amount
+contrl$IRRdates <- as.Date(irri[ ,5])
+IRR <- as.numeric(as.character(irri[, 9]))
+contrl$IRR <- matrix(IRR, nrow=1)
+
+# Choose the production level (water limited condition)
+contrl$IPRODL <- 1
+
+```
+
+
+### 4.4 Run the model and read output
+
+```{r run}
+
+# Run model and simulate wheat growth under water deficient condition
+d <- wofost(crop, weather, soil, contrl)
+
+# Read output results
+#head(d)
+#tail(d)
+
+# Plot the grain yield vs. days after sowing
+plot(d[,'step'], d[,'WSO'], type='l', xlab = "Days after sowing", ylab = "Dry grain yield (kg/ha)")
+
+```
+
+## 5. Compare the simulation results with field experimental observations
+
+```{r compare}
+
+# Read reults from field experiment
+ob1$step <- as.Date(ob1$Observation.date) - contrl$modelstart + 1
+colnames(ob1)[3] <- "WST"
+colnames(ob1)[4] <- "LAI"
+colnames(ob1)[5] <- "WSO"
+
+ob1$WST <- as.numeric(as.character(ob1$WST))
+ob1$LAI <- as.numeric(as.character(ob1$LAI))
+ob1$WSO <- as.numeric(as.character(ob1$WSO))
+
+# Compare results -- LAI 
+
+# Plot the simulation results as a line
+plot(d[,'step'], d[,'LAI'], type='l',xlab='Days',
+     ylab='LAI', ylim = c(0,7), xlim = c(0,232))
+
+# Add the observations as points
+points (ob1[,'step'], ob1[, 'LAI'], col = "red")
+
+# Add legend
+legend("topleft", legend = c("Simulated", "Observed"), pch = c(NA, 1), lty = c(1, 0), col = c("black", "red"))
+
+
+# Compare results -- Dry biomass
+plot(d[,'step'], d[,'WST'], type='l',xlab='Days',
+     ylab='Biomass (kg/ha)', xlim = c(0,232), ylim = c(0,16000))
+points (ob1[,'step'], ob1[, 'WST'], col = "red")
+legend("topleft", legend = c("Simulated", "Observed"), pch = c(NA, 1), lty = c(1, 0), col = c("black", "red"))
+
+# Compare results -- Dry grain yield
+plot(d[,'step'], d[,'WSO'], type='l',xlab='Days',
+     ylab='Grain yield (kg/ha)', xlim = c(0,232), ylim = c(0, 3600))
+points(ob1[, 'step'], ob1[,'WSO'], col = "red")
+legend("topleft", legend = c("Simulated", "Observed"), pch = c(NA, 1), lty = c(1, 0), col = c("black", "red"))
+
+
+#--- Simulation Results needs to be improved---# 
+```
+

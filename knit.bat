@@ -6,14 +6,7 @@ rem knit tools clean
 rem knit all 
 rem knit all clean 
 
-set arg1=%1
-set arg2=%2
-
-if %arg1% == all (
-	for %%i in (data fundamentals recipes cases methods) do Rscript.exe --vanilla R\run.R knit %%i %arg2%
-) else (
-	Rscript.exe --vanilla R\run.R knit %arg1% %arg2%
-)
+Rscript.exe --vanilla R\run.R knit %1 %2
 
 :end
 

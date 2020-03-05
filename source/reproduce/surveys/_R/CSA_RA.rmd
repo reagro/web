@@ -1,0 +1,102 @@
+# Climate Smart Agriculture Rapid Appraisal Case Study
+
+## Introduction
+
+In this case study, we will replicate a paper "Climate smart agriculture rapid appraisal (CSA-RA): A tool for prioritizing context-specific climate smart agriculture technologies", using methodologies such as gross margin analysis and PCA. Compared to other case studies, this dataset has already been cleaned and organized, and this allows us to easily  replicate the findings presented in the study. CSA-RA is an approach that combines participatory rural appraisal and rapid rural appraisal tools to create a new methodological framework. 
+
+The paper was published in agricultural systems and it is openly available [here]( : https://www.sciencedirect.com/science/article/pii/S0308521X16301202#!)
+
+## Methodology 
+
+Using data from farmer interviews,  gross margin analysis (GMA) was calculated by finding the difference between the revenue and total variable costs of a crop. Next, PCA was used to create two indices to rank wellbeing and assets. Here we will show the final step in the quantitative analysis, a test of difference of means to compare adopters and non-adopters of practices by socioeconomic characteristics and the above indices. Five different practices are considered: improved varieties, minimum tillage, intercropping, agroforestry, and seed selection. 
+
+Get the data from the CIAT data repository.
+
+```{r getData}
+library(agro)
+ff <- get_data_from_uri("doi:10.7910/DVN/HCFDU8", ".")
+ff
+```
+
+
+First, we read in the data, which consists of three .dta (Stata) files. 
+
+```{r readdata}
+library(foreign)
+GMA <- read.dta(ff[1])
+table5 <- read.dta(ff[3], convert.factors = FALSE)
+table6 <- read.dta(ff[5])
+```
+
+We start with the data from Gulu, Uganda. To test the difference in means between adopters and non-adopters, we create separate dataframes for each of the sustainable intensification practices analyzed. Then, we add the means of each of the  variables of interest into a single dataframe, called "means".
+
+```{r practices}
+# Each of the practices are 0/1 variables. The columns are interest are 5 through 15.
+impvar <- table5[table5$usevar=="yes", c(5:13)]
+
+m_impvar <- apply(na.omit(impvar), 2, mean)
+nimpvar <- table5[table5$usevar=="0",c(5:13)]
+no_impvar <- apply(na.omit(nimpvar), 2, mean)
+
+mintill <- table5[table5$usemintill=="1", c(5:13)]
+m_mintill <- apply(na.omit(mintill), 2, mean)
+nmintill <- table5[table5$usemintill=="0", c(5:13)]
+no_mintill <- apply(na.omit(nmintill), 2, mean)
+
+intercrop <- table5[table5$useinter=="1", c(5:13)]
+m_inter <- apply(na.omit(intercrop), 2, mean)
+nintercrop <- table5[table5$useinter=="0", c(5:13)]
+no_inter <- apply(na.omit(nintercrop), 2, mean)
+
+agroforestry <- table5[table5$useagrof=="1", c(5:13)]
+m_agrof <- apply(na.omit(agroforestry), 2, mean)
+nagroforestry <- table5[table5$useagrof=="0", c(5:13)]
+no_agrof <- apply(na.omit(nagroforestry), 2, mean)
+
+seedselect <- table5[table5$useseed=="1", c(5:13)]
+m_seed <- apply(na.omit(seedselect), 2, mean)
+nseedselect <- table5[table5$useseed=="0", c(5:13)]
+no_seed<- apply(na.omit(nseedselect), 2, mean)
+
+# combine into a single dataframe, with empty columns for the p-values that will be added in the next step
+means <- data.frame(m_impvar,no_impvar,p=NA,m_mintill,no_mintill,p=NA, m_inter,no_inter,p=NA, m_agrof,no_agrof, p=NA, m_seed,no_seed, p=NA)
+means[,c(1:2,4:5,7:8,10:11,13:14)]<-round(means[,c(1:2,4:5,7:8,10:11,13:14)],2)
+
+```
+
+Now that we have a dataframe with the means of each of the groups, we can the p-values resulting from the t-tests, which evaluate whether the means of the adopters are statistically different from the means of the non-adopters. Significant p-values are shown by asterisks: three asterisks denote statistical significance at the 1% level, two denote statistical significance at the 5% level, and one denotes statistical significance at the 10% level.
+
+```{r ttest}
+vars <- colnames(impvar)
+```
+To get p-values that compare each of the adopters to non-adopters of the five practices
+
+```{r ttest10 }
+for (i in seq_along(vars)) {
+  j <- vars[i]
+  means[i,3] <-t.test(impvar[[j]], nimpvar[[j]])$p.value
+   means[i,6] <-t.test(mintill[[j]], nmintill[[j]])$p.value
+   means[i,9] <-t.test(intercrop[[j]], nintercrop[[j]])$p.value
+   means[i,12] <-t.test(agroforestry[[j]], nagroforestry[[j]])$p.value
+   means[i,15] <-t.test(seedselect[[j]], nseedselect[[j]])$p.value
+}
+```
+
+We can create a function that easily converts the p-value numbers into stars
+
+```{r ttest101 }
+p_to_star <- function(p) {
+  ifelse(p <= .01, "***", ifelse(p < .05, "**", ifelse(p <= .1, "*", "")))
+}  
+# then, for the columns that contain p-values we convert them to stars for easier viewing
+means[,c(3,6,9,12,15)] <- p_to_star(means[,c(3,6,9,12,15)])
+```
+
+Finally, we can present the results in a table
+
+```{r}
+library(knitr)
+#kable(means)
+```
+
+done.

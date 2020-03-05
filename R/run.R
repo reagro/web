@@ -6,7 +6,6 @@ if (tolower(Sys.info()["sysname"])=="windows"){
 	sysfun <- system		  
 }
 
-
 args <- commandArgs(TRUE)
 
 if (length(args) < 2) {
@@ -18,10 +17,13 @@ cmd <- args[1]
 stopifnot(cmd %in% c("knit", "build"))
 
 # "introduction" is rst only
-chapters <- c("fundamentals", "recipes", "cases", "methods", "data")
+ch <- grep("_R$", list.dirs(recursive=T), value=TRUE)
+chapters <- gsub("\\./source/", "", gsub("/_R", "", ch))
+
 chapter <- tolower(args[2])
+print(chapter)
+print(chapters)
 if (chapter == "all") {
-# this is problematic as there is a lot of function hiding 
 	chapter <- chapters
 } else {
 	stopifnot(chapter %in% chapters)
@@ -42,6 +44,7 @@ do_build <- function(option) {
 	ff2 <- paste0("_build/html/_sources/", basename(ff1))
 	file.copy(ff1, ff2, overwrite=TRUE)
 }
+
 
 do_knit <- function(option, quiet=TRUE) {
 

@@ -1,0 +1,174 @@
+# Effect of nitrogen and plant density on upland rice
+
+## 1. Introduction
+
+This case study shows how to investigate the effects of different levels of nitrogen, plant density on the growth and yield of interspecific rice varities. 
+
+We follow the analysis in a study by Oikeh et al (2009) entitled "Responses of upland NERICA rice varieties to nitrogen and plant density". It was published in the Archives of Agronomy and Soil Science. You can access the [article here](https://www.tandfonline.com/doi/abs/10.1080/03650340802360484) (it is behind a paywall). The data was made avaliable on AfricaRice Dataverse and can be [downloaded](https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/18485). But only one year data is available (2006) while the study describes two years.
+
+The experiment took place at the IITA/WARDA Station, Cotonou, Benin, during the rainy season of 2006.
+
+
+
+The treatments in this experimental study are four rice varities, three "New Rice for Africa (NERICA)" types and one check (WAB 450-I-B-P-38-HB (NERICA 1), WAB 450-I-B-P-20-HB (NERICA 2), WAB 450-I-B-P-91-HB (NERICA 4), WAB 56-50); four levels of nitrogen (0, 30, 60 and 120 kg/ha, applied as urea); and three planting distance (30 × 30 cm, 20 × 20 cm, and 25 × 5 cm). The seed was drilled for the 25 × 5 cm planting distance and dibbled for the other two distances.
+
+Here we analyze the observations of grain yield and plant height. We note that the results are different here from those reported in the paper. (Already emailed to author)
+
+## 2. Get the data
+
+```{r}
+library(agro)
+ff <- get_data_from_uri("https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/18485", ".")
+ff
+```
+
+The data is provided as an excel spreadsheet. These files can be read with the 'readxl' package. The file has a single sheet. It is poorly organized as the first rows of the sheet are metadata (general and treatment information), and the actual data starts on row 23. Good practise would have been to use two different sheets. We read the sheet by skipping the first 22 rows. 
+
+```{r import}
+library(readxl)
+d <- read_xlsx(ff, skip = 22)
+```
+
+We get a warning because the variable name "Number of lines" occurs twice.
+
+We are going to analyze plant height and grain yield (dry matter). The variable names are a bit long, so we change them to someting more practical. 
+
+```{r organize}
+colnames(d)[c(12, 30)]
+colnames(d)[12] <- "height"
+colnames(d)[30] <- "yield"
+colnames(d)[c(12, 30)]
+```
+
+Also, we express yield in ton (1000 kg) / ha instead of in kg/ha
+
+```{r}
+d$yield <- d$yield / 1000
+```
+
+Another common mistake we find in these data is the use of integer codes for treatment instead of a clear label. We fix that.
+
+```{r}
+table(d$N)
+d$N <- c(0,30,60,120)[d$N + 1]
+table(d$N)
+
+table(d$V)
+d$V <- c("Nerica 1", "Nerica 2", "Nerica 3", "WAB 56-104")[d$V]
+table(d$V)
+
+table(d$D)
+d$D <- c("dib30", "dib20", "drill")[d$D]
+table(d$D)
+```
+
+
+## 3. Explore data
+
+### ANOVA
+
+Here we reproduce the ANOVA for plant height as influenced by Varieties (V), Nitrogen (N) and plant density (D) levels. As only one year data is available online, the "year" factor is omited here.  
+
+First transform "D" and "v" from character to categorical variables.
+
+```{r table1a}
+d$D <- as.factor(d$D)
+d$V <- as.factor(d$V)
+```
+
+Specify a linear model with all effects and interactions and a quadratic effect of nitrogen; and do the analysis of variance. Here is some more info on [Linear Models, ANOVA, GLMs and Mixed-Effects models in R](https://www.r-bloggers.com/linear-models-anova-glms-and-mixed-effects-models-in-r/).
+
+
+```{r table1b}
+m <- lm(height ~ N * D * V + I(N^2), data = d)
+anova(m)
+```
+
+
+### Plots
+
+Figure 2 shows a bar plot for the influence of N on plant height.
+
+A clear repsonse to N is apparent from the boxplot of rice height vs. N level
+
+```{r figure2a}
+boxplot(height ~ N, data = d)
+```
+
+The boxplot shows that there are outliers. Here is a way to remove these. Here is some more info on [outlier detection and removal with R](https://www.r-bloggers.com/outlier-detection-and-treatment-with-r/).
+
+
+```{r out1}
+nols.2q <- function(x, var="height") {
+    m <- median(x[[var]], na.rm=TRUE)
+    r <- quantile(x[[var]], c(0.25, 0.75), na.rm=TRUE)
+    r <- 2 * diff(r)
+    i <- which(abs(x[[var]] - m) < r)
+    x[i,]
+}
+
+Nlev <- unique(d$N)
+out <- vector(length=length(Nlev), mode="list")
+for (i in 1:length(Nlev)) {
+  dd <- d[d$N == Nlev[i], ]
+  out[[i]] <- nols.2q(dd, var="height")
+}
+dd <- do.call(rbind, out)
+
+boxplot(height ~ N, data = dd)
+```
+
+Calculate the mean height for each nitrogen level without outliers
+
+```{r nooutliers}
+height_N <- aggregate(dd[, 'height', drop=FALSE], dd[, 'N', drop=FALSE], mean)
+
+# Caculate standard errors (can also use aggregate function here)
+height_N_sem <- tapply(d$height, d$N, sd) / sqrt(tapply(d$height, d$N, length))
+  
+# Make the bar plot
+xp <- barplot(height~N, data=height_N, xlab="Nitrogen (kg/ha)", ylab="Plant height (cm)", ylim = c(0,100), space = 1) 
+
+box(bty="l")
+
+# Add error bars
+arrows (p, (height_N$height - height_N_sem), p, (height_N$height + height_N_sem), code = 3, angle = 90, length = 0.05)
+
+```
+
+
+### 3.3. Influence of N application on grain yield
+
+This is for Table 2
+
+```{r table2a}
+# Caculate mean grain yield for each N level
+Yield_N <- aggregate(d[, "yield", drop=FALSE], d[, "N", drop=FALSE], mean)
+
+# Perform the simple linear regression between yield and nitrogen level using the lm function
+Nyield_analysis <- lm (yield ~ as.factor(N), data = d)
+```
+
+Compute Tukey Honest Significant Differences to check if there are significant difference between each level. 
+
+```{r table2b}
+TukeyHSD(aov(Nyield_analysis))
+```
+
+This suggests that there is no significant difference between each N level on yield.  
+
+### 3.4 Yield vs. Nitrogen by variety 
+
+Plotted in a different shape for Figure 3
+
+ Aggregate data by Nitrogen and Variety group and caculate the mean yield for each group
+
+```{r figure3}
+yNV <- aggregate(d[, "yield", drop=FALSE], d[, c("N","V"), drop=FALSE], mean)
+cols <- c("red", "blue", "orange", "black")
+
+plot(yNV$N, yNV$yield, xlab = "N (kg/ha)", ylab = "Grain yield (ton/ha)", pch = c(15, 16, 17, 18)[yNV$V], col=cols[yNV$V], ylim=c(200, 1000), cex=1.5)
+
+legend ("bottomleft", legend = levels(yNV$V), pch = c(15:18), col=cols, horiz=TRUE, cex=1.25)
+```
+

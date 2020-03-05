@@ -1,0 +1,326 @@
+# SI: Data Cleaning and Review
+
+## Pathways to Intensification: Cross-Country Report 2013
+
+While a previous example showed the Pathways to Sustainable Intensification Data from one country over the three years of panel data, this case study will analyze the data from all countries in a single year. The cross-country report that this case study is modeling off of can be found [here](https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/11072). Each of the data sets are available on dataverse. We will conduct basic summary statistics across the five countries in the project.
+
+TODO: Note: Would be interesting to use this as an example of how even with the same survey, different enumerators use different techniques for data organization, for example with different column names, NA values, etc. 
+
+###Read in Data
+
+Tanzania Data: 
+```{r Tanzania Data}
+datapath2 <-"../data/PSI/Tanzania/2013/data"
+ff2 <- list.files(datapath2, pattern='\\.tab$', full=TRUE)
+x2 <- lapply(ff2, read.delim)
+
+#To name each of the tables
+z2 <- strsplit(basename(ff2), " |-")
+z2 <- t(sapply(z2, function(x2) x2[1:4]))
+z2[1,3] <- "Part"
+z2[1, 4] <- "A"
+z2[2,3] <- "Part"
+z2[2,4] <- "B"
+z2[z2[,3]!='Part', 4] <- ""
+z2 <- apply(z2[,-3], 1, function(i) paste(i, collapse=""))
+names(x2) <- z2
+```
+
+Mozambique Data: 
+```{r Mozambique Data}
+datapath3 <- "../data/PSI/Mozambique/2013/Data"
+ff3 <- list.files(datapath3, pattern='\\.tab$', full=TRUE)
+x3 <- lapply(ff3, read.delim)
+
+z3 <- strsplit(basename(ff3), " |-|_")
+z3 <- t(sapply(z3, function(x3) x3[1:3]))
+z3[1,2] <- "Part1"
+z3[2,2] <- "Part2"
+z3[3,2] <- "Part1"
+z3[4,2] <- "Part2"
+z3 <- apply(z3, 1, function(i) paste(i, collapse=""))
+names(x3) <- z3
+
+```
+
+Kenya Data:
+```{r Kenya Data}
+datapath4 <- "../data/PSI/Kenya/2013/Data"
+ff4 <- list.files(datapath4, pattern='\\.tab$', full=TRUE)
+x4 <- lapply(ff4, read.delim)
+
+z4 <- strsplit(basename(ff4), " |-|_")
+z4 <- t(sapply(z4, function(x4) x4[1:4]))
+z4[z4[,3]!='Part', 4] <- ""
+z4 <- apply(z4[,-3], 1, function(i) paste(i, collapse=""))
+names(x4) <- z4
+```
+
+Malawi Data: 
+```{r Malawi Data}
+datapath5 <- "../data/PSI/Malawi/2013/DataPartial"
+ff5 <- list.files(datapath5, pattern='\\.tab$', full=TRUE)
+x5 <- lapply(ff5, read.delim)
+
+z5 <- strsplit(basename(ff5), " |-|_")
+z5 <- t(sapply(z5, function(x5) x5[1:4]))
+z5[z5[,3]!='Part', 4] <- ""
+z5 <- apply(z5[,-3], 1, function(i) paste(i, collapse=""))
+names(x5) <- z5
+
+```
+
+Ethiopia Data: 
+```{r Ethiopia Data}
+datapath6 <- "../data/PSI/Ethiopia/2013/Data"
+ff6 <- list.files(datapath6, pattern='\\.tab$', full=TRUE)
+x6 <- lapply(ff6, read.delim)
+
+z6 <- strsplit(basename(ff6), " ")
+z6 <- t(sapply(z6, function(x6) x6[1:4]))
+z6 <- apply(z6[,-3], 1, function(i) paste(i, collapse=""))
+names(x6) <- z6
+
+
+```
+
+
+##Household Demographic Information
+Next, we will summarize basic household demographic information across households in the five countries in the study region. The final report is similar to that shown in Table 2 of the 2013 cross-country report. It includes information on the household head, including gender, age, eduacation, primary occupation, and marital status. 
+
+For each country, we extract a dataframe that includes only information on the household head, as well as the six variables of interest. While most of the surveys are formatted in the same way, the variable names across each of the five countries change in each table. Finally, we combine the information into a single data frame that compares the summary statistics across the countries. 
+
+```{r clean and combine household data}
+HHTan<-x2$Module2A[which(x2$Module2A$relnhhead == "1"),c("hhldid", "sex", "age", "martstat", "education", "mainoccup")] 
+HHMoz <- x3$B.Part1[x3$B.Part1$b104 == 1, c("hhid", "b103", "b105", "b107", "b108", "b109")]
+HHKen <- x4$Module2A[x4$Module2A$relnhhead==1, c("hhldid", "sex", "age", "martstat", "education", "mainoccup2")]
+HHMal <- x5$Module2A[x5$Module2A$Relationship==1, c("HHID", "Sex", "Age", "Marital_status", "Education", "Occupation")]
+HHEthio <- x6$Module2A.[x6$Module2A.$A3==1, c("HHID", "A2", "A4", "A5", "A6", "A7")]
+#Make a list to combine all of the dataframes into a single object
+HHall <- list(HHTan, HHMoz, HHKen, HHMal, HHEthio)
+
+#Values less than 0 should be converted to NA
+HHall2 <- lapply(HHall, function(x) {
+  x[x<0] <- NA
+  x
+})
+
+#Change the column names for each dataframe in the list so that they are all the same
+changenames <- function(x) {
+  names(x) <-  c("hhldid", "sex", "age", "martstat", "education", "mainoccup")
+  return(x)
+}
+HHall3 <- lapply(HHall2, changenames)
+
+#We find the code for farming and salaried employment used on the survey questionnaire, and assign 0-1 values to these variables. Marital status of married is coded at 1, so this information is extracted
+out <- lapply(HHall3, function(x) cbind(x, farming = ifelse(x$mainoccup == 1, 1, 0),
+                                       salaried = ifelse(x$mainoccup == 5, 1, 0), 
+                                       other = ifelse(x$mainoccup != 1 & x$mainoccup != 5, 1, 0),
+                                       married = ifelse(x$martstat == 1, 1, 0)))
+```
+
+Finally, we can combine all of the information into a single dataframe to display and compare the results across countries. We can see that many of the demographic variables are similar across the five countries, with the exception of education which ranges from 3.5 years in Mozambique to 8 years in Kenya. 
+```{r household characteristic means}
+#Find the mean of each column, and combine into single dataframe
+out2 <- lapply(out, function(i) sapply(na.omit(i[,c(2:3, 5, 7:10)]), mean))
+out3 <- as.data.frame(out2)
+colnames(out3) <- c("Tanzania", "Mozambique", "Kenya", "Malawi", "Ethiopia")
+#To convert to percentages and round
+out3[c(1, 4:7),] <- out3[c(1, 4:7),]*100
+out3 <- round(out3, 2)
+#Name each row with more descriptive information
+out3$Variable <- c("Male headed households (%)", "Age (years)", "Education level (years)", "Main occupation: farming (% households)", "Main occupation: salaried employment (% households)", "Main occupation: other (% households)", "Marital status: married (% households)")
+#To rearrange the order to match the table in the report
+out3 <- out3[,c(6, 5, 3, 4, 2, 1)]
+
+library(knitr)
+kable(out3, caption="**Household head socioeconomic characteristics**", row.names=F)
+```
+
+
+We can also display the results as a barplot, specifically looking at the variables that can be shown as percentages of households. The information is similar across the five countries, with the majority of households male- headed( between 80-90 percent), most involved in farming as the primary occupation (Kenya is lowest at 72%, Tanzania highest at 95%), and the majority married. 
+```{r barplot}
+out4 <- as.matrix(out3[c(1, 4, 6, 7),2:6])
+row.names(out4)<- c("Male", "Occupation: Farming", "Occupation: salaried", "Married")
+colnames(out4) <- c("Ethiopia", "Kenya", "Malawi", "Mozambique", "Tanzania")
+colors <- c("firebrick", "darkgreen", "darkgoldenrod2", "dodgerblue4")
+
+barplot(out4, beside = TRUE, col = colors, 
+        ylim = c(0, 110), axes = FALSE,
+        xlab = "Country",
+        ylab = "% households",
+        main = "HH Head Demograpahic Info")
+
+axis(2)
+legend("topright", rownames(out4), fill = colors, bty = "n", ncol=3)
+
+```
+
+##Adoption of Sustainable Intensification Practices
+Table 9 of the cross-country report summarizes the adoption of sustainable internsification practices as a percentage of the households who adopt from each sample of households. This information was collected as plot-level in Module 3 of the survey, so must be converted to household level information. The sustainable intensification practices summarized below include adoption of improved maize varieties, fertilizer use, maize/legume intercropping and rotation, minimum tillage, crop residue retention, herbicide and pesticide use, conservation agriculure, and soil and water conservation methods. 
+
+Because we have multiple countries that we want to analyze, we can create a list of dataframes for each country with the variables that we need to manipulate. This way, we do not have to repeat the same code for each country that we are analyzing. However, because each of the datasets were organized in different ways, with different tables and variable names, we need to  do some work to make sure that each dataframe is orgnanized in the same way.
+
+Kenya and Tanzania have nearly identical data set-ups, with the same tables and variable names. 
+```{r list only}
+kenya <- x4$Module3A[,c("hhldid", "cropvar1", "amtplant", "amttopdr", "intercrp", "cropgrwn1", "cropgrwn2", "cropgrwn3", "prevcrpgrwn1", "nomitildrng", "crpresidue", "amtherb", "amtpest", "soilwtrcnsrv1")]
+kenya[kenya < 0] <- NA
+kenya$cropvar1[kenya$cropvar1 > 20] <- 0
+
+tanzania <- x2$Module3A1[,c("hhldid", "cropvar1", "amtplant", "amttopdr", "intercrp", "cropgrwn1", "cropgrwn2", "cropgrwn3", "prevcrpgrwn1", "nomitildrng", "crpresidue", "amtherb", "amtpestcid", "soilwtrcnsrv1")]
+tanzania[tanzania < 0] <- NA
+tanzania$cropvar1[tanzania$cropvar1 > 15] <- 0
+
+```
+
+Mozambique has the same survey, but the data are organized differently. We need to pull the variables from three different tables, and reorganize them so they match the format of Kenya and Tanzania
+```{r mozambique}
+mozambique1 <- x3$C.Part1pag5[,c("hhid", "c110", "c111a", "c111b", "c111c", "c112a")]
+mozambique2 <- x3$C.Part1pag6[,c("c116a", "c118a", "c120")]
+mozambique3 <- x3$C.Part1pag7[,c("c122b", "c123b", "c124a", "c125a", "c126a")]
+mozambique <- cbind(mozambique1, mozambique2, mozambique3)
+
+
+colnames(mozambique) <- c("hhldid", "intercrp", "cropgrwn1", "cropgrwn2", "cropgrwn3", "cropvar1", "prevcrpgrwn1", "soilwtrcnsrv1", "crpresidue", "nomitildrng", "amtherb", "amtpest", "amtplant", "amttopdr")
+#change order to match
+
+mozambique <- mozambique[,c(1, 6, 13, 14, 2, 3, 4, 5, 7, 10, 9, 11, 12, 8)]
+mozambique[mozambique < 0] <- NA
+mozambique$cropvar1[mozambique$cropvar1 > 20] <- 0
+
+#View(x3)
+#TODO: There are several errors with Mozambique data since the data are organized slightly differently
+
+```
+
+```{r ethiopia}
+ethiopia <- x6$Module3A1[,c("HHID", "A3_PA_A10", "A3_PA_A11_CA", "A3_PA_A11_CB", "A3_PA_A11_CC", "M3_PA_A20_1", "M3_AP_A24B", "M3_PA_A25A","M3_AP_A26A", "M3_AP_A27A", "M3_PA_A21", "M3_AP_A23B", "M3_PA_A19", "A3_PA_A12_VA")]
+colnames(ethiopia) <- c("hhldid", "intercrp", "cropgrwn1", "cropgrwn2", "cropgrwn3", "soilwtrcnsrv1", "amtherb", "amtpest", "amtplant", "amttopdr", "crpresidue", "nomitildrng", "prevcrpgrwn1", "cropvar1")
+
+ethiopia <- ethiopia[,c("hhldid", "cropvar1", "amtplant", "amttopdr", "intercrp", "cropgrwn1", "cropgrwn2", "cropgrwn3", "prevcrpgrwn1", "nomitildrng", "crpresidue", "amtherb", "amtpest", "soilwtrcnsrv1")]
+ethiopia[ethiopia < 0] <- NA
+ethiopia$cropvar1[ethiopia$cropvar1 > 50] <- 0
+
+SIP <- list(kenya, tanzania, mozambique, ethiopia)
+
+```
+
+
+In order to evaluate if the household practiced crop rotation, we can see whether the crop grown this year is the same as the crop grown last year on each plot. Since we are only evaluating maize and legume rotation, other crops are given value of NA. 
+```{r rotation}
+SIP2 <- lapply(SIP, function(x) 
+  {
+  cbind(x, 
+            rotation1 = ifelse(x$cropgrwn1 > 6, NA, x$cropgrwn1),
+            rotation2 = ifelse(x$prevcrpgrwn1 > 6, NA, x$prevcrpgrwn1))
+})
+
+SIP3 <- lapply(SIP2, function(x)
+  {
+    x[,15] <- ifelse(x[,15] > 1, 2, 1); x
+    x[,16] <- ifelse(x[,16] > 1, 2, 1); x
+    cbind(x, 
+          rotation = ifelse(x[,15] != x[,16], 1, 0))
+  })
+
+```
+
+Interviewees were asked the quantity of pesticide and fertilizer used on each plot. If the sum of pesticide and fertilizer quantities was above 0 for any plot in the household, the household is given a value of 1 for this SIP.  
+
+```{r inputs}
+SIP4 <- lapply(SIP3, function(x)
+  {
+  cbind(x,
+         fert = rowSums(x[,3:4], na.rm=T),
+         pestherb = rowSums(x[,12:13], na.rm = T))
+            })  
+
+SIP5 <- lapply(SIP4, function(x)
+  {
+  x$fert <- ifelse(x$fert > 0, 1, 0); x
+  x$pestherb <- ifelse(x$pestherb > 0, 1, 0); x
+  })
+```
+
+In order to determine if the household intercrops with maize and legume, each plot was evaluated to see if both maize and legume were planted. Plots where both were planted were given a value of 1 for this variable, and 0 if not. 
+```{r intercrop}
+
+SIP6 <- lapply(
+  SIP5,
+  function(x)
+  {
+  x[,6:8] <- ifelse(x[,6:8] < 7, 1, 0); x
+  cbind(x,
+        intercrop = rowSums(x[,6:8], na.rm=T))
+  })
+
+SIP7 <- lapply(
+  SIP6, 
+  function(x)
+  {
+    x["intercrop"] <- ifelse(x$intercrop > 1, 1, 0); x
+  })
+```
+Soil and water conservation methods considered here include soil bunds, stone bunds, and box ridges. Interviewees were asked about a range of different conservation methods, and each method was given a different code. 
+
+```{r soil and water cons}
+SIP8 <- lapply(
+  SIP7, 
+  function(x)
+  {
+    x[,14] <- ifelse(x[,14] > 9, NA, x[,14]); x
+    x[,14] <- ifelse(x[,14] > 5 & x[,14] < 9, 1, 0); x
+  })
+
+```
+According to the report, Conservation Agriculture "was defined as a practice where a farmer has at least one of his cultivated plots under minimum or zero tillage, crop residue retained on the plot and the plot had maize intercropped with at least one of the legumes". Thus, we combine these three variables for each plot into a single data frame, giving the plot a value of 1 for each column if the practice was used, and 0 otherwise. The three columns are summed, and any plot that used all three practices would have a value of 3, meaning that they qualify as practicing conservation agriculture. 
+
+```{r conservation ag}
+SIP9 <- lapply(
+  SIP8, 
+  function(x) {
+      cbind(x,
+        ca = rowSums(x[,c(10,11,17)], na.rm=T))
+  })
+
+SIP10 <- lapply(
+  SIP9, 
+  function(x) {
+    x$ca <- ifelse(x$ca == 3, 1, 0); x
+  })
+```
+
+```{r column means}
+hhlevel <- lapply(SIP10, function(x) {
+  aggregate((x[,c("cropvar1", "fert", "intercrop", "rotation", "nomitildrng", "crpresidue", "pestherb", "ca", "soilwtrcnsrv1")]), by = list(x$hhldid), FUN = sum, na.rm = T)
+})
+
+hhlevel2 <- lapply(hhlevel, function(x) {
+  x[,c(2:10)] <- ifelse(x[,c(2:10)] > 0, 1, 0); x
+})
+
+k <- lapply(hhlevel2, function(x) {
+  round(colMeans(x)*100, 2)
+})
+
+k2 <- as.data.frame(k)
+colnames(k2) <- c("Kenya", "Tanzania", "Mozambique", "Ethiopia")
+
+k2 <- k2[-1,]
+rownames(k2) <- c("Improved Maize Variety", "Fertilizer", "Maize/legume intercropping", "maize/legume rotation", "minimum tillage", "crop residue retention", "herbicides/pesticides", "conservation agriculture", "soil and water conservation")
+k2$code <- c("1", "2", "3", "4", "5", "6", "7", "8", "9")
+
+library(knitr)
+kable(k2)
+
+```
+
+###Cross-Country Plot of SIPs
+With all of the SIP data summarized for each country, we can easily summarize the information on a chart and barplot to compare the information across countries. We can use the apply function to find the mean of each SIP, and then plot with 
+```{r Plot SIPS}
+rownames(k2) <- k2$code
+k3 <- as.matrix(t(k2[1:4]))
+barplot(k3, beside = T, col = c("red", "blue", "darkgreen", "goldenrod"), ylab = "% Households", xlab = "Sustainable Intensification Practice (Code)", legend.text = T, main = "SIP Adoption by Percent of Households")
+```
+
+

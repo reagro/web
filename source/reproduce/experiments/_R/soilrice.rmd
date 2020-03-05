@@ -1,0 +1,147 @@
+# Soil compaction effect on rice
+
+## 1. Background and introduction
+
+This case study shows how to do principal component analysis and stepwise multiple regression in R. 
+
+Here we follow the analysis of the study by Singh et al (2017), entitled "Depth of soil compaction predominantly affects rice yield reduction by reproductive-stage drought at varietal screening sites in Bangladesh, India, and Nepal". The study was published in the journal Plant Soil. You can access the [article](https://link.springer.com/article/10.1007/s11104-017-3265-2) (it is behind a paywall) online. The data was also made available on Harvard Dataverse and can be [downloaded](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/SNQZTT). 
+
+--- Things to be noted here: Variables released in the dataset are not the same as in the paper. Results in the case study are different from the paper.---
+
+
+## 2. Get the data
+
+```{r}
+library(agro)
+ff <- get_data_from_uri("https://doi.org/10.7910/DVN/SNQZTT", ".")
+ff
+```
+
+
+### 2.1. Import data
+
+The data is provided as a tab file. This file can be read by read.table function in R.
+```{r import table}
+library(readxl)
+# Import table of data
+wdata <- read_excel(ff[1])
+
+# Check column names to see the variable provided
+colnames(wdata)
+
+```
+
+
+### 2.2. Subset data
+
+Subset data for use and delete the information not use in the following analysis
+```{r subset data}
+
+wdata1 <- wdata[, !(colnames(wdata) %in% c("Year", "location", "Ave yield control", "Ave yield stress"))]
+
+```
+
+
+## 3. Explore data
+
+
+### 3.1. Step-wise multiple regression for table 5 in the paper
+
+Yield reduction by drought across three years of study as a function of rainfall and soil-related parameters as determined by step-wise multiple regression
+
+3.1.1 First, use regsubsets(), which is a function in r for model selection
+```{r}
+
+# Make a multiple linear regression model with all explanatory variables and yield reduction as the response variable
+# Load packages
+library(car)
+
+# Using the dot notation for shorter code, which means everything else in the data frame
+model_full <- lm(`% yield reduction` ~ ., wdata1)
+
+# Start with all variables and develop a good model using regsubsets() from the leaps package. Select the model with the minimum BIC
+
+# Load packages
+library(leaps)
+
+# Using regsubset
+model_regsub <- regsubsets(`% yield reduction` ~ ., data = wdata1)
+
+# View results
+summary(model_regsub)
+
+# Visually determine best model by BIC (subset( ) are bic, cp, adjr2, and rss.)
+summary(model_regsub)$bic
+subsets(model_regsub, statistic = "bic", legend = F)
+
+# Creat the best model
+model_reduced <- lm(`% yield reduction` ~ `Rainfall 60-100 DAS` + `ave tensiom 60-100` + `max tensiom 60-100` + `aver water table 60-100 DAS` + `bd 5-10 cm` + pH + `% Clay` + `depth of max penetrom`, data = wdata1)
+
+summary(model_reduced)
+
+# Compare the best model with the full model 
+anova(model_full, model_reduced)
+
+```
+
+
+3.1.2. Second, use stepAIC() function from MASS package perform step model selection by AIC including forward, backward and both
+```{r}
+library(MASS)
+
+# Stepwise Regression
+model_step <- stepAIC(model_full, direction = "both")
+
+# Display results
+model_step$anova
+
+# Final model
+model_final <- lm(`% yield reduction` ~ `Rainfall 60-100 DAS` + `ave tensiom 60-100` + `max tensiom 60-100` + `aver water table 60-100 DAS` + `bd 5-10 cm` + `bd 25-30 cm` + pH + `Avail-P ppm` + `Exch-K ppm` + `% Clay`, data = wdata1)
+
+# Compare models (best reduced model from the previous analysis vs. the final model from this analysis)
+anova(model_reduced, model_final)
+```
+
+
+### 3.2. Principal component analysis for table 6
+
+Eigenvector values from a principal component analysis of yield reduction by drought a various soil characteristics at the research station drought screening sites characterized in this study.
+```{r}
+
+# Perform  a PCA on the 20 varaibles using the correlation matrix
+
+# Load package
+library(stats)
+
+# Pricipal Component Analysis (When scale=TRUE, the correlation matrix is used, omit data wich is NA)
+sr.pca <- prcomp(na.omit(wdata1), scale = TRUE)
+
+# Display results
+summary(sr.pca)
+
+# Using a scree plot to check how many PC's to retain (find elbow)
+plot(sr.pca, type = "l", main ="PCA of dataset")
+
+# Check eigenvalues for each PC
+summary(sr.pca)$sdev^2
+
+# Check Eigenvector values for each PC's
+re <- eigen(cor(na.omit(wdata1)))
+
+```
+
+
+### 3.3. Principal component analysis for figure 5
+
+Biplot from a principal component analysis of yield reduction by drought a various soil characteristics at the research station drought screening sites characterized in this study. Parameter abbreviations are described in Table 5
+```{r}
+
+# Make a biplot
+biplot(sr.pca)
+
+```
+
+
+
+
+

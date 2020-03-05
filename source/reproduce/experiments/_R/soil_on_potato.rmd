@@ -1,0 +1,79 @@
+# Effect of organic soil amendments on Potato
+
+## 1. Background and introduction
+
+Here we follow the analysis of the study by Bertin et al (2013), entitled "Impact of Organic Soil Amendments on the Physical Characteristics and Yield Components of Potato", which was published in the Journal of Agricultural Science and Technology. You can access the [article](https://www.idosi.org/mejsr/mejsr17(12)13/16.pdf) online. The data was also made avaliable on	World Agroforestry Centre - ICRAF Dataverse and can be [downloaded](https://dataverse.harvard.edu/dataset.xhtml?persistentId=hdl:1902.1/17787). 
+
+## 2. Get the data
+
+```{r}
+library(agro)
+ff <- get_data_from_uri("https://doi.org/10.34725/DVN/90SBOT", ".")
+ff
+```
+
+
+### 2.1. Import data
+
+The data is provided as an tab file. These files can be read with the 'openxlsx' package in R.
+```{r}
+
+data <- read.delim(ff[1])
+```
+
+### 2.2 Split data
+
+```{r}
+# Split data according to fertilisation scheme
+mydata <- split(data, data$Fertilisationscheme)
+
+# For mineral fertilization
+mineralf <- mydata$`Mineral fertilization`
+
+# For no fertilization
+nof <- mydata$`No fertilization`
+
+# For Non sterilized compost
+nscompost <- mydata$`Non sterilized compost`
+  
+# For sterilized compost
+scompost <- mydata$`Sterilized compost`
+  
+# For C.calothyrsus. 
+con <- mydata$Calliandra
+```
+
+
+## 3. Explore data
+
+### For table 2 & 3 & 4
+Mean performances of plants physical characteristics under various fertilization schemes compared to C. calothyrsus. Take plant vigor for example here usting t test function. (Not the exact same values in paper)
+```{r}
+
+# Mineral fertilizetion vs. Control
+t.test(mineralf$Plantvigor, con$Plantvigor, paired = TRUE)
+
+# No fertilizetion vs. Control
+t.test(nof$Plantvigor, con$Plantvigor, paired = TRUE)
+
+# Non sterilized compost vs. Control
+t.test(nscompost$Plantvigor, con$Plantvigor, paired = TRUE)
+
+# Sterilized compost vs. Control
+t.test(scompost$Plantvigor, con$Plantvigor, paired = TRUE)
+```
+
+
+### For table 5
+
+Correlations matrix among different parameters as influenced by various treatments.
+```{r}
+# Subset new data frame
+newdata <- data[ , -c(1:7,14)]
+
+# Make a correlation matrix table 
+round(cor(newdata), 2)
+```
+
+
+

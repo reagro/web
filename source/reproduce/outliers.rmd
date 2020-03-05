@@ -1,0 +1,51 @@
+---
+title: "Untitled"
+author: "Robert Hijmans"
+date: "10/14/2019"
+output: html_document
+---
+
+
+
+Take some time to go over how to check the data and deal with outliers.
+
+Method 1 Check outliers by box plot for different group of treatment (no outliers outside the boxplot) 
+
+```{r table out1}
+boxplot(TY ~ TRT, ty_WRIT6W, outline = F, ylim=c(0,30))
+boxplot(TY ~ B, ty_WRIT6W, outline = F, ylim=c(0,30))
+boxplot(TY ~ TRT, ty_WRIT8W, outline = F, ylim=c(0,30))
+boxplot(TY ~ B, ty_WRIT8W, outline = F, ylim=c(0,30))
+```
+
+
+Method 2 Other ways to check outliers (Regression Deletion Diagonostics)
+
+```{r table out2}
+mod <- lm(ty_WRIT6W$TY ~ ty_WRIT6W$TRT + ty_WRIT6W$B, data = ty_WRIT6W)
+cooksd <- cooks.distance(mod)
+plot(cooksd, pch="*", cex=2, main="Influential Obs by Cooks distance")
+
+# Add cutoff line
+abline(h = 4*mean(cooksd, na.rm=T), col="red") 
+
+# Add labels
+text(x=1:length(cooksd)+1, y=cooksd, labels=ifelse(cooksd>4*mean(cooksd, na.rm=T),names(cooksd),""), col="red")
+
+
+# Influential row numbers
+influential <- as.numeric(names(cooksd)[(cooksd > 4*mean(cooksd, na.rm=T))])  
+head(ty_WRIT6W[influential, ])
+```
+
+Method 3 Outliers Test
+
+```{r table out3}
+library(car)
+car::outlierTest(mod)
+
+# Deal with OUTLIERS??
+# ty_WRIT6W$TY[14] <- mean(ty_WRIT6W$TY[ty_WRIT6W$TRT == "FI"])
+
+# No need to remove outliers for this analysis
+```

@@ -1,0 +1,303 @@
+# Biofortified sweetpotato adoption 
+
+This case study will replicate the results from the article "Effect of Farmers' Multidimensional Beliefs on Adoption of Biofortified Crops: Evidence from Sweetpotato in Tanzania", by Shikuku et al. The purpose of this study is to see how farmers beliefs about orange-fleshed sweetpotato impacts their adoption of the variety. 
+
+This study uses data from both the baseline and endline surveys of the Marando Bora project, which can be found on dataverse [here](https://data.cipotato.org/dataset.xhtml?persistentId=doi:10.21223/P3/QWFBBZ) and [here](https://data.cipotato.org/dataset.xhtml?persistentId=doi:10.21223/P3/ZQJNRS). The number of observations used for this study are those that were included in both the baseline and endline, a total of 434 households. 
+
+This case study will demonstrate how to clean and prepare data for analysis, to conduct summary statistics, and their estimation technique of inverse probability weighting and difference-in-differences (IPW-DID). 
+
+First we read in the data from both surveys: 
+
+
+
+## The data
+```{r}
+library(agro)
+ffbase <- get_data_from_uri("https://data.cipotato.org/dataset.xhtml?persistentId=doi:10.21223/P3/QWFBBZ", ".")
+head(ffbase)
+ffend <- get_data_from_uri("https://data.cipotato.org/dataset.xhtml?persistentId=doi:10.21223/P3/ZQJNRS", ".")
+head(ffend)
+```
+
+First we read in the data from both surveys: 
+```{r read in the data, warning = F}
+ff1 <- grep('\\.dta$', ffbase, value=TRUE)
+#the data is stored as .dta from stata, so we need to use the package `readstata123`
+library(readstata13)
+x <- lapply(ff1, read.dta13, generate.factors=T, nonint.factors=T)
+names(x) <- basename(ff1)
+
+ff2 <- grep('\\.dta$', ffend, value=TRUE)
+x2 <- lapply(ff2, read.dta13, generate.factors=T, nonint.factors=T)
+names(x2) <- basename(ff2)
+```
+
+
+##Variables and Summary Statistics
+Next we will replicate summary statistics that are reported in table 1 and 2 of the paper. Table 1 provides an overview of outcomes/beliefs variables.The data source for these statistics is the endline survey, only including the observations that were also present in the baseline survey. Using the dictionary provided with the data, we can find which variables correlate to the questions that we are interestd in. We start with belief variables.
+```{r belief variables}
+belief <- x2$`mbend_pg19_genderbased_attitude and perception_part1.dta`
+#we only want observations below 627, since these are the ones that also appeared in the baseline. 
+belief <- belief[belief$hhid < 627,c(4, 9, 14:20, 34)]
+colnames(belief) <- c("hhid", "health", "taste", "yield", "storability", "sweetness", "maturity", "child", "disease", "color")
+
+#We need to switch the variables from the Linkert scale in which they were interviewed to 0-1 variables. 
+belief$health <- ifelse(belief$health == "Strongly agree" | belief$health == "Agree", 1, 0)
+belief$taste <- ifelse(belief$taste == "Disagree" | belief$taste == "Strongly disagree", 1, 0)
+belief$yield <- ifelse(belief$yield == "Strongly agree" | belief$yield == "Agree", 1, 0)
+belief$storability <- ifelse(belief$storability == "Disagree" | belief$storability == "Strongly disagree", 1, 0)
+belief$sweetness <- ifelse(belief$sweetness == "Disagree" | belief$sweetness == "Strongly disagree", 1, 0)
+belief$child <- ifelse(belief$child == "Disagree" | belief$child == "Strongly disagree", 1, 0)
+belief$disease <- ifelse(belief$disease == "Disagree" | belief$disease == "Strongly disagree",1, 0)
+belief$maturity <- ifelse(belief$maturity == "Agree" | belief$maturity == "Strongly agree", 1, 0)
+belief$color <- ifelse(belief$color == "Disagree" | belief$color == "Strongly disagree", 1, 0)
+
+#mean and standard deviation of each variable
+apply(belief[,-1], 2, mean)
+apply(belief, 2, sd)
+```
+
+
+
+Next we will summarize outcome variables: household grew at least one OFSP variety, and change in proportion of OFSP roots of total production by household
+```{r outcome variables}
+sp <- x2$mbend_pg5_sweetpotato_production_table.dta
+sp <- sp[sp$hhid < 627,c(4,12)]
+colnames(sp) <- c("hhid", "OFSP")
+sp$OFSP <- ifelse(sp$OFSP == "Yes", 1, 0)
+#The data was recorded on a plot level, and we want household level--so we aggregate.
+sp2 <- aggregate(sp$OFSP, list(sp$hhid), sum)
+colnames(sp2) <- c("hhid", "OFSP")
+sp2$OFSP[sp2$OFSP > 0] <- 1
+summary(sp2$OFSP)
+
+change <- x2$mbend_pg6_sp_production_cont.dta
+change <- change[change$hhid < 627, c(4,7,10)]
+#one of the responses was 50, which is an error, so it is converted to 10.
+change$j27c[change$j27c>10] <- 10
+
+change$change <- (change$j27c-change$j27f)/10
+summary(change$change)
+change <- change[,c(1,4)]
+
+#add the outcome variables to the belief variables dataframe
+allvar <- merge(sp2, change, by = "hhid")
+allvar <- merge(allvar, belief, by = "hhid")
+
+#Now we can 
+means <- round(apply(allvar[,-1], 2, mean, na.rm=T), 2)
+library(knitr)
+kable(means)
+```
+
+Following the methodology used in the paper, the authors next step is to use exploratory factor analysis to create a scree plot of Eigen values. The results of this analysis showed that tthere is a one factor solution. The authors further found that the variable maturity should not be retained for analysis.
+```{r}
+library(nFactors)
+belief <- belief[,-1]
+ev <- eigen(cor(belief))
+ap <- parallel(subject = nrow(belief), var=ncol(belief), rep=100, cent = .05)
+nS <- nScree(x=ev$values, aparallel = ap$eigen$qevpea)
+plotnScree(nS)
+
+
+```
+
+The authors also use a set of control variables, which are later used to generate propensity scores. These include household, farm, and market characteristics. Here we find each of the variables using the survey instrument and codesheet provided with the data, and combine the variables into a single data frame. We then add these variables to the previous belief variable dataframe. 
+```{r control variables}
+dem <- x$mbbase_pg2_adult_demog.dta
+demhhh <- dem[dem$D3=="Head",c(1, 3,5,8)]
+colnames(demhhh) <- c("hhid", "sex", "age", "edu")
+#hhhsex d2
+demhhh$sex <- ifelse(demhhh$sex == "Male", 1, 0)
+#hhhage 2009-d4
+demhhh$age <- 2009-demhhh$age
+#hhhedu above primary level d7
+levels(demhhh$edu)<- c(0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
+demhhh$edu <- as.numeric(as.character(demhhh$edu))
+
+#infants number below five
+dem2 <- x$mbbase_pg2_adult_demog.dta
+dem2 <- dem2[,c(1,5)]
+colnames(dem2) <- c("hhid", "age")
+dem2$age <- 2009 - dem2$age
+dem2$infants <- ifelse(dem2$age < 6, 1, 0)
+#demhhh$infants <- aggregate(dem2$infants, list(dem2$hhid), sum)
+
+#with the child data
+child <- x$mbbase_pg3_child_demog.dta
+child <- child[,c(1,6)]
+colnames(child) <- c("hhid", "child")
+child$child <- ifelse(child$child == "no infant", 0, 1)
+child2 <- aggregate(child$child, list(child$hhid), sum)
+colnames(child2) <- c("hhid", "child")
+demhhh$infants <- child2$child
+
+#noninfants number above five
+dem2$noninfants <- ifelse(dem2$age > 5, 1, 0)
+dem3 <- aggregate(dem2$noninfants, list(dem2$hhid), sum)
+demhhh$noninfants <- dem3$x
+
+#farmsize
+farmsize <-x$`mbbase_pg5_crop production.dta`
+farmsize <- farmsize[,c(1,4:6)]
+farmsize$size <- farmsize$P02A + farmsize$P02B
+demhhh$farmsize <- farmsize$size
+
+#soldSP
+#TODO: Find info from baseline, this is endline
+sold <- x2$mbend_pg6_sp_production_cont.dta
+sold <- sold[,c(4,11)]
+colnames(sold) <- c("hhid", "sold")
+sold$sold <- ifelse(sold$sold=="None at all", 0, 1)
+#demhhh$sold <- sold$sold
+
+#labour 
+labor <- x$mbbase_pg8_labour_and_credit.dta
+labor <- labor[, c(1,5)]
+colnames(labor) <- c("hhid", "labor")
+labor$labor <- ifelse(labor$labor == "Only hired labor", 1, 0)
+demhhh$labor <- labor$labor
+
+#credit
+credit <- x$mbbase_pg8_labour_and_credit.dta
+credit <- credit[,c(1, 36, 37)]
+colnames(credit) <- c("hhid", "applied", "received")
+credit$credit <- ifelse(credit$applied == "Yes" & credit$received == "Yes", 1, 0)
+demhhh$credit <- credit$credit
+
+#region
+mwanza <- x$mbbase_pg1_cover_page.dta$A01
+mwanza <- ifelse(mwanza == "Mwanza", 1, 0)
+demhhh$mwanza <- mwanza
+mara <- x$mbbase_pg1_cover_page.dta$A01
+mara <- ifelse(mara == "Mara", 1, 0)
+demhhh$mara <- mara
+
+#we only want the observations that were included in the allvar dataframe, which were the 434 observations from both surveys--so we use the argument all.x=T.
+allvar <- merge(allvar,demhhh, all.x=T)
+
+apply(allvar, 2, mean)
+
+
+```
+
+##First stage: 
+The authors use a methodology of inverse probability weighting and difference-in-differences (IPW-DID) to attempt to control for selection bias. Their first stage regression is to estimate the propensity scores, by regressing each of the belief variables on the control variables with a probit regression. Later, these   propensity scores will be used as weights. 
+
+Here, because we regress different belief variables on the same set of explanatory variables, we can use a loop to run all the regressions at once, then store the coefficients (propensity scores) in a dataframe called "output". This is demonstrated in table A1 in the appendix of the paper. 
+```{r propensity scores}
+#empty dataframe in whcih to put the coefficients
+output <- data.frame(matrix(NA, nrow=431, ncol=9))
+#list of variables we use as independent variables in these regressions
+k <- colnames(belief)
+
+#Here we create a loop which puts the coefficients of each regression into the output dataframe. 
+for (i in seq_along(k)) {
+  j <- k[i]
+    fit <- glm(allvar[,j] ~ sex + age + edu + infants + noninfants + farmsize + labor + credit, family= binomial(link = "probit"), data = allvar)
+  output[[i]] <- predict(fit, type = "response")
+}
+
+colnames(output) <- c("health.ate", "taste.ate", "yield.ate", "storability.ate", "sweetness.ate", "maturity.ate", "child.ate", "disease.ate", "color.ate")
+
+```
+
+
+Next, we use the propensity scores to determine weights for the regressions. According to the article, farmers in the treatment group have a weight of 1/p while farmers in the control group have a weight (1/1-p).
+
+```{r weights}
+allvar$rownames <- rownames(allvar)
+output$rownames <- rownames(output)
+belief2 <- merge(allvar, output, by.x="rownames")
+
+#for treatment: 1/output$health
+#for control: 1/(1-output$health)
+allvar$health.ate2 <- ifelse(belief2$health ==1, 1/belief2$health.ate, 1/(1-belief2$health.ate))
+allvar$taste.ate2 <- ifelse(belief2$taste ==1, 1/belief2$taste.ate, 1/(1-belief2$taste.ate))
+allvar$yield.ate2 <- ifelse(belief2$yield ==1, 1/belief2$yield.ate, 1/(1-belief2$yield.ate))
+allvar$storability.ate2 <- ifelse(belief2$storability ==1, 1/belief2$storability.ate, 1/(1-belief2$storability.ate))
+allvar$sweetness.ate2 <- ifelse(belief2$sweetness ==1, 1/belief2$sweetness.ate, 1/(1-belief2$sweetness.ate))
+allvar$maturity.ate2 <- ifelse(belief2$maturity ==1, 1/belief2$maturity.ate, 1/(1-belief2$maturity.ate))
+allvar$child.ate2 <- ifelse(belief2$child ==1, 1/belief2$child.ate, 1/(1-belief2$child.ate))
+allvar$disease.ate2 <- ifelse(belief2$disease ==1, 1/belief2$disease.ate, 1/(1-belief2$disease.ate))
+allvar$color.ate2 <- ifelse(belief2$color == 1, 1/belief2$color.ate, 1/(1-belief2$color.ate) )
+
+```
+
+##Second stage
+Now, that we have all the variables of interest, we can begin to run the regressions. The model used in the article is to regress the two outcome variables (whether the household grew OFSP, and the change in proportion grown) on the belief variables and control variables. 
+
+We begin with the regular, unweighted regressions. 
+```{r unweighted}
+fit <- lm(OFSP ~ health + yield + storability + sweetness + maturity + child + disease + color,  data=allvar)
+summary(fit)
+
+fit2 <-lm(change ~ health + yield + storability + sweetness + maturity + child + disease + color,  data=allvar)
+summary(fit2)
+
+```
+
+Next, we run the regressions with the weighted variables. 
+```{r  scores}
+fitps <- lm(OFSP ~ health.ate2 + yield.ate2 + storability.ate2 + sweetness.ate2 + maturity.ate2 + child.ate2 + disease.ate2 + color.ate2, data=allvar)
+summary(fitps)
+
+fitps2 <- lm(change ~ health.ate2 + yield.ate2 + storability.ate2 + sweetness.ate2 + maturity.ate2 + child.ate2 + disease.ate2 + color.ate2, data=allvar)
+summary(fitps2)
+
+```
+
+
+This one has stat sig results, while the one above does not. I'm not sure what the difference is though!
+
+```{r}
+healthps <- glm(health ~ sex + age + edu + infants + noninfants + farmsize + labor + credit, family= binomial(), data=allvar)
+
+
+tasteps <- glm(taste ~ sex + age + edu + infants + noninfants + farmsize + labor + credit, family= binomial(), data=allvar)
+
+yieldps <- glm(yield ~ sex + age + edu + infants + noninfants + farmsize + labor + credit, family= binomial(), data=allvar)
+
+storabilityps <- glm(storability ~ sex + age + edu + infants + noninfants + farmsize + labor + credit, family= binomial(), data=allvar)
+
+sweetnessps <- glm(sweetness ~ sex + age + edu + infants + noninfants + farmsize + labor + credit, family= binomial(), data=allvar)
+
+maturityps <- glm(maturity ~ sex + age + edu + infants + noninfants + farmsize + labor + credit, family= binomial(), data=allvar)
+
+childps <- glm(child ~ sex + age + edu + infants + noninfants + farmsize + labor + credit, family= binomial(), data=allvar)
+
+diseaseps <- glm(disease ~ sex + age + edu + infants + noninfants + farmsize + labor + credit, family= binomial(), data=allvar)
+
+colorps <- glm(color ~ sex + age + edu + infants + noninfants + farmsize + labor + credit, family= binomial(), data=allvar)
+
+allvar$health.ate <-  predict(healthps, type="response")
+allvar$taste.ate <- predict(tasteps, type = "response")
+allvar$yield.ate <- predict(yieldps, type = "response")
+allvar$storability.ate <- predict(storabilityps, type = "response")
+allvar$sweetness.ate <- predict(sweetnessps, type = "response")
+allvar$maturity.ate <- predict(maturityps, type = "response")
+allvar$childps.ate <- predict(childps, type = "response")
+allvar$disease.ate <- predict(diseaseps, type = "response")
+allvar$color.ate <- predict(colorps, type = "response")
+
+
+#for control: 1/(1-output$health)
+allvar$health.ate2 <- ifelse(allvar$health ==1, 1/allvar$health.ate, 1/(1-allvar$health.ate))
+allvar$taste.ate2 <- ifelse(allvar$taste ==1, 1/allvar$taste.ate, 1/(1-allvar$taste.ate))
+allvar$yield.ate2 <- ifelse(allvar$yield ==1, 1/allvar$yield.ate, 1/(1-allvar$yield.ate))
+allvar$storability.ate2 <- ifelse(allvar$storability ==1, 1/allvar$storability.ate, 1/(1-allvar$storability.ate))
+allvar$sweetness.ate2 <- ifelse(allvar$sweetness ==1, 1/allvar$sweetness.ate, 1/(1-allvar$sweetness.ate))
+allvar$maturity.ate2 <- ifelse(allvar$maturity ==1, 1/allvar$maturity.ate, 1/(1-allvar$maturity.ate))
+allvar$child.ate2 <- ifelse(allvar$child ==1, 1/allvar$child.ate, 1/(1-allvar$child.ate))
+allvar$disease.ate2 <- ifelse(allvar$disease ==1, 1/allvar$disease.ate, 1/(1-allvar$disease.ate))
+allvar$color.ate2 <- ifelse(allvar$color == 1, 1/allvar$color.ate, 1/(1-allvar$color.ate))
+
+
+fitps <- lm(OFSP ~ health.ate2 + yield.ate2 + storability.ate2 + sweetness.ate2 + maturity.ate2 + child.ate2 + disease.ate2 + color.ate2, data=allvar)
+summary(fitps)
+
+fitps2 <- lm(change ~ health.ate2 + yield.ate2 + storability.ate2 + sweetness.ate2 + maturity.ate2 + child.ate2 + disease.ate2 + color.ate2, data=allvar)
+summary(fitps2)
+
+```
+

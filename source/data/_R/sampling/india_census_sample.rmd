@@ -1,7 +1,7 @@
 ---
-output: html_document
-editor_options: 
-  chunk_output_type: console
+output:
+  html_document: default
+  pdf_document: default
 ---
 # Census based cluster-sample in India
 
@@ -71,8 +71,8 @@ State Election Commission through its webpage provides voter list of village in 
 Attached here are two sample file – these are of same village. We use it for village level farmer selection. 
 
 Join multiple files to be read as one document
-
-```{r} 
+ 
+```{r sampvoter01} 
 library(pdftools)
 
 extractVoters <- function(f, housepattern,  namepattern){
@@ -97,7 +97,7 @@ extractVoters <- function(f, housepattern,  namepattern){
 
 Enlist voters
 
-```{r}
+```{r sampvoter10}
 files <- c("Bariyarpur-1.pdf", "Bariyarpur-2.pdf")
 namepat = "ननरचरचक कच नचम : "
 housepat = "गतह सपखयच : "
@@ -110,7 +110,8 @@ head(hn)
 
 
 Randomly select 15 house numbers (if possible link one member name against selected house number)
-```{r} 
+
+```{r sampvoter20} 
 uhh <- unique(hn[, "household"])
 hns <- sample(uhh, 15)
 hns
@@ -118,7 +119,7 @@ hns
 
 Get the selected hh and names
 
-```{r} 
+```{r sampvoter30} 
 x <- hn[hn[, "household"] %in% hns, ]
 y <- tapply(x[,2], x[,1], function(i) paste(i, collapse=", "))
 z <- cbind(house=names(y), names=as.vector(y))
@@ -126,7 +127,7 @@ z <- cbind(house=names(y), names=as.vector(y))
 
 
 
-```{r} 
+```{r sampvoter40} 
 knitr::kable(z[1:5,])
 ```
 

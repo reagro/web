@@ -1,0 +1,458 @@
+# Africa Rising Baseline Evaluation Survey
+
+## Introduction
+
+This example is an analysis of  household and plot-level data from the Tanzania Africa RISING (Africa Research in Sustainable Intensification for the Next Generation) Baseline Evaluation Survey (TARBES). Following the results from the summary report, this case study shows basic data summary statistics, cross tabulations and ANOVA methodology. This follows some of the work presented in [this report](https://cgspace.cgiar.org/bitstream/handle/10568/75529/TARBES_report_may2016.pdf?sequence=1).
+
+This dataset contains results from structured questionnaires in 810 households and 25 communities in Tanzania. 
+The data are stored in multiple files with filename extension ".tab". We can get a vector with the filenames using the `list.files` function. 
+
+
+```{r listing files}
+datapath <- "../data/Africa RISING/Tanzania/Baseline/data"
+ff <- list.files(datapath, pattern='\\.tab$', full=TRUE)
+length(ff)
+```
+
+
+This usually refers to tab delimited text files. These can be read on with functions `read.table` or, more conveniently, with `read.delim`. But since we have `r length(ff)` files, it is more convenient to read in multiple tables in one step with the function `lapply`. 
+
+```{r Reading in the data}
+x <- lapply(ff, read.delim)
+``` 
+
+
+To keep track of the individual tables we can name each list element based on the filenames. The following code allows us to do that.
+
+```{r naming tables}
+z <- basename(ff)
+z <- gsub(".tab$", "", z)
+z <- substr(z, 5, nchar(z))
+names(x) <- z
+```
+
+##Household Survey
+
+The dataset is split into two major sections: household level, and community level. We will begin with the household level data in the `interview` table.
+
+```{r Household tab}
+d <- x$interview
+```
+
+The survey divides the households into four groups depending on specific categories designated by the study: Africa RISING households, experiment households, members of the community that are not direct beneficiaries, and control households. 
+
+Unfortunately, the data provided uses integer codes instead of values. This is an obsolete, but unfortunately still frequently practised approach. Fortunately, the data came with a [code-book](050_TZA_ARBES_Household_Codebook.pdf), so that we can fix some of this. 
+
+First make a table with the integer code "id", and its corresponding text code and description.
+
+```{r Household groups}
+id <- 1:9
+description <- c("AR", "IE, no coupon", "IE, one coupon", "IE, multiple coupons", 
+                 "AR + IE, no coupon", "AR + IE, one coupon", "AR + IE, multiple coupons", 
+                 "non-benificary in benificiary village", "control")
+
+code <- c("AR", "no coupon", "coupon", "coupon", "no coupon", "coupon", "coupon", "IB", "cont.")
+
+codetab <- data.frame(id=id, code=code, desc=description)
+codetab
+```
+
+Note that four groups used are in fact aggregations of the orginal nine groups. 
+Now we can make a new variable `tgroup`, with the text code that we can understand. 
+
+```{r newvar}
+d$tgroup <- code[codetab$desc]
+```
+
+The below code shows how many from each group are in each district, similar to the second half of Table 2 from the survey report.
+
+```{r Household Data}
+group <- as.factor(x$interview$group)
+#There are many more groups in the survey than displayed in the summary statistics; some of the groups are combined, which the code below allows us to do.
+levels(group) <- c("1", "2", "3", "3", "2", "3", "3", "8", "9")
+levels(group) <- c("AR", "no.coupon", "coupon", "IB", "control")
+district <- as.factor(x$interview$a2)
+levels(district) <- c("Bab", "Kon", "Kit")
+#Generates a table for number of each group in each district
+table(district, group)
+```
+
+The next lines of code create a dataframe with summary information on household characteristics in order to replicate the household demographic information on the household survey report (table 3). The location of each variable can be found by searching the surveys themselves, as well as the household level codebook that was downloaded as part of the dataset. 
+
+```{r Household Variables}
+#First create a dataframe for household information
+HH <- as.data.frame(x$interview$hhid)
+colnames(HH)<-"hhid"
+
+#To calcuate the household size, we make a table that counts number of individuals per household.
+size <- as.data.frame(table(x$sectionB$hhid))
+colnames(size) <- c("hhid", "size")
+
+#This takes information from just the household head.
+head <- x$sectionB[x$sectionB$b2 == 1,]
+
+#Additional household variables
+HH$group <- group
+HH$distt <- district
+HH$size <- size$size
+HH$sex <-ifelse(head$b3 == 1, 0, 1)
+HH$age <- head$b4a
+#To calculate dependency rate, which is the number of people in household under 15 or over 65 divided by total household population
+age <- x$sectionB[, c("hhid", "b4a")]
+age$b4a[age$b4a<0] <- NA
+age$b4a <- ifelse(age$b4a < 15| age$b4a > 65, 1, 0)
+
+depend <- aggregate(age$b4a, list(age$hhid), sum)
+depend <-as.data.frame(depend)
+depend$count <- HH$size
+HH$dependency <- depend$x/depend$count
+```
+
+The survey and codebook explain what each value for education level corresponds to, and were used to determine whether individuals had attended primary or sechondary school.
+```{r HH demographics cont.}
+
+HH$no.school <-ifelse(head$b6 == "-95", 1, 0)
+HH$prim.school <- ifelse(head$b6 >= 3 & head$b6<=11, 1, 0)
+HH$sec.school <- ifelse(head$b6 >= 12, 1, 0)
+HH$not.lit <- ifelse(head$b7 == "-95", 1, 0)
+HH$kiswahili <- ifelse(head$b7 == "1", 1, 0)
+HH$eng.kis <- ifelse(head$b7 == "3", 1, 0)
+HH$ag <- ifelse(head$b8 =="1" | head$b8 == "2"| head$b8 == "4", 1, 0)
+HH$married <- ifelse(head$b10 != "6", 1, 0)
+HH$christian <- ifelse(x$interview$a19=="1", 1, 0)
+HH$muslim <- ifelse(x$interview$a19 == "2", 1, 0)
+
+```
+
+Finally, we create a dataframe of the summary statistics. This includes the mean and standard deviation of all variables, and then demonstrates the this data split up by group, district, and gender of household head. The final result is table 3 from the survey report. 
+```{r Summary Statistics Dataframe}
+mean <- apply(na.omit(HH[,4:17]), 2, mean)
+sd <- apply(na.omit(HH[,4:17]), 2, sd)
+dem <- data.frame(mean, sd)
+
+#To get statistics by group
+bygroup <- aggregate(HH[,4:17], list(HH$group),mean, na.rm=T)
+#Save the names of each group, which is the first column
+ngroup <- bygroup[,1]
+#Transpose the table and create a dataframe
+bygroup <- as.data.frame(t(bygroup[,-1]))
+#Add back the name of each group
+colnames(bygroup) <- ngroup
+#Combine the summary information by group to the demographic dataframe
+dem <- data.frame(dem, bygroup)
+```
+
+To get statistics by district, we follow the same process as above, using the `aggregate` function. We then present the reults in a table.
+```{r by group and gender}
+bydistrict <- aggregate(HH[,4:17], list(HH$distt),mean, na.rm=T)
+n <- bydistrict[,1]
+bydistrict <- as.data.frame(t(bydistrict[,-1]))
+colnames(bydistrict) <- n
+dem <- data.frame(dem, bydistrict)
+
+#Finally, get summary statistics by gender
+bygender <- aggregate(HH[,4:17], list(HH$sex), mean, na.rm=T)
+bygender <- as.data.frame(t(bygender[,-1]))
+colnames(bygender) <- c("male", "female")
+dem <- data.frame(dem, bygender)
+dem <- round(dem, 2)
+
+library(knitr)
+kable(dem, caption ="Household Demographics")
+```
+
+The summary statistics also demonstrate the household size in each district with a barplot. It is important for future research to understand if the different districts, as well as the different groups, are significantly different from eachother before the start of the program.
+
+```{r SizebyDistrict}
+#This code generates different tables for each distrcit
+Babati <- HH[district=="Bab",]
+Kongwa <- HH[district=="Kon",]
+Kiteto <- HH[district=="Kit",]
+
+#Household size for each district
+babsize <- tapply(Babati$size, Babati$group, mean)
+konsize <- tapply(Kongwa$size, Kongwa$group, mean)
+kitsize <- tapply(Kiteto$size, Kiteto$group, mean)
+
+#Combine all district information
+all <- cbind(babsize, konsize, kitsize)
+
+#Create a barplot with the information on household sizes in each district and group
+colors <-c("lightblue", "pink", "red", "darkblue", "darkgreen")
+barplot(all, beside=T, horiz=T, col=colors)
+#plot.new()
+#legend("topright", rownames(all), fill=colors, xpd=T)
+
+```
+
+
+Next, we compare the means for each of the household variables across districts (included in table 4 in the survey report). In order to compare means difference, we use a t-test to generate the p-values, lower p-values indicating that the difference in means is likely to be statistically signifcant. 
+
+```{r District P Vals test}
+vars <- colnames(Kongwa)[4:17]
+
+d <- data.frame(bab.vs.kit=rep(as.numeric(NA), length(vars)), bab.vs.kong=NA, kong.vs.kit=NA)
+rownames(d) <- vars
+
+
+for (i in seq_along(vars)){
+  j <- vars[i] 
+  d[i,1] <- t.test(Babati[[j]], Kiteto[[j]])$p.value
+  d[i,2] <- t.test(Babati[[j]], Kongwa[[j]])$p.value
+  d[i,3]<- t.test(Kongwa[[j]], Kiteto[[j]])$p.value
+}
+
+round(d,3)
+```
+
+We create a function that converts the p-values to stars which indicate significance level. 
+```{r District P Vals test2}
+p_to_star <- function(p) {
+  ifelse(p <= .01, "***", ifelse(p < .05, "**", ifelse(p <= .1, "*", "")))
+}  
+
+d <- p_to_star(d)
+
+kable(t(d))
+
+```
+
+Many of the following summary statistics divide the data by wealth quintile, an index that was constructed in the survey report by using Principal Components Analysis on a number of assets reported by the household. The code below replicates this process, which first creates the index and then divides the households into quintiles of wealth. 
+
+First, all assets for the index had to be compiled into a single dataframe. Two of the tables were reshaped from wide to long so that each household was a single observation. Then, assets from three different tables were combined into a single table called "allasset". Most of the variables were then converted to 0-1 dummy variables, depending on whether the household owned the asset. 
+
+```{r Summary of Assets}
+#First I remove two variables that are not necessary in the reshape to count number of assets. Group is the same for each household, and year is also not important in this process.
+wide <- x$sectionO2[, -c(2,5)]
+#Reshape the data from wide to long so that there are as many observations as households.
+long <- reshape(wide, idvar="hhid", timevar = "assetid", direction = "wide")
+#This code creates a dummy variable, so that households that have the asset are given a value of 1, regardless of how many they own.
+long[,2:38] <-ifelse(long[,2:38] >= 1, 1, 0)
+
+#Livestock assets are also found on another table. We similarly need to reshape soo that only 
+livestock <- x$sectionJ1[,c(1,3,4)]
+llivestock <- reshape(livestock, idvar="hhid", timevar = "j1_2", direction = "wide")
+```
+
+Next we combine all variables to a single dataframe
+```{r}
+allasset <- cbind(long, llivestock)
+#Remove duplicate household ID. 
+allasset <- allasset[,-39]
+#Here we add a few variables from a different table to this dataframe, and convert them to 0 1 variables. 
+allasset$wall <- ifelse( x$sectionO1$o1 == 4, 1, 0)
+allasset$floor <- ifelse(x$sectionO1$o2 == 4, 1, 0)
+allasset$roof <- ifelse(x$sectionO1$o3 == 4, 1, 0)
+allasset$water <- ifelse( x$sectionO1$o7 == 1, 1, 0)
+allasset$light <- ifelse(x$sectionO1$o9 == 1, 1, 0)
+#This changes the livestock columns from 1-2 values to 0-1.
+allasset[,39:59] <- ifelse(allasset[,39:59] == 2, 0, 1)
+
+#We can compare the means from all assets to table 8 of the summary report, and see that the two are the same.
+means <-apply(allasset[,-1], 2, mean, na.rm=T)
+means<- round(means, digits = 3)
+#Two of the columns have values of all 0, and this lack of variation is not useful for our analysis.
+allasset <- allasset[, -c(1,14,43)]
+#To preserve the information on household ID, I change the rownames to match household ID. 
+rownames(allasset) <- long$hhid
+```
+
+Now that the data on assets has been compiled and cleaned, we can do the principal components analysis. PCA is a statistical technique that reduces the number of variables, and each principal component that is extracted is a weighted linear combination of data from all of the variables. The first principal component  explains the most variation in the data, and following the mehodology in the report, is used as the index for wealth. The final output summarizes table 8 in the survey report, breaking down the mean index for each group. 
+```{r Wealth Index}
+#This function does PCA on the table of all assets. 
+pr.out =prcomp (na.omit(allasset) , scale=TRUE)
+#The first column in the output is the first principal component. We make this into a dataframe, and add a column for household ID. PC1 is used as the wealth index.
+PC1 <- pr.out$x[,1]
+PC1 <- as.data.frame(PC1)
+PC1$hhid <- rownames(PC1)
+
+#Now, we want to add a column that tells us the quintile of wealth. 
+PC1.sorted <- PC1[order(PC1$PC1), ]
+PC1.sorted$quintile <-1
+PC1.sorted[160:321,3] <-2
+PC1.sorted[322:483,3] <-3
+PC1.sorted[484:645,3] <-4
+PC1.sorted[646:809,3] <-5
+
+#To replicate the chart, we take the mean and standard deviation and combine them into a single dataframe. 
+quint.mean <- aggregate(PC1.sorted$PC1, list(PC1.sorted$quintile), mean)
+quint.sd <- aggregate(PC1.sorted$PC1, list(PC1.sorted$quintile), sd)
+quintiles <- data.frame(quint.mean, quint.sd)
+quintiles <- quintiles[,-3]
+colnames(quintiles) <- c("quintile", "mean", "SD")
+kable(quintiles, caption= "Wealth Index by Quintile")
+```
+
+Part 4.3 of the report assess the health and nutrition status of women and children. As part of this assessment, BMI is calculated and the individuals are categorized as underweight, normal weight, overweight and obese. BMI is calulated by divided weight by height in meters squared, which is done in the following chunk of code.
+```{r BMI of Women}
+#First create a table with just height and weight
+BMI <- x$sectionT[,c("hhid", "t7a", "t8a")]
+names(BMI) <- c("hhid", "weight", "height")
+#The next codes first convert from cm to m, then square height and divide weight by height
+BMI$height <- BMI$height/100
+BMI$height <- BMI$height*BMI$height
+BMI$BMI <- BMI$weight/BMI$height
+
+#Here we merge the BMI data with the quintile data by household ID.
+BMIquint <- merge(BMI, PC1.sorted, by="hhid")
+#Next, we create a column that labels each of the BMI according to the distinction of overweight, normal, underweight, or obese. 
+BMIquint$dist <-"underweight"
+BMIquint$dist[BMIquint$BMI<25 & BMIquint$BMI>18.5] <- "normal"
+BMIquint$dist[BMIquint$BMI<30 & BMIquint$BMI>=25] <- "overweight"
+BMIquint$dist[BMIquint$BMI>=30] <- "obese"
+BMIquint$dist[is.na(BMIquint$BMI)] <-NA
+```
+
+Once we have the information gathered on each individual, including their BMI distinction and wealth quintile, we create three pie charts that show the distribution of BMI for the lowest, middle, and highest wealth households.
+
+```{r Pie of BMI by quintile}
+#Create a table for just the poorest households
+poor <- BMIquint[BMIquint$quintile=="1",]
+#The table function counts the number of individuals in each category
+poortable <-table(poor$dist)
+#To generate a percentage
+pct <- round(poortable/sum(poortable)*100)
+lbs <- c("normal", "overweight", "underweight")
+#Labels of the pie chart
+label<- paste(pct, "%", lbs)
+
+#The same code is used for the medium and highest quintile individuals.
+med<-BMIquint[BMIquint$quintile=="3",]
+medtable <- table(med$dist)
+pct2 <- round(medtable/sum(medtable)*100)
+lbs2 <- c("obese", "normal", "overweight", "underweight")
+label2<- paste(pct2, "%", lbs2)
+
+rich <-BMIquint[BMIquint$quintile=="5",]
+richtable <- table(rich$dist)
+pct3 <- round(richtable/sum(richtable)*100)
+lbs3 <- c("obese", "normal", "overweight", "underweight")
+label3<- paste(pct3, "%", lbs3)
+
+#Finally, we create all the pie charts in a single output. 
+par(mfrow=c(1,3) )
+pie(poortable, labels=label, main = "Lowest Quintile")
+pie(medtable, label=label2, main = "Medium Quintile")
+mtext(side=1, text="Weight by wealth quintile")
+pie(richtable, label=label3, main = "Highest Quintile")
+```
+
+We can use t.test to see if the mean BMI differs across different districts, and the results show that they do not. 
+```{r means difference BMI by district}
+BMIdist <- merge(BMIquint, HH, by="hhid")
+womendist <- aggregate(BMIdist$BMI, list(BMIdist$distt), mean, na.rm=T)
+
+dist1 <- BMIdist$BMI[BMIdist$distt=="Bab"]
+dist2 <- BMIdist$BMI[BMIdist$distt=="Kon"]
+dist3 <- BMIdist$BMI[BMIdist$distt=="Kit"]
+t.test(dist1, dist2, alternative="two.sided", conf.level=0.95)
+t.test(dist2, dist3, alternative="two.sided", conf.level=0.95)
+t.test(dist1, dist3, alternative="two.sided", conf.level=0.95)
+
+#TODO: I tried to replicate table 14 but am confused about what is being compared in this table. The mean BMI for each category of weight, or the percent of each district that falls into each weight category.
+```
+
+##Community Survey
+In addition to the household survey, key informants from 25 communities were surveyed about conditions within the community as a whole. These communities consisted of seven intervention villages, and 18 control villages that are meant to be comparable. This baseline survey helps to identify whether the intervention and control villages are significantly different frome each other based on a number of key indicators, discussed below.
+
+In this section, we will conduct summary statistics on the community level data. We begin be compiling community information about the community as a whole, the chairperson of the community, and the key informants that participated in the interviews.
+```{r}
+#Begin community dataframe with type and population
+community <- x$sectionCF[,c(3, 4)]
+colnames(community) <- c("type", "population")
+community$type <- ifelse(community$type=="1", "intervention", "control")
+community$type <- as.factor(community$type)
+community$elevation <- x$sectionCA$ca5c
+
+#variables for the chairperson of the community
+chairperson <- x$sectionCB[x$sectionCB$cb4 =="1",]
+
+#Add variables for chair head
+community$gender.chair <- ifelse(chairperson$cb2=="2", 1, 0)
+community$age.chair <- chairperson$cb3 
+community$years.chair <- chairperson$cb5
+
+#Add variables for the informants in each community.
+count <- as.data.frame(table(x$sectionCB$villageid))
+community$no.inform <- count$Freq
+x$sectionCB$villageid <-as.factor(x$sectionCB$villageid)
+
+age.inform <-aggregate(x$sectionCB$cb3, list(x$sectionCB$villageid), mean)
+community$age.inform <- age.inform$x
+
+years.inform <- aggregate(x$sectionCB$cb5, list(x$sectionCB$villageid), mean)
+community$years.inform <- years.inform$x
+
+gender <- x$sectionCB$cb2
+gender <- ifelse(x$sectionCB$cb2 == "2", 1, 0)
+gender.inform <-aggregate(gender, list(x$sectionCB$villageid), mean)
+community$gender.inform <- gender.inform$x
+```
+
+Next, we create a dataframe that compares the average values for the treatment, control, and all communities as a whole.
+```{r}
+mean.overall <- colMeans(community[,2:10])
+
+means <-aggregate(community[,2:10], list(community$type), mean)
+means <- t(means)
+means <- means[-1,]
+colnames(means) <- c("intervention", "control")
+means <- as.data.frame(means)
+
+means$mean.overall <- mean.overall
+kable(means, Caption = "Village, chairperson and informant characteristics")
+
+```
+  
+Figure 8 of the report shows community size by district as a barplot. This next chunk demonstrates the code to do this.
+```{r Population of Communities}
+
+pop <- data.frame(community$population)
+pop$com <- rownames(pop)
+#we can separate the observations into the three different districts 
+pop$distt<- x$sectionCA$ca2
+pop$distt <- as.factor(pop$distt)
+levels(pop$distt) <- c("Kongwa", "Kiteto", "Babati")
+
+#Order the communities by population, from large to small
+pop2 <-pop[order(-pop$community.population),]
+
+mycols <- c("blue", "darkblue", "lightblue")
+barplot(pop2$community.population, col = mycols[pop2$distt], legend=levels(pop2$distt))
+
+#TODO: Legend for barplot is messed up, and only shows two colors
+```
+Next, we can display the main crops cultivated within communities in each of the three distrcits with a pie chart. The percentage of cultivated land area dedicated to each crop was asked to key informants in the questionnaire. 
+```{r}
+#Extract the four crops that were asked on the survey
+crops <- x$sectionCF[,c( "cf6a", "cf6b", "cf6c", "cf6d")]
+colnames(crops)<- c("maize", "beans", "groundnut", "soybean")
+#The remaining percentage of land area is labeled "other"
+crops$other <- 100-crops$maize - crops$beans - crops$groundnut - crops$soybean
+#Next, we add information on district and find the mean percentage dedicated to each crop in each district
+crops$district <- x$sectionCA$ca2
+crops2 <- aggregate(crops[,1:5], list(crops$district), mean)
+
+#Next, we create  dataframes for each of the three districts.
+cropBab <- crops2[1, 2:6]
+cropBab <- t(cropBab)
+cropBab <- round(cropBab, 1)
+
+cropKong <- crops2[2, 2:6]
+cropKong <-t(cropKong)
+
+cropKit <- crops2[3, 2:6]
+cropKit <- t(cropKit)
+cropKit <-round(cropKit, 1)
+
+#Finally, we display each district as a separate dataframe.
+pie(cropKit[,1], col=colors, labels=cropKit[,1], main="Kiteto")
+legend("left",legend=c("maize", "beans", "groundnut", "soybean", "other"), fill=colors, box.lty=0, title="Crops")
+pie(cropBab[,1], col=colors, labels=cropBab[,1], main="Babati")
+legend("left",legend=c("maize", "beans", "groundnut", "soybean", "other"), fill=colors, box.lty=0, title="Crops")
+pie(cropKong[,1], col=colors, labels=cropKong[,1], main="Kongwa")
+legend("left",legend=c("maize", "beans", "groundnut", "soybean", "other"), fill=colors, box.lty=0, title="Crops")
+
+```
+  
+  

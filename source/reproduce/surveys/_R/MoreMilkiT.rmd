@@ -1,0 +1,129 @@
+# More Milk in Tanzania
+
+The MoreMilkiT project, funded by ILRI in collaboration with multiple stakeholders and partners, is working in Tanzania to secure income for marginalized dairy producing communities through dairy market hubs. The project has three objectives: to develop value chains, generate evidence to increase participation in dairy value chains, and inform policy. MoreMilkiT has conducted two surveys to date: the baseline survey, which interviewed 932 households, and the monitoring survey, whih interviewed 461 households. Following the baseline survey, ILRI published a research brief with preliminary results to assess the progress to date in establishing dairy market hubs. This case study will assess and summarize the baseline data using the research brief. The data used in this case study can be downloaded from ILRI [here](http://data.ilri.org/portal/dataset/moremilkit-hh-tz).
+
+## Baseline data 
+
+```{r data, warning = F}
+datapath <- "../data/MoreMilkiT/baseline/baseline_stata"
+ff2 <- list.files(datapath, pattern='\\.dta$', full=TRUE)
+library(readstata13)
+x2 <- lapply(ff2, read.dta13)
+
+z2 <- strsplit(basename(ff2), '_|[.]')
+z2 <- t(sapply(z2, function(x) x[1:8]))
+z2[z2=='dta'] <- ""
+z2[is.na(z2)] <- ""
+z2 <- apply(z2, 1, function(i) paste(i, collapse=""))
+names(x2) <- z2
+
+```
+
+Luckily the dataset includes the questionnaire used during interviews, which we can refer to for help in finding individual variables and locations of tables. We will begin with basic summary statistics. In this section we find the number of cattle keeping households in each district. 
+
+```{r Bydistrict}
+#extract information on household id and whether the household has cattle
+cattle <- x2$SEC1HOUSEHOLDIDENTIFICATION[,c("tanzania_dp_id", "cattle_keepers")]
+cattle$tanzania_dp_id <- as.character(cattle$tanzania_dp_id)
+cattle$tanzania_dp_id <- substr(cattle$tanzania_dp_id, 0, 1)
+
+#Number of cattle keeping households per district (from table 2)
+bydistrict <- aggregate(cattle$cattle_keepers, list(cattle$tanzania_dp_id), sum, na.rm=T)
+bydistrict$Group.1 <- c("Lushoto", "Mvomero", "Handeni", "Kilosa")
+colnames(bydistrict) <- c("District", "No. of cattle keeping households")
+library(knitr)
+kable(bydistrict)
+```
+
+We can create a dataframe with basic information about the household heads from all ofthe districts. We chose certain variables to include in this dataframe based on summary information shown in the report, including age and education information. 
+
+```{r age and education of all}
+all <- x2$SEC2HOUSEHOLDROSTER[x2$SEC2HOUSEHOLDROSTER$relationship_to_hh_head=="Head",]
+all$age_years[all$age_years<0] <- NA
+#To convert the id into just district information
+all$tanzania_dp_id <- as.character(all$tanzania_dp_id)
+all$tanzania_dp_id <- substr(all$tanzania_dp_id, 0, 1)
+all$tanzania_dp_id <- as.numeric(all$tanzania_dp_id)
+all$illit <- ifelse(all$education_level=="No formal and illiterate", 1, 0)
+all$noformal <- ifelse(all$education_level=="No formal but literate", 1, 0)
+all$primary <- ifelse(all$education_level=="Primary school", 1, 0)
+all$post <- ifelse(all$education_level=="High/secondary" | all$education_level=="College" | all$education_level=="University", 1, 0)
+```
+
+Next, we represent table 3 and 4 of the baseline report. These tables show the age and education attainment of male and female household heads. 
+```{r Age and edu of male}
+male <- all[all$gender==1,c(1, 6, 16:19)]
+#household statistics by district
+maledist <- aggregate(male[2:6], list(male$tanzania_dp_id), mean, na.rm=T)
+#total statistics for male houeshold
+maletot <- as.data.frame(apply(male, 2, mean, na.rm=T))
+maledist[5,] <- t(maletot)
+maledist[,3:6] <- maledist[,3:6]*100
+maledist <- round(maledist, 1)
+maledist$Group.1 <- c("Lushoto", "Mvomero", "Handeni", "Kilosa", "Total")
+colnames(maledist) <- c("District", "Age", "No formal and illiterate", "No formal but literate", "Primary school", "Post Primary")
+kable(maledist, caption = "Age and Education of Male Household Heads")
+```
+
+```{r age and edu of female}
+female <- all[all$gender==2,c(1, 6, 16:19)]
+#stats by district
+femaledist <- aggregate(female[2:6], list(female$tanzania_dp_id), mean, na.rm=T)
+#total stats female
+femaletot <- apply(female, 2, mean, na.rm=T)
+#combine to single table
+femaledist[5,] <- t(femaletot)
+#convert edu to percentages
+femaledist[,3:6] <- femaledist[,3:6]*100
+#Round variables
+femaledist <- round(femaledist, 1)
+#Rename the first column
+femaledist$Group.1 <- c("Lushoto", "Mvomero", "Handeni", "Kilosa", "Total")
+#rename the colnames
+colnames(femaledist) <- c("District", "Age", "No formal and illiterate", "No formal but literate", "Primary school", "Post Primary")
+kable(femaledist, caption= "Age and Education of Female Household Heads")
+
+```
+
+Another summary statistic reported is the pattern in milk sales across months. In section 6 of the survey, participants are asked whether or not they sell milk in each of the 12 months. We can count the number of househlds that repond with 'yes', using the function sapply below, and then create a dataframe of the count of sales in each month.  
+```{r months sold fresh milk}
+milksold <-x2$SEC64FRESHMILKSALE
+milksold$tanzania_dp_id <- as.character(milksold$tanzania_dp_id)
+milksold$tanzania_dp_id <- substr(milksold$tanzania_dp_id, 0, 1)
+
+Mvomero <- milksold[milksold$tanzania_dp_id=="2",]
+Handeni <- milksold[milksold$tanzania_dp_id=="3",]
+Kilosa <- milksold[milksold$tanzania_dp_id=="4",]
+lus <- milksold[milksold$tanzania_dp_id=="1",]
+
+milklus <- sapply(lus[,5:16],FUN = function(x){length(x[x=="Yes"])})
+milkmvo <- sapply(Mvomero[,5:16],FUN = function(x){length(x[x=="Yes"])})
+milkhan <- sapply(Handeni[,5:16],FUN = function(x){length(x[x=="Yes"])})
+milkkil <- sapply(Kilosa[,5:16],FUN = function(x){length(x[x=="Yes"])})
+milkall <- data.frame(milklus, milkmvo, milkhan, milkkil)
+```
+
+Once we have the dataframe, we can plot the milk sales as is done in figure 2 of the baseline report. 
+source: https://www.harding.edu/fmccown/r/ 
+
+```{r Plot}
+#Initial plot of milk sales in Lushoto
+plot(milkall$milklus, type="o", pch=18, col="blue", ylim=c(20,100), axes=F, ann=F)
+#set up x axis
+axis(1, at=1:12, lab=c("Nov", "Dec", "Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sep", "Oct"))
+#set up y axis
+axis(2, las=1, c(20, 40, 60, 80, 100))
+#put box around graph
+box()
+#add additional lines for the additional 3 districts
+lines(milkall$milkmvo, type="o", pch=15, col="red")
+lines(milkall$milkhan, type="o", pch=17, col="green")
+lines(milkall$milkkil, type="o", pch=4, col="purple")
+#add titles
+title(main="Annual Pattern in Milk Sale")
+title(xlab="Month")
+title(ylab="Count of dairy households selling milk")
+#add legend
+legend("bottom",c("Lushoto", "Mvomero", "Handeni", "Kilosa"), col=c("blue", "red", "green", "purple"), pch=c(18, 15, 17,4), horiz=T)
+```
+

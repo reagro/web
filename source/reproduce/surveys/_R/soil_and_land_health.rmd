@@ -1,0 +1,188 @@
+# Soil and Land Health
+
+As part of the Africa RISING initiative, three sites in the Babati District of Tanzania were surveyed for various biophysical properties of the soil using the Land Degradation Surveillance Framework. At each 100 sq km site, 160 samples were taken. This case study will explore data from these sites, and map the spatial distribution of a few key variables. Some of the summary statistics were replicated from a powerpoint file that was included with the dataset. 
+
+The data come in two parts.They can be downloaded [here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/CQLR9B) and [here](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/8JMMUZ). The first two sites, Long and Matufa, were part of a single dataset, and the third, Hallu, was a separate dataset. The files were  not uploaded to dataverse in a consistent format. The files were in .csv, .tab, .xls, and .xlsx formats. For this reason, we need to call several functions to read in the data to R. Additionally, the excel files were uploaded to dataverse in a particularly messy way. Notes and comments from the researcher were included in the first rows of the tables, which create an extra difficulty when reading in the files to R--which we will correct for below.
+
+We begin with analysis of the data from Long and Matufa, then combine with the datasets from Hallu.
+
+First, we read in al the data. Since the first dataset is currently saved as both csv and excel files, so we upload the two formats separately and combine them into a single object with the append command. 
+
+```{r}
+library(agro)
+f1 <- get_data_from_uri("https://doi.org/10.7910/DVN/CQLR9B", ".")
+f2 <- get_data_from_uri("https://doi.org/10.7910/DVN/8JMMUZ", ".")
+f1
+f2
+```
+
+
+
+```{r read in data matufa and long}
+library(readxl)
+ff <-  grep("\\.xlsx$", f1, value=TRUE)
+ff2 <-  grep("\\.csv$", f1, value=TRUE)
+
+x <- lapply(ff, read_xlsx)
+x2 <- lapply(ff2, read.csv)
+x3 <- append(x, x2)
+```
+
+In the Hallu dataset, four of the files were .tab, files, one was .xls, and one was .csv. 
+
+```{r readdatahallu}
+library(readxl)
+library("readxl")
+#ff3 <- list.files(datapath, pattern = "\\.xlsx$", full=T)
+ff4 <- grep("\\.csv$", f2, value=TRUE)
+ff5 <- grep("\\.xls$", f2, value=TRUE)
+
+#x4 <- lapply(ff3, read_xlsx)
+x5 <- lapply(ff4, read.csv)
+x6 <- lapply(ff5, read_excel)
+
+#x7 <- append(x4, x5)
+x7 <- x5
+x8 <- append(x7, x6)
+```
+
+## Summary Statistics
+
+Now that we have read in the data, we show a few of the summary statistics graphically. The data did not come with a summary of variable names or description of the files. By reviewing the files that were included in the dataset, we can find which variables we need to create the following plots. To graph the plots, we use the package ggplot2, which has better data visualization graphics than base R.
+
+### Slope
+
+We will begin with a boxplot that shows the slope of land depending on whether or not the land is cultivated. Not surprisingly, it appears that on average plots that are cultivated are less sloped.  
+
+```{r slope}
+long <- x3[[8]]
+#The variables of interest are "SlopeDn", "SlopeUp". 
+l.slope <- long[,c("SlopeUp", "SlopeDn", "PlotCultMgd")]
+#We take the average of the two for each district.
+l.slope$slope = (l.slope$SlopeDn + l.slope$SlopeDn)/2
+
+library(ggplot2)
+#long boxplot
+ ggplot(l.slope, aes(x=PlotCultMgd, y = slope)) +
+      geom_boxplot() +
+   ggtitle("Long Slope of Cultivated and Non-Cultivated Land")
+ 
+#We use the same code as we did above for long
+matufa <- x3[[7]]
+m.slope <- matufa[,c("SlopeUp", "SlopeDn", "PlotCultMgd")]
+m.slope$slope <- (m.slope$SlopeUp + m.slope$SlopeDn)/2
+
+#matufa boxplot
+ ggplot(m.slope, aes(x=PlotCultMgd, y = slope)) +
+      geom_boxplot() +
+   ggtitle("Matufa Slope of Cultivated and Non-Cultivated Land")
+ 
+```
+
+### Soil pH
+Next, we look at soil pH, using density plots to see the distribution of soil pH across plots. The excel graph for Long was "messy", so we have to delete some of the rows to clean it up. 
+
+```{r assessment}
+long_soil <-x3[[2]]
+#delete the first ten rows
+long_ph <- long_soil[-c(1:10),c(10:11)]
+colnames(long_ph) <- c("Depthcode", "pH")
+long_ph$pH <- as.numeric(long_ph$pH)
+
+#we differentiate between subsoil and topsoil, and use alpha=.5 to be able to see both at once
+ggplot(long_ph, aes(pH, fill=Depthcode)) +
+  geom_density(alpha=.5) +
+  ggtitle("Long Soil pH")
+
+matufa_soil <- x3[[1]]
+ggplot(matufa_soil, aes(pH, fill=Depthcode)) +
+  geom_density(alpha = .5) +
+  ggtitle("Matufa Soil pH")
+
+```
+
+Now we will graph the topsoil in all 3 districts together, adding the data from Hallu.
+
+```{r topsoil}
+hallu_soil <-x8[[6]]
+#The excel graph was "messy", so we have to delete some of the rows to clean it up
+hallu_ph <- hallu_soil[-c(1:7),c(3:4)]
+colnames(hallu_ph) <- c("Depthcode", "pH")
+hallu_ph$pH <- as.numeric(hallu_ph$pH)
+
+matufa_ph <- matufa_soil[,c(9:10)]
+matufa_ph$District <- "matufa"
+hallu_ph$District <- "hallu"
+long_ph$District <- "long"
+
+all <- rbind(long_ph, hallu_ph, matufa_ph)
+all <- all[all$Depthcode=="Topsoil" | all$Depthcode=="Top Soil",]
+
+
+ggplot(all, aes(pH, fill=District)) +
+  geom_density(alpha=.5) +
+  ggtitle("TopSoil pH")
+
+```
+
+## Spatial Distribution of sites
+
+At this point, we will look at the data from all three sites. Lat/long data was included in the dataset for the location of each of the sites where soil samples were taken. Here we plot the sites against a backdrop of the district in Tanzania, Babati. We get the map of Babati from GADM, a database of geographic boundaries, using the function `getData`. To do this, we need to upload a number of additional packages. 
+
+```{r cleanformap}
+library(maptools)
+library(raster)
+library(plyr)
+library(rgdal)
+
+#get boundaries of Tanzania, at district level 
+
+Tanz <- getData("GADM", country="TZ", level=2)
+
+#get the lat/long data
+longlat1<- cbind(long$Longitude, long$Latitude, long$Altitude)
+longlat2 <- cbind(matufa$Longitude, matufa$Latitude, matufa$Altitude)
+hallu <- x8[[5]]
+longlat3 <- cbind(hallu$Longitude, hallu$Latitude, hallu$Altitude)
+
+#convert to spatialpoints
+ptslong <- SpatialPoints(longlat1)
+ptsmatufa <- SpatialPoints(longlat2)
+ptshallu <- SpatialPoints(longlat3)
+
+#We only want the polygons in Tanzania for Babati, not the entire country
+Babati <- Tanz[Tanz@data$NAME_2=="Babati",]
+```
+
+Now we can actually plot the data. We use different colors for each district. The polygon inside Babati is the urban district of Babati. We can see both clusters represent the 160 random soil samples. 
+
+```{r plot}
+#to plot all the points on map of Babati
+plot(Babati, main="Location of Soil Samples: Babati, TZ")
+points(ptslong, col="red")
+points(ptsmatufa, col="blue")
+points(ptshallu, col="green")
+legend("topright", inset=.05, title="legend", c("long", "matufa", "hallu"), fill=c("red", "blue", "green")) 
+```
+
+
+Next, can plot the altitude to get an idea of the spatial distribution of the altitude across the sites. Since we do the same set of commands three times, we can create a loop to simplify the code a bit. 
+
+```{r altitude}
+l <- list(longlat1, longlat2, longlat3)
+names(l) <- c("Long", "Matufa", "Hallu")
+
+for (i in l) {
+  j <- as.data.frame(i)
+  colnames(j) <- c("long", "lat", "alt")
+  print(ggplot(j, aes(x=long, y=lat)) +
+  geom_point(aes(fill=alt, color=alt)))
+}
+
+#TODO: Make titles on graphs
+
+```
+
+
+
+
