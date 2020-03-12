@@ -1,0 +1,226 @@
+# Cereal yield in West Africa
+
+
+## Introduction
+
+This case study follows the paper entitled "Cereal yield response to conservation agriculture practices in drylands of West Africa: A quantitative synthesis" by Bayala *et al*. (2012) which was published in the Journal of Arid Environments. You can access the [article here](https://www.sciencedirect.com/science/article/pii/S0140196311003120) (it is behind a paywall). The data was made available on the World Agroforestry Center [data repository](https://doi.org/10.34725/DVN/1BLSQY).
+
+This study provides a quantitative synthesis of the effect of conservation agriculture practices on crop yield in the drylands of West Africa. 
+
+
+## Get the data
+
+We can download the data with the `get_data_from_uri` from the `agro` package.
+
+```{r data}
+ff <- agro::get_data_from_uri("doi:10.34725/DVN/1BLSQY", ".")
+ff
+```
+
+You can see that we have a single Excel file that we can read with `readxl::read_excel`. But first we look at the names of the "sheets" in the file.
+
+```{r sheets}
+readxl::excel_sheets(ff)
+``` 
+
+There are five sheets. We need the sheets that have the grain and straw data. 
+
+```{r readxl}
+grain <- readxl::read_excel(ff, sheet = "Grain")
+straw <- readxl::read_excel(ff, sheet = "Straw")
+dim(straw)
+dim(grain)
+colnames(grain)
+```
+
+We wanted to quickly look at the "Rawdata" sheet too, to understand the difference. 
+
+```{r compare0}
+raw <- readxl::read_excel(ff, sheet = "Rawdata")
+dim(raw)
+dim(straw) + dim(grain)
+table(raw$Component)
+```
+
+It appears that records in `Rawdata` that are not straw or grain have been ignored. Creating multiple tables with subsets of the data is generally a bad idea because it may lead to errors due to copying, or when an error is corrected in one of the tables but not everywhere. We could have created the grain and straw subsets like this (showing for grain only)
+
+```{r compare1}
+grain2 <- raw[tolower(raw$Component) == "grain", ]
+``` 
+
+To test if this is indeed gives us the same values, we first sort the both datasets. 
+
+```{r compare2}
+grain  <- grain[order(grain$PubN, grain$Treatment), ]
+grain2 <- grain2[order(grain2$PubN, grain2$Treatment), ]
+```
+
+And then we can compare them
+
+```{r compare}
+all(grain == grain2, na.rm=TRUE)
+```
+
+*Quod erat demonstrandum*
+
+
+## Organize data
+
+We need to fix some values in the `Technology` variable in both tables.
+
+```{r fix}
+fixme <- function(x) {
+  x$Technology[x$Technology == "Coppiced G. manure"] <- "Coppicing"
+  x$Technology[x$Technology == "Rot-Ass"] <- "Rotations"
+  x$Technology[x$Technology == "SWC"] <- "Soil water"
+  x
+}
+
+grain <- fixme(grain)
+straw <- fixme(straw)
+```
+
+And we compute two new variables, to be used below in the analysis. `D` is the difference between the treatment and control yields. `productivity` classifies the control yield into 5 groups.
+
+```{r newvars}
+
+newvars <- function(x) {
+  x$D <- x$`Treatment yield` - x$`Control yield` 
+  x$productivity = cut(x$`Control yield`, c(0, 0.5, 1, 1.5, 2, Inf))
+}
+grain <- newvars(grain)
+straw <- newvars(straw)
+```
+
+
+## Tables 1 and 2
+
+
+Now we can attempt to reproduce Table 1 from the article: *Summary of statistics of mean difference in grain yield (D, t/ha) across all crops in different practices of conservation agriculture in four West African Sahelian countries (Burkina Faso, Mali, Niger and Senegal).*
+
+First we compute the summary statistics. We use a function, so that we can use the same code for the next table.
+
+```{r tab1B}
+make_table <- function(x) {
+  # unique number of publications by technology
+  N <- tapply(x$PubN, x$Technology, function(i) length(unique(i)))
+  # observations by technology
+  k <- table(x$Technology)
+  # mean yield gain by technology
+  mean <- tapply(x$D, x$Technology, mean)
+  # quartiles of yield gain by technology
+  q <- tapply(x$D, x$Technology, function(i) quantile(i, c(.75, .5, .25)))
+  q <- do.call(cbind, q)
+  iqr <- q[1,] - q[3,]
+  ## count cases within classes
+  # classify
+  ycls <- cut(x$D, c(-Inf, 0, 1, 2, Inf))
+  # tabulate
+  z <- table(ycls, x$Technology)
+  # compute percentage. Note that we need to transpose to divide
+  # correctly, and then transpose back
+  z <- 100 * t(t(z) / colSums(z))
+  
+  ## combine results
+  tab <- rbind(N, k, mean, q, iqr, z)
+  tab <- round(tab, 2)
+  ## ordering
+  tab <- tab[, c("Parkland", "Coppicing", "Green manure", "Mulching", "Rotations", "Soil water")]
+  tab
+}
+```
+
+And we use the function
+
+```{r tab1C}
+tab1 <- make_table(grain)
+tab1
+```
+
+Results look very similar. Except for the classes counts. But the published table is odd. There are intervals missing, and it is unclear what the exact intervals are; so we'll just leave it at that. 
+
+Recreating Table 2, *Summary of statistics of mean difference in straw biomass yield (D, t/ha) in different practices of conservation agriculture in four West African Sahelian countries (Burkina Faso, Mali, Niger and Senegal)* is now straightforward, because we can re-use the function defined above for Table 1.
+
+
+```{r tab2A}
+tab2 <- make_table(straw)
+tab2
+```
+
+Results are similar. But note, for example, that we find k=28 for Parkland, whereas the paper reports 26. 
+
+## Figure 1. 
+
+Figure 1 shows *Variation in mean difference in yield with management practices in four West African Sahelian countries (Burkina Faso, Mali, Niger and Senegal). Vertical bars indicate 95% confidence bands.*
+
+```{r}
+# Check the crop types
+sort(unique(grain$Crop))
+```
+
+We need to create a column with "clean" crop names. I left "Millet-sorghum" observations out, as we do not know if it is millet or sorghum.
+
+```{r}
+### Select data for sorghum
+grain$cropname <- ""
+grain$cropname[substr(grain$Crop, 1, 7) == "Sorghum"] <- "Sorghum"
+grain$cropname[grain$Crop %in% c("White sorghum", "Red sorghum")] <- "Sorghum"
+grain$cropname[substr(grain$Crop, 1, 5) == "Maize"] <- "Maize"
+grain$cropname[grain$Crop == "Millet"] <- "Millet"
+
+# check by making a table
+tab <- table(grain$Crop, grain$cropname)
+head(tab, 15)
+```
+
+
+Now aggregate for the three crops of interest 
+```{r}
+par(mfrow=c(1,3))
+for (crop in c("Sorghum", "Millet", "Maize")) {
+    plotmeans(D~Technology, data=grain, subset=cropname==crop, connect=FALSE, 
+          xlab= "", ylab="Grain yield", las=2, ylim=c(-1, 1.6))
+    text(1, 1.5, crop)
+}
+
+```
+
+
+## Figs 2 and 3 
+
+As figure 2 and 3 are similar, Here figure 3 is replicated. *Variation in mean difference in yield (across cereal crops) with soil and water conservation practices and site productivity in four West African Sahelian countries (Burkina Faso, Mali, Niger and Senegal). The broken line represents the point where the treatment and control yields are equal. 1 and 2 defined low potential, 3 and 4 medium potential and above 4 defined high potential sites. Vertical bars represent standard errors.*
+
+```{r xyz}
+g <- grain[grain$cropname != "", ]
+g$productivity <- as.integer(g$productivity)
+sciplot::lineplot.CI(productivity, D, group=cropname, data=g, 
+          ci.fun=function(x) c(mean(x)-1.96 * sciplot::se(x), mean(x)+1.96 * sciplot::se(x)),
+          xlab= "site productivity", ylab="Mean difference in yield", lwd=2)
+abline(h=0, lwd=2, col="gray")
+
+```
+
+
+-----------------------------RMEL MODEL NOT SOLVED----------------------------------
+
+### 3.5. Table 3. Effect of rainfall on cereal grain yield (across crops) response to conservation agriculture practices in four West African Sahelian countries (Burkina Faso, Mali, Niger and Senegal).
+
+```{r}
+
+## Seperate data for grain yield of parkland based on rainfall class
+
+The methods section of the paper states that "Rainfall (long-term average of total annual) of sites was also classified as low (<600 mm), medium (600-800 mm) and high (>800 mm)."
+
+```{r rain}
+rain <- cut(grain_pt$Rainfall, c(0, 600, 800, Inf))
+levels(rain) <- c("low", "medium", "high")
+
+grain_pt$raincls <- rain
+```
+
+The authors also state that the effects of factors such as rainfall and site condition were determined by a mixed model analysis that allowed for average correlation of observations from the same study. That information is so sparse that we did not attempt to reproduce this model. But it would look like this, perhaps.
+
+```
+library(lme4)
+lm_pt <- lmer(`Yield Gap` ~ Rainfall + (Rainfall|Site), data = grain_pt)
+```

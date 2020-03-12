@@ -1,0 +1,81 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Index insurance
+
+
+## Introduction
+
+Here we evaluate the same contract as in the previous chapter. But we use predicted yield from remote sensing instead of observed yield. That is, index insurance instead of "area_yield". 
+
+
+First we predict yield for all years.
+
+```{r, message=FALSE}
+library(reagrodata)
+mods <- readRDS("rice_models.rds")
+m1 <- mods$m1
+idx <- data_rice("indices")
+idx$yield <- predict(m1, idx)
+head(idx)
+```
+
+We combine this with the household data
+
+```{r}
+z <- readRDS("hh_rice_yield.rds")
+z <- merge(z, idx[, c("zone", "year", "yield")])
+head(z)
+```
+
+Now compute income with and without insurance. 
+
+We create an insurance payout function.
+
+```{r}
+get_payout <- function(y, y_z, trigger, price){
+   pmax( (trigger * y_z) - y,  0) * price
+}
+``` 
+
+And compute payouts. 
+
+```{r}
+price <- 0.23
+premium <- 10
+trigger <- 0.9
+rho <- 1.5
+
+z$income <- z$y * price
+z$payout <- get_payout(z$yield, rho, trigger, price)
+z$income_with_ins <- z$income + z$payout - premium
+head(z)
+```
+
+On to the certainty equivalent income. We compute it with and without insurance in one step
+
+```{r ins06}
+zz <- aggregate(z[, c("income", "income_with_ins")], z[,"zone", drop=FALSE], function(i) ce_income(i, 1.5))
+```
+
+Now compute the benefit of insurance
+
+```{r ins066}
+zz$benefit <- (zz$income_with_ins - zz$income)
+zz$rel_benefit <- zz$benefit/ zz$income
+head(zz)
+mean(zz$benefit)
+```
+Does the contract pass the test?
+
+
+And plot it 
+
+```{r ins606, out.width = '100%'}
+quantile(zz$benefit)
+barplot(sort(zz$rel_benefit), ylab="relative benefit", xlab="zone", las=1)
+```
+
+

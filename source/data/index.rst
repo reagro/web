@@ -8,10 +8,9 @@ This section covers data collection techniques.
    :hidden: 
    :maxdepth: 5
 
-   trials
+   sampling/index
    cropcuts
    surveys
-   sampling
    spatial/index
    
     

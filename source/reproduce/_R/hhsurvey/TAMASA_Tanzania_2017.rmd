@@ -1,0 +1,130 @@
+# Maize Agronomy in Tanzania
+
+## Introduction
+
+This case study looks looks at the data from the 2016 and 2017 Agronomy Panel Survey for Tanzania. This data is part of the household panel dataset under TAMASA, and includes agronomic, yield, and soil information. The dataset includes a farm and plot survey with sixteen sections, as well as a community level questionnaire. Additionally, an excel document is included that contains a description of the variable names.
+
+In this case study we will calculate basic summary statistics and compare the two years of panel data. The data can be found on the CIMMYT webset,  [here](https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548039) and [here](https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548038).  
+
+
+## Download the data 
+
+```{r getData}
+ff2016 <- agro::get_data_from_uri("hdl:11529/10548039", ".")
+ff2017 <- agro::get_data_from_uri("11529/10548038", ".")
+ff2016
+ff2017
+```
+
+
+Read in the data:
+```{r readData}
+#2016 data
+ff <- grep("\\.tab$", ff2016, value=TRUE)
+x <- lapply(ff, read.delim)
+z <- strsplit(basename(ff), '_|[.]')
+z <- t(sapply(z, function(x) x[1:3]))
+z[z[,3]=='tab', 3] <- ""
+z <- apply(z[,-1], 1, function(i) paste(i, collapse="_"))
+names(x)<-z
+
+#2017 data
+ff2 <- grep("\\.tab$", ff2017, value=TRUE)
+x2 <- lapply(ff2, read.delim)
+z2 <- strsplit(basename(ff2), '_|[.]')
+z2 <- t(sapply(z2, function(x2) x2[1:3]))
+z2[z2[,3]=='tab',3] <- ""
+z2 <- apply(z2[,-1], 1, function(i) paste(i, collapse=""))
+names(x2) <- z2
+
+```
+
+We will need to use a few packages in this case study for mapping and graphics: 
+```{r packages}
+library(maptools)
+library(raster)
+library(plyr)
+library(ggplot2)
+library(rgdal)
+```
+
+Because the dataset includes some lat/long data, we can plot the communities that were surveyed over a map of Tanzania. This way, we can see the geographical extent of the data. 
+
+```{r plotCoordinates}
+latlong <- x$cmty_[, c("X_comm_gps_latitude","X_comm_gps_longitude")]
+names(latlong) <- c("lat", "long")
+latlong <- latlong [-2,]  
+#switch lat and long.. .they are in wrong place
+latlong <- latlong[,c(2,1)]
+points <- SpatialPoints(latlong)
+
+latlong2 <- x2$cmty[,c("X_comm_gps_longitude", "X_comm_gps_latitude")]
+names(latlong2) <- c("long", "lat")
+points2 <- SpatialPoints(latlong2)
+
+#get a map of tanzania, district level
+Tanz<-getData("GADM", country="TZ", level=2)
+
+#plot the country with points to indicate where the communities are. Red indicates 2016 data, blue is 2017. The mostly overlap.
+plot(Tanz)
+points(points, col= "red")
+points(points2, col= "blue")
+```
+
+Next we can show basic plot characteristics. 
+
+```{r plotcharacteristics}
+plot <- x$hh_plot
+plot <- plot[,c(2,6,7,8,13,20,22)]
+colnames(plot) <- c("hhindex", "size", "unit", "distance", "ownership", "irrigation", "erosion_control")
+
+plot$size <- ifelse(plot$unit == "hectare", plot$size*2.4, plot$size) 
+plot$unit <- NULL
+plot$irrigation <- ifelse(plot$irrigation == "yes", 1, 0)
+plot$erosion_control <- ifelse(plot$erosion_control == "yes", 1, 0)
+
+colnames(plot) <- c("hhinex", "size(acres)", "distance(km)", "ownership", "irrigation (%)", "erosion (%)")
+plotchars <- round(apply(plot[,c(2:3, 5:6)], 2, mean), 2)
+kable(plotchars, caption= "Plot Characteristics")
+
+#Because the ownership information is qualitative, we can make a pie chart to represent the information:
+c <- count(plot$ownership)
+pie(c$freq, labels=c$x, main = "Plot Ownership")
+```
+
+The survey also includes information on basic household demographics, such as age of household head, education, sex, and marital status. Here we can demonstrate the basic information: 
+
+```{r demographics}
+tamasa_hh <- x$hhfp_mroster
+tamasa_hh2 <- x$hhfp_
+
+tamasa_size <- tamasa_hh2[,c("hhid", "hh_index", "adults", "child10_15", "child10")]
+tamasa_size$size <- tamasa_size$adults + tamasa_size$child10 + tamasa_size$child10_15
+tamasa_size[,c(3:5)] <- NULL
+colnames(tamasa_size) <- c("hhid", "hh_index", "size")
+
+tamasa_HH2 <- tamasa_hh[tamasa_hh$mem_relationship=="head", c("hh_index", "mem_age", "mem_gender", "mem_education", "mem_marital")]
+tamasa_HH <- merge(tamasa_size, tamasa_HH2, by="hh_index")
+tamasa_HH$mem_gender <- ifelse(tamasa_HH$mem_gender=="female", 1, 0)
+colnames(tamasa_HH) <- c("hh_index", "hhid", "size", "age", "sex", "education", "marital")
+
+tamasa.mean <- apply(tamasa_HH[,3:5], 2, mean)
+library(knitr)
+kable(tamasa.mean)
+```
+
+Fertilizer data: 
+```{r tamasafert}
+tamasa_fert <- x$hhfp_
+tamasa_fert <- tamasa_fert[,c("hhid", "fertilizer_bin", "why_not_fertilizer")]
+tamasa_fert$fertilizer_bin <- ifelse(tamasa_fert$fertilizer_bin == "yes", 1, 0)
+summary(tamasa_fert$fertilizer_bin)
+#so here only 4 percent of households use fertilizer
+summary(tamasa_fert$why_not_fertilizer)
+
+#we can add fertilizer information to the household data to see what variables may be correlated with fertilizer use
+tamasa_all <- merge(tamasa_fert, tamasa_HH, by="hhid")
+cor(tamasa_all$age, tamasa_all$fertilizer_bin)
+
+```
+

@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 # Random Forest
 
 RandomForest is one of the most widely used "machine-learning" regression methods. This chapters shows how to use the method and how to inspect and evaluate RandomForest models.
@@ -5,10 +10,11 @@ RandomForest is one of the most widely used "machine-learning" regression method
 
 ## Chapter requirements
 
-For this chapter you need the following *R* packages: `randomForest`, `rpart`, `reagro`, and `predicts`. They are all available for download from CRAN [see these instructions](/installation.html) about installing *R* packages.
+For this chapter you need the following *R* packages: `randomForest`, `rpart`, `reagro`, and `agro`. See [these instructions](/installation.html) about installing *R* packages.
 
 ```{r randfor_req, message=FALSE}
-library(predicts)
+library(reagrodata)
+library(agro)
 library(randomForest)
 library(rpart)
 ```
@@ -20,7 +26,7 @@ To illustrate the use of Random Forest, we use some data from West Africa on soi
 
 
 ```{r randfor_1}
-d <- reagro::reagro_data("soilfert")
+d <- reagro_data("soilfert")
 dim(d)
 head(d)
 ```
@@ -37,6 +43,7 @@ d2 <- d[-i,]
 These are the variables we have.
 
 ```{r randfor_20, echo=FALSE}
+library(knitr)
 dtab <- data.frame(variable=c('temp', 'precip', 'ExchP', 'TotK', 'ExchAl', 'TotN', 'sand', 'clay', 'SOC', 'pH', 'AWC', 'fert'),
 description=c('Average temperature', 'Annual precipitation', 'Soil exchangeble P', 'Soil total K', 'Soil exchangeble Al', 'Soil total N', 'Soil franction sand (%)', 'Soil fraction clay (%)', 'Soil organic carbon (g/kg)', 'Soil pH', 'Soil water holding capacity', 'fertilizer (index) kg/ha'))
 kable(dtab)
@@ -62,7 +69,7 @@ Let's first make a linear regression model.
 model <- SOC~pH+precip+temp+sand+clay
 lrm <- lm(model, data=d1)
 summary(lrm)
-predicts::RMSE_null(d2$SOC, predict(lrm, d2))
+agro::RMSE_null(d2$SOC, predict(lrm, d2))
 ```
 
 We see that all the predictor variables are highly significant, and the R^2^ is not that bad. Perhaps we could improve the model by including interaction terms, but let's not go down that path here. 
@@ -71,7 +78,7 @@ Instead we use CART. CART recursively partitions the data set using a threshold 
 
 ```{r randfor_50}
 cart <- rpart::rpart(model, data=d1)
-predicts::RMSE_null(d2$SOC, predict(cart, d2))
+agro::RMSE_null(d2$SOC, predict(cart, d2))
 ```
 
 We see that RMSE_null is much better than the simple (perhaps overlay simplistic) linear model. CART explains about 58% of the unexplained variation, whereas the linear model explains only 21%. That is interesting. Let's look at the model. We can inspect it like this.
@@ -114,21 +121,21 @@ Let's turn the data sets, and build a CART model with sub-dataset `d2` (and eval
 
 ```{r randfor_90}
 cart2 <- rpart::rpart(model, data=d2)
-predicts::RMSE_null(d1$SOC, predict(cart2, d1))
+agro::RMSE_null(d1$SOC, predict(cart2, d1))
 ```
 
-That is very similar to the result for `d1` (`r round(predicts::RMSE_null(d2$SOC, predict(cart, d2)), 2)`).
+That is very similar to the result for `d1` (`r round(agro::RMSE_null(d2$SOC, predict(cart, d2)), 2)`).
 We can also check if the CART model overfits the data much by comparing RMSE computed with the test data with the RMSE computed with the train data. 
 
 ```{r randfor_95}
 # model 1, test data
-predicts::RMSE_null(d2$SOC, predict(cart, d2))
+agro::RMSE_null(d2$SOC, predict(cart, d2))
 # model 1, train data
-predicts::RMSE_null(d1$SOC, predict(cart, d1))
+agro::RMSE_null(d1$SOC, predict(cart, d1))
 # model 2, test data
-predicts::RMSE_null(d1$SOC, predict(cart2, d1))
+agro::RMSE_null(d1$SOC, predict(cart2, d1))
 # model 2, train data
-predicts::RMSE_null(d2$SOC, predict(cart2, d2))
+agro::RMSE_null(d2$SOC, predict(cart2, d2))
 ```
 
 The rmse with the training data is higher than with the testing data. That suggest that there is some overfitting, but it is not much. In this case we also seem to have low variance, in the sense that the models look similar (see below). That is not a general result --- CART models tend to have high variance. They can also overfit the data. A lot depends on how far you let the tree grow. In this case we used default stopping rules (nodes are not split if it has fewer than 20 observations or if any of the resulting nodes would get less than 7 observations), see `?rpart.control`, that avoided these problems. Trees that are grown very deep tend to overfit: they have low bias, but very high variance. 
@@ -172,7 +179,7 @@ for (i in 1:n) {
 	k <- sample(nrow(d1), replace=TRUE)
 	cartmod <- rpart(model, data=d1[k,])
 	p <- predict(cartmod, d2)
-	eval[i] <- predicts::RMSE_null(d2$SOC, p)
+	eval[i] <- agro::RMSE_null(d2$SOC, p)
 	predictions[, i] <- p
 }
 ```
@@ -196,13 +203,13 @@ round(eval, 3)
 But the score for the ensemble model is quite a bit higher than the mean value is for the individual models!
 ```{r randfor_150}
 mean(eval)
-predicts::RMSE_null(d2$SOC, pavg)
+agro::RMSE_null(d2$SOC, pavg)
 ```
 
 And also higher than the original model (without bootstrapping)....
 
 ```{r randfor_160}
-predicts::RMSE_null(d2$SOC, predict(cart, d2))
+agro::RMSE_null(d2$SOC, predict(cart, d2))
 ```
 
 In Rob Shapire's famous words: *"many weak learners can make a strong learner"*. (It seems that this is not only true for statistical models, but that it also holds for humans).
@@ -226,12 +233,12 @@ Compare reported results with ours
 
 ```{r randfor_180}
 p <- predict(rf, d2)
-predicts::RMSE_null(d2$SOC, p)
+agro::RMSE_null(d2$SOC, p)
 ```
 
 ```{r randfor_190}
 # Mean of squared residuals
-predicts::RMSE(d2$SOC, p)^2
+agro::RMSE(d2$SOC, p)^2
 # % Var explained:
 round(100 * (1 - var(d2$SOC - p) / var(d2$SOC)), 1)
 ```
@@ -247,9 +254,8 @@ Let's make 5 groups.
 
 ```{r randfor_200}
 n <- 5
-library(predicts)
 set.seed(31415)
-k <- predicts::kfold(d, n)
+k <- agro::make_groups(d, n)
 table(k)
 ```
 
@@ -262,8 +268,8 @@ for (i in 1:n) {
 	train <- d[k!=i, ]
 	m <- randomForest(model, data=train)
 	p <- predict(m, test)
-	rfRMSE[i] <- predicts::RMSE(test$SOC, p)
-	rfRMSE_null[i] <- predicts::RMSE_null(test$SOC, p)
+	rfRMSE[i] <- agro::RMSE(test$SOC, p)
+	rfRMSE_null[i] <- agro::RMSE_null(test$SOC, p)
 	rfvarexp[i] <- var(test$SOC - p) / var(test$SOC)
 	rfcor[i] <- cor(test$SOC, p)
 }
@@ -282,8 +288,8 @@ for (i in 1:n) {
 	train <- d[k!=i, ]
 	m <- lm(model, data=train)
 	p <- predict(m, test)
-	lmRMSE[i] <- predicts::RMSE(test$SOC, p)
-	lmRMSE_null[i] <- predicts::RMSE_null(test$SOC, p)
+	lmRMSE[i] <- agro::RMSE(test$SOC, p)
+	lmRMSE_null[i] <- agro::RMSE_null(test$SOC, p)
 	lmvarexp[i] <- var(test$SOC - p) / var(test$SOC)
 	lmcor[i] <- cor(test$SOC, p)
 }
@@ -323,8 +329,7 @@ The notion of node purity is specific to tree-models. But the notion of variable
 Here is a general function that computes variable importance for any model (that has a "predict" methods) in R.
 
 ```{r randfor_240}
-library(predicts)
-predicts::varImportance
+agro::varImportance
 ``` 
 
 To assess importance for a variable, the function randomizes the values of that variable, without touching the other variables. It then use the model to make a prediction and compute a model evaluation statistic (here RMSE is used). Because of the vagaries of randomization this is done a number of times. The average RMSE is then compared with the RMSE of predictions with the original data. If the difference is large, the variable is important. If the difference is small, the variable is not important.  
@@ -334,11 +339,11 @@ Now let's use the function for our Random Forest model.
 
 ```{r randfor_250}
 predvars <- c("pH", "precip", "clay", "sand", "temp")
-vi <- predicts::varImportance(rfm, d, predvars)
+vi <- agro::varImportance(rfm, d, predvars)
 
 vimean <- colMeans(vi)
 p <- predict(m, d)
-RMSEfull <- predicts::RMSE(d$SOC, p)
+RMSEfull <- agro::RMSE(d$SOC, p)
 x <- sort(vimean - RMSEfull)
 
 dotchart(x)
@@ -350,10 +355,10 @@ We can use the same function for the linear regression model
 
 ```{r randfor_260}
 mlr <- lm(model, data=d)
-vi <- predicts::varImportance(mlr, d, predvars)
+vi <- agro::varImportance(mlr, d, predvars)
 vimean <- colMeans(vi)
 p <- predict(m, d)
-RMSEfull <- predicts::RMSE(d$SOC, p)
+RMSEfull <- agro::RMSE(d$SOC, p)
 x <- sort(vimean - RMSEfull)
 dotchart(x)
 ```
@@ -377,7 +382,7 @@ You have to interpret these plots with caution as it does not show interactions;
 The `partialPlot` function comes with the `randomForest` package. Here is a generic implementation that works with any model with a predict method.
 
 ```{r randfor_280}
-predicts::partialResponse
+agro::partialResponse
 ``` 
 
 The function first creates a sequence of values for the variable of interest. It then loops over that sequence. In each iteration, all values for the variable of interest are replaced with a single value while the values of all other variables stay the same. The model is used to make a prediction for all records, and these predictions are averaged. 
@@ -386,7 +391,7 @@ Let's use it for `pH` with the Random Forest model
 
 
 ```{r randfor_290}
-pr_pH <- predicts::partialResponse(rfm, d, "pH")
+pr_pH <- agro::partialResponse(rfm, d, "pH")
 plot(pr_pH, type="l")
 rug(quantile(d$pH, seq(0, 1, 0.1)))
 ```
@@ -397,7 +402,7 @@ And now for the linear regression model.
 
 ```{r randfor_300}
 lrm <- lm(model, data=d)
-pr_pH <- predicts::partialResponse(lrm, d, "pH")
+pr_pH <- agro::partialResponse(lrm, d, "pH")
 plot(pr_pH, type="l")
 rug(quantile(d$pH, seq(0, 1, 0.1)))
 ```

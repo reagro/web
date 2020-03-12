@@ -1,0 +1,1053 @@
+hhid,q112_dist,q117_gpslat,q118_gpslong,s_yield,fym_kgha,Nitrogen_kgha,P2O5_kgha,K2O_kgha,Zn_kgha,q202_soiltype,q204_landtype,q205_varietytype,q2012_seedsource,q2016_fymom,q211_fertzapply,q241_irrigaccess,q244_noirrigrice,q281_weedensity,q282_weedcontrol,q2101_stress,seeding_doy,transplant_doy,seeding_days,harvest_doi
+1081136,Banke,28.1886,81.5553,2600,0,64,46,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,no,0,high,yes,yes,156,179,23,297
+1084128,Bardiya,28.1833,81.395,3000,0,59.14286,0,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,0,medium,yes,yes,152,187,35,299
+1084167,Bardiya,28.3118,81.2564,3900,0,82.2,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,low,yes,yes,161,188,27,318
+1084061,Bardiya,28.1842,81.3934,2700,0,82.5,34.5,14.4,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,low,yes,yes,152,191,39,284
+1081076,Banke,28.146,81.5854,1200,0,38.4,27.6,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,high,yes,yes,169,198,29,300
+1099087,Kanchanpur,28.6797,80.3708,3150,0,103.5,0,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,1,low,no,yes,159,188,29,296
+1071125,Rupandehi,27.5326,83.5292,6600,0,109.8,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,low,yes,yes,172,196,24,322
+1076119,Kapilbastu,27.545,83.0214,5142.857,0,90.08571,69,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,3,high,yes,no,175,198,23,325
+1081164,Banke,28.1379,81.5651,3409.091,0,26.18182,18.81818,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,162,194,32,312
+1099042,Kanchanpur,28.9446,80.2376,2400,0,33,13.8,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,2,low,yes,yes,163,187,24,289
+1091090,Kailali,28.7232,80.8419,4800,0,24.6,27.6,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,low,yes,yes,157,186,29,298
+1091121,Kailali,28.7966,80.5875,3937.5,0,41.25,17.25,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,no,152,187,35,297
+1099099,Kanchanpur,28.9052,80.355,2571.428,0,29.57143,0,0,0,Medium,lowland,traditional,Own stored,no,yes,yes,0,medium,yes,yes,155,192,37,294
+1076103,Kapilbastu,27.509,83.2023,6000,0,96,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,no,0,medium,yes,no,169,197,28,314
+1076002,Kapilbastu,27.4974,83.0236,5500,0,114.5,57.5,0,0,Medium,verylowland,OPV,Purchased from market,no,yes,yes,2,high,yes,yes,175,200,25,323
+1091004,Kailali,28.634,81.1354,3000,0,120,86.25,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,high,yes,yes,161,184,23,309
+1076125,Kapilbastu,27.5453,83.0219,5550,0,90.6,55.2,0,0,Light,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,no,175,201,26,326
+1071028,Rupandehi,27.5326,83.5288,5625,0,96,69,22.5,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,low,yes,yes,174,196,22,289
+1099013,Kanchanpur,28.9711,80.2247,6000,0,67.2,48.3,9,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,1,medium,yes,yes,151,180,29,307
+1099041,Kanchanpur,28.9006,80.3541,2400,0,35.7,20.7,0,0,Medium,medium land,traditional,Own stored,no,yes,yes,3,low,yes,yes,163,180,17,287
+1091175,Kailali,28.6547,81.0912,2500,0,32,23,0,0,Light,medium land,OPV,Purchased from market,no,yes,yes,1,high,yes,yes,150,182,32,311
+1084137,Bardiya,28.1881,81.3656,3000,0,96,69,0,0,Light,lowland,hybrid,Purchased from market,no,yes,yes,1,medium,yes,yes,152,182,30,300
+1091044,Kailali,28.7741,80.5948,2400,0,48,34.5,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,179,201,22,305
+1076035,Kapilbastu,27.4765,83.0081,1050,0,192,138,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,no,192,216,24,322
+1081161,Banke,28.0928,81.5316,5400,0,66,27.6,0,0,Light,verylowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,no,162,184,22,310
+1071004,Rupandehi,27.5293,83.5655,5250,0,120,86.25,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,no,170,202,32,319
+1084077,Bardiya,28.1894,81.3606,4500,0,240,172.5,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,3,medium,yes,yes,163,176,13,298
+1084130,Bardiya,28.1878,81.3679,4500,0,96,69,18,15,Light,medium land,OPV,Purchased from market,no,yes,yes,1,high,yes,yes,159,187,28,306
+1081162,Banke,28.0924,81.5317,2250,0,52.65,55.2,105,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,high,yes,yes,162,183,21,310
+1084151,Bardiya,28.1849,81.3929,4125,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,no,165,194,29,318
+1076099,Kapilbastu,27.5224,83.0231,4500,0,32,23,0,0,Light,medium land,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,189,221,32,334
+1084067,Bardiya,28.3128,81.2554,3000,0,44.33334,15.33333,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,0,high,yes,yes,170,202,32,304
+1071058,Rupandehi,27.5137,83.5389,2500,0,160,115,0,0,Medium,lowland,OPV,Purchased from market,no,yes,no,0,low,no,yes,161,187,26,298
+1084075,Bardiya,28.3121,81.2564,2625,0,39.9,13.8,0,0,Heavey,lowland,OPV,Own stored,no,yes,yes,4,high,yes,yes,184,210,26,319
+1099101,Kanchanpur,28.9477,80.2355,3750,0,61.8,34.5,0,0,Light,lowland,OPV,Own stored,no,yes,yes,2,low,no,no,157,183,26,296
+1081152,Banke,28.1517,81.5817,4125,0,34.5,0,0,0,Heavey,lowland,hybrid,others,no,yes,no,0,low,yes,no,173,205,32,319
+1084159,Bardiya,28.2422,81.3096,1500,0,192,138,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,4,high,yes,yes,156,178,22,310
+1076116,Kapilbastu,27.4976,83.0238,4500,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,yes,174,206,32,324
+1071039,Rupandehi,27.5171,83.5223,3600,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,yes,177,193,16,307
+1076016,Kapilbastu,27.5219,83.0198,5000,0,109.8,69,0,0,Medium,lowland,OPV,others,no,yes,yes,4,medium,yes,no,181,220,39,311
+1084055,Bardiya,28.1836,81.3949,2100,0,96,69,0,0,Light,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,168,189,21,297
+1076141,Kapilbastu,27.4979,83.024,4950,0,109.8,69,54,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,4,medium,no,yes,175,209,34,332
+1099171,Kanchanpur,28.6639,80.3971,1200,0,24,17.25,0,0,Heavey,lowland,traditional,Own stored,no,yes,yes,2,medium,yes,yes,155,197,42,305
+1091042,Kailali,28.8087,80.5942,2750,0,80,57.5,7.5,0,Medium,medium land,OPV,Purchased from market,no,yes,no,0,low,yes,yes,161,183,22,286
+1084044,Bardiya,28.3097,81.2526,3450,0,57.6,41.4,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,2,high,yes,yes,177,206,29,303
+1071136,Rupandehi,27.5408,83.5372,3600,0,96,69,9,0,Medium,medium land,hybrid,Purchased from market,no,yes,yes,3,low,yes,no,171,197,26,323
+1091112,Kailali,28.6607,81.0496,2700,0,76.8,55.2,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,3,low,yes,yes,155,178,23,298
+1081122,Banke,28.1371,81.5661,1000,0,64,46,0,0,Light,medium land,OPV,Own stored,no,yes,no,0,low,yes,yes,160,178,18,298
+1084169,Bardiya,28.1842,81.3931,2400,0,57.6,41.4,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,no,0,high,yes,yes,169,192,23,326
+1081148,Banke,28.1516,81.5807,2333.333,0,106.6667,76.66667,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,172,191,19,316
+1071147,Rupandehi,27.5295,83.5643,6000,0,192,138,0,0,Light,lowland,hybrid,Purchased from market,no,yes,yes,3,low,yes,no,171,199,28,325
+1071051,Rupandehi,27.5073,83.5395,3500,0,80,57.5,30,12.5,Heavey,lowland,OPV,Purchased from market,no,yes,yes,4,low,yes,no,173,195,22,307
+1076149,Kapilbastu,27.5448,83.0208,5000,0,82.85715,69,12,10,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,low,no,no,174,197,23,332
+1081116,Banke,28.1295,81.5409,818.1818,0,17.45455,12.54545,0,0,Medium,lowland,OPV,Purchased from market,no,yes,no,0,medium,yes,yes,166,191,25,304
+1091142,Kailali,28.6652,81.047,4500,0,60,43.125,0,0,Heavey,lowland,OPV,Own stored,no,yes,no,0,medium,yes,yes,155,182,27,303
+1099044,Kanchanpur,28.9718,80.2253,1500,0,24,17.25,0,0,Light,medium land,OPV,Own stored,no,yes,yes,2,high,yes,yes,176,195,19,302
+1071030,Rupandehi,27.5154,83.5236,5250,0,96,69,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,1,low,yes,yes,176,201,25,301
+1084095,Bardiya,28.244,81.3116,2250,0,82.5,34.5,0,0,Light,medium land,hybrid,Purchased from market,no,yes,yes,2,low,yes,yes,165,193,28,305
+1071124,Rupandehi,27.5402,83.5363,8000,0,106.6667,76.66667,60,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,1,medium,yes,no,165,189,24,315
+1084062,Bardiya,28.1835,81.3949,2000,0,87,46,6,0,Medium,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,166,187,21,298
+1091070,Kailali,28.658,81.0543,3000,0,68.4,69,0,0,Light,upland,traditional,Own stored,no,yes,no,0,medium,yes,yes,152,189,37,289
+1071044,Rupandehi,27.5071,83.5396,4500,0,96,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,low,yes,no,170,195,25,303
+1071142,Rupandehi,27.5404,83.536,2700,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,medium,yes,yes,159,182,23,312
+1076138,Kapilbastu,27.5449,83.0214,5400,0,57.6,41.4,0,0,Light,medium land,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,177,201,24,332
+1081100,Banke,28.1474,81.5831,1500,0,52.2,27.6,0,0,Light,lowland,OPV,Own stored,no,yes,no,0,medium,yes,yes,163,186,23,298
+1091053,Kailali,28.6605,81.0468,4125,0,57.6,41.4,0,0,Heavey,verylowland,OPV,Own stored,no,yes,no,0,low,yes,yes,164,195,31,297
+1084140,Bardiya,28.3136,81.2559,2400,0,76.8,55.2,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,high,yes,yes,152,176,24,301
+1091080,Kailali,28.648,81.0873,4800,0,165,69,0,0,Light,medium land,OPV,Purchased from market,no,yes,yes,1,low,yes,no,164,195,31,303
+1076001,Kapilbastu,27.4768,83.007,5100,0,134.4,96.6,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,no,178,213,35,309
+1099139,Kanchanpur,27.5235,83.0245,4500,0,31.5,27.6,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,3,low,yes,yes,189,216,27,333
+1084160,Bardiya,28.1841,81.3936,4200,0,82.5,34.5,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,high,yes,yes,147,192,45,302
+1091177,Kailali,28.6479,81.088,3000,0,82.5,34.5,0,0,Heavey,verylowland,OPV,Purchased from market,no,yes,yes,1,high,yes,yes,125,156,31,287
+1076005,Kapilbastu,27.5556,83.0371,5142.857,0,96,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,178,213,35,319
+1091087,Kailali,28.7434,80.5763,3346.154,0,53.76923,42.46154,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,low,yes,yes,156,179,23,296
+1099050,Kanchanpur,28.9044,80.3541,2250,0,25.875,0,0,0,Light,lowland,traditional,Own stored,no,yes,yes,1,high,yes,yes,155,187,32,284
+1076020,Kapilbastu,27.5726,83.0567,4500,0,96,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,high,yes,no,183,212,29,329
+1076013,Kapilbastu,27.5725,83.0565,4800,0,104.4,55.2,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,174,198,24,318
+1076142,Kapilbastu,27.5224,83.023,6000,0,192,138,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,4,low,yes,yes,181,211,30,338
+1071002,Rupandehi,27.5401,83.5366,6000,0,96,69,9,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,1,medium,yes,no,163,197,34,308
+1076044,Kapilbastu,27.4764,83.0082,9600,0,96,69,0,0,Light,lowland,hybrid,others,no,yes,yes,2,medium,yes,no,189,216,27,322
+1076065,Kapilbastu,27.4771,83.0066,3600,0,76.8,55.2,0,0,Medium,lowland,hybrid,others,no,yes,no,0,medium,yes,yes,181,215,34,319
+1071086,Rupandehi,27.5331,83.5288,5600,0,82.2,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,4,medium,yes,no,160,187,27,304
+1071027,Rupandehi,27.5167,83.5225,8100,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,low,yes,no,175,192,17,289
+1091116,Kailali,28.6582,81.0542,4200,0,71.4,41.4,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,low,no,yes,153,183,30,297
+1099170,Kanchanpur,28.6627,80.3973,2250,0,82.5,34.5,0,0,Light,medium land,OPV,Own stored,no,yes,yes,2,high,yes,yes,157,177,20,306
+1099165,Kanchanpur,28.6627,80.3972,1800,0,32,23,0,0,Medium,medium land,traditional,Purchased from market,no,yes,yes,3,low,yes,yes,156,179,23,304
+1071070,Rupandehi,27.5163,83.5229,1066.667,0,106.6667,76.66667,50,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,1,low,yes,no,155,179,24,295
+1091169,Kailali,28.722,80.841,3525,0,48,34.5,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,low,yes,yes,156,192,36,312
+1084124,Bardiya,28.1902,81.3607,3300,0,90.6,55.2,0,0,Light,lowland,OPV,Own stored,no,yes,yes,2,low,yes,yes,162,194,32,308
+1071089,Rupandehi,27.5141,83.5385,2400,0,33,13.8,0,0,Medium,lowland,OPV,Purchased from market,no,yes,no,0,medium,yes,yes,163,193,30,308
+1084011,Bardiya,28.3406,81.2657,3450,0,96,69,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,165,194,29,307
+1081141,Banke,28.1376,81.5661,3000,0,36.5,34.5,0,0,Light,medium land,hybrid,Purchased from market,no,yes,no,0,medium,yes,yes,159,192,33,302
+1071097,Rupandehi,27.5325,83.5296,5833.333,0,106.6667,76.66667,50,0,Medium,medium land,OPV,Purchased from market,no,yes,yes,2,low,yes,no,175,195,20,321
+1071171,Rupandehi,27.5401,83.5367,6000,0,76.8,55.2,30,5,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,low,yes,no,164,203,39,327
+1091159,Kailali,28.6552,81.0914,2666.667,0,42.66666,30.66667,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,low,yes,yes,153,183,30,305
+1071059,Rupandehi,27.5048,83.4837,6428.571,0,96,69,38.57143,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,high,yes,no,166,192,26,304
+1099108,Kanchanpur,28.9676,80.2264,3157.895,0,50.52631,36.31579,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,164,197,33,305
+1099168,Kanchanpur,28.6794,80.3705,4500,0,64,46,0,0,Heavey,verylowland,OPV,Own stored,no,yes,yes,1,low,yes,yes,150,178,28,299
+1081080,Banke,28.1383,81.5671,3000,0,38.4,27.6,0,0,Light,lowland,hybrid,Purchased from market,no,yes,no,0,medium,yes,yes,169,187,18,300
+1099175,Kanchanpur,28.679,80.3679,8000,0,90,18.4,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,1,low,yes,yes,156,181,25,309
+1084127,Bardiya,28.3118,81.2548,3600,0,76.8,55.2,0,0,Light,medium land,OPV,Own stored,no,yes,yes,3,medium,yes,yes,164,189,25,310
+1071112,Rupandehi,27.4973,83.0236,5400,0,109.8,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,yes,177,198,21,325
+1091031,Kailali,28.8081,80.5944,2500,0,38.4,27.6,6,12,Light,lowland,OPV,Own stored,no,yes,no,0,low,no,yes,153,183,30,276
+1091138,Kailali,28.7234,80.8419,3000,0,24.6,27.6,18,10.5,Medium,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,159,187,28,306
+1091147,Kailali,28.6471,81.0863,7200,0,43.8,41.4,0,0,Heavey,lowland,OPV,Own stored,no,yes,yes,0,low,yes,no,157,192,35,306
+1081009,Banke,28.0872,81.5382,4333.333,0,106.6667,76.66667,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,yes,160,181,21,301
+1071087,Rupandehi,27.5327,83.5285,5000,0,90.6,55.2,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,no,168,191,23,312
+1081021,Banke,28.1537,81.5745,4650,0,57.6,41.4,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,no,162,185,23,311
+1091076,Kailali,28.7967,80.5865,2000,0,64,46,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,yes,159,188,29,297
+1076014,Kapilbastu,27.5226,83.0187,9200,0,57.6,41.4,0,0,Heavey,lowland,hybrid,others,no,yes,yes,5,medium,yes,no,180,212,32,314
+1099023,Kanchanpur,28.9444,80.2386,3750,0,65.25,34.5,0,0,Light,medium land,OPV,Own stored,no,yes,yes,2,low,yes,yes,165,191,26,282
+1081066,Banke,28.1297,81.5411,4500,0,96,69,0,0,Heavey,verylowland,hybrid,Purchased from market,no,yes,yes,4,medium,yes,yes,169,199,30,297
+1091045,Kailali,28.6548,81.0914,4250,0,160,115,0,0,Light,upland,OPV,Own stored,no,yes,yes,1,low,no,yes,170,197,27,297
+1099164,Kanchanpur,28.9022,80.3551,2700,0,42.6,20.7,0,0,Light,lowland,OPV,Own stored,no,yes,yes,3,low,yes,yes,156,179,23,304
+1081037,Banke,28.1382,81.5657,2400,0,64,46,0,0,Light,lowland,OPV,Purchased from market,no,yes,no,0,low,yes,yes,166,188,22,282
+1091109,Kailali,28.722,80.8423,4125,0,52.2,27.6,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,low,yes,no,158,188,30,301
+1081114,Banke,28.1882,81.5544,3000,0,86.25,0,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,no,0,low,yes,yes,165,185,20,302
+1091152,Kailali,28.8098,80.5896,900,0,31.44,34.5,0,0,Light,lowland,traditional,Own stored,no,yes,yes,1,high,yes,yes,153,177,24,303
+1071066,Rupandehi,27.5315,83.5057,5400,0,96,69,54,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,2,low,yes,no,166,183,17,304
+1081028,Banke,28.1516,81.5751,6000,0,96,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,170,192,22,300
+1071109,Rupandehi,27.5155,83.5236,4285.714,0,96,69,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,yes,154,179,25,302
+1071014,Rupandehi,27.5635,83.5588,5625,0,90.6,55.2,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,no,166,193,27,312
+1099110,Kanchanpur,28.9591,80.2287,4500,0,60.63158,43.57895,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,0,low,no,yes,151,179,28,292
+1099045,Kanchanpur,28.9005,80.3541,1875,0,137.25,86.25,0,0,Medium,medium land,OPV,Purchased from market,no,yes,no,0,low,yes,yes,162,187,25,289
+1099021,Kanchanpur,28.6959,80.3643,4800,0,115.2,82.8,36,0,Light,upland,traditional,Purchased from market,no,yes,yes,1,low,yes,yes,163,183,20,276
+1091017,Kailali,28.6607,81.0469,4125,0,48,34.5,0,0,Heavey,verylowland,OPV,Own stored,no,yes,no,0,low,no,yes,174,202,28,292
+1099141,Kanchanpur,28.6807,80.3685,4500,0,52.2,27.6,0,0,Medium,medium land,OPV,Purchased from market,no,yes,yes,1,low,yes,yes,159,202,43,304
+1081117,Banke,28.1878,81.5544,2400,0,48,34.5,0,0,Light,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,167,192,25,305
+1081142,Banke,28.1429,81.5636,5142.857,0,117.8571,49.28572,0,0,Heavey,verylowland,hybrid,Purchased from market,no,yes,no,0,high,yes,no,164,192,28,307
+1084090,Bardiya,28.3142,81.2589,4875,0,12,8.625,0,0,Medium,medium land,OPV,Purchased from market,no,yes,yes,3,low,yes,no,173,199,26,311
+1071081,Rupandehi,27.5294,83.5643,4200,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,yes,161,182,21,304
+1071056,Rupandehi,27.5402,83.5364,3846.154,0,42.30769,17.69231,0,3.846154,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,high,yes,no,167,192,25,303
+1099119,Kanchanpur,28.9625,80.2279,3150,0,52.2,27.6,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,low,no,no,156,188,32,298
+1071060,Rupandehi,27.5134,83.5423,3000,0,60.3,48.3,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,yes,174,200,26,312
+1076153,Kapilbastu,27.4972,83.0246,4200,0,90.6,55.2,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,high,yes,yes,166,196,30,327
+1084149,Bardiya,28.1833,81.3952,4200,0,82.5,34.5,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,high,yes,yes,148,187,39,301
+1071170,Rupandehi,27.5327,83.5285,3000,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,high,yes,no,159,187,28,320
+1071115,Rupandehi,27.5401,83.5366,3600,0,96,69,0,0,Medium,medium land,hybrid,Purchased from market,no,yes,no,0,low,yes,no,174,199,25,323
+1076036,Kapilbastu,27.5029,83.0261,4500,0,96,69,0,0,Heavey,lowland,hybrid,others,no,yes,yes,3,high,yes,no,195,216,21,325
+1076143,Kapilbastu,27.5221,83.0192,5000,0,64,46,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,yes,181,215,34,339
+1076077,Kapilbastu,27.5091,83.202,4875,0,144,103.5,0,0,Medium,lowland,OPV,Purchased from market,no,yes,no,0,low,yes,no,169,199,30,309
+1099145,Kanchanpur,28.8097,80.5896,1200,0,31.44,34.5,0,0,Light,lowland,traditional,Own stored,no,yes,yes,0,low,yes,yes,152,183,31,297
+1076112,Kapilbastu,27.509,83.2016,3000,0,56,40.25,0,0,Medium,medium land,OPV,Purchased from market,no,yes,no,0,low,yes,yes,174,202,28,322
+1084079,Bardiya,28.3127,81.2555,2100,0,38.4,27.6,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,1,medium,yes,yes,170,202,32,306
+1076024,Kapilbastu,27.4975,83.0229,4444.444,0,71.11111,51.11111,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,high,yes,no,175,202,27,272
+1084173,Bardiya,28.2419,81.3097,960,0,115.2,82.8,32.4,0,Light,lowland,OPV,Purchased from market,no,yes,no,0,high,yes,yes,161,211,50,327
+1091104,Kailali,28.7291,80.842,4090.909,0,87.27273,62.72727,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,yes,161,181,20,303
+1081113,Banke,28.1517,81.5751,1500,0,54.9,34.5,0,0,Light,medium land,OPV,Own stored,no,yes,no,0,medium,yes,yes,161,181,20,298
+1081070,Banke,28.1526,81.5831,3176.471,0,81.17647,0,0,0,Light,medium land,OPV,Purchased from market,no,yes,no,0,low,yes,no,185,203,18,313
+1099115,Kanchanpur,28.9057,80.3409,3600,0,36.24,22.08,18,0,Medium,lowland,OPV,others,no,yes,yes,1,medium,yes,no,154,177,23,295
+1081005,Banke,28.0892,81.5397,1800,0,42.6,20.7,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,5,high,yes,no,156,184,28,327
+1076037,Kapilbastu,27.503,83.026,4500,0,57.6,41.4,0,0,Heavey,lowland,hybrid,others,no,yes,yes,2,high,yes,no,193,212,19,323
+1099053,Kanchanpur,28.901,80.3543,3750,0,113.25,69,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,high,yes,yes,154,179,25,283
+1099055,Kanchanpur,28.9621,80.2263,4218.75,0,40,28.75,18.75,0,Medium,verylowland,traditional,Own stored,no,yes,yes,1,low,no,yes,155,186,31,285
+1081089,Banke,28.1432,81.5638,1800,0,55.2,0,0,0,Heavey,lowland,OPV,Own stored,no,yes,no,0,medium,yes,yes,165,185,20,298
+1071096,Rupandehi,27.5189,83.5209,6187.5,0,91.5,57.5,0,5,Medium,lowland,hybrid,Purchased from market,no,yes,yes,4,medium,yes,yes,168,194,26,314
+1099001,Kanchanpur,28.9714,80.1968,3750,0,35.7,20.7,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,no,160,180,20,303
+1071048,Rupandehi,27.5325,83.5294,7666.667,0,76,76.66667,40,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,low,yes,no,168,192,24,302
+1071003,Rupandehi,27.5052,83.4838,5400,0,104.4,55.2,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,no,173,194,21,314
+1076061,Kapilbastu,27.5032,83.0282,5250,0,28.8,20.7,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,196,226,30,333
+1084115,Bardiya,28.2419,81.31,1371.429,0,74.57143,39.42857,0,0,Light,medium land,OPV,Purchased from market,no,yes,yes,3,medium,yes,yes,162,188,26,305
+1091129,Kailali,28.6631,81.0473,5625,0,120,86.25,0,0,Light,lowland,traditional,Own stored,no,yes,no,0,low,yes,yes,157,193,36,303
+1071016,Rupandehi,27.533,83.5288,5250,0,96,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,no,164,182,18,307
+1084166,Bardiya,28.2422,81.3098,2000,0,96,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,high,yes,yes,164,192,28,321
+1099158,Kanchanpur,28.9501,80.2335,3600,0,48,34.5,0,0,Heavey,lowland,OPV,Own stored,no,yes,yes,1,low,no,no,158,181,23,305
+1071057,Rupandehi,27.5134,83.5414,4500,0,96,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,yes,174,202,28,311
+1099173,Kanchanpur,28.9629,80.2278,4050,0,43.8,41.4,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,low,no,yes,152,181,29,303
+1084080,Bardiya,28.1891,81.3608,2454.545,0,43.63636,31.36364,0,0,Light,lowland,OPV,Own stored,no,yes,yes,3,medium,yes,yes,170,200,30,306
+1091085,Kailali,28.7966,80.5878,3500,0,73,69,12,20,Light,upland,traditional,Own stored,no,yes,yes,1,low,yes,no,156,211,55,296
+1076135,Kapilbastu,27.5227,83.0232,7500,0,123.3,103.5,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,low,yes,no,185,210,25,339
+1081109,Banke,28.1394,81.566,1200,0,21.3,10.35,0,0,Light,medium land,OPV,Purchased from market,no,yes,no,0,high,yes,yes,179,226,47,316
+1071067,Rupandehi,27.54,83.5367,7500,0,96,69,45,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,high,yes,no,166,191,25,305
+1099091,Kanchanpur,28.6955,80.3643,3300,0,76.8,55.2,0,0,Medium,lowland,traditional,Own stored,no,yes,no,0,medium,yes,yes,159,190,31,297
+1099142,Kanchanpur,28.9704,80.1963,3000,0,55,23,0,0,Heavey,lowland,OPV,Own stored,no,yes,yes,1,medium,yes,no,156,192,36,301
+1076090,Kapilbastu,27.5025,83.0271,5500,0,42,36.8,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,190,221,31,333
+1081175,Banke,28.1887,81.5549,1200,0,0,0,0,0,Heavey,verylowland,OPV,Purchased from market,no,no,no,0,low,no,yes,165,194,29,319
+1091125,Kailali,28.6578,81.0533,2250,0,24,17.25,0,0,Heavey,lowland,OPV,Own stored,no,yes,no,0,low,no,yes,153,182,29,298
+1071088,Rupandehi,27.5291,83.564,4500,0,90.6,55.2,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,no,169,192,23,313
+1099064,Kanchanpur,27.6605,83.0338,4500,0,38.5,16.1,0,0,Light,medium land,OPV,Own stored,no,yes,no,0,low,yes,yes,202,228,26,334
+1099031,Kanchanpur,28.9775,80.2308,2400,0,33,13.8,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,3,low,yes,yes,157,178,21,277
+1091015,Kailali,28.7914,80.5928,3600,0,90.6,55.2,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,2,low,yes,yes,165,189,24,282
+1091148,Kailali,28.7198,80.8417,1800,0,63,55.2,0,0,Light,lowland,traditional,Own stored,no,yes,no,0,medium,yes,yes,151,184,33,300
+1071045,Rupandehi,27.5054,83.5385,3300,0,82.5,34.5,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,no,0,medium,yes,no,174,199,25,307
+1099134,Kanchanpur,28.9598,80.2285,2550,0,109.5,103.5,0,0,Medium,medium land,traditional,Own stored,no,yes,yes,1,low,no,no,153,206,53,297
+1076096,Kapilbastu,27.5264,83.0398,5000,0,41,46,12,20,Medium,lowland,OPV,Purchased from market,no,yes,yes,4,medium,yes,yes,184,210,26,328
+1091035,Kailali,28.7933,80.5932,6000,0,48,34.5,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,high,yes,no,175,197,22,298
+1099038,Kanchanpur,28.9427,80.2361,3600,0,48,34.5,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,157,179,22,281
+1091074,Kailali,28.7959,80.5917,4500,0,65.25,34.5,0,0,Heavey,lowland,OPV,Own stored,no,yes,yes,1,medium,no,no,159,179,20,296
+1091153,Kailali,28.6582,81.0541,3500,0,41,46,0,0,Medium,lowland,traditional,Own stored,no,yes,no,0,medium,no,yes,148,187,39,299
+1099131,Kanchanpur,28.9617,80.2274,3562.5,0,53.25,25.875,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,medium,no,no,155,186,31,298
+1081026,Banke,28.1379,81.5649,3700,0,32,23,0,0,Medium,medium land,hybrid,Purchased from market,no,yes,no,0,high,yes,yes,158,182,24,305
+1076132,Kapilbastu,27.4975,83.0235,5700,0,82.2,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,yes,173,194,21,326
+1076048,Kapilbastu,27.4766,83.0079,6000,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,high,yes,no,184,210,26,318
+1076130,Kapilbastu,27.6611,83.0339,4285.714,0,52.62857,23.65714,0,0,Light,medium land,OPV,Own stored,no,yes,no,0,low,yes,yes,184,215,31,337
+1076018,Kapilbastu,27.5271,83.039,5000,0,102.75,86.25,45,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,189,215,26,324
+1084139,Bardiya,28.2422,81.3097,2000,0,87,46,0,3,Medium,medium land,hybrid,Purchased from market,no,yes,yes,3,medium,yes,yes,162,188,26,311
+1099084,Kanchanpur,28.6803,80.3691,3000,0,138,0,0,0,Light,upland,OPV,Own stored,no,yes,yes,1,high,yes,yes,152,186,34,289
+1099007,Kanchanpur,28.9585,80.228,4500,0,85.33333,61.33333,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,0,low,no,yes,162,192,30,304
+1084025,Bardiya,28.312,81.2558,3666.667,0,13.66667,15.33333,0,0,Heavey,lowland,OPV,Own stored,no,yes,yes,3,high,yes,yes,180,206,26,299
+1076062,Kapilbastu,27.5023,83.027,5400,0,45.3,27.6,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,196,224,28,333
+1071132,Rupandehi,27.5183,83.5214,3450,0,96,69,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,166,195,29,318
+1099118,Kanchanpur,28.9722,80.1968,2950,0,55,23,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,medium,yes,no,156,190,34,298
+1076115,Kapilbastu,27.6608,83.0349,5000,0,90.6,55.2,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,no,183,209,26,332
+1071110,Rupandehi,27.5293,83.5641,6000,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,no,165,186,21,313
+1076072,Kapilbastu,27.4767,83.0076,7000,0,118.6667,107.3333,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,no,186,210,24,325
+1081015,Banke,28.0871,81.538,4410,0,57.6,41.4,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,low,yes,yes,169,196,27,313
+1081134,Banke,28.1511,81.5801,1169.492,0,44.23729,23.38983,0,0,Medium,lowland,OPV,Purchased from market,no,yes,no,0,medium,yes,yes,156,181,25,297
+1076076,Kapilbastu,27.4766,83.0076,3000,0,80,57.5,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,medium,yes,yes,179,210,31,319
+1071054,Rupandehi,27.5083,83.5392,7090.909,0,87.27273,62.72727,16.36364,13.63636,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,high,yes,no,169,191,22,304
+1076059,Kapilbastu,27.4768,83.0074,5000,0,101.4,82.8,0,0,Medium,lowland,hybrid,others,no,yes,no,0,medium,yes,yes,182,213,31,319
+1084092,Bardiya,28.1874,81.3677,4736.842,0,101.0526,72.63158,0,0,Light,medium land,hybrid,others,no,yes,yes,10,low,yes,no,165,194,29,304
+1076091,Kapilbastu,27.4765,83.0076,3750,0,109.5,103.5,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,yes,179,206,27,322
+1099003,Kanchanpur,28.9796,80.1997,4500,0,48,34.5,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,0,high,yes,yes,154,183,29,289
+1071077,Rupandehi,27.5192,83.5213,5400,0,90.6,55.2,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,no,167,194,27,310
+1084023,Bardiya,28.1883,81.3655,3000,0,96,69,0,0,Light,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,yes,152,187,35,271
+1081029,Banke,28.1518,81.575,6150,0,96,69,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,1,medium,yes,yes,163,183,20,297
+1071042,Rupandehi,27.5135,83.542,5600,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,no,164,197,33,297
+1071090,Rupandehi,27.5327,83.5285,7500,0,96,69,27,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,no,164,187,23,309
+1071055,Rupandehi,27.5157,83.5236,6428.571,0,90,78.85715,51.42857,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,4,medium,yes,no,166,192,26,302
+1099184,Kanchanpur,28.6796,80.3675,6000,0,31.2,22.425,0,0,Medium,lowland,traditional,Own stored,no,yes,yes,1,low,yes,yes,153,195,42,324
+1076007,Kapilbastu,27.5726,83.0564,5000,0,80,57.5,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,no,179,212,33,311
+1099006,Kanchanpur,28.6938,80.3632,3300,0,65.25,34.5,7.2,0,Heavey,lowland,OPV,others,no,yes,yes,1,low,yes,yes,161,182,21,281
+1081059,Banke,28.0933,81.5299,1300,0,38.4,27.6,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,no,0,low,yes,yes,161,187,26,287
+1084136,Bardiya,28.188,81.3654,3000,0,91.6,46,0,0,Light,lowland,hybrid,Purchased from market,no,yes,yes,1,medium,yes,yes,154,192,38,302
+1099060,Kanchanpur,28.942,80.2365,1500,0,48,34.5,0,0,Heavey,lowland,OPV,Own stored,no,yes,yes,2,high,yes,yes,165,202,37,297
+1099081,Kanchanpur,28.6939,80.3655,2600,0,17.4,9.2,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,3,medium,yes,yes,156,182,26,292
+1084144,Bardiya,28.242,81.3097,3600,0,48,34.5,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,high,yes,yes,163,192,29,313
+1091144,Kailali,28.7746,80.5947,2400,0,61.5,69,0,15,Heavey,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,163,187,24,311
+1084135,Bardiya,28.1881,81.3654,2608.696,0,83.47826,60,0,0,Light,lowland,hybrid,Purchased from market,no,yes,yes,1,medium,yes,yes,152,192,40,300
+1076129,Kapilbastu,27.5226,83.0185,6000,0,58.57143,65.71429,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,high,yes,yes,180,213,33,333
+1071130,Rupandehi,27.5135,83.5194,6857.143,0,43.02857,39.42857,25.71429,8.571428,Heavey,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,no,147,182,35,299
+1081088,Banke,28.1376,81.5658,3600,0,38.4,27.6,0,0,Light,medium land,hybrid,Purchased from market,no,yes,no,0,medium,yes,yes,167,192,25,300
+1071158,Rupandehi,27.5332,83.5292,4800,0,46.08,33.12,2.16,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,yes,166,196,30,324
+1076067,Kapilbastu,27.4766,83.0079,9000,0,96,69,0,0,Light,lowland,hybrid,others,no,yes,yes,3,medium,yes,no,181,213,32,319
+1091154,Kailali,28.6549,81.0917,3600,0,48,34.5,0,0,Light,lowland,traditional,Own stored,no,yes,yes,0,low,yes,yes,155,187,32,306
+1076111,Kapilbastu,27.5092,83.2013,2400,0,115.2,82.8,0,0,Medium,medium land,hybrid,Purchased from market,no,yes,no,0,medium,yes,yes,180,212,32,328
+1099015,Kanchanpur,28.6799,80.3689,3250,0,75.5,46,45,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,yes,155,177,22,287
+1081086,Banke,28.1886,81.5543,2200,0,25.6,18.4,0,0,Heavey,lowland,OPV,Own stored,no,yes,no,0,medium,yes,yes,166,194,28,299
+1084157,Bardiya,28.188,81.3678,4500,0,96,69,0,0,Light,medium land,hybrid,Purchased from market,no,yes,yes,2,low,yes,yes,157,182,25,311
+1071159,Rupandehi,27.5312,83.5064,2000,0,320,230,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,no,171,200,29,329
+1081011,Banke,28.0876,81.5383,6750,0,199.5,69,22.5,0,Light,lowland,OPV,Purchased from market,no,yes,yes,4,low,yes,yes,171,193,22,291
+1071065,Rupandehi,27.5162,83.5234,9000,0,192,138,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,no,175,194,19,313
+1071122,Rupandehi,27.533,83.5289,6000,0,85.2,41.4,0,0,Medium,medium land,OPV,Purchased from market,no,yes,yes,3,low,yes,yes,172,198,26,322
+1076071,Kapilbastu,27.5035,83.0282,1080,0,57.6,41.4,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,195,224,29,334
+1076086,Kapilbastu,27.5263,83.0394,4500,0,60.85714,29.57143,10.28571,0,Heavey,lowland,hybrid,others,no,yes,yes,2,medium,yes,no,183,215,32,325
+1076034,Kapilbastu,27.5028,83.0258,2666.667,0,53.33334,38.33334,0,0,Heavey,lowland,hybrid,others,no,yes,yes,2,medium,yes,no,197,218,21,325
+1076094,Kapilbastu,27.5233,83.0254,1050,0,57.6,41.4,0,0,Light,medium land,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,191,220,29,335
+1081115,Banke,28.139,81.5669,2700,0,28.8,20.7,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,no,0,high,no,yes,164,198,34,302
+1071052,Rupandehi,27.516,83.5236,1650,0,48,34.5,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,high,yes,yes,169,185,16,303
+1091166,Kailali,28.6636,81.048,2250,0,96,69,0,0,Light,lowland,traditional,Own stored,no,yes,no,0,low,no,yes,154,183,29,307
+1091039,Kailali,28.655,81.0916,2400,0,34.2,34.5,0,0,Medium,lowland,traditional,Own stored,no,yes,yes,0,low,no,yes,159,193,34,284
+1091098,Kailali,28.796,80.5919,3600,0,56.8,27.6,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,low,no,no,154,184,30,296
+1076064,Kapilbastu,27.509,83.2025,4800,0,115.2,82.8,22.5,9,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,no,176,201,25,313
+1071134,Rupandehi,27.5185,83.5214,3642.857,0,96,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,166,193,27,318
+1091146,Kailali,28.6658,81.0471,4500,0,103.125,43.125,0,0,Light,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,154,189,35,303
+1076029,Kapilbastu,27.4769,83.007,9000,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,no,197,220,23,322
+1081048,Banke,28.0896,81.5352,3600,0,74.4,13.8,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,3,high,yes,yes,167,187,20,290
+1081166,Banke,28.1877,81.5542,3857.143,0,106.2857,19.71429,0,0,Light,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,151,184,33,303
+1076145,Kapilbastu,27.4974,83.023,6000,0,90.6,55.2,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,high,yes,no,170,202,32,328
+1099163,Kanchanpur,28.9577,80.2273,3000,0,64,46,0,0,Medium,lowland,OPV,Purchased from market,no,yes,no,0,high,yes,yes,156,181,25,304
+1084168,Bardiya,28.3149,81.2601,2250,0,72,51.75,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,3,high,yes,yes,165,191,26,322
+1084143,Bardiya,28.1844,81.3929,4500,0,46,0,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,low,yes,yes,171,201,30,321
+1076056,Kapilbastu,27.5271,83.039,3000,0,64,46,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,no,183,213,30,319
+1076033,Kapilbastu,27.661,83.0352,3600,0,96,69,0,0,Medium,medium land,OPV,Purchased from market,no,yes,yes,2,medium,yes,no,182,206,24,309
+1081085,Banke,28.1306,81.542,3000,0,48,34.5,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,no,0,medium,yes,yes,164,192,28,297
+1076121,Kapilbastu,27.5228,83.0233,4500,0,48,34.5,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,3,medium,yes,yes,182,214,32,333
+1076050,Kapilbastu,27.4771,83.0065,7714.286,0,135,118.2857,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,no,188,213,25,322
+1076104,Kapilbastu,27.5089,83.2029,4200,0,90.6,55.2,0,0,Medium,lowland,hybrid,Own stored,no,yes,yes,1,high,yes,yes,162,187,25,307
+1071076,Rupandehi,27.516,83.5236,3600,0,87,46,24,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,low,yes,no,177,199,22,319
+1091073,Kailali,28.7739,80.595,2812.5,0,48,34.5,0,0,Heavey,verylowland,OPV,Purchased from market,no,yes,no,0,medium,yes,no,159,183,24,296
+1071021,Rupandehi,27.5382,83.5542,4230,0,96,69,0,0,Heavey,lowland,OPV,Own stored,no,yes,yes,3,medium,yes,yes,164,197,33,306
+1071121,Rupandehi,27.5133,83.5414,4200,0,71.4,41.4,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,yes,162,188,26,312
+1099073,Kanchanpur,28.9046,80.3546,1875,0,48,34.5,0,0,Light,lowland,traditional,Own stored,no,yes,yes,0,low,yes,yes,155,192,37,289
+1071135,Rupandehi,27.5324,83.5295,4200,0,71.16,69,0,0,Medium,medium land,hybrid,Purchased from market,no,yes,yes,3,low,yes,no,171,197,26,323
+1084170,Bardiya,28.1845,81.3927,3000,0,86.25,0,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,159,187,28,317
+1076068,Kapilbastu,27.5029,83.0275,5500,0,38.4,27.6,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,yes,195,223,28,333
+1099169,Kanchanpur,28.9044,80.3545,1800,0,30.72,22.08,0,0,Light,lowland,OPV,Own stored,no,yes,no,0,medium,yes,yes,160,185,25,309
+1081104,Banke,28.1379,81.5657,2400,0,57.6,41.4,0,0,Light,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,yes,163,189,26,299
+1084134,Bardiya,28.3121,81.256,2000,0,59.5,34.5,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,1,medium,yes,yes,153,202,49,301
+1071009,Rupandehi,27.5159,83.5207,5000,0,96,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,164,199,35,299
+1071120,Rupandehi,27.5312,83.5057,4500,0,68.625,43.125,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,low,yes,yes,172,200,28,322
+1099002,Kanchanpur,28.9794,80.1997,900,0,96,69,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,yes,160,184,24,278
+1081002,Banke,28.1382,81.5658,4140,0,71.4,41.4,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,yes,166,196,30,312
+1081174,Banke,28.1381,81.5651,2850,0,71.4,41.4,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,low,no,yes,158,194,36,312
+1081068,Banke,28.1385,81.5669,3000,0,51.2,36.8,0,0,Light,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,yes,167,187,20,295
+1076043,Kapilbastu,27.5265,83.0395,3750,0,163.125,86.25,0,0,Heavey,lowland,hybrid,others,no,yes,yes,2,high,yes,no,195,213,18,327
+1071082,Rupandehi,27.5329,83.5288,6000,0,68.4,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,4,medium,yes,no,165,185,20,308
+1071157,Rupandehi,27.5319,83.505,2400,0,96,69,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,no,171,197,26,328
+1091168,Kailali,28.658,81.0539,2571.428,0,54.85714,39.42857,0,0,Heavey,verylowland,traditional,Purchased from market,no,yes,no,0,low,no,yes,151,192,41,307
+1076039,Kapilbastu,27.5262,83.0395,5000,0,109.5,103.5,60,25,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,yes,197,223,26,328
+1076147,Kapilbastu,27.4973,83.0238,4500,0,96,69,0,0,Medium,lowland,hybrid,Own stored,no,yes,yes,2,high,yes,yes,165,194,29,323
+1084111,Bardiya,28.188,81.3679,2700,0,48,34.5,0,0,Light,lowland,hybrid,Purchased from market,no,yes,yes,4,high,yes,yes,167,187,20,309
+1071034,Rupandehi,27.5132,83.5413,3600,0,99.24,77.28,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,0,low,yes,yes,171,202,31,299
+1071146,Rupandehi,27.5293,83.5643,3750,0,180,129.375,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,low,yes,no,171,200,29,325
+1091134,Kailali,28.6537,81.0913,1961.538,0,63.46154,26.53846,0,0,Heavey,lowland,traditional,Purchased from market,no,yes,yes,0,low,no,yes,153,180,27,299
+1099008,Kanchanpur,28.9739,80.2309,4875,0,60,43.125,0,0,Light,medium land,OPV,Purchased from market,no,yes,yes,1,low,yes,yes,159,181,22,273
+1071137,Rupandehi,27.5328,83.5288,4000,0,64,46,0,0,Medium,medium land,OPV,Purchased from market,no,yes,yes,3,medium,yes,no,171,197,26,323
+1071160,Rupandehi,27.5327,83.5292,4800,0,230.4,165.6,0,0,Light,medium land,OPV,Purchased from market,no,yes,yes,2,low,yes,yes,160,192,32,319
+1081091,Banke,28.1422,81.5642,2100,0,48,34.5,0,0,Heavey,lowland,OPV,Own stored,no,yes,no,0,medium,yes,yes,163,187,24,297
+1071111,Rupandehi,27.5404,83.5358,5250,0,90.6,55.2,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,no,170,191,21,318
+1071151,Rupandehi,27.5311,83.506,4000,0,84.5,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,3,low,yes,yes,172,202,30,327
+1071043,Rupandehi,27.5157,83.5212,6000,0,96,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,no,164,192,28,297
+1081098,Banke,28.139,81.5669,3000,0,27.42857,19.71429,0,0,Light,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,yes,161,185,24,296
+1081139,Banke,28.1891,81.5553,2571.428,0,54.85714,39.42857,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,no,0,high,yes,yes,153,197,44,295
+1091013,Kailali,28.6451,81.0848,4800,0,99,41.4,0,0,Medium,medium land,traditional,Own stored,no,yes,yes,0,low,yes,yes,161,192,31,276
+1099182,Kanchanpur,28.6647,80.3942,1800,0,33.6,24.15,0,0,Light,upland,OPV,Own stored,no,yes,no,0,low,yes,yes,152,179,27,314
+1071154,Rupandehi,27.5311,83.5059,3000,0,96,69,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,4,low,yes,no,171,197,26,327
+1099059,Kanchanpur,28.9618,80.2269,2950,0,43.5,23,18,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,medium,no,no,157,186,29,288
+1071143,Rupandehi,27.5138,83.5387,3000,0,96,69,27,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,162,194,32,316
+1091079,Kailali,28.724,80.8422,2250,0,48,34.5,4.5,0,Light,upland,traditional,Own stored,no,yes,yes,2,low,yes,yes,156,191,35,295
+1076134,Kapilbastu,27.5224,83.0231,4000,0,148.75,86.25,0,0,Medium,lowland,traditional,Purchased from market,no,yes,yes,2,low,yes,yes,183,209,26,337
+1091016,Kailali,28.6614,81.0492,3000,0,19.2,13.8,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,2,low,yes,yes,164,187,23,281
+1076144,Kapilbastu,27.5091,83.2013,3000,0,160,115,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,3,low,yes,no,177,210,33,335
+1071050,Rupandehi,27.5297,83.5642,4200,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,4,low,yes,yes,171,193,22,305
+1071032,Rupandehi,27.5328,83.5286,7500,0,80,57.5,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,no,171,197,26,297
+1071152,Rupandehi,27.5314,83.5058,3000,0,87,46,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,3,low,yes,no,173,200,27,328
+1081074,Banke,28.1369,81.5662,2250,0,69,0,0,0,Light,medium land,OPV,Own stored,no,yes,no,0,low,yes,yes,167,189,22,297
+1071037,Rupandehi,27.5321,83.5294,6545.455,0,102,100.3636,49.09091,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,low,yes,no,172,196,24,302
+1091058,Kailali,28.7208,80.8425,1950,0,34.2,34.5,0,0,Light,lowland,OPV,Purchased from market,no,yes,no,0,medium,yes,yes,163,204,41,297
+1091124,Kailali,28.7744,80.5947,3375,0,48,34.5,0,0,Medium,lowland,traditional,Own stored,no,yes,yes,0,low,no,yes,154,184,30,299
+1071038,Rupandehi,27.5175,83.522,5000,0,85.75,57.5,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,low,yes,no,173,197,24,303
+1071073,Rupandehi,27.5318,83.5058,2800,0,64,46,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,high,yes,yes,163,181,18,304
+1084138,Bardiya,28.3468,81.2659,4500,0,117,34.5,0,0,Light,lowland,OPV,Own stored,no,yes,yes,2,low,yes,yes,163,189,26,311
+1081065,Banke,28.1473,81.5834,1200,0,41.4,0,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,169,192,23,296
+1071040,Rupandehi,27.5047,83.4837,4200,0,96,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,no,0,medium,yes,yes,170,197,27,301
+1081012,Banke,28.1382,81.5657,5454.545,0,47.45455,25.09091,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,no,0,high,yes,yes,156,178,22,308
+1081077,Banke,28.1371,81.5662,1500,0,96,69,0,0,Light,lowland,hybrid,Purchased from market,no,yes,no,0,medium,yes,yes,170,197,27,301
+1091049,Kailali,28.661,81.0468,4500,0,76.8,55.2,0,0,Heavey,verylowland,OPV,Own stored,no,yes,no,0,low,yes,yes,166,196,30,297
+1081178,Banke,28.0938,81.53,2000,0,30.2,18.4,0,0,Light,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,155,178,23,311
+1099068,Kanchanpur,28.9048,80.355,2000,0,46,0,0,0,Light,lowland,OPV,Own stored,no,yes,yes,1,low,yes,yes,164,192,28,297
+1071133,Rupandehi,27.5295,83.564,4000,0,128,92,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,no,171,200,29,323
+1099109,Kanchanpur,28.9711,80.1968,3100,0,55,23,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,low,yes,no,157,186,29,298
+1081159,Banke,28.1881,81.5548,2333.333,0,46,0,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,no,0,high,yes,yes,158,191,33,306
+1084070,Bardiya,28.3149,81.2603,4200,0,38.4,27.6,0,0,Light,medium land,OPV,Own stored,no,yes,yes,4,medium,yes,no,177,205,28,311
+1071024,Rupandehi,27.492,83.2497,4200,0,96,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,yes,156,188,32,306
+1076127,Kapilbastu,27.5024,83.0273,2400,0,48,34.5,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,low,yes,yes,177,204,27,329
+1081075,Banke,28.1486,81.5818,3000,0,34.5,0,0,0,Light,lowland,OPV,Purchased from market,no,yes,no,0,high,yes,yes,170,192,22,300
+1081151,Banke,28.1388,81.5657,2400,0,48,34.5,0,0,Light,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,yes,158,181,23,303
+1084038,Bardiya,28.184,81.3925,2250,0,72,51.75,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,1,high,yes,yes,161,184,23,284
+1081001,Banke,28.1383,81.5658,4050,0,48,34.5,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,yes,161,192,31,312
+1099069,Kanchanpur,28.9619,80.2273,3375,0,42.6,20.7,0,0,Light,lowland,OPV,Own stored,no,yes,yes,1,low,yes,no,165,189,24,298
+1076093,Kapilbastu,27.5219,83.0229,5250,0,54.9,34.5,0,0,Light,medium land,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,190,221,31,334
+1076053,Kapilbastu,27.527,83.0394,5666.667,0,106.6667,76.66667,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,yes,179,206,27,314
+1091136,Kailali,28.648,81.0877,3750,0,72,51.75,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,no,0,high,yes,yes,157,174,17,303
+1071072,Rupandehi,27.5128,83.5409,5000,0,51.2,36.8,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,low,yes,yes,169,200,31,310
+1081103,Banke,28.0923,81.532,3750,0,48,34.5,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,low,yes,yes,175,202,27,311
+1071149,Rupandehi,27.517,83.5221,5400,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,no,165,185,20,319
+1091050,Kailali,28.6646,81.0467,6000,0,61.44,44.16,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,medium,yes,yes,153,186,33,285
+1081149,Banke,28.1381,81.5649,3000,0,57.6,41.4,9,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,high,no,yes,156,181,25,301
+1076151,Kapilbastu,27.545,83.021,4800,0,57.6,41.4,0,0,Light,medium land,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,173,200,27,333
+1076085,Kapilbastu,27.4765,83.008,1050,0,192,138,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,4,medium,yes,no,182,214,32,324
+1076038,Kapilbastu,27.5272,83.04,3250,0,120,86.25,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,yes,180,206,26,311
+1099076,Kanchanpur,28.6962,80.3643,2500,0,40,28.75,0,0,Medium,lowland,traditional,Own stored,no,yes,yes,1,medium,yes,yes,156,187,31,291
+1084054,Bardiya,28.3098,81.2531,4500,0,55,23,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,no,167,191,24,296
+1071006,Rupandehi,27.5637,83.5587,5500,0,108.75,57.5,0,0,Light,medium land,hybrid,Purchased from market,no,yes,yes,3,medium,yes,no,173,197,24,319
+1081106,Banke,28.1886,81.5543,2400,0,52.2,27.6,0,0,Heavey,lowland,OPV,Own stored,no,yes,no,0,low,no,yes,162,187,25,298
+1091156,Kailali,28.658,81.0538,1500,0,19.2,13.8,0,0,Medium,lowland,OPV,Purchased from market,no,yes,no,0,low,no,yes,157,183,26,308
+1084036,Bardiya,28.3144,81.2583,1800,0,96,69,18,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,1,high,yes,yes,171,196,25,294
+1084156,Bardiya,28.1848,81.393,3750,0,69,0,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,6,high,yes,yes,164,190,26,318
+1076057,Kapilbastu,27.5262,83.0394,4500,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,yes,186,211,25,322
+1091101,Kailali,28.7962,80.5919,2137.5,0,61.5,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,medium,yes,yes,155,182,27,297
+1076026,Kapilbastu,27.5029,83.0276,4500,0,72,51.75,0,0,Heavey,lowland,hybrid,others,no,yes,yes,2,low,yes,no,197,216,19,303
+1084057,Bardiya,28.244,81.3116,1125,0,120,86.25,0,0,Heavey,lowland,hybrid,others,no,yes,yes,1,high,yes,yes,174,186,12,303
+1081124,Banke,28.1877,81.5558,2700,0,69,0,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,2,low,yes,no,169,182,13,307
+1076055,Kapilbastu,27.5233,83.0256,5500,0,38.4,27.6,0,0,Medium,medium land,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,197,230,33,333
+1071104,Rupandehi,27.5404,83.5371,4500,0,90.6,55.2,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,medium,yes,yes,160,184,24,307
+1071025,Rupandehi,27.5175,83.5221,6857.143,0,68.57143,49.28572,25.71429,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,2,low,yes,no,171,192,21,271
+1084119,Bardiya,28.3121,81.2561,2500,0,87,46,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,yes,154,178,24,298
+1081121,Banke,28.1374,81.566,1500,0,48,34.5,0,0,Medium,medium land,OPV,Own stored,no,yes,no,0,medium,yes,yes,159,178,19,297
+1099120,Kanchanpur,28.9522,80.2304,4500,0,57.6,41.4,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,0,low,yes,yes,157,189,32,299
+1084082,Bardiya,28.1831,81.3953,3000,0,32,23,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,yes,159,179,20,295
+1076105,Kapilbastu,27.5225,83.0233,5571.429,0,137.1429,98.57143,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,low,yes,no,186,211,25,332
+1081044,Banke,28.1374,81.5661,2400,0,38.4,27.6,0,0,Light,medium land,hybrid,Purchased from market,no,yes,no,0,medium,yes,yes,162,178,16,282
+1084114,Bardiya,28.1879,81.3654,2500,0,36.6,23,0,0,Light,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,yes,169,196,27,312
+1091043,Kailali,28.6445,81.0846,1500,0,77.25,43.125,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,medium,yes,yes,169,197,28,295
+1076028,Kapilbastu,27.5271,83.0397,4000,0,69.6,36.8,0,0,Heavey,lowland,hybrid,others,no,yes,yes,2,medium,yes,no,202,220,18,325
+1084106,Bardiya,28.1879,81.3654,2250,0,48,34.5,0,0,Light,lowland,hybrid,Purchased from market,no,yes,yes,2,high,yes,yes,162,197,35,304
+1071101,Rupandehi,27.5334,83.529,4285.714,0,192,138,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,no,169,199,30,316
+1071118,Rupandehi,27.5295,83.5645,3750,0,72,51.75,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,168,199,31,318
+1084120,Bardiya,28.184,81.3938,1400,0,32,23,0,0,Light,medium land,OPV,others,no,yes,no,0,high,yes,yes,163,185,22,307
+1099016,Kanchanpur,28.9615,80.2277,4500,0,21.9,20.7,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,1,low,no,no,156,181,25,298
+1091088,Kailali,28.7956,80.5915,4326.923,0,73.84615,53.07692,0,0,Light,lowland,OPV,Own stored,no,yes,yes,1,low,no,no,161,184,23,301
+1076113,Kapilbastu,27.4973,83.0233,5500,0,87.6,82.8,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,high,yes,yes,175,197,22,323
+1081171,Banke,28.1505,81.5755,3300,0,63,55.2,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,low,no,yes,159,201,42,312
+1084059,Bardiya,28.1872,81.3677,2700,0,96,69,0,0,Light,medium land,OPV,Purchased from market,no,yes,yes,1,high,yes,yes,172,187,15,302
+1084052,Bardiya,28.3097,81.252,4000,0,55,23,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,yes,170,197,27,298
+1071164,Rupandehi,27.5313,83.5059,3375,0,80,57.5,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,2,high,yes,yes,168,198,30,327
+1081154,Banke,28.0925,81.5315,3000,0,109.8,69,0,0,Light,medium land,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,155,178,23,301
+1076052,Kapilbastu,27.5265,83.0396,4000,0,87,46,0,0,Heavey,lowland,hybrid,others,no,yes,yes,2,medium,yes,no,192,220,28,327
+1071079,Rupandehi,27.5057,83.5396,5700,0,72,51.75,27,15,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,no,161,186,25,304
+1071063,Rupandehi,27.5402,83.5368,4772.727,0,81.13636,47.04546,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,no,163,183,20,301
+1081177,Banke,28.1462,81.5849,1125,0,48,34.5,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,no,0,high,yes,yes,164,192,28,319
+1099046,Kanchanpur,28.9444,80.2377,4000,0,32,23,0,0,Light,medium land,OPV,Purchased from market,no,yes,yes,3,low,yes,yes,164,187,23,291
+1071047,Rupandehi,27.5082,83.5392,4500,0,96,69,18,15,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,low,yes,no,177,202,25,311
+1071131,Rupandehi,27.5401,83.5365,6000,0,130.5,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,no,166,197,31,318
+1084113,Bardiya,28.1896,81.3604,3600,0,115.2,82.8,0,0,Light,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,yes,155,185,30,298
+1081071,Banke,28.1391,81.5659,3750,0,0,0,0,0,Heavey,lowland,OPV,Purchased from market,no,no,yes,2,low,yes,yes,164,193,29,293
+1084107,Bardiya,28.3098,81.2532,3750,0,24,17.25,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,2,high,yes,no,153,181,28,295
+1084142,Bardiya,28.1897,81.3621,4500,0,96,69,0,0,Light,lowland,hybrid,Purchased from market,no,yes,yes,1,medium,yes,yes,153,187,34,303
+1076054,Kapilbastu,27.5225,83.0229,6000,0,82.2,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,low,yes,no,189,210,21,324
+1071144,Rupandehi,27.5184,83.5213,4500,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,yes,166,196,30,320
+1076146,Kapilbastu,27.5092,83.2008,4800,0,51.2,36.8,0,0,Light,medium land,OPV,Purchased from market,no,yes,yes,3,low,yes,yes,169,200,31,327
+1076040,Kapilbastu,27.5223,83.0188,4800,0,96,69,0,0,Heavey,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,no,179,213,34,311
+1091001,Kailali,28.7269,80.8423,4200,0,48,34.5,0,10.5,Light,medium land,OPV,Own stored,no,yes,yes,3,high,yes,yes,161,183,22,307
+1099097,Kanchanpur,28.6955,80.3644,2625,0,48,34.5,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,yes,155,179,24,293
+1091174,Kailali,28.658,81.0539,2400,0,68.4,69,0,0,Heavey,verylowland,traditional,Own stored,no,yes,no,0,low,no,yes,147,182,35,306
+1071107,Rupandehi,27.5326,83.5288,4285.714,0,42.85714,59.14286,12.85714,0,Medium,medium land,hybrid,Purchased from market,no,yes,yes,3,low,yes,no,174,193,19,321
+1099049,Kanchanpur,28.9043,80.3543,3000,0,35.7,20.7,0,0,Light,lowland,traditional,Own stored,no,yes,yes,0,low,yes,yes,155,192,37,284
+1081102,Banke,28.1298,81.5412,3000,0,48,34.5,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,no,0,medium,yes,yes,165,198,33,301
+1076083,Kapilbastu,27.5022,83.0272,5600,0,38.4,27.6,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,high,yes,yes,196,223,27,337
+1091145,Kailali,28.6458,81.0851,2850,0,41.1,34.5,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,low,no,yes,159,196,37,308
+1084013,Bardiya,28.2458,81.3046,3000,0,96,69,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,4,high,yes,yes,154,178,24,308
+1076017,Kapilbastu,27.5449,83.0215,4500,0,192,138,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,yes,181,213,32,312
+1084002,Bardiya,28.3398,81.2654,2100,0,48,34.5,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,1,high,yes,yes,169,193,24,302
+1076031,Kapilbastu,27.5272,83.04,5000,0,106.6667,76.66667,0,0,Heavey,lowland,hybrid,others,no,yes,yes,2,medium,yes,no,197,213,16,323
+1081160,Banke,28.1379,81.5653,1800,0,38.4,27.6,0,0,Medium,lowland,OPV,Purchased from market,no,yes,no,0,high,yes,yes,163,192,29,311
+1099057,Kanchanpur,28.904,80.3394,3800,0,64,46,0,0,Heavey,lowland,OPV,Own stored,no,yes,yes,2,low,yes,yes,157,185,28,287
+1091122,Kailali,28.7196,80.8419,3000,0,32,23,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,1,high,yes,yes,150,181,31,295
+1071075,Rupandehi,27.5325,83.5295,6750,0,96,69,22.5,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,medium,yes,no,176,199,23,318
+1081108,Banke,28.1888,81.5544,3600,0,68.4,69,0,0,Heavey,verylowland,OPV,Own stored,no,yes,no,0,low,no,yes,168,187,19,304
+1091120,Kailali,28.8099,80.5903,1875,0,19.95,6.9,0,0,Light,lowland,traditional,Purchased from market,no,yes,yes,2,high,yes,yes,152,187,35,297
+1084172,Bardiya,28.1841,81.3935,1500,0,90.6,55.2,22.5,15,Heavey,lowland,hybrid,Purchased from market,no,yes,no,0,high,yes,yes,156,187,31,319
+1091105,Kailali,28.6458,81.0851,2850,0,96,69,0,0,Medium,medium land,traditional,Own stored,no,yes,yes,1,low,yes,yes,159,211,52,302
+1076066,Kapilbastu,27.5226,83.0187,6000,0,96,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,4,medium,yes,no,181,213,32,319
+1084148,Bardiya,28.1847,81.393,4000,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,low,yes,no,165,192,27,317
+1081123,Banke,28.1389,81.5656,2000,0,48,34.5,0,0,Medium,lowland,OPV,Purchased from market,no,yes,no,0,low,no,yes,163,179,16,301
+1081144,Banke,28.1878,81.5547,2500,0,34.5,0,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,low,no,yes,162,181,19,305
+1081093,Banke,28.1508,81.5798,3000,0,96,69,0,0,Heavey,lowland,OPV,Own stored,no,yes,no,0,medium,yes,yes,164,187,23,298
+1081130,Banke,28.1386,81.567,1800,0,38.4,27.6,0,0,Light,lowland,OPV,Purchased from market,no,yes,no,0,low,yes,yes,157,179,22,297
+1076087,Kapilbastu,27.5091,83.202,5000,0,76,76.66667,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,no,153,177,24,295
+1099037,Kanchanpur,28.679,80.3674,3000,0,59.1,27.6,0,60,Light,lowland,OPV,Own stored,no,yes,yes,2,low,yes,yes,161,182,21,284
+1091011,Kailali,28.7939,80.5906,4800,0,48,34.5,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,high,yes,no,174,202,28,282
+1091003,Kailali,28.6336,81.1347,1800,0,40.56,33.12,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,high,no,yes,157,187,30,309
+1081147,Banke,28.1394,81.5657,2625,0,60,43.125,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,no,0,medium,yes,yes,161,189,28,305
+1076082,Kapilbastu,27.5027,83.0274,4500,0,96,69,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,2,low,yes,no,193,220,27,334
+1071093,Rupandehi,27.5404,83.5365,6000,0,115.2,82.8,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,3,low,yes,yes,166,197,31,312
+1091065,Kailali,28.7935,80.5933,4687.5,0,31.6875,25.875,0,0,Light,lowland,OPV,Own stored,no,yes,yes,1,medium,yes,yes,153,185,32,289
+1076010,Kapilbastu,27.548,83.0527,4500,0,142,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,low,yes,yes,176,198,22,325
+1071053,Rupandehi,27.5134,83.5414,6000,0,178.5,103.5,18,30,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,no,164,199,35,299
+1071119,Rupandehi,27.5317,83.5048,4500,0,75.5,46,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,3,low,yes,yes,172,202,30,322
+1091139,Kailali,28.647,81.086,3857.143,0,27.42857,19.71429,12.85714,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,yes,153,206,53,301
+1081099,Banke,28.3123,81.2558,3900,0,82.2,69,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,2,medium,yes,yes,163,187,24,298
+1076047,Kapilbastu,27.5029,83.0272,5500,0,45.3,27.6,0,2,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,200,228,28,334
+1091009,Kailali,28.7717,80.5927,1500,0,48,34.5,0,0,Heavey,lowland,OPV,Own stored,no,yes,yes,1,high,no,yes,154,180,26,277
+1084164,Bardiya,28.3466,81.2659,4800,0,61.5,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,high,yes,no,162,198,36,319
+1091117,Kailali,28.6578,81.0547,1500,0,38.4,27.6,0,0,Heavey,lowland,OPV,Own stored,no,yes,no,0,low,no,yes,159,187,28,303
+1081079,Banke,28.1876,81.5554,3450,0,0,0,0,0,Light,medium land,OPV,Purchased from market,no,no,yes,2,high,yes,no,167,185,18,298
+1084100,Bardiya,28.3134,81.2557,2400,0,38.4,27.6,0,0,Light,medium land,OPV,Own stored,no,yes,yes,2,low,yes,no,161,193,32,302
+1099079,Kanchanpur,28.9593,80.2289,3400,0,105,92,0,0,Medium,medium land,traditional,Own stored,no,yes,yes,1,low,no,no,158,180,22,293
+1071017,Rupandehi,27.522,83.0198,8000,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,5,medium,yes,no,181,213,32,324
+1081081,Banke,28.1374,81.566,5700,0,96,69,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,medium,yes,yes,169,187,18,300
+1081078,Banke,28.1386,81.5669,2400,0,96,69,0,0,Light,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,164,190,26,295
+1091113,Kailali,28.6464,81.0854,2142.857,0,46.97143,39.42857,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,low,no,yes,153,197,44,297
+1081126,Banke,28.0873,81.5362,4000,0,64,46,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,4,medium,yes,yes,161,194,33,300
+1081140,Banke,28.0939,81.5301,4500,0,45.3,27.6,0,0,Light,medium land,OPV,Own stored,no,yes,yes,2,low,yes,yes,161,180,19,303
+1084084,Bardiya,28.2434,81.3113,3000,0,96,69,0,0,Light,medium land,hybrid,others,no,yes,yes,2,high,yes,yes,164,192,28,301
+1076027,Kapilbastu,27.4768,83.007,6500,0,107.5,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,no,186,210,24,303
+1084010,Bardiya,28.2421,81.3097,1800,0,96,69,9,4.5,Medium,lowland,hybrid,Purchased from market,no,yes,yes,4,high,yes,yes,174,202,28,308
+1076008,Kapilbastu,27.5723,83.0565,4800,0,96,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,no,179,213,34,311
+1076089,Kapilbastu,27.5223,83.0235,5250,0,54.9,34.5,0,0,Light,medium land,hybrid,Purchased from market,no,yes,yes,3,low,yes,yes,189,220,31,332
+1076154,Kapilbastu,27.4974,83.0234,3000,0,22.65,13.8,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,medium,yes,yes,171,198,27,334
+1081040,Banke,28.1466,81.5846,2700,0,42.6,20.7,0,0,Light,medium land,OPV,Own stored,no,yes,no,0,medium,yes,yes,163,183,20,282
+1084060,Bardiya,28.1876,81.3677,3214.286,0,117.8571,49.28572,0,0,Light,medium land,hybrid,Purchased from market,no,yes,yes,2,high,yes,yes,176,197,21,307
+1076114,Kapilbastu,27.5223,83.0185,6000,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,no,177,204,27,326
+1091040,Kailali,28.7948,80.5908,3750,0,56.625,34.5,0,18.75,Medium,lowland,OPV,Own stored,no,yes,yes,1,medium,yes,yes,154,180,26,279
+1081105,Banke,28.1378,81.5665,2000,0,13.8,0,0,0,Light,lowland,hybrid,Purchased from market,no,yes,no,0,medium,yes,yes,166,192,26,302
+1076080,Kapilbastu,27.5223,83.0191,6000,0,87,46,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,yes,179,213,34,320
+1076108,Kapilbastu,27.5222,83.023,5400,0,142.8,82.8,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,low,yes,no,185,210,25,332
+1081018,Banke,28.1374,81.5662,4000,0,32,23,12,0,Light,lowland,hybrid,Purchased from market,no,yes,no,0,high,yes,yes,150,174,24,271
+1071019,Rupandehi,27.4919,83.2598,4500,0,96,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,medium,yes,yes,169,200,31,304
+1071033,Rupandehi,27.5074,83.5396,5181.818,0,87.27273,62.72727,16.36364,13.63636,Heavey,lowland,OPV,Purchased from market,no,yes,yes,3,low,yes,no,174,194,20,301
+1071074,Rupandehi,27.5056,83.5396,4500,0,27,69,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,no,169,195,26,311
+1081007,Banke,28.0887,81.5398,6000,0,48,34.5,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,0,low,no,yes,165,193,28,276
+1099116,Kanchanpur,28.952,80.2307,2000,0,46,0,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,0,low,no,no,154,177,23,295
+1071012,Rupandehi,27.5312,83.506,5250,0,96,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,no,164,192,28,312
+1071023,Rupandehi,27.5319,83.5048,6666.667,0,183.3333,76.66667,60,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,no,170,192,22,304
+1071001,Rupandehi,27.5048,83.4841,6480,0,64,46,12,0,Medium,lowland,OPV,Own stored,no,yes,yes,2,medium,yes,yes,169,201,32,312
+1071046,Rupandehi,27.5131,83.5416,6900,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,medium,yes,no,164,201,37,298
+1081167,Banke,28.0926,81.5324,4000,0,69,0,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,yes,159,189,30,311
+1081084,Banke,28.1888,81.5553,2625,0,72,51.75,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,no,0,high,yes,yes,169,184,15,301
+1081082,Banke,28.1489,81.5829,4714.286,0,89.91428,88.71429,0,0,Light,medium land,hybrid,Purchased from market,no,yes,no,0,high,yes,yes,168,188,20,300
+1081101,Banke,28.1878,81.5557,3272.727,0,87.27273,62.72727,0,0,Heavey,lowland,OPV,others,no,yes,yes,4,high,yes,yes,177,195,18,312
+1081025,Banke,28.1387,81.567,3400,0,25.6,18.4,0,0,Light,lowland,OPV,Own stored,no,yes,no,0,medium,no,yes,165,193,28,300
+1071041,Rupandehi,27.5134,83.5421,7200,0,96,69,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,medium,yes,no,164,197,33,297
+1076098,Kapilbastu,27.5221,83.0189,6000,0,180,107.3333,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,high,yes,no,180,214,34,325
+1084112,Bardiya,28.6799,80.3689,3300,0,36.9,41.4,0,0,Heavey,verylowland,OPV,Own stored,no,yes,yes,3,medium,yes,yes,183,230,47,326
+1076079,Kapilbastu,27.5028,83.0278,4500,0,38.4,27.6,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,medium,yes,yes,195,224,29,335
+1081137,Banke,28.1463,81.5847,5000,0,80,57.5,0,0,Light,medium land,hybrid,Purchased from market,no,yes,no,0,low,yes,yes,161,183,22,302
+1071069,Rupandehi,27.5318,83.5049,6750,0,96,69,11.25,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,medium,yes,no,171,205,34,311
+1071123,Rupandehi,27.5291,83.5641,5400,0,178.5,103.5,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,3,medium,yes,no,168,193,25,318
+1084163,Bardiya,28.1852,81.3932,2000,0,110,46,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,6,high,yes,yes,166,186,20,322
+1081036,Banke,28.1519,81.5817,4500,0,96,69,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,no,195,226,31,306
+1091093,Kailali,28.7956,80.5918,3600,0,65.25,34.5,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,1,medium,yes,no,154,179,25,295
+1071148,Rupandehi,27.5403,83.5359,5000,0,128,92,60,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,4,high,yes,no,164,185,21,318
+1071036,Rupandehi,27.5154,83.5209,4400,0,64,46,6,0,Medium,medium land,hybrid,Purchased from market,no,yes,yes,1,medium,yes,no,169,199,30,298
+1084175,Bardiya,28.2424,81.3101,6976.744,0,140.9302,32.09302,29.30232,20.93023,Medium,lowland,hybrid,Purchased from market,no,yes,yes,3,high,yes,yes,154,184,30,325
+1091149,Kailali,28.6339,81.1347,3450,0,43.8,41.4,0,0,Medium,lowland,OPV,Own stored,no,yes,yes,1,medium,yes,yes,159,191,32,308
+1081032,Banke,28.1549,81.5771,4275,0,52.2,27.6,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,1,low,yes,no,160,193,33,312
+1091048,Kailali,28.6606,81.0469,3000,0,54.84,41.4,0,0,Heavey,verylowland,OPV,Own stored,no,yes,no,0,low,no,yes,166,195,29,296
+1099172,Kanchanpur,28.6646,80.3955,3600,0,96,69,0,0,Medium,medium land,traditional,Own stored,no,yes,no,0,low,yes,no,163,197,34,314
+1081112,Banke,28.188,81.5552,1800,0,89.25,51.75,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,no,0,low,yes,yes,167,189,22,304
+1076106,Kapilbastu,27.4972,83.0235,6300,0,82.2,69,0,0,Medium,lowland,OPV,Purchased from market,no,yes,yes,2,medium,yes,yes,177,200,23,323
+1091119,Kailali,28.6557,81.092,1200,0,19.2,13.8,0,0,Light,medium land,OPV,Own stored,no,yes,no,0,low,yes,yes,180,198,18,324
+1081006,Banke,28.1435,81.564,2100,0,52.2,27.6,0,0,Heavey,lowland,OPV,Own stored,no,yes,no,0,medium,yes,yes,161,192,31,296
+1084081,Bardiya,28.1834,81.395,2625,0,130.5,69,0,0,Medium,verylowland,OPV,Own stored,no,yes,yes,2,low,yes,yes,163,186,23,299
+1081181,Banke,28.1381,81.5657,4000,0,42.66666,30.66667,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,low,yes,yes,154,179,25,311
+1091037,Kailali,28.6612,81.0495,3000,0,38.4,27.6,0,0,Medium,medium land,OPV,Own stored,no,yes,yes,2,low,yes,yes,156,184,28,280
+1081179,Banke,28.1463,81.5848,1200,0,96,69,0,0,Light,medium land,OPV,Own stored,no,yes,no,0,high,yes,yes,161,184,23,317
+1091089,Kailali,28.7432,80.5771,2600,0,52.2,27.6,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,low,no,yes,156,187,31,297
+1081183,Banke,28.1381,81.5646,1666.667,0,21.33333,15.33333,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,no,0,high,yes,yes,155,180,25,313
+1076070,Kapilbastu,27.4767,83.0077,4000,0,160,115,0,0,Medium,lowland,OPV,others,no,yes,no,0,medium,yes,yes,182,214,32,321
+1084150,Bardiya,28.1881,81.368,6000,0,96,69,0,0,Medium,medium land,hybrid,Purchased from market,no,yes,yes,1,high,yes,yes,153,182,29,306
+1081158,Banke,28.093,81.5313,4500,0,43.5,23,0,0,Light,lowland,OPV,Purchased from market,no,yes,yes,3,low,yes,no,160,183,23,307
+1076081,Kapilbastu,27.5262,83.0395,3428.572,0,137.1429,98.57143,0,0,Heavey,lowland,hybrid,Purchased from market,no,yes,yes,2,medium,yes,no,182,212,30,323
+1081016,Banke,28.0879,81.5385,3000,0,14.88,2.76,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,4,medium,no,yes,165,202,37,318
+1099178,Kanchanpur,28.663,80.3971,3750,0,82.5,34.5,0,0,Heavey,lowland,OPV,Purchased from market,no,yes,yes,1,low,yes,no,154,179,25,309
+1084104,Bardiya,28.68,80.3688,1500,0,68.7,34.5,0,0,Heavey,lowland,OPV,Own stored,no,yes,no,0,high,yes,yes,164,185,21,305
+1099157,Kanchanpur,28.952,80.2308,4500,0,102.75,86.25,22.5,0,Medium,medium land,OPV,Purchased from market,no,yes,yes,1,low,no,no,158,182,24,305
+1076025,Kapilbastu,27.5032,83.0263,3750,0,80,57.5,0,0,Heavey,lowland,hybrid,others,no,yes,yes,3,low,yes,no,195,220,25,301
+1071095,Rupandehi,27.5136,83.542,4800,0,96,69,0,0,Medium,lowland,hybrid,Purchased from market,no,yes,yes,2,low,yes,yes,164,192,28,310
+1081172,Banke,28.138,81.5647,3300,0,57.6,41.4,0,0,Medium,lowland,OPV,Own stored,no,yes,no,0,low,no,yes,162,196,34,315
+1084165,Bardiya,28.1846,81.3924,6000,50,100.8,46,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,yes,3,high,yes,yes,164,193,29,321
+1091110,Kailali,28.7229,80.842,2307.692,138.4615,44.30769,31.84615,0,0,Light,lowland,OPV,Own stored,yes,yes,no,0,low,no,yes,146,174,28,289
+1099026,Kanchanpur,28.9055,80.3411,4200,150,68.4,69,0,0,Heavey,lowland,OPV,others,yes,yes,yes,1,low,yes,yes,169,199,30,289
+1081146,Banke,28.1419,81.5642,1500,180,69,0,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,no,0,high,yes,yes,160,190,30,304
+1081067,Banke,28.0866,81.5358,2400,225,77.1,20.7,5.4,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,4,high,yes,yes,161,181,20,289
+1084027,Bardiya,28.3415,81.2656,4200,300,90.6,55.2,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,no,169,199,30,289
+1076128,Kapilbastu,27.5093,83.201,3571.428,428.5714,58.57143,65.71429,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,154,197,43,307
+1084152,Bardiya,28.1847,81.3927,2625,450,69,0,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,3,high,yes,yes,164,192,28,317
+1081094,Banke,28.1414,81.5651,4500,450,57.5,0,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,no,0,low,no,yes,170,189,19,304
+1091032,Kailali,28.7991,80.6101,4000,625,32,23,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,2,high,yes,yes,161,188,27,284
+1081176,Banke,28.138,81.5649,1200,720,9.6,6.9,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,low,yes,yes,152,177,25,306
+1076152,Kapilbastu,27.5448,83.0211,6000,750,64.5,41.4,0,0,Light,medium land,OPV,Purchased from market,yes,yes,yes,3,low,yes,yes,174,200,26,334
+1084037,Bardiya,28.3411,81.2657,3450,750,41.25,17.25,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,3,high,yes,yes,180,205,25,303
+1071011,Rupandehi,27.5044,83.484,3750,750,82.5,34.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,no,0,medium,yes,yes,161,187,26,302
+1084123,Bardiya,28.3119,81.2558,4200,750,50.7,41.4,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,3,low,yes,yes,174,197,23,319
+1081061,Banke,28.0872,81.5359,2550,750,48,34.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,4,low,yes,yes,164,184,20,290
+1076051,Kapilbastu,27.5268,83.0393,3750,750,19.2,13.8,4.5,1.875,Heavey,lowland,hybrid,others,yes,yes,yes,3,high,yes,no,193,213,20,327
+1099089,Kanchanpur,28.6642,80.3959,4500,900,57.6,41.4,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,151,211,60,289
+1091007,Kailali,28.7793,80.5913,3750,937.5,60,43.125,11.25,7.5,Heavey,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,no,161,187,26,289
+1099106,Kanchanpur,28.9428,80.2359,3000,1000,48,34.5,0,0,Light,medium land,OPV,Purchased from market,yes,yes,yes,2,low,yes,yes,155,185,30,295
+1099152,Kanchanpur,28.9515,80.2318,5000,1000,64,46,0,0,Medium,lowland,traditional,Own stored,yes,yes,yes,1,low,yes,no,157,211,54,304
+1076140,Kapilbastu,27.545,83.0215,5000,1000,75.5,46,0,0,Light,medium land,hybrid,Purchased from market,yes,yes,yes,3,low,yes,yes,177,202,25,333
+1084118,Bardiya,28.3276,81.2686,3000,1000,32,23,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,2,low,yes,yes,169,195,26,313
+1084028,Bardiya,28.3415,81.2654,3600,1000,47.6,27.6,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,3,high,yes,yes,182,205,23,302
+1099123,Kanchanpur,28.9666,80.2266,2600,1000,64,46,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,161,189,28,303
+1076046,Kapilbastu,27.4764,83.0084,6000,1000,106.8,96.6,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,medium,yes,yes,191,213,22,324
+1071008,Rupandehi,27.5315,83.5055,2700,1050,48,34.5,11.25,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,no,172,205,33,319
+1081017,Banke,28.0889,81.5394,4125,1125,24,17.25,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,low,yes,yes,170,199,29,311
+1081186,Banke,28.0935,81.5295,3000,1125,96,69,22.5,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,6,low,yes,yes,159,180,21,321
+1084096,Bardiya,28.1881,81.3681,3923.077,1153.846,73.84615,53.07692,13.84615,0,Heavey,lowland,hybrid,others,yes,yes,yes,3,low,yes,no,167,193,26,307
+1091006,Kailali,28.7423,80.5768,3780,1200,89.25,51.75,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,2,low,yes,yes,161,185,24,309
+1084083,Bardiya,28.1835,81.3948,2750,1200,92,0,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,2,high,yes,yes,160,178,18,296
+1076122,Kapilbastu,27.5223,83.0239,5700,1200,42.6,20.7,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,3,low,yes,yes,190,220,30,341
+1076060,Kapilbastu,27.477,83.007,4400,1200,64,46,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,182,213,31,319
+1081087,Banke,28.1521,81.5825,3000,1200,32.2,0,0,0,Heavey,lowland,OPV,Own stored,yes,yes,no,0,medium,yes,yes,171,197,26,304
+1091023,Kailali,28.8086,80.5944,1500,1250,68.5,57.5,15,0,Medium,medium land,OPV,Own stored,yes,yes,yes,3,high,yes,yes,164,183,19,284
+1081138,Banke,28.1887,81.5552,1875,1350,82.5,34.5,0,0,Heavey,verylowland,OPV,Own stored,yes,yes,no,0,high,yes,yes,170,189,19,311
+1084126,Bardiya,28.1881,81.3652,4000,1400,25.6,18.4,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,3,low,yes,yes,164,192,28,310
+1099043,Kanchanpur,28.947,80.2353,2625,1406.25,22.425,0,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,high,yes,no,169,192,23,295
+1081042,Banke,28.188,81.5547,3250,1500,86.25,0,0,0,Heavey,lowland,OPV,Own stored,yes,yes,no,0,low,yes,yes,174,195,21,294
+1076015,Kapilbastu,27.5727,83.0565,5250,1500,96,69,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,171,197,26,312
+1099093,Kanchanpur,28.9465,80.2351,4800,1500,48,34.5,0,0,Heavey,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,no,159,187,28,297
+1071117,Rupandehi,27.5141,83.5196,6000,1500,85.2,41.4,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,no,151,182,31,301
+1084171,Bardiya,28.2421,81.3112,2700,1500,54.9,34.5,0,0,Light,medium land,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,152,178,26,311
+1091092,Kailali,28.7432,80.5772,3000,1500,48,34.5,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,medium,yes,yes,156,182,26,297
+1091005,Kailali,28.648,81.0873,3750,1500,67.2,48.3,31.5,25.5,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,high,yes,yes,161,199,38,313
+1081173,Banke,28.1294,81.5409,2250,1500,48,34.5,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,3,high,yes,yes,165,187,22,318
+1071150,Rupandehi,27.54,83.5366,3000,1500,54.9,34.5,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,168,199,31,323
+1091033,Kailali,28.6545,81.091,2250,1500,96,69,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,1,high,yes,yes,174,201,27,297
+1099138,Kanchanpur,28.9041,80.3396,1500,1500,17.85,10.35,0,0,Heavey,lowland,unknown,Own stored,yes,yes,yes,2,low,yes,yes,165,193,28,309
+1081063,Banke,28.131,81.5418,3000,1500,38.4,27.6,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,1,low,no,yes,169,195,26,296
+1081155,Banke,28.188,81.5545,3000,1500,34.5,0,0,0,Heavey,lowland,OPV,Own stored,yes,yes,no,0,medium,yes,yes,161,184,23,307
+1071140,Rupandehi,27.5183,83.5217,2700,1500,96,69,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,2,high,yes,yes,162,191,29,315
+1084050,Bardiya,28.1868,81.3675,2000,1500,80,57.5,0,0,Light,medium land,OPV,Purchased from market,yes,yes,yes,1,high,yes,yes,169,199,30,297
+1084006,Bardiya,28.3405,81.2659,3750,1500,45.3,27.6,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,3,medium,yes,yes,182,205,23,301
+1084121,Bardiya,28.3124,81.2558,4200,1500,21.9,20.7,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,152,178,26,297
+1084132,Bardiya,28.3467,81.2658,2550,1500,35.7,20.7,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,2,low,yes,yes,162,188,26,309
+1084110,Bardiya,28.3473,81.2687,4500,1500,26.7,24.15,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,169,195,26,311
+1091082,Kailali,28.7288,80.8422,4200,1500,48,34.5,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,no,163,185,22,302
+1099032,Kanchanpur,28.971,80.2256,2400,1500,90.6,55.2,0,0,Medium,medium land,OPV,Purchased from market,yes,yes,no,0,low,yes,yes,164,187,23,285
+1081125,Banke,28.1516,81.5809,4500,1500,42.6,20.7,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,no,0,low,yes,yes,159,192,33,298
+1084093,Bardiya,28.2426,81.3107,2700,1500,48,34.5,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,1,low,yes,yes,164,191,27,303
+1084109,Bardiya,28.328,81.2688,3000,1500,38.4,27.6,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,2,low,yes,yes,164,190,26,306
+1081051,Banke,28.0865,81.5358,3000,1500,48,34.5,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,3,low,yes,yes,166,192,26,291
+1084065,Bardiya,28.1865,81.3675,4500,1500,96,69,0,0,Medium,medium land,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,173,189,16,306
+1081041,Banke,28.1474,81.5833,1894.737,1578.947,36.31579,0,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,0,high,yes,yes,171,192,21,291
+1071155,Rupandehi,27.5191,83.5209,6315.79,1578.947,86.8421,36.31579,0,7.894737,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,high,yes,yes,147,178,31,304
+1099183,Kanchanpur,28.9474,80.2346,5357.143,1607.143,38.4,27.6,36,21.42857,Medium,lowland,OPV,Purchased from market,yes,yes,yes,4,high,yes,yes,145,174,29,308
+1099092,Kanchanpur,28.9668,80.2273,2727.273,1636.364,34.90909,25.09091,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,159,188,29,297
+1084125,Bardiya,28.3141,81.2579,5000,1666.667,74.66666,53.66666,0,0,Medium,medium land,OPV,Purchased from market,yes,yes,yes,3,medium,yes,no,165,197,32,311
+1091141,Kailali,28.7428,80.5774,2333.333,1666.667,21.33333,15.33333,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,high,yes,yes,155,183,28,303
+1084053,Bardiya,28.2419,81.3095,1500,1666.667,80,57.5,0,0,Light,medium land,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,173,205,32,302
+1071080,Rupandehi,27.5187,83.5213,5333.333,1666.667,79.33333,46,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,low,yes,yes,168,192,24,311
+1091060,Kailali,28.7979,80.6099,3176.471,1764.706,42.91765,30.84706,0,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,8,low,yes,yes,162,194,32,296
+1076003,Kapilbastu,27.6612,83.0339,4500,1800,96,69,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,no,182,215,33,312
+1081052,Banke,28.1529,81.5831,4000,1800,59.5,34.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,0,low,yes,no,171,196,25,296
+1081047,Banke,28.1875,81.5544,1800,1800,103.5,0,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,1,low,yes,yes,175,202,27,298
+1084174,Bardiya,28.1842,81.3927,4800,1800,48,34.5,18,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,yes,1,high,yes,yes,152,178,26,319
+1071091,Rupandehi,27.5141,83.5382,1500,1800,48,34.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,no,0,medium,yes,yes,169,192,23,314
+1081024,Banke,28.1526,81.5834,6000,1800,59.5,34.5,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,medium,yes,yes,174,197,23,298
+1084024,Bardiya,28.3274,81.2688,3000,1800,82.5,34.5,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,178,205,27,297
+1081169,Banke,28.1471,81.5838,2700,1800,27.45,17.25,0,0,Light,lowland,OPV,Purchased from market,yes,yes,no,0,low,yes,yes,155,178,23,307
+1081120,Banke,28.1515,81.5808,3600,1800,96,69,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,low,yes,no,172,192,20,310
+1071083,Rupandehi,27.5327,83.5285,4615.385,1846.154,147.6923,106.1538,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,no,169,202,33,313
+1091111,Kailali,28.6543,81.0909,3000,1875,180,129.375,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,153,181,28,296
+1091135,Kailali,28.7428,80.5774,2812.5,1875,60,43.125,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,low,yes,yes,154,178,24,300
+1081150,Banke,28.0871,81.538,4500,1875,48,34.5,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,4,medium,yes,yes,156,180,24,301
+1071141,Rupandehi,27.5294,83.5642,3000,2000,33.8,27.6,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,171,195,24,324
+1081107,Banke,28.1511,81.5801,4333.333,2000,100.6667,61.33333,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,low,yes,no,170,190,20,306
+1091063,Kailali,28.7995,80.6109,2000,2000,64,46,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,2,low,yes,yes,151,184,33,287
+1084043,Bardiya,28.3125,81.255,3666.667,2000,27.4,23,0,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,3,high,yes,yes,178,209,31,304
+1071106,Rupandehi,27.5327,83.5283,6000,2000,68.4,69,0,10,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,high,yes,no,164,183,19,311
+1071167,Rupandehi,27.5314,83.5055,5200,2000,54.8,46,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,3,low,yes,yes,168,194,26,328
+1091094,Kailali,28.7942,80.5933,3000,2000,38.4,27.6,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,medium,yes,no,155,189,34,297
+1071128,Rupandehi,27.5291,83.5642,3208,2000,36.6,23,0,3,Light,medium land,hybrid,Own stored,yes,yes,yes,3,low,yes,yes,171,200,29,322
+1071005,Rupandehi,27.5294,83.5652,2600,2000,115.2,82.8,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,high,yes,yes,160,192,32,303
+1076102,Kapilbastu,27.5234,83.0251,9000,2000,73.2,46,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,3,medium,yes,yes,189,218,29,334
+1084122,Bardiya,28.3277,81.2685,3200,2000,64,46,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,3,high,yes,yes,174,200,26,319
+1091056,Kailali,28.7915,80.5929,3000,2100,0,0,0,0,Light,lowland,OPV,Own stored,yes,no,yes,2,low,yes,yes,163,188,25,296
+1081069,Banke,28.1878,81.5547,3428.572,2142.857,49.28572,0,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,low,no,yes,174,192,18,302
+1084016,Bardiya,28.3275,81.2686,3857.143,2142.857,23.57143,9.857143,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,no,176,205,29,319
+1091067,Kailali,28.6659,81.0472,4050,2250,48,34.5,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,161,191,30,297
+1099058,Kanchanpur,28.9669,80.227,6000,2250,48,34.5,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,167,192,25,297
+1084014,Bardiya,28.3272,81.2685,2625,2250,53.25,25.875,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,161,187,26,301
+1081180,Banke,28.151,81.58,2250,2250,82.5,34.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,no,0,high,yes,yes,154,179,25,311
+1091055,Kailali,28.7933,80.591,2250,2250,45.3,27.6,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,4,low,yes,yes,161,187,26,294
+1084012,Bardiya,28.3276,81.2688,4500,2250,48,34.5,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,152,187,35,306
+1081060,Banke,28.13,81.5413,2812.5,2250,60,43.125,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,high,yes,yes,163,187,24,289
+1091012,Kailali,28.7941,80.5904,6000,2250,48,34.5,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,166,184,18,279
+1076100,Kapilbastu,27.5024,83.0271,5250,2250,28.8,20.7,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,low,yes,yes,192,222,30,337
+1081090,Banke,28.1301,81.5415,2423.077,2307.692,63.69231,0,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,2,medium,no,yes,169,194,25,303
+1084020,Bardiya,28.2375,81.3154,6923.077,2307.692,73.84615,53.07692,0,23.07692,Medium,lowland,OPV,Purchased from market,yes,yes,yes,4,high,yes,yes,170,188,18,319
+1084018,Bardiya,28.3281,81.2686,4400,2400,64,46,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,164,192,28,306
+1099051,Kanchanpur,28.9054,80.3552,4500,2400,52.2,27.6,36,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,no,154,182,28,283
+1091029,Kailali,28.7916,80.5922,2200,2400,36.6,23,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,2,low,yes,yes,161,186,25,283
+1099090,Kanchanpur,28.6798,80.3678,2000,2400,55,23,0,0,Medium,medium land,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,156,197,41,294
+1084091,Bardiya,28.1879,81.3652,4500,2400,28.8,20.7,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,low,yes,yes,163,184,21,301
+1071114,Rupandehi,27.5407,83.5366,5520,2400,57.12,33.12,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,174,200,26,323
+1084103,Bardiya,28.1882,81.3657,3750,2400,38.4,27.6,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,low,yes,yes,161,186,25,302
+1084116,Bardiya,28.1881,81.3655,4200,2400,38.4,27.6,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,medium,yes,yes,167,191,24,310
+1084058,Bardiya,28.1885,81.3654,4500,2400,48,34.5,0,0,Light,medium land,hybrid,Purchased from market,yes,yes,yes,2,low,yes,yes,166,192,26,296
+1099128,Kanchanpur,28.6643,80.3973,4500,2400,52.2,27.6,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,2,low,yes,no,153,191,38,296
+1091022,Kailali,28.6621,81.0485,2400,2400,35.7,20.7,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,162,183,21,282
+1076084,Kapilbastu,27.5233,83.0257,4200,2400,33,13.8,0,0,Light,medium land,hybrid,Purchased from market,yes,yes,yes,3,low,yes,yes,190,223,33,332
+1076136,Kapilbastu,27.4973,83.0241,7500,2500,96,69,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,3,high,yes,no,171,210,39,326
+1071068,Rupandehi,27.5318,83.5051,4500,2500,87,46,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,167,192,25,306
+1076073,Kapilbastu,27.5092,83.2016,3375,2500,80,57.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,yes,173,196,23,312
+1076123,Kapilbastu,27.5222,83.0188,6000,2500,96,69,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,1,high,yes,no,181,210,29,332
+1071015,Rupandehi,27.5312,83.5062,4500,2500,48,34.5,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,yes,2,high,yes,yes,161,193,32,303
+1076139,Kapilbastu,27.5223,83.0185,6250,2500,75.5,46,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,high,yes,no,178,206,28,334
+1091018,Kailali,28.794,80.5929,2500,2500,43.4,34.5,15,0,Heavey,lowland,OPV,others,yes,yes,yes,2,high,yes,yes,163,185,22,282
+1099024,Kanchanpur,28.9739,80.2309,3750,2500,37.75,23,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,2,high,yes,yes,159,202,43,277
+1099039,Kanchanpur,28.901,80.3543,4500,2500,48,34.5,0,0,Medium,lowland,traditional,Own stored,yes,yes,no,0,low,yes,yes,162,184,22,286
+1091025,Kailali,28.7963,80.5867,7071.429,2571.428,117.8571,49.28572,12.85714,21.42857,Light,medium land,traditional,Own stored,yes,yes,yes,1,low,yes,no,155,184,29,276
+1091096,Kailali,28.7962,80.5866,3428.572,2571.428,137.1429,98.57143,12.85714,21.42857,Light,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,154,187,33,296
+1081095,Banke,28.188,81.5543,3428.572,2571.428,54.85714,39.42857,0,0,Light,lowland,OPV,Own stored,yes,yes,no,0,medium,yes,yes,170,187,17,304
+1099071,Kanchanpur,28.9782,80.2023,2571.428,2571.428,54.85714,39.42857,0,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,1,medium,yes,yes,153,175,22,286
+1084069,Bardiya,28.3099,81.2522,3428.572,2571.428,37.28571,19.71429,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,3,high,yes,yes,164,192,28,298
+1081030,Banke,28.1526,81.5831,3529.412,2647.059,56.47058,40.58823,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,yes,171,195,24,309
+1084102,Bardiya,28.188,81.3654,4000,2666.667,39.66666,23,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,3,low,yes,yes,169,195,26,310
+1099162,Kanchanpur,28.9673,80.2271,3000,2678.572,54.85714,39.42857,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,155,184,29,303
+1084153,Bardiya,28.1845,81.3931,6000,2700,96,69,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,high,yes,no,165,192,27,318
+1091131,Kailali,28.7204,80.842,1200,2700,48,34.5,0,0,Light,lowland,traditional,Purchased from market,yes,yes,no,0,medium,yes,yes,151,184,33,297
+1084117,Bardiya,28.184,81.3936,1875,2812.5,120,86.25,0,0,Heavey,lowland,hybrid,others,yes,yes,no,0,high,yes,yes,169,192,23,312
+1071020,Rupandehi,27.5251,83.4932,5000,3000,87,46,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,0,medium,yes,no,164,192,28,309
+1076117,Kapilbastu,27.5092,83.2007,5400,3000,57.6,41.4,2.7,0,Medium,medium land,OPV,Own stored,yes,yes,yes,4,medium,yes,yes,174,199,25,324
+1099148,Kanchanpur,28.9522,80.2304,4000,3000,84.5,69,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,1,low,yes,no,152,176,24,297
+1081027,Banke,28.1371,81.5662,2500,3000,34.5,0,0,0,Light,lowland,OPV,Purchased from market,yes,yes,no,0,low,no,yes,164,187,23,303
+1091072,Kailali,28.7969,80.5881,4750,3000,64,46,0,0,Light,lowland,traditional,Own stored,yes,yes,yes,1,low,yes,yes,167,194,27,304
+1091046,Kailali,28.6613,81.0492,3900,3000,90.6,55.2,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,161,183,22,288
+1084031,Bardiya,28.1896,81.3622,2400,3000,96,69,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,176,202,26,297
+1081046,Banke,28.1877,81.5542,2200,3000,0,0,0,0,Light,lowland,hybrid,Purchased from market,yes,no,no,0,low,no,yes,179,206,27,301
+1099048,Kanchanpur,28.9712,80.2246,2400,3000,33,13.8,0,0,Light,medium land,OPV,Own stored,yes,yes,no,0,low,yes,yes,161,180,19,289
+1071013,Rupandehi,27.5132,83.5192,6000,3000,85.2,41.4,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,medium,yes,no,146,179,33,310
+1091051,Kailali,28.7946,80.5906,2400,3000,32,23,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,4,low,yes,yes,152,175,23,284
+1084141,Bardiya,28.3117,81.2567,1800,3000,19.2,13.8,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,2,low,yes,yes,163,187,24,312
+1091020,Kailali,28.7744,80.5948,3750,3000,48,34.5,0,10.5,Medium,lowland,OPV,Purchased from market,yes,yes,yes,1,high,yes,yes,175,203,28,295
+1076101,Kapilbastu,27.5091,83.2021,6000,3000,96,69,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,high,yes,yes,165,194,29,310
+1084003,Bardiya,28.3409,81.2657,3450,3000,45.3,27.6,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,182,209,27,322
+1071085,Rupandehi,27.5403,83.5364,5400,3000,96,69,0,0,Light,medium land,OPV,Purchased from market,yes,yes,yes,2,low,yes,yes,167,196,29,311
+1081045,Banke,28.1883,81.5543,2700,3000,103.5,0,0,0,Light,medium land,OPV,Own stored,yes,yes,no,0,medium,yes,yes,174,197,23,295
+1084039,Bardiya,28.3408,81.2659,3300,3000,45.3,27.6,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,3,medium,yes,yes,181,204,23,304
+1084133,Bardiya,28.1839,81.3939,6000,3000,69,0,0,0,Heavey,lowland,hybrid,others,yes,yes,no,0,high,yes,yes,165,184,19,312
+1081185,Banke,28.1391,81.5656,2400,3000,69,0,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,no,0,low,yes,yes,164,193,29,325
+1071129,Rupandehi,27.5319,83.5052,4200,3000,96,69,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,no,176,198,22,327
+1081133,Banke,28.1296,81.5411,2250,3000,69,0,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,no,0,high,yes,yes,162,189,27,303
+1091069,Kailali,28.7282,80.8414,2400,3000,38.4,27.6,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,3,medium,yes,yes,161,179,18,297
+1081064,Banke,28.1516,81.5811,4500,3000,69,0,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,yes,1,low,yes,no,192,216,24,319
+1099035,Kanchanpur,28.971,80.2242,3600,3000,71.4,41.4,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,2,low,yes,yes,160,184,24,282
+1071103,Rupandehi,27.5319,83.5048,5400,3000,96,69,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,high,yes,no,165,191,26,312
+1091054,Kailali,28.7283,80.8422,2850,3000,71.4,41.4,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,2,low,yes,yes,165,196,31,298
+1081073,Banke,28.0864,81.5355,4800,3000,43.8,41.4,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,4,low,yes,yes,162,189,27,291
+1076110,Kapilbastu,27.5453,83.0215,6000,3000,87.6,82.8,25.2,12,Light,lowland,hybrid,Purchased from market,yes,yes,yes,0,high,yes,no,178,212,34,326
+1071162,Rupandehi,27.5317,83.5047,4500,3000,115.2,82.8,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,169,200,31,328
+1076004,Kapilbastu,27.4973,83.0245,4800,3000,90.6,55.2,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,1,high,yes,yes,164,212,48,331
+1099140,Kanchanpur,28.9038,80.354,3600,3000,38.4,27.6,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,153,177,24,297
+1071049,Rupandehi,27.514,83.5389,3300,3000,52.2,27.6,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,low,no,yes,164,187,23,298
+1099072,Kanchanpur,28.9017,80.3553,5700,3000,38.4,27.6,0,0,Medium,lowland,traditional,Own stored,yes,yes,yes,3,low,yes,yes,161,178,17,294
+1071138,Rupandehi,27.5126,83.5388,3600,3000,57.6,41.4,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,low,no,yes,164,194,30,317
+1084161,Bardiya,28.3279,81.2684,3600,3000,54.9,34.5,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,1,low,yes,yes,164,191,27,319
+1099056,Kanchanpur,28.9426,80.2367,4500,3000,48,34.5,0,0,Medium,medium land,OPV,Purchased from market,yes,yes,yes,3,low,yes,no,156,184,28,286
+1084047,Bardiya,28.3099,81.2529,3000,3000,37.26,0,0,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,2,low,yes,yes,171,200,29,298
+1076009,Kapilbastu,27.5556,83.0372,4500,3000,96,69,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,high,yes,no,180,209,29,335
+1084073,Bardiya,28.2424,81.3101,2640,3000,46.08,33.12,0,0,Light,medium land,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,163,189,26,298
+1081156,Banke,28.1296,81.5411,4200,3000,96,69,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,high,yes,yes,159,192,33,306
+1084072,Bardiya,28.314,81.257,3500,3000,64,46,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,5,high,yes,yes,171,194,23,305
+1084074,Bardiya,28.3096,81.2534,4000,3000,87,46,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,medium,yes,yes,164,190,26,299
+1076124,Kapilbastu,27.5095,83.2011,1200,3000,115.2,82.8,0,0,Medium,medium land,OPV,Purchased from market,yes,yes,no,0,low,yes,yes,174,200,26,325
+1081034,Banke,28.1307,81.5421,2125,3000,80,57.5,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,no,0,high,yes,yes,186,212,26,295
+1091024,Kailali,28.648,81.088,3000,3000,96,69,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,high,yes,yes,167,179,12,287
+1084029,Bardiya,28.31,81.2531,2700,3000,32.28,33.12,10.8,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,high,yes,yes,182,200,18,302
+1071165,Rupandehi,27.5404,83.5366,5700,3000,60.3,48.3,0,0,Medium,medium land,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,162,192,30,322
+1084147,Bardiya,28.1881,81.3682,4500,3000,64,46,0,0,Light,medium land,hybrid,Purchased from market,yes,yes,yes,1,high,yes,yes,154,184,30,306
+1071172,Rupandehi,27.5164,83.5209,6000,3000,96,69,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,high,yes,yes,152,178,26,318
+1081083,Banke,28.1425,81.5638,3125,3125,24,17.25,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,no,0,medium,yes,yes,164,183,19,296
+1081110,Banke,28.1879,81.5542,2000,3200,64,46,0,0,Light,lowland,OPV,Own stored,yes,yes,no,0,low,no,yes,162,188,26,299
+1091014,Kailali,28.8093,80.595,2571.428,3214.286,57,19.71429,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,2,low,yes,yes,171,197,26,288
+1081039,Banke,28.0897,81.5351,3000,3300,19.2,13.8,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,4,medium,yes,yes,170,195,25,289
+1091027,Kailali,28.727,80.8419,4000,3333.333,46.93333,33.73333,0,0,Light,medium land,OPV,Purchased from market,yes,yes,yes,2,low,yes,yes,161,183,22,282
+1076011,Kapilbastu,27.5479,83.0527,3666.667,3333.333,106.6667,76.66667,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,2,high,yes,yes,176,202,26,332
+1076131,Kapilbastu,27.5227,83.0185,3500,3333.333,64,46,30,1.666667,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,high,yes,no,183,213,30,336
+1076137,Kapilbastu,27.5226,83.0183,6000,3333.333,100.6667,61.33333,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,high,yes,no,184,216,32,339
+1076126,Kapilbastu,27.5094,83.2013,4166.667,3333.333,106.6667,76.66667,30,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,no,173,198,25,324
+1091103,Kailali,28.7292,80.8422,2666.667,3333.333,53.33334,38.33334,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,low,yes,yes,159,182,23,301
+1091132,Kailali,28.721,80.8425,2076.923,3461.539,10.61539,0,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,high,yes,yes,152,182,30,298
+1084066,Bardiya,28.3097,81.2534,3264.706,3529.412,40.58823,0,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,medium,yes,yes,174,210,36,308
+1071007,Rupandehi,27.5224,83.4926,4800,3600,96,69,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,1,medium,yes,yes,169,200,31,309
+1084049,Bardiya,28.2419,81.3097,2100,3600,45.3,27.6,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,2,high,yes,yes,177,199,22,304
+1099117,Kanchanpur,28.9593,80.2289,3800,3600,73,69,0,0,Medium,lowland,traditional,Own stored,yes,yes,yes,1,low,yes,no,155,178,23,296
+1091162,Kailali,28.6577,81.0552,2100,3600,63,55.2,0,0,Light,lowland,traditional,Own stored,yes,yes,no,0,low,yes,yes,148,182,34,301
+1084015,Bardiya,28.3276,81.2687,6000,3600,76.8,55.2,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,1,high,yes,yes,156,187,31,308
+1099094,Kanchanpur,28.9679,80.2264,3000,3600,46.08,33.12,0,0,Light,lowland,OPV,Own stored,yes,yes,no,0,high,yes,no,163,191,28,301
+1091158,Kailali,28.6579,81.055,2100,3600,68.4,69,0,0,Medium,lowland,traditional,Own stored,yes,yes,no,0,low,no,yes,148,182,34,300
+1091137,Kailali,28.7435,80.5769,2800,3600,38.4,27.6,0,0,Medium,lowland,traditional,Own stored,yes,yes,no,0,low,yes,yes,153,187,34,300
+1081153,Banke,28.1517,81.5816,3000,3600,38.4,27.6,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,163,191,28,309
+1099054,Kanchanpur,28.9047,80.3543,3000,3600,48,34.5,0,0,Light,lowland,traditional,Own stored,yes,yes,yes,1,medium,yes,yes,169,202,33,299
+1084046,Bardiya,28.3143,81.2573,3300,3600,14.4,10.35,4.5,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,high,yes,yes,174,207,33,301
+1091019,Kailali,28.809,80.5938,3600,3600,68.16,33.12,3.6,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,medium,yes,yes,162,180,18,281
+1099146,Kanchanpur,28.9593,80.2289,5625,3600,96,69,0,0,Medium,lowland,traditional,Own stored,yes,yes,yes,0,low,no,yes,154,185,31,299
+1084099,Bardiya,28.3118,81.2561,3000,3600,19.2,13.8,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,4,medium,yes,yes,159,197,38,300
+1081020,Banke,28.1544,81.5776,3712.5,3600,8.82,1.38,1.35,1.5,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,170,194,24,309
+1071127,Rupandehi,27.5319,83.5047,3900,3600,82.5,34.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,4,low,yes,no,164,181,17,314
+1099153,Kanchanpur,28.7209,80.8428,2700,3600,24.6,27.6,3.6,0,Medium,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,152,184,32,299
+1091047,Kailali,28.8103,80.5903,6000,3600,54.75,51.75,18,22.5,Heavey,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,156,180,24,284
+1091086,Kailali,28.7243,80.8422,1200,3600,26.1,13.8,0,0,Light,lowland,OPV,Own stored,yes,yes,no,0,low,yes,yes,155,191,36,295
+1076063,Kapilbastu,27.5264,83.0397,5400,3600,96,69,54,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,186,212,26,323
+1099161,Kanchanpur,28.952,80.2307,4500,3600,38.4,27.6,9,0,Medium,medium land,OPV,Purchased from market,yes,yes,yes,0,low,no,yes,152,182,30,300
+1084022,Bardiya,28.31,81.2528,3000,3600,34.08,16.56,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,yes,174,197,23,291
+1099098,Kanchanpur,28.9588,80.2287,3600,3600,87.6,82.8,18,0,Medium,medium land,OPV,Purchased from market,yes,yes,yes,1,low,no,no,157,181,24,295
+1084162,Bardiya,28.3138,81.2563,2400,3600,57.6,41.4,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,high,yes,yes,156,180,24,311
+1099127,Kanchanpur,28.9582,80.2289,4200,3600,87.6,82.8,0,0,Medium,medium land,hybrid,Purchased from market,yes,yes,yes,1,low,yes,no,164,194,30,307
+1081128,Banke,28.1881,81.5542,3000,3600,41.4,0,0,0,Heavey,lowland,OPV,Own stored,yes,yes,no,0,medium,yes,yes,159,192,33,299
+1081043,Banke,28.188,81.5539,3000,3600,96,69,0,0,Light,medium land,OPV,Purchased from market,yes,yes,no,0,low,yes,yes,162,180,18,282
+1099075,Kanchanpur,28.6964,80.3644,2800,3600,64,46,60,0,Light,upland,traditional,Purchased from market,yes,yes,yes,1,low,yes,yes,155,178,23,289
+1081170,Banke,28.1515,81.5814,900,3600,34.5,0,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,medium,no,yes,159,182,23,311
+1091008,Kailali,28.771,80.5928,2700,3600,82.5,34.5,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,2,low,yes,yes,157,179,22,297
+1099144,Kanchanpur,28.95,80.2334,3375,3600,57.6,41.4,0,0,Heavey,lowland,traditional,Own stored,yes,yes,yes,1,low,yes,yes,154,187,33,299
+1091062,Kailali,28.8093,80.5891,4500,3600,96,69,0,0,Medium,lowland,traditional,Own stored,yes,yes,yes,0,low,yes,yes,154,196,42,290
+1091155,Kailali,28.8095,80.5893,3750,3600,45.6,46,0,0,Medium,lowland,traditional,Purchased from market,yes,yes,yes,0,low,yes,yes,146,177,31,297
+1099113,Kanchanpur,28.9034,80.3538,2400,3600,85.2,41.4,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,156,184,28,297
+1099125,Kanchanpur,28.6799,80.3679,2100,3600,96,69,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,155,179,24,297
+1081062,Banke,28.0892,81.5355,6000,3600,38.4,27.6,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,4,low,no,no,160,186,26,287
+1084071,Bardiya,28.1841,81.3935,1800,3600,85.2,41.4,18,15,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,high,yes,yes,151,177,26,285
+1084045,Bardiya,28.3099,81.2525,3000,3600,52.2,27.6,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,3,high,yes,yes,170,198,28,296
+1099121,Kanchanpur,28.903,80.3537,4200,3600,44.1,6.9,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,no,153,181,28,295
+1084042,Bardiya,28.3147,81.2589,3600,3600,19.2,13.8,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,1,high,yes,yes,176,200,24,301
+1071010,Rupandehi,27.5635,83.5584,4500,3750,96,69,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,160,186,26,304
+1099181,Kanchanpur,28.9046,80.355,2250,3750,30.9,17.25,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,153,180,27,313
+1084063,Bardiya,28.3143,81.2576,4125,3750,24,17.25,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,5,low,yes,yes,171,195,24,304
+1084064,Bardiya,28.1899,81.362,3750,3750,96,69,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,3,low,no,no,165,186,21,298
+1099111,Kanchanpur,28.9053,80.3551,3750,3750,41.25,17.25,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,154,182,28,295
+1084007,Bardiya,28.34,81.2653,2700,3750,48,34.5,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,yes,165,194,29,303
+1091171,Kailali,28.648,81.0881,2700,3750,82.5,34.5,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,low,yes,yes,151,179,28,307
+1081038,Banke,28.0923,81.5328,3000,3750,24,17.25,0,0,Heavey,lowland,OPV,Own stored,yes,yes,no,0,low,yes,yes,169,202,33,287
+1076041,Kapilbastu,27.5031,83.0261,3750,3750,96,69,0,0,Heavey,lowland,hybrid,others,yes,yes,yes,3,high,yes,no,193,216,23,325
+1081131,Banke,28.1474,81.5831,2250,3750,65.25,34.5,0,0,Light,lowland,OPV,Own stored,yes,yes,no,0,high,yes,yes,161,181,20,301
+1084108,Bardiya,28.3098,81.252,4875,3750,21.9,20.7,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,3,medium,yes,no,178,206,28,320
+1099149,Kanchanpur,28.695,80.3642,3750,3750,52.2,27.6,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,no,152,191,39,298
+1071102,Rupandehi,27.519,83.5213,4125,3750,65.25,34.5,0,7.5,Medium,lowland,OPV,Purchased from market,yes,yes,yes,1,medium,yes,yes,169,196,27,316
+1084129,Bardiya,28.3408,81.2656,3450,3750,52.2,27.6,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,2,high,yes,yes,179,211,32,326
+1084033,Bardiya,28.314,81.2565,3750,3750,24,17.25,0,0,Light,medium land,OPV,Purchased from market,yes,yes,yes,5,medium,yes,no,181,205,24,303
+1099029,Kanchanpur,28.9715,80.2243,3250,3750,29.75,17.25,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,2,low,yes,yes,161,183,22,281
+1091118,Kailali,28.648,81.0881,2400,3750,82.5,34.5,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,high,yes,yes,153,179,26,297
+1099147,Kanchanpur,28.7975,80.5863,5000,4000,73,69,20,0,Light,lowland,traditional,Own stored,yes,yes,yes,0,low,yes,no,153,181,28,298
+1084030,Bardiya,28.3116,81.2563,4666.667,4000,21.33333,15.33333,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,3,medium,yes,yes,178,209,31,299
+1081019,Banke,28.1549,81.577,4666.667,4000,106.6667,76.66667,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,low,yes,yes,156,179,23,284
+1099022,Kanchanpur,28.971,80.2242,3200,4000,45.2,49.68,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,165,185,20,281
+1081010,Banke,28.0885,81.5389,5000,4000,13.8,0,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,high,yes,yes,161,183,22,297
+1076109,Kapilbastu,27.5225,83.0232,4400,4000,64,46,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,no,186,211,25,333
+1084097,Bardiya,28.3137,81.256,2666.667,4000,64,46,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,high,yes,yes,166,191,25,306
+1071099,Rupandehi,27.5327,83.5287,3400,4000,96,69,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,high,yes,no,164,197,33,311
+1076012,Kapilbastu,27.6602,83.0329,5000,4000,96,69,48,8,Medium,lowland,OPV,Purchased from market,yes,yes,no,0,medium,yes,yes,182,213,31,327
+1084032,Bardiya,28.3123,81.2549,3333.333,4000,14.93333,10.73333,5,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,high,yes,yes,178,207,29,300
+1081118,Banke,28.089,81.5352,818.1818,4090.909,42.54546,12.54545,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,no,0,low,no,yes,171,194,23,309
+1084146,Bardiya,28.1881,81.3654,3000,4153.846,100.3846,53.07692,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,151,197,46,302
+1084068,Bardiya,28.1835,81.395,3000,4200,96,69,9,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,0,medium,yes,yes,150,179,29,284
+1099105,Kanchanpur,28.6814,80.3684,3529.412,4235.294,97.05882,40.58823,0,0,Medium,medium land,traditional,Own stored,yes,yes,yes,1,medium,yes,yes,156,202,46,296
+1071100,Rupandehi,27.5407,83.536,4285.714,4285.714,92.14286,59.14286,18,8.571428,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,164,194,30,311
+1081022,Banke,28.1371,81.5662,2914.286,4285.714,60.85714,29.57143,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,low,yes,yes,177,198,21,324
+1076019,Kapilbastu,27.5222,83.0194,4500,4375,120,86.25,0,0,Medium,lowland,hybrid,others,yes,yes,yes,3,medium,yes,yes,181,213,32,319
+1091173,Kailali,28.7198,80.8425,4235.294,4411.765,56.47058,40.58823,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,high,yes,yes,146,177,31,304
+1084101,Bardiya,28.1843,81.3934,2700,4500,69,0,0,0,Heavey,lowland,hybrid,others,yes,yes,no,0,medium,yes,yes,172,201,29,313
+1071071,Rupandehi,27.5399,83.5366,6750,4500,96,69,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,no,158,179,21,298
+1084051,Bardiya,28.184,81.3936,1500,4500,96,69,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,high,yes,yes,177,205,28,305
+1084154,Bardiya,28.3348,81.2686,9000,4500,109.8,69,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,165,189,24,318
+1091083,Kailali,28.665,81.0469,3900,4500,24,17.25,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,1,high,yes,yes,165,184,19,304
+1099133,Kanchanpur,28.6951,80.3641,3600,4500,10.8,27.6,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,153,181,28,296
+1099100,Kanchanpur,28.9046,80.3549,2625,4500,38.4,27.6,0,0,Light,medium land,traditional,Own stored,yes,yes,yes,1,low,yes,yes,161,194,33,300
+1091095,Kailali,28.7745,80.5945,2550,4500,48,34.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,0,low,yes,yes,154,187,33,296
+1099065,Kanchanpur,28.9712,80.2243,3600,4500,67.26,73.14,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,155,179,24,287
+1081031,Banke,28.1507,81.5755,4000,4500,57.5,0,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,low,no,yes,156,178,22,311
+1081168,Banke,28.1882,81.5547,2625,4500,48,34.5,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,no,0,high,yes,yes,152,177,25,304
+1081132,Banke,28.1292,81.5408,3000,4500,48,34.5,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,medium,yes,yes,164,194,30,305
+1091084,Kailali,28.7973,80.5867,2812.5,4500,68.25,86.25,0,0,Light,upland,traditional,Own stored,yes,yes,yes,1,low,no,yes,155,211,56,295
+1081056,Banke,28.0896,81.5348,4200,4500,23.04,16.56,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,163,192,29,289
+1099083,Kanchanpur,28.9585,80.229,4875,4500,89.25,51.75,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,0,low,no,yes,152,187,35,289
+1076032,Kapilbastu,27.5266,83.0394,5250,4500,96,69,22.5,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,184,209,25,311
+1071022,Rupandehi,27.5634,83.5584,4500,4500,96,69,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,no,166,199,33,304
+1081057,Banke,28.1477,81.5829,3750,4500,27.375,25.875,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,0,high,yes,yes,170,199,29,296
+1091167,Kailali,28.6635,81.0475,3000,4500,192,138,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,low,yes,yes,151,181,30,305
+1099154,Kanchanpur,28.9514,80.2318,4500,4500,57.6,41.4,0,0,Medium,lowland,traditional,Own stored,yes,yes,yes,0,low,no,yes,152,184,32,299
+1084094,Bardiya,28.1899,81.3623,2769.231,4615.385,40.15385,21.23077,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,no,0,medium,yes,yes,174,197,23,313
+1071094,Rupandehi,27.5329,83.5287,6000,4687.5,96,69,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,medium,yes,no,162,192,30,308
+1091038,Kailali,28.7925,80.5919,2400,4800,52.2,27.6,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,162,184,22,286
+1081184,Banke,28.189,81.5544,3000,4800,0,0,0,0,Light,lowland,hybrid,Purchased from market,yes,no,no,0,low,no,yes,152,177,25,311
+1091036,Kailali,28.7917,80.5924,3600,4800,104.4,55.2,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,2,low,yes,yes,158,179,21,281
+1084026,Bardiya,28.1847,81.3926,5250,4800,57.6,41.4,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,low,yes,yes,163,187,24,282
+1084176,Bardiya,28.2422,81.3097,4000,4800,96,69,0,30,Medium,lowland,OPV,Purchased from market,yes,yes,yes,8,high,yes,yes,154,154,0,289
+1071092,Rupandehi,27.5398,83.5365,6000,5000,80,57.5,0,0,Medium,medium land,hybrid,Purchased from market,yes,yes,yes,3,low,yes,no,175,212,37,321
+1084008,Bardiya,28.242,81.3098,2000,5000,72.5,38.33334,0,3.333333,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,1,high,yes,yes,164,197,33,300
+1091066,Kailali,28.8097,80.5952,2000,5000,32,23,6,0,Light,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,151,181,30,287
+1099014,Kanchanpur,28.6728,80.3499,3500,5000,87,46,12,15,Medium,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,161,182,21,276
+1099102,Kanchanpur,28.9045,80.354,4500,5000,64,46,0,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,1,low,yes,yes,150,175,25,289
+1071161,Rupandehi,27.5175,83.5215,5000,5000,59.5,34.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,161,193,32,320
+1076148,Kapilbastu,27.5221,83.0193,5000,5000,110,46,0,0,Medium,lowland,hybrid,Own stored,yes,yes,yes,3,high,yes,yes,183,211,28,341
+1076150,Kapilbastu,27.4977,83.0239,4500,5000,128,92,60,5,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,high,yes,yes,163,212,49,322
+1091114,Kailali,28.794,80.5936,2400,5000,64,46,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,1,high,yes,yes,157,189,32,301
+1076074,Kapilbastu,27.5032,83.0261,3500,5000,80,57.5,0,0,Heavey,lowland,hybrid,others,yes,yes,yes,3,high,yes,no,193,215,22,332
+1099082,Kanchanpur,28.9711,80.2255,3750,5000,75.5,46,0,0,Medium,lowland,OPV,others,yes,yes,yes,1,medium,yes,no,159,199,40,296
+1084040,Bardiya,28.3142,81.2584,4000,5000,19.2,13.8,18,0,Medium,medium land,OPV,Purchased from market,yes,yes,yes,4,high,yes,no,177,206,29,302
+1091091,Kailali,28.7434,80.577,4200,5040,115.2,82.8,0,0,Light,lowland,OPV,Purchased from market,yes,yes,no,0,low,yes,no,153,179,26,294
+1099130,Kanchanpur,28.9588,80.2288,2571.428,5142.857,78.42857,49.28572,12.85714,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,1,low,no,yes,156,191,35,299
+1084041,Bardiya,28.3146,81.2591,3857.143,5142.857,19.2,13.8,7.714285,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,4,high,yes,yes,177,202,25,302
+1076069,Kapilbastu,27.4765,83.0085,5785.714,5142.857,148.7143,128.1429,90,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,medium,yes,yes,187,213,26,325
+1081013,Banke,28.1522,81.575,6428.571,5142.857,82.28571,59.14286,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,high,yes,yes,154,177,23,275
+1076107,Kapilbastu,27.5224,83.0231,7500,5250,89.25,53.55,27,11.25,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,low,yes,no,184,210,26,331
+1091081,Kailali,28.7947,80.5923,4500,5250,82.5,34.5,0,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,2,low,yes,no,159,183,24,298
+1091028,Kailali,28.7741,80.5947,3000,5400,38.4,27.6,0,0,Medium,lowland,traditional,Own stored,yes,yes,no,0,low,yes,yes,154,187,33,276
+1091133,Kailali,28.7222,80.8414,3000,5400,115.2,82.8,0,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,0,medium,yes,yes,157,187,30,303
+1091108,Kailali,28.7435,80.5763,2025,5400,48,34.5,0,0,Light,lowland,traditional,Own stored,yes,yes,yes,0,low,yes,yes,154,184,30,297
+1091160,Kailali,28.7433,80.5772,2100,5400,96,69,0,0,Light,upland,traditional,Own stored,yes,yes,no,0,medium,yes,yes,155,192,37,308
+1099103,Kanchanpur,28.9794,80.2006,3000,5400,48,34.5,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,153,177,24,292
+1076078,Kapilbastu,27.5267,83.0393,6300,5400,96,69,54,15,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,low,yes,no,181,210,29,321
+1084009,Bardiya,28.3397,81.2626,5100,5400,96,69,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,151,187,36,300
+1099150,Kanchanpur,28.9584,80.229,4500,5400,96,69,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,0,low,no,yes,158,189,31,304
+1091002,Kailali,28.7279,80.8408,3000,5625,44.625,25.875,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,156,185,29,313
+1091128,Kailali,28.8093,80.5951,2250,5625,19.2,13.8,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,5,low,yes,yes,151,177,26,296
+1081119,Banke,28.0875,81.5381,4200,5625,90.6,55.2,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,low,no,no,171,194,23,309
+1099028,Kanchanpur,28.9441,80.2394,2400,6000,90.6,55.2,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,low,yes,yes,161,183,22,281
+1071169,Rupandehi,27.5319,83.5047,4500,6000,192,138,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,low,yes,no,166,197,31,327
+1099063,Kanchanpur,28.6789,80.3682,7500,6000,109.8,69,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,150,177,27,282
+1076030,Kapilbastu,27.503,83.0267,3600,6000,144,103.5,90,0,Heavey,lowland,hybrid,others,yes,yes,yes,3,low,yes,no,197,216,19,323
+1084056,Bardiya,28.3283,81.2685,3900,6000,24.6,27.6,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,191,211,20,320
+1081135,Banke,28.1886,81.5548,3428.572,6000,13.8,0,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,low,no,yes,167,191,24,308
+1099004,Kanchanpur,29.0052,80.2011,2700,6000,48,34.5,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,2,high,yes,no,156,189,33,276
+1071116,Rupandehi,27.5329,83.5287,5400,6000,192,138,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,low,yes,no,168,188,20,317
+1081157,Banke,28.1417,81.5645,3000,6000,34.5,0,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,no,0,low,yes,no,164,188,24,311
+1071126,Rupandehi,27.5407,83.5369,3600,6000,96,69,0,0,Light,medium land,hybrid,Purchased from market,yes,yes,no,0,low,yes,no,173,197,24,323
+1084019,Bardiya,28.328,81.2686,3600,6000,52.2,27.6,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,3,medium,yes,yes,182,210,28,324
+1091176,Kailali,28.7794,80.5909,3900,6000,69.12,49.68,0,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,2,low,yes,yes,159,197,38,321
+1091057,Kailali,28.7281,80.8416,3600,6000,90.6,55.2,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,3,medium,yes,yes,166,187,21,299
+1071153,Rupandehi,27.5154,83.5236,7200,6000,165,69,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,low,yes,no,161,187,26,317
+1099067,Kanchanpur,28.6949,80.3645,3000,6000,26.6,9.2,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,156,207,51,289
+1071166,Rupandehi,27.5334,83.5292,6000,6000,96,69,3.6,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,medium,yes,yes,164,192,28,324
+1099104,Kanchanpur,28.9019,80.3614,4725,6000,52.2,27.6,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,no,159,182,23,298
+1081127,Banke,28.131,81.5419,1800,6000,79.8,27.6,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,medium,yes,yes,164,179,15,303
+1084078,Bardiya,28.19,81.3619,3000,6000,90.6,55.2,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,162,195,33,298
+1099167,Kanchanpur,28.9793,80.2008,6750,6000,80,57.5,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,0,medium,yes,yes,155,192,37,304
+1091041,Kailali,28.8089,80.5942,3600,6000,52.2,27.6,0,0,Medium,medium land,OPV,Own stored,yes,yes,no,0,low,yes,yes,156,178,22,281
+1099135,Kanchanpur,28.6729,80.3494,3600,6000,82.5,34.5,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,158,201,43,302
+1076133,Kapilbastu,27.5091,83.2021,5000,6000,93.5,92,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,medium,yes,yes,154,184,30,308
+1081097,Banke,28.1878,81.5541,2250,6000,0,0,0,0,Light,lowland,hybrid,Purchased from market,yes,no,no,0,low,no,yes,162,187,25,297
+1076155,Kapilbastu,27.4974,83.0229,9000,6000,96,69,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,high,yes,no,164,198,34,333
+1091030,Kailali,28.8089,80.594,3000,6000,71.4,41.4,7.2,0,Medium,medium land,OPV,Own stored,yes,yes,yes,2,low,yes,yes,160,180,20,282
+1084034,Bardiya,28.3101,81.2533,3000,6000,71.4,41.4,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,yes,176,198,22,298
+1076049,Kapilbastu,27.5266,83.0396,6250,6000,104,74.75,45,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,medium,yes,no,185,211,26,319
+1081182,Banke,28.1299,81.5411,4800,6000,38.4,27.6,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,high,yes,yes,159,187,28,317
+1099122,Kanchanpur,28.9461,80.2349,4500,6000,43.8,41.4,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,2,low,no,no,154,182,28,296
+1071098,Rupandehi,27.5154,83.5236,1800,6000,96,69,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,low,yes,no,173,192,19,319
+1091099,Kailali,28.6449,81.0847,4500,6000,80,57.5,0,0,Medium,medium land,traditional,Own stored,yes,yes,yes,2,low,yes,yes,153,182,29,295
+1081054,Banke,28.1513,81.5805,4500,6000,69,0,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,low,yes,yes,177,193,16,302
+1099019,Kanchanpur,28.9457,80.235,3500,6250,55,23,9,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,5,low,yes,yes,205,235,30,307
+1099017,Kanchanpur,28.9477,80.2347,2250,6250,23,0,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,low,no,yes,138,169,31,289
+1099114,Kanchanpur,28.7941,80.5911,2142.857,6428.571,44.14286,24.64286,0,6.428571,Medium,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,156,182,26,297
+1081023,Banke,28.1543,81.5755,3947.368,6631.579,50.52631,36.31579,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,low,no,yes,169,197,28,314
+1091157,Kailali,28.6634,81.048,6375,6750,120,86.25,0,0,Light,upland,traditional,Own stored,yes,yes,yes,2,low,yes,yes,161,197,36,313
+1099155,Kanchanpur,28.9046,80.3549,4500,6750,60,43.125,0,0,Light,lowland,traditional,Own stored,yes,yes,yes,0,low,yes,yes,152,183,31,299
+1084087,Bardiya,28.3286,81.2691,2250,6750,31.5,27.6,13.5,0,Medium,lowland,traditional,Purchased from market,yes,yes,yes,1,high,yes,yes,186,205,19,323
+1081092,Banke,28.1295,81.541,5625,6750,72,51.75,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,2,high,yes,no,163,186,23,297
+1084085,Bardiya,28.1841,81.3937,1909.091,6818.182,125.4545,0,0,0,Heavey,lowland,OPV,Own stored,yes,yes,no,0,high,yes,yes,174,199,25,311
+1091021,Kailali,28.7935,80.5912,5400,7200,109.8,69,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,161,187,26,281
+1099176,Kanchanpur,28.6641,80.396,6000,7200,82.5,34.5,18,0,Medium,medium land,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,151,207,56,305
+1076097,Kapilbastu,27.5089,83.2028,5100,7200,93,96.6,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,yes,4,medium,yes,yes,164,185,21,308
+1099030,Kanchanpur,28.9442,80.239,2400,7200,90.6,55.2,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,3,medium,yes,yes,162,184,22,282
+1084131,Bardiya,28.1852,81.3934,2100,7200,96,69,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,high,yes,yes,175,202,27,322
+1099078,Kanchanpur,28.9045,80.3542,2400,7200,90.6,55.2,54,0,Light,medium land,traditional,Own stored,yes,yes,yes,1,low,yes,yes,158,182,24,293
+1099025,Kanchanpur,28.9708,80.2254,2700,7200,52.2,27.6,0,0,Light,medium land,OPV,Purchased from market,yes,yes,yes,2,low,yes,yes,162,179,17,281
+1076021,Kapilbastu,27.5453,83.0214,6000,7200,96,69,36,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,1,medium,yes,yes,199,223,24,332
+1091161,Kailali,28.7218,80.8421,2400,7200,71.4,41.4,0,0,Light,upland,traditional,Own stored,yes,yes,no,0,low,no,yes,146,187,41,299
+1091010,Kailali,28.8095,80.5895,3600,7200,82.2,69,0,0,Light,upland,OPV,Own stored,yes,yes,yes,1,low,yes,no,169,203,34,276
+1076058,Kapilbastu,27.4766,83.0082,7200,7200,147.6,165.6,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,no,0,medium,yes,yes,189,214,25,325
+1071078,Rupandehi,27.5318,83.5053,7500,7200,96,69,45,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,1,low,yes,no,163,189,26,306
+1071031,Rupandehi,27.5056,83.5395,5800,7200,192,138,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,no,179,193,14,304
+1071064,Rupandehi,27.5312,83.5062,4500,7200,96,69,28.8,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,low,yes,no,166,185,19,304
+1076042,Kapilbastu,27.545,83.021,6600,7200,96,69,54,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,medium,yes,no,177,196,19,309
+1081050,Banke,28.1888,81.5543,3000,7200,0,0,0,0,Light,lowland,hybrid,Purchased from market,yes,no,no,0,medium,yes,yes,179,211,32,304
+1076045,Kapilbastu,27.4768,83.0072,9000,7200,181.2,110.4,25.2,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,medium,yes,no,189,214,25,322
+1081033,Banke,28.1428,81.5636,4500,7500,96,69,0,0,Medium,medium land,hybrid,others,yes,yes,no,0,medium,yes,yes,197,218,21,304
+1099112,Kanchanpur,28.9473,80.2354,4200,7500,48,34.5,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,4,low,yes,yes,156,184,28,297
+1091075,Kailali,28.6348,81.1348,4000,7500,64,46,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,3,low,yes,yes,164,195,31,302
+1099137,Kanchanpur,28.6948,80.3643,3000,7500,10.8,27.6,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,no,151,180,29,295
+1076075,Kapilbastu,27.5092,83.2011,4500,7500,240,172.5,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,medium,yes,no,163,194,31,303
+1099018,Kanchanpur,28.9371,80.2888,3600,7500,52.2,27.6,0,0,Medium,medium land,OPV,others,yes,yes,yes,3,low,yes,yes,156,182,26,281
+1099132,Kanchanpur,28.946,80.2349,5400,7500,43.8,41.4,0,0,Light,lowland,traditional,Own stored,yes,yes,yes,4,medium,yes,no,152,181,29,295
+1084005,Bardiya,28.2412,81.3093,3750,7500,82.5,34.5,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,medium,yes,yes,165,194,29,313
+1076120,Kapilbastu,27.4977,83.0225,4500,7500,82.2,69,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,176,198,22,326
+1099143,Kanchanpur,28.6643,80.3973,4500,7500,56.625,34.5,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,153,187,34,298
+1081049,Banke,28.1513,81.5802,2437.5,7500,43.125,0,0,0,Heavey,lowland,OPV,Own stored,yes,yes,no,0,low,yes,yes,174,193,19,297
+1081004,Banke,28.1883,81.5547,3375,7500,52.2,27.6,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,low,yes,no,162,194,32,317
+1076092,Kapilbastu,27.5027,83.0274,4500,7500,48,34.5,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,yes,3,low,yes,no,192,215,23,335
+1084155,Bardiya,28.1845,81.3924,4500,7500,82.5,34.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,1,medium,yes,no,164,187,23,317
+1071108,Rupandehi,27.5312,83.5061,7500,7500,90.6,55.2,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,yes,4,medium,yes,no,170,196,26,318
+1099047,Kanchanpur,28.9045,80.3542,2250,7500,32.2,0,0,0,Light,lowland,traditional,Own stored,yes,yes,yes,2,low,yes,yes,162,184,22,289
+1084145,Bardiya,28.242,81.3098,6000,7500,96,69,0,3,Light,medium land,hybrid,Purchased from market,yes,yes,yes,2,high,yes,yes,161,187,26,311
+1091064,Kailali,28.6454,81.0845,3375,7500,83.7,55.2,0,0,Medium,lowland,traditional,Own stored,yes,yes,yes,1,medium,yes,yes,159,192,33,295
+1099136,Kanchanpur,28.9469,80.2351,3150,7500,52.2,27.6,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,2,medium,no,yes,147,179,32,291
+1099005,Kanchanpur,29.0053,80.2012,2250,7500,48,34.5,0,0,Light,medium land,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,161,189,28,284
+1071084,Rupandehi,27.5332,83.529,6000,7500,136.5,172.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,2,high,yes,no,165,194,29,309
+1091034,Kailali,28.8008,80.6104,5250,7500,26.1,13.8,0,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,no,161,186,25,284
+1084076,Bardiya,28.1902,81.3609,4500,7500,171.75,86.25,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,2,high,yes,yes,169,193,24,304
+1099124,Kanchanpur,28.902,80.3612,3712.5,7500,62.55,27.6,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,low,yes,no,155,180,25,297
+1084021,Bardiya,28.4514,81.3154,5250,7500,48,34.5,0,0,Heavey,medium land,OPV,Purchased from market,yes,yes,yes,5,medium,yes,no,184,200,16,321
+1091126,Kailali,28.8012,80.6106,1500,7500,52.2,27.6,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,2,medium,yes,yes,153,181,28,298
+1081129,Banke,28.0923,81.5329,2000,7500,73,69,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,5,low,yes,no,159,192,33,299
+1099095,Kanchanpur,28.6581,81.0551,2250,7500,22.65,13.8,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,medium,yes,yes,158,184,26,296
+1076118,Kapilbastu,27.5093,83.2012,4071.428,7714.286,80.14286,78.85715,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,158,181,23,308
+1091097,Kailali,28.7967,80.588,4714.286,7714.286,82.28571,59.14286,12.85714,21.42857,Light,upland,traditional,Own stored,yes,yes,yes,1,low,yes,yes,161,192,31,303
+1099012,Kanchanpur,28.9665,80.2274,4928.571,7714.286,58.92857,24.64286,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,high,yes,yes,171,194,23,296
+1076022,Kapilbastu,27.5272,83.0397,5357.143,7714.286,96,69,38.57143,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,3,medium,yes,yes,182,210,28,319
+1091151,Kailali,28.6643,81.0469,8571.429,7714.286,68.57143,49.28572,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,152,183,31,302
+1084158,Bardiya,28.19,81.3618,2333.333,8000,79.33333,46,0,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,3,low,yes,yes,166,189,23,320
+1076088,Kapilbastu,27.661,83.0346,4666.667,8000,106.6667,76.66667,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,no,186,210,24,328
+1099086,Kanchanpur,28.7975,80.5863,5000,8000,68.33334,76.66667,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,0,high,yes,yes,152,184,32,289
+1091100,Kailali,28.7287,80.842,2454.545,8181.818,69.81818,50.18182,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,low,yes,yes,155,183,28,297
+1099088,Kanchanpur,28.9021,80.3606,4833.333,8333.333,52.2,27.6,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,4,low,yes,no,155,179,24,292
+1091170,Kailali,28.7209,80.8427,3750,8437.5,9.975,3.45,2.25,0,Heavey,lowland,traditional,Own stored,yes,yes,no,0,medium,yes,yes,146,177,31,302
+1081143,Banke,28.1309,81.5418,6000,8571.429,68.57143,49.28572,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,low,no,no,161,187,26,304
+1091164,Kailali,28.7966,80.5865,1687.5,9000,102.75,86.25,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,low,no,yes,154,186,32,307
+1099185,Kanchanpur,28.979,80.1995,3200,9000,54.9,34.5,0,0,Heavey,medium land,OPV,Purchased from market,yes,yes,yes,2,medium,yes,yes,153,178,25,324
+1081003,Banke,28.1883,81.5546,3500,9000,34.5,0,0,0,Heavey,lowland,traditional,Purchased from market,yes,yes,no,0,low,yes,yes,161,182,21,311
+1091068,Kailali,28.6454,81.0848,4000,9000,64,46,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,1,low,yes,no,169,192,23,305
+1081096,Banke,28.1308,81.5424,6900,9000,39.9,13.8,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,low,no,yes,154,179,25,289
+1099177,Kanchanpur,28.9515,80.2318,5625,9000,48,34.5,0,0,Medium,lowland,traditional,Own stored,yes,yes,yes,0,low,no,yes,154,187,33,309
+1099061,Kanchanpur,28.6941,80.3644,7200,9000,43.8,41.4,18,0,Medium,medium land,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,152,182,30,284
+1084088,Bardiya,28.131,81.5423,7500,9000,39.9,13.8,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,low,no,no,159,192,33,297
+1091071,Kailali,28.8008,80.6116,2100,9000,38.4,27.6,0,0,Light,lowland,unknown,Own stored,yes,yes,yes,2,high,yes,yes,159,189,30,296
+1071026,Rupandehi,27.5082,83.5392,7500,9000,76.875,86.25,22.5,15,Medium,lowland,OPV,Purchased from market,yes,yes,yes,2,high,yes,no,172,193,21,285
+1099096,Kanchanpur,28.9587,80.2278,4875,9000,196.875,172.5,0,0,Medium,medium land,traditional,Own stored,yes,yes,yes,1,low,no,no,154,179,25,292
+1081014,Banke,28.1529,81.5735,2625,9000,72,51.75,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,medium,yes,yes,153,174,21,283
+1099160,Kanchanpur,28.6646,80.3961,2400,9000,76.8,55.2,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,151,181,30,299
+1099179,Kanchanpur,28.9795,80.2007,5156.25,9000,96,69,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,0,medium,yes,yes,151,178,27,309
+1081058,Banke,28.1307,81.5416,3000,9000,48,34.5,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,medium,yes,yes,171,199,28,297
+1091078,Kailali,28.7933,80.5913,2100,9000,17.52,16.56,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,159,184,25,297
+1091143,Kailali,28.8094,80.5893,2250,9000,10.8,27.6,0,0,Light,lowland,traditional,Own stored,yes,yes,yes,0,low,yes,yes,158,183,25,306
+1091172,Kailali,28.7223,80.8422,3150,9000,27.6,0,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,157,191,34,314
+1071018,Rupandehi,27.5047,83.4839,6000,9000,80,57.5,45,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,no,154,178,24,298
+1081072,Banke,28.0867,81.5378,4875,9000,106.5,51.75,0,0,Light,lowland,hybrid,Own stored,yes,yes,yes,5,low,yes,yes,154,181,27,283
+1081111,Banke,28.1305,81.5419,2925,9000,82.5,34.5,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,170,196,26,307
+1099107,Kanchanpur,28.6951,80.3643,3750,9000,41.1,34.5,9,0,Light,lowland,traditional,Purchased from market,yes,yes,yes,1,low,yes,yes,157,187,30,297
+1071156,Rupandehi,27.5173,83.5221,3300,9000,61.5,69,18,30,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,low,yes,yes,166,193,27,323
+1091107,Kailali,28.8002,80.6103,3750,9375,39.9,13.8,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,low,yes,yes,151,182,31,294
+1099126,Kanchanpur,28.9049,80.3402,2812.5,9375,60,43.125,0,0,Heavey,lowland,OPV,others,yes,yes,yes,2,low,yes,yes,164,187,23,306
+1071145,Rupandehi,27.5187,83.5214,3750,10000,320,230,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,yes,166,196,30,320
+1084105,Bardiya,28.243,81.3108,1500,10000,137.5,57.5,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,2,high,yes,yes,165,185,20,306
+1071062,Rupandehi,27.5168,83.5224,3500,10000,64,46,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,2,low,yes,no,173,197,24,311
+1081035,Banke,28.1889,81.5545,4000,10000,32,23,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,no,0,medium,yes,yes,165,196,31,276
+1099151,Kanchanpur,28.9711,80.1968,3700,10000,53.2,18.4,0,0,Heavey,lowland,OPV,Own stored,yes,yes,yes,3,medium,yes,no,151,181,30,297
+1071029,Rupandehi,27.5053,83.5386,8142.857,10285.71,109.7143,78.85715,25.71429,21.42857,Heavey,lowland,hybrid,Purchased from market,yes,yes,yes,3,low,yes,no,171,184,13,294
+1091178,Kailali,28.6553,81.0919,4928.571,10285.71,45,39.42857,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,0,low,no,yes,150,184,34,317
+1071035,Rupandehi,27.5163,83.5232,6000,10285.71,109.7143,78.85715,25.71429,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,low,yes,no,174,195,21,302
+1099080,Kanchanpur,28.902,80.3601,4350,10500,45.3,27.6,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,4,low,yes,no,161,182,21,296
+1099020,Kanchanpur,28.6947,80.3645,4800,10800,34.2,34.5,0,0,Medium,lowland,OPV,others,yes,yes,yes,1,medium,yes,yes,164,192,28,270
+1091127,Kailali,28.7966,80.5878,3000,10800,76.8,55.2,0,0,Light,lowland,traditional,Own stored,yes,yes,yes,1,low,yes,yes,154,181,27,299
+1091165,Kailali,28.7965,80.5873,3923.077,11076.92,49.61539,31.84615,6.923077,11.53846,Light,medium land,OPV,Own stored,yes,yes,yes,3,high,yes,yes,154,185,31,307
+1099156,Kanchanpur,28.9679,80.2265,3750,11250,57.6,41.4,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,no,158,187,29,305
+1099066,Kanchanpur,28.9017,80.3616,2437.5,11250,55.275,31.05,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,165,187,22,297
+1099085,Kanchanpur,28.9017,80.3619,4500,11250,52.2,27.6,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,yes,4,low,no,no,154,188,34,291
+1099009,Kanchanpur,28.9771,80.2308,6000,12000,90.6,55.2,0,0,Medium,medium land,OPV,Purchased from market,yes,yes,yes,1,low,yes,yes,162,188,26,289
+1091115,Kailali,28.6542,81.0913,3600,12000,192,138,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,medium,yes,yes,153,183,30,297
+1071168,Rupandehi,27.4973,83.0239,4750,12000,87.6,82.8,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,173,198,25,333
+1091123,Kailali,28.8099,80.5901,2250,12000,82.2,69,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,low,no,yes,160,191,31,305
+1071139,Rupandehi,27.5136,83.5388,5250,12000,90.6,55.2,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,2,medium,yes,yes,165,195,30,318
+1081165,Banke,28.1474,81.5839,1800,12000,52.2,27.6,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,no,0,medium,yes,yes,162,184,22,312
+1076095,Kapilbastu,27.5264,83.0398,5700,12000,153.6,110.4,72,0,Heavey,lowland,hybrid,others,yes,yes,yes,2,high,yes,no,183,210,27,327
+1071113,Rupandehi,27.5134,83.539,3000,12000,165,69,90,24,Medium,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,158,193,35,307
+1081145,Banke,28.142,81.5642,3600,12000,96,69,0,0,Light,medium land,OPV,Purchased from market,yes,yes,no,0,low,yes,yes,164,182,18,307
+1076023,Kapilbastu,27.5729,83.057,4250,12000,96,69,45,0,Medium,lowland,hybrid,Purchased from market,yes,yes,yes,1,high,yes,yes,181,206,25,311
+1076006,Kapilbastu,27.4765,83.0084,1266.667,12000,213.3333,153.3333,0,0,Heavey,lowland,hybrid,Purchased from market,yes,yes,yes,3,low,yes,yes,186,213,27,322
+1081163,Banke,28.1888,81.555,4600,12000,51.4,13.8,0,0,Medium,lowland,hybrid,Purchased from market,yes,yes,no,0,low,yes,yes,163,193,30,312
+1099011,Kanchanpur,28.9772,80.2307,5400,12000,38.4,27.6,18,0,Medium,medium land,OPV,Own stored,yes,yes,yes,1,low,yes,yes,164,184,20,297
+1081008,Banke,28.0879,81.5391,6600,12000,104.4,55.2,0,0,Light,medium land,OPV,others,yes,yes,no,0,low,yes,yes,165,184,19,294
+1099077,Kanchanpur,28.9668,80.2266,5000,12500,64,46,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,0,medium,yes,yes,164,192,28,299
+1099040,Kanchanpur,28.9007,80.3542,2400,13500,109.8,69,0,0,Medium,medium land,OPV,Own stored,yes,yes,no,0,low,yes,yes,158,179,21,282
+1091061,Kailali,28.8009,80.6106,4875,13500,20.6,11.5,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,low,yes,no,162,194,32,297
+1099180,Kanchanpur,28.9791,80.2004,5250,13500,57.6,41.4,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,yes,153,179,26,311
+1091052,Kailali,28.8005,80.6103,5000,15000,110,46,0,0,Light,lowland,OPV,Purchased from market,yes,yes,yes,3,medium,yes,yes,151,183,32,284
+1084089,Bardiya,28.3288,81.2693,3600,15000,38.4,27.6,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,no,165,193,28,303
+1084001,Bardiya,28.2429,81.3109,3333.333,15000,145,76.66667,0,0,Light,lowland,hybrid,Purchased from market,yes,yes,yes,0,high,yes,yes,150,192,42,298
+1084086,Bardiya,28.3143,81.2588,3375,15000,0,0,0,0,Light,medium land,OPV,Purchased from market,yes,no,yes,3,low,yes,no,168,192,24,305
+1071163,Rupandehi,27.5134,83.539,7500,15000,69,0,0,0,Heavey,verylowland,hybrid,Purchased from market,yes,yes,yes,4,medium,yes,no,159,189,30,318
+1091102,Kailali,28.7955,80.5914,4500,15000,43.63636,31.36364,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,yes,2,medium,yes,no,154,179,25,296
+1099070,Kanchanpur,28.9018,80.3556,4500,15000,42.6,20.7,0,0,Medium,medium land,OPV,Purchased from market,yes,yes,yes,3,low,yes,yes,159,182,23,292
+1099034,Kanchanpur,28.9007,80.3542,2812.5,15000,60,43.125,0,0,Medium,medium land,OPV,Own stored,yes,yes,no,0,medium,yes,yes,159,184,25,281
+1091150,Kailali,28.647,81.0864,1500,15000,41,46,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,151,192,41,301
+1091059,Kailali,28.6607,81.0469,3360,15000,57.6,41.4,0,0,Heavey,lowland,OPV,Own stored,yes,yes,no,0,low,no,yes,167,202,35,301
+1099166,Kanchanpur,28.663,80.397,4000,15000,96,69,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,161,182,21,309
+1084035,Bardiya,28.1894,81.3606,3000,15000,82.5,34.5,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,174,202,28,297
+1091163,Kailali,28.654,81.0911,3000,16200,48,34.5,0,0,Heavey,verylowland,traditional,Own stored,yes,yes,yes,0,high,yes,yes,151,185,34,304
+1081053,Banke,28.1471,81.5838,6923.077,16615.38,10.61539,0,0,0,Medium,lowland,OPV,Purchased from market,yes,yes,no,0,medium,yes,yes,170,192,22,295
+1099074,Kanchanpur,28.905,80.3399,3923.077,17307.69,34.75385,7.430769,0,0,Heavey,medium land,OPV,Own stored,yes,yes,yes,1,low,yes,yes,161,188,27,295
+1099174,Kanchanpur,28.6936,80.3646,4500,18000,22.44,22.08,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,medium,yes,yes,155,182,27,306
+1084004,Bardiya,28.3407,81.2658,2400,18000,192,138,0,0,Heavey,lowland,OPV,Purchased from market,yes,yes,yes,1,high,yes,yes,156,181,25,304
+1091130,Kailali,28.7969,80.5881,3000,18000,91.5,57.5,15,0,Light,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,152,187,35,298
+1071061,Rupandehi,27.5168,83.5228,4500,18000,96,69,30,25,Heavey,lowland,hybrid,Purchased from market,yes,yes,no,0,low,yes,yes,189,214,25,327
+1084048,Bardiya,28.2427,81.3102,3900,18000,96,69,0,0,Heavey,lowland,hybrid,others,yes,yes,yes,2,low,yes,no,184,209,25,311
+1081055,Banke,28.68,80.3689,4500,18000,123,138,0,0,Medium,lowland,OPV,Own stored,yes,yes,no,0,low,yes,no,153,193,40,279
+1091077,Kailali,28.7994,80.6105,6000,18750,25.6,18.4,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,4,high,yes,yes,168,197,29,306
+1099033,Kanchanpur,28.976,80.23,3375,20000,41.25,17.25,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,low,yes,yes,161,190,29,283
+1099027,Kanchanpur,28.6645,80.394,4500,20000,96,69,0,0,Medium,medium land,OPV,Own stored,yes,yes,yes,1,low,yes,yes,174,197,23,294
+1091106,Kailali,28.7227,80.8424,4500,20000,20.6,11.5,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,0,low,yes,no,158,194,36,301
+1099062,Kanchanpur,28.9678,80.2262,5000,20000,46,0,0,0,Medium,lowland,OPV,Own stored,yes,yes,yes,1,low,yes,no,173,201,28,305
+1099129,Kanchanpur,28.9587,80.2278,4500,20000,63.375,51.75,0,0,Light,lowland,traditional,Own stored,yes,yes,yes,1,low,no,yes,156,192,36,299
+1084098,Bardiya,28.1895,81.3623,3000,20000,90.6,55.2,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,3,high,yes,yes,158,181,23,298
+1071105,Rupandehi,27.5311,83.5065,2250,20000,240,172.5,22.5,0,Heavey,medium land,hybrid,Purchased from market,yes,yes,yes,1,low,yes,no,177,197,20,324
+1099036,Kanchanpur,28.68,80.3689,3500,20000,75.5,46,0,0,Medium,medium land,traditional,Own stored,yes,yes,no,0,medium,yes,yes,151,179,28,274
+1084017,Bardiya,28.2416,81.3094,3000,20000,110,46,0,10,Medium,lowland,OPV,Purchased from market,yes,yes,yes,10,high,yes,yes,165,192,27,309
+1099052,Kanchanpur,28.9759,80.2303,5250,20000,34.5,0,0,0,Light,medium land,OPV,Own stored,yes,yes,yes,3,low,yes,yes,152,178,26,281
+1091026,Kailali,28.8084,80.5937,4000,20000,110,46,0,0,Light,lowland,OPV,Own stored,yes,yes,yes,2,low,yes,yes,161,184,23,282
+1099159,Kanchanpur,28.8102,80.5903,2250,20000,48,34.5,0,0,Light,lowland,traditional,Own stored,yes,yes,yes,1,low,yes,yes,152,189,37,300
+1099010,Kanchanpur,28.9585,80.228,5400,20000,27.6,0,0,0,Medium,lowland,traditional,Own stored,yes,yes,yes,3,low,no,no,161,197,36,304
+1091140,Kailali,28.7238,80.8422,6000,20000,22.4,16.1,0,0,Light,upland,OPV,Own stored,yes,yes,yes,1,low,yes,yes,153,187,34,301

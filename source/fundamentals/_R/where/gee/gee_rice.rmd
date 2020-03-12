@@ -1,16 +1,19 @@
-```{r, echo=FALSE, message=FALSE}
-library(knitr)
-```
+# Sentinel-1 for crop mapping
 
-## Sentinel-1 for crop mapping
+*by* Anruddah Ghosh, University of California, Davis
 
-In the exercise, we show a thresholding based approach to map rice using [Sentinel-1SAR C-band Synthetic Aperture Radar data](https://sentinel.esa.int/web/sentinel/user-guides/sentinel-1-sar/). To learn more about the data that is available through [Google Earth Engine](https://developers.google.com/earth-engine/) read the [data description page](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD).
 
-### Background
+## Introduction
+
+
+Here we show a thresholding based approach to map rice using [Sentinel-1SAR C-band Synthetic Aperture Radar data](https://sentinel.esa.int/web/sentinel/user-guides/sentinel-1-sar/). To learn more about the data that is available through [Google Earth Engine](https://developers.google.com/earth-engine/) read the [data description page](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD).
+
+
+## Background
 
 First we will try to find the areas under crop and then attempt to find the rice areas. Usually during the transplanting phase, flooded fields cause lower backscatter. Backscatter signal continues to increase during the vegetative growth period and then decreases as the crop reaches towards maturity (harvesting). We use the differences in backscattering values during different stages of rice growing seasons to differentiate rice from other crops. This is a relatively simple approach and may not produce very accurate results. The results are sensitive some of the user provided input that requires local knowledge of crop growth.
 
-### Data import parameters
+## Data import
 
 At the begining of the script it is a good practice to include the parameters that depends on the user, for example, custom dataset, date range for analysis, user provided model parameters. This practice helps to quickly change the parameters.  
 
@@ -167,7 +170,9 @@ Export.image.toAsset({
 ```
 
 
-*Exercise* Repeat the rice mapping exercise for a different year with `VH` polarization data.
+## Exercise
+
+Repeat the rice mapping exercise for a different year with `VH` polarization data.
 
 ```{js todo, eval = FALSE, echo = FALSE}
 // add slider to interactively select rice area

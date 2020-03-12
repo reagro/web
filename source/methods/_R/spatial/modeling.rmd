@@ -1,0 +1,30 @@
+# Spatial modeling
+
+## Introduction
+
+This section on spatial modeling builds on the statistical and mechanistic modeling sections. It uses the modeling methods discussed in those sections, and a few new ones, to make predict spatial patterns. It describes methods that take point based observations (e.g. from soil samples or household surveys) to estimate values at any location. It continues with a chapter on the use of satellite remote sensing data; and ends with a chapter on downscaling methods to estimate quantities of interest at a higher resolution that the original data available.
+
+## What is in a name?
+
+Spatial prediction methods are developed in different disciplines and known under a variety of  names. Although there are important differences between methods and objectives, the diversity in the jargon used can obscure the similarity between these methods. 
+
+For example, the general problem of predicting a continuous spatial pattern from point data can be approached through related techniques that are referred to as spatial interpolation, spatial distribution modeling, or image classification. Spatial interpolation has been developed in mining and other earth science related fields, and is dominated by "geostatistical" approaches such as Kriging. Spatial (or species) distribution modeling is widely used in ecology. Image classification is a term used in the analysis of satellite remotely sensed data. All of these approaches, and others that we will discuss are variations on the basic model that we discussed in the chapter on [supervised learning](../../statistical/supervised.html).
+
+$$   
+\hat{Y} = \hat{f}(X) + \epsilon
+$$
+
+That is, a quantity of interest, $Y$, can be estimated from variables $X$ given a function  $\hat{f}$.
+
+
+### Spatial interpolation
+
+In the basic forms of spatial interpolation, the predictor variable is the spatial location $S$ of the observations.
+
+$$   
+\hat{Y} = \hat{f}(S) + \epsilon
+$$
+
+$\hat{f}$ is often a Kriging method, such as universal Kriging or regression Kriging, but there are other methods as well, for example, Inverse-Distance Weighted (IDW) and Thin Plate Spline (TPS) interpolation. 
+
+

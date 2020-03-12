@@ -1,0 +1,676 @@
+# SI: Analyzing survey data on technology adoption
+
+## Introduction
+
+Here we show an example of analysis of survey data. Specifically, we replicate results by Kassie et al. in their  article, "Understanding the Adoption of a Portfolio of Sustainable Intensification Practices in Eastern and Southern Africa", published in *Land Use Policy*. You can read it [here](https://libcatalog.cimmyt.org/Download/cis/99438.pdf).
+
+The paper looks at four countries in Eastern and Southern Africa (Tanzania, Ethiopia, Kenya and Malawi) to see how various plot and household-level variables affect the adoption of six sustainable intensification practices. In this case study, we will be looking at the data from Tanzania. The methodology used is a multivariate probit model with plot-level data. 
+
+First we show some data mongering and then regression techniques going from basic to more advanced. 
+
+The data used is available on [the datavarse](https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10754).
+
+
+## Data prep
+
+First, you need to read the data from the Tanzania 2010 surveys.
+
+The data are stored here. You may need to adjust it for your computer.  See [this page](https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10754) for details. 
+
+Now, we can read in each of the tables that are used for this study.
+
+If we already have an idea of where the variables are from the previous summary statistics, we can read in each individual table using the code below. 
+
+```{r Read in individual file}
+datapath <- "D:/gdrive/share/agdatascience/data/PSI/Tanzania/2010/data"
+Part1 <- read.table(file.path(datapath, 'Part 1 Farmers identification and village characteristics_1.tab'), sep='\t', header=TRUE)
+
+#TODO: explain that the two dots ".." refer to the parent directory (folder)
+```
+
+However, in this case we want to have all the files in the dataset available so that we can find specific variables as we go. The below code uses lapply to read in a list of multiple files at once. 
+
+```{r automatedread}
+#First set up the datapath that all files are stored in.
+datapath <-"../data/PSI/Tanzania/2010/data"
+#If you need to unzip the files, use the code below: 
+#zf <- file.path(datapath, 'Sustainable Intensification Tanzania 2010 Data.zip')
+#unzip(zf, exdir=datapath)
+#This function lists all the .tab files in the datapath listed above.
+ff <- list.files(datapath, pattern='\\.tab$', full=TRUE)
+#Here we use lapply to read in multiple files at once. 
+x <- lapply(ff, read.delim)
+```
+
+The remaining code below simplifies the names for each of the tables, such as "Part2A", since they are currently named according to their respective filepath--which is not convenient.
+
+```{r nametables}
+z <- strsplit(basename(ff), ' ')
+z <- t(sapply(z, function(x) x[1:4]))
+z[z[,3]!='Section', 4] <- ""
+z <- apply(z[,-3], 1, function(i) paste(i, collapse=""))
+names(x) <- z
+```
+
+Now, in order to view an individual table, you could use the command View(x$Part2A), x being the object that carries all the tables from this particular folder, Tanzania 2010 data.
+
+
+## Part 1: Summary Statistics
+
+Our first goal is to replicate table 1 of the paper, which is a report of summary statistics of all dependent and independent variables from each of the four countries. Here we are looking at Tanzania. 
+
+### Dependent Variables
+
+The dependent variables (for all four countries) are crop diversification, minimum tillage, improved maize varieties, chemical fertilizer, manure, and soil and water conservation. The six variables are plot level dummy (0-1) variables, indicating whether or not the plot practices this technique. For Tanzania, there are 1539 observations reported in the table in the publication, but the data itself has either 1591 or 1635 observations. 
+
+#### Improved Crop Varieties
+
+To begin with, the datset for improved crop varieties lists all varities from all crop types. We select those in the range from 1 to 15, as reported by the survey itself as being improved maize varieties. We name the variable "improvevar" and assign the observation a value of 1 if the variety is improved, and 0 otherwise.
+
+```{r improvedVarieties}
+#To start a dataframe for just the dependent variables.  
+dependent <- x$Part6A[, c('hhldid', 'cropvar1')]
+
+#We can use the summary function to see that the cropvar variable ranges from -13 to 92. 
+summary(dependent$cropvar1)
+
+#If the varieties are above 15 or below 1, then they are not maize and given a value of 0. Otherwise, the varieties are maize and are given a value of 1.
+dependent$improvevar <- ifelse(dependent$cropvar1 > 0 & dependent$cropvar1 < 16, 1, 0) 
+
+dependent$cropvar1 <- NULL
+```
+
+### Minimum Tillage
+
+There are two questions on the survey about minimimum tillage: whether minimum or no tillage was practiced before the 2008/2009 year, and whether it was practiced during the 2008/2009 year. While the paper itself does not specify, here we will consider either to qualify as a plot that practices minimum tillage. Just as previously, we create a 0-1 dummy variable that determines whether the crop is minimum or no till, and add it to the dependent variables dataframe. 
+
+```{r Minimumtillage}
+notill <- x$Part6A[, c("nomitildrng", "nomitilbfre")]
+
+table(notill$nomitildrng, useNA="always")
+# only 0 and 1 are valid values, all others (one case of -77) are set to NA
+notill$nomitildrng[! notill$nomitildrng %in% c(0,1) ] <- NA
+table(notill$nomitilbfre, useNA = "always")
+
+
+#select either minimum till before or minimum till during. 
+notill$notill <- pmin(1, notill$nomitilbfre + notill$nomitildrng)
+#add to our dependent dataframe
+dependent$notill <- notill$notill
+#The pmin function, or parallel min, ensures that the sum cannot be greater than 1. Our new column is equal to one if either (or both) of the two is equal to 1, and 0 otherwise. 
+#TODO: explain the above elsewhere. ALso show as.integer(a | b) for 0 and 1 coded values. 
+```
+
+
+### manureApplication
+
+Manure application also appeared twice on the questionnaire. Participants were asked whether the plot used manure bought on the market, or whether the manure was from their own farm. To determine if the plot used any fertilizer at all, we can add up the two columns to get the total manure applied from either source, and any  positive quantity of manure is given a value of "1", and quantities of 0 or below get a value of "0".
+
+```{r manureApplication}
+#sum manure bought and own manure used
+x$Part6B$manure <- x$Part6B$ownmanr + x$Part6B$bghtmanr
+#anything below or equal to 0 is NA, and quantities of manure greater than 0 are given value of 1. 
+x$Part6B$manure <- ifelse(x$Part6B$manure <= 0, 0, 1)
+#Add manure to the dependent variable dataframe
+dependent$manure <- x$Part6B$manure 
+```
+
+### waterConservation
+
+The next dependent variable is whether any water conservation methods were used on the plot. For this question, respondents were to rank the methods used from a list of 7 conservation practices, or select "none". For the purposes of this paper, only terraces, grass strips, and soil bunds were considered.  If any of these practices were chosen, the value we assign to the variable "watercons" is 1, otherwise it is 0.
+
+```{r waterConservation}
+watercons <- x$Part6A$soilwtrcnsrv1
+#Lets take a look at the raw data for this variable: 
+table(watercons, useNA="always")
+#Values below 0 are considered NA. Values above 0 are 1
+watercons[watercons<0]<-NA
+watercons <- ifelse(watercons==1 | watercons==3 | watercons==7, 1, 0)
+#Add to the dependent variables dataframe.
+dependent$watercons <- watercons
+```
+
+### Crop Diversity
+
+Crop diversification in defined in the article as either practicing legume-maize intercropping or crop rotation, which corresponds to two questions in the survey. The first asks whether the plot was intercropped, which was easily converted to a dummy variable. The second asked what crop was grown on the plot the previous year. If the crop was the same as the current crop, then the plot didn't practice crop rotation, while if the crop was different the previous year, then crop rotation was practiced. If the plot had used either intercropping or rotation, the diversity variable is given a value of 1, 0 otherwise. 
+
+```{r cropDiversity}
+#First take the column on intercrop for the original table
+intercrop <- x$Part6A$intercrp
+#Lets take a look at the variable: 
+table(intercrop, useNA = "always")
+#Any value that is not 0 or 1 is NA
+intercrop[!intercrop %in% c(0,1) ] <- NA
+#Now we can see that variables have been moved to the NA category
+table(intercrop, useNA = "always")
+
+rotation <- x$Part6B[,c("cropgrwn1", "prevcrpgrwn1")]
+
+#A third column is created to determine if a different crop was grown the previous year. If this is true, then the plot is rotating.
+ rotation$rotation <- rotation$cropgrwn1 != rotation$prevcrpgrwn1 
+
+#convert to numeric 
+rotation$rotation <- as.numeric(rotation$rotation)
+
+#Next we add the intercrop variable to the rotation dataframe
+rotation$intercrop <- intercrop
+#add the two variables together. If still 0, then no crop diversity. If 1 or 2, then crop diversity
+rotation$diversity <- pmin(1, rotation$rotation+rotation$intercrop)
+#add to dependent variable dataframe
+dependent$diversity <- rotation$diversity
+```
+
+### Inorganic Fertilizer
+
+The survey question asked whether farmers used one of two types of fertilizer.  These were added up, and any quantity greater than 0 was given a value of 1 (since it is a dummy variable on whether farmers use any fertilizer at all).
+
+```{r InorganicFertilizer}
+#adds up two different types of fertilizer
+fertilizer <- x$Part6B$amtplant + x$Part6B$amttopdr 
+table(fertilizer, useNA="always")
+#Values less than 0 are NA
+fertilizer[fertilizer<0] <- NA
+fertilizer[fertilizer>0]<-1
+#add to dependent variable dataframe
+dependent$fertilizer<-fertilizer
+
+```
+
+### Average All Columns
+
+Finally, we can take the average of each of the columns. Since they are 0-1 variables, the average tells us what percent of the plots adopt of the above SIPs. This can be compared to the first section of table 1 in the paper.
+
+```{r allVars}
+dependent$ID<-paste(x$Part6A$hhldid, x$Part6A$serialno,  x$Part6A$season,  x$Part6A$plotcode,  x$Part6A$subplot, sep="")
+ #change the order to match the paper
+dependentVar <- dependent[c("hhldid", "ID", "diversity", "notill", "improvevar", "fertilizer", "manure", "watercons")]
+#Mean of all columns except the first, which is household ID. NA variables are not included. 
+colMeans(dependentVar[,-c(1:2)], na.rm=T) 
+```
+
+## Independent Variables
+
+The independent variables consist of both plot level and household level indicators, including plot characterisitcs, demographic information, assets, access to information, and social capital. The first set of variables that will be aggregated are the plot characteristics. 
+
+### Plot Characteristics
+
+Many of the plot characteristic variables were asked directly in the survey, so most were easily converted to dummy variables. The variables were then combined onto a single dataframe, and the averge of each was calculated. However, the variable for pest and disease was trickier, because the number of observations did not match those of the other variables. Thus, unique identification numbers for each plot were created based on household ID and plot level, and the two were combined by this ID number. The plot characteristics were then added to the same dataframe as the dependent variables, to ensure the same number of observations. In the end, we have 1,694 observations.
+
+First, we create the unique Plot ID. There are 701 households, and each household has one or more plots. The plots are given household specific IDs, but we want to create a unique ID for each plot in the study. We do this by combining the household ID with the plot ID of each household. 
+
+```{r UniqueID}
+#subset of the variables from the dataframe that are part of the plot characteristic variables analyzed in the paper
+allplot <- x$Part6A[,c("hhldid", "serialno", "season", "plotcode", "subplot", "subpltsize", "plotdist", "subpltown")] 
+#create the unique plot ID by combining household ID and plot serial number
+allplot$ID <- paste(allplot$hhldid, allplot$serialno, allplot$season, allplot$plotcode, allplot$subplot, sep = "") 
+#convert from character variable to numeric
+allplot$ID <- as.numeric(allplot$ID) 
+#remove the two columns that are no longer needed, hhldid and serialno
+allplot <- allplot[,-(1:2)] 
+
+
+n_occur <- data.frame(table(allplot$ID))
+n_occur[n_occur$Freq > 1,]
+```
+
+### Plot Owership, Size and Distance
+
+The survey question on plot ownership offers five ownership options, with 1 being household ownership. Thus, values from 2-5 are not owned, and values outside this range are NA.
+
+```{r PlotOwnershipSizeDistance}
+
+table(allplot$subpltown)
+#Values not in the range asked by the survey are NA
+allplot$subpltown[! allplot$subpltown %in% c(1:5) ] <- NA
+#Remaining values between 2 and 5 are 0
+allplot$subpltown[allplot$subpltown !=1] <- 0 
+
+#plotsize: here we convert size from acres to hectares to match
+allplot$subpltsize<-allplot$subpltsize*.404686 
+
+#plotdist
+summary(allplot$plotdist)
+#plot distances that are NA are coded as -99 or -77. To get average we need to convert these values to NA.
+allplot$plotdist[allplot$plotdist<0] <- NA 
+```
+
+### Soil Fertility
+Soil Fertility is currently a factor between 1 and 3, 1 indicating high fertility and 3 indicating low fertility. The authors chose to create dummy variables for medium and low fertility, with high fertility as the default. Here, we create these two variables. 
+
+```{r Fertility}
+#First, let's look at the data
+table(x$Part6A$soilfert)
+#medium fertility is coded as 2
+allplot$medfertile <- ifelse(x$Part6A$soilfert != 2, 0, 1)
+#low fertility is coded as 3
+allplot$lowfertile <- ifelse(x$Part6A$soilfert != 3, 0, 1)
+```
+
+### Soil Slope
+
+Soil slope is also currently a factor from 1 to 3. Again, the authors choose to create a dummy variable for medium and steep slope, which we do below.
+
+```{r SoilSlope}
+slope <- x$Part6A$soilslpe
+#First, let's look at the data
+table(slope)
+#We have five values of -77, so we will make these NA
+slope[slope < 0] <- NA
+#Values of 3 are steep slope
+allplot$steepslope <- ifelse(slope != 3, 0, 1)
+#Values of 2 are medium slope
+allplot$medslope <- ifelse(slope != 2, 0, 1)
+```
+
+### Soil Depth
+
+Same as above, soil depth is currently a factor variable between 1 and 3, which we want to convert to two dummy variables for deep depth and medium depth. 
+
+```{r SoilDepth}
+depth <- x$Part6A$soildpth
+#Let's look at the data
+table(depth)
+#convert negative values to NA
+depth[depth<0] <- NA
+#Values of 3 are deep depth
+allplot$deepdepth <- ifelse(depth != 3, 0, 1)
+#Values of 2 are medium depth
+allplot$moddepth <- ifelse(depth != 2, 0, 1)
+```
+
+### Pest and Disease
+
+Because the information for pest and disease was asked on a different survey page, it has a slightly different number of observations So, we can create a unique ID and use the unique ID created above to merge with the rest of the plot characteristic variables.
+
+```{r PestDisease}
+risk <- x$Part6C[,c("hhldid", "serialno", "season", "plotcode", "subplot",  "stress")] 
+risk[risk<0] <- NA
+#creating the unique plot ID
+risk$ID <- paste(risk$hhldid, risk$serialno, risk$season, risk$plotcode, risk$subplot, sep = "") 
+#converting the ID to numeric
+risk$ID <- as.numeric(risk$ID) 
+#values of 1 and 2 are considered pest and disease risks, so all other values are converted to 0
+table(risk$stress)
+
+risk$stress[risk$stress <0] <-NA
+risk$stress <- ifelse(risk$stress<1 |risk$stress > 2, 0, 1)
+#gets rid of the now unnecessary columns of hhldid and serialno.
+risk <- risk[,6:7] 
+
+#Despite including all relevant inforomation, our id is still not unqiue. This likely explains why we have 44 additional observations in this table--they are not unique. 
+#TODO: I'm not sure what to do about this...
+n_occur <- data.frame(table(risk$ID))
+n_occur[n_occur$Freq > 1,]
+```
+
+### Combining all Plot Characteristics
+
+Finally, we can combine all plot characteristics into a single data frame, and compute the mean of each. 
+
+```{r CombinecharacteristicsMean}
+#First create dataframe for all plot-level independent variables
+plotchar <- merge(allplot, risk, by = "ID", all.x=T) 
+#All plot-level variables combined in single dataframe
+PlotVar <- merge(dependentVar, plotchar, by="ID", all.x=T) 
+#finds the means of all columns of plot variables, not taking into consideration the first row or NA values. 
+colMeans(PlotVar[,-c(1:2)], na.rm=T) 
+```
+
+##Household Demographic Characteristics:
+The next set of independent variables is household demographic characteristics. This includes household size, sex, age and education of the household head. Here we will take a subset of the household dataset that only includes information on the household head.
+
+###Size, Age, Education, and Sex
+```{r Household Demographic Characterisitcs}
+#We want to only get a subset of the data which is the information on household heads
+HH <- x$Part2[x$Part2$relnhhead == 1,]
+#to see how many people per family, count the number of people with the same household ID, then make this into a data frame
+count <- as.data.frame(table(x$Part2$hhldid))
+#and add this as a new column to household heads, called size for size of household
+HH$size <- count$Freq 
+#there is one age recorded as -77, and we want to convert this to NA
+HH$age[HH$age == -77] <- NA 
+#Then we take a subset from the HH dataframe, which only includes the variables analyzed in this paper
+HH <- HH[,c("hhldid", "sex", "age", "education", "size")]
+
+```
+
+## Asset endowments, access to own capital and other resource constraints: 
+
+Next are asset endowments, also a household variable. We will continue to add the information about salaried employment, number of livestock owned, household assets, and plot size to the above household dataframe. Becuase many of these variables are household variables, and the data includes all members of the household, these variable was summed by household to see whether any single member satisfies the condition given. For example, if any member of the household has salaried employment, the household as a whole is given a value of 1 for this dummy variable. 
+
+### Salaried Employment
+
+This variable refers to whether a member of the household has salaried employment, which is currently coded as 2 in the variable for main occupation. 
+```{r Salaried Employment}
+intercrop[!intercrop %in% c(0,1) ] <- NA
+occupation<-x$Part2$mainoccup
+#The survey codes between 0 and 10 for occupation, so anything outside that range is NA
+occupation[!occupation %in% c(0:10)] <- NA
+# alternatively: occupation[occupation < 0 | occupation > 10] <- NA
+table(occupation, useNA= "always")
+#If not equal to 2, the dummy variable is value 0. If equal to 2, dummy variable value is 1
+occupation <- ifelse(occupation != 2, 0, 1)
+#If no member of the household has salaried employment, the variable remains 0. Any value above 0 means that at least one member of the household has salaried employment.
+occupation <- as.data.frame(tapply(occupation, list(x$Part2$hhldid), FUN=sum))
+ #As in intro, if more than 1 member of the household has salaried employment, it is still considered value of 1 for dummy variable
+colnames(occupation) <- "occupation"
+occupation[occupation > 1] <- 1
+#Add this variable to household dataframe
+HH$salary <- occupation$occupation
+```
+
+### Livestock:
+
+```{r Livestock}
+livestock <- x$Part7A[,c("hhldid", "totno")]
+#If less than 0, considered NA and thus 0. Some values above 1000 appear to be either mistakes or outliers, and are converted to 0
+livestock[livestock < 0 |livestock > 1000] <- NA 
+#Because each household has multiple observations due to the different types of animals, this function allows us to sum total number of any type of livestock per household
+livestock <- tapply(livestock$totno, list(livestock$hhldid), FUN=sum)
+livestock <- as.data.frame(livestock)
+#add to household dataframe
+HH$livestock <- livestock$livestock
+```
+
+### Household Assets
+
+```{r Household Assets}
+value<-x$Part4A$totvalue
+#if less than 0, mark as NA
+value[value < 0] <- NA 
+#to organize total assets by household ID
+asset <- tapply(value, list(x$Part4A$hhldid), FUN=sum) 
+asset <- as.data.frame(asset)
+#to convert to USD from tanzania shilling
+asset <- asset*.0007 
+#add to household dataframe
+HH$asset <- asset$asset 
+
+```
+
+### Total Farm Size
+```{r Farm Size}
+plotsize <- x$Part6A$subpltsize
+#If below 0, considered NA 
+plotsize[plotsize < 0] <- NA 
+#Because some households have multiple plots, we want to know the average total farm size per household. This function adds up the plot sizes of each households. 
+plotsize2 <- as.data.frame(tapply(plotsize, list(x$Part6A$hhldid), FUN=sum))
+colnames(plotsize2) <- "size"
+#to convert to hectares
+plotsize2 <- plotsize2*0.404686 
+#add to household dataframe
+HH$plotsize <- plotsize2
+```
+
+## Access to Information, institutional and market services: 
+
+Access to information includes distance to market, distance to extension offices, confidence in extension officers, and access to credit. These are household level variables, so are added to the household dataframe.
+
+### Walking distance to Market and Extension (in minutes)
+
+```{r AccesstoInformation}
+#walking miniutes to market. If less than 0, NA
+walkingmin<-x$Part1$wlkminmn
+walkingmin[walkingmin < 0] <- NA 
+HH$marketmin <- walkingmin
+
+#Distance to extension (min). If less than 0, NA
+exten <- x$Part1$wlkminag
+exten[exten < 0] <- NA 
+HH$extenmin <- exten
+```
+
+### Confidence in Extension
+
+Confidence in extension is ranked from 1 to 6. Any level less than 4 means that they are not confident in the extension worker, so dummy variable is given a value of 0. Greater than 4 means they are at least somewhat confident, so they are given value of1.  
+
+```{r Confidence}
+govtcon<-x$Part3B$gvtskillconf
+#Less than 0 is converted to NA
+govtcon[govtcon <= 0] <- NA 
+#Convert to 0-1 dummy based on confidence level
+govtcon <- ifelse(govtcon < 4, 0, 1)
+ #Add to HH dataframe
+HH$confidex <- govtcon
+```
+
+### Credit
+
+The credit access variable is defined in the paper as representing households that need credit, but are unable to get it. Thus, the two columns considered from the survey were whether the household needed credit, and whether they got credit. The houshold was given a value of 0 if they both needed credit (needcrdt=1)  and they did not get credit (gotcrdt=0). Currently the data is organized depending on what the household needs credit for. All of these are summed by household, because if the houeshold needs credit but is unable to get it for any of the reasons, they are in need of credit. Thus, and number above 0 means the household needs credit.
+
+```{r credit}
+credit <- x$Part9A[,c("hhldid", "needcrdt", "gotcrdt")] 
+#This makes the credit variable equal to 1 if they both need credit and did not get it
+credit$credit <- ifelse(credit$needcrdt=="1" & credit$gotcrdt=="0", "1", "0")  
+#IF na, converted to 0
+credit$credit[is.na(credit$credit)] <- 0 
+credit$credit <- as.numeric(credit$credit)
+credit2 <- tapply(credit$credit, list(credit$hhldid), FUN=sum)  
+credit2 <- as.data.frame(credit2)
+credit2[credit2 > 1] <- 1
+HH$credit <- credit2$credit2
+```
+
+## Social Capital and Social Protection
+
+Finally, social capital and protection variables are whether the household has a relative in leadership, if a member is part of a social group, number of close relatives, number of trusted grain traders, and whether the household believes in government support.
+
+###Friend/Family in Leadership
+
+This variable is currently a 0 1 variable, 1 if friends/relatives are in a leadership position, 0 if not. It needs to be cleaned up a bit
+
+```{r SocialCapital}
+cap<-x$Part3B$frndrltldrshp
+table(cap)
+#If less than 0 then given NA. Greater than 1 are mistakes, so also NA.
+cap[! cap %in% c(0,1)] <- NA
+#added to HH dataframe
+HH$leader <- cap
+```
+
+### Group Membership. 
+
+```{r MemberGroup}
+group<-x$Part3A$typgrp 
+table(group)
+#Because we have so many NAs, here we consider below or equal to 0 to be 0. If greater then 0, coded as 1 since it doesn't matter what type.
+group[group<=0]<-0
+group[group>1]<-1
+
+#If any member of the household is in the group, the dummy variable is given a value of 1.
+groupHH <- tapply(group, list(x$Part3A$hhldid), FUN=sum)  
+#if more than one member is in a group, still 1
+groupHH[groupHH > 1] <- 1 
+ #add to HH dataframe
+HH$groups <- as.numeric(as.character(groupHH))
+```
+
+### Number of trusted Relatives and Grain Traders
+
+The "relative" variable is the number of relatives, so it is not converted to a dummy variable. We combine relatives both inside and outside of village. The same is done for the variable "trader".
+
+```{r RelativesGrainTraders}
+relative <- x$Part3B$rltwithvlg + x$Part3B$rltoutvlg
+relative[relative < 0] <- NA 
+HH$relative <- relative
+
+trader <- x$Part3B$tradersinvlg + x$Part3B$tradersoutvlg
+trader[trader < 0] <- NA 
+HH$trader <- trader
+```
+
+### Trust in Government
+
+This variable is ranked from 0 to 6 depending  on level of trust. If the household at least slightly trusts the government, it is given a value of 1, and if not it is given a value of 0.
+
+```{r TrustGovernment}
+trustgov <- x$Part3B$gvtskillconf
+trustgov[trustgov < 0] <-NA
+table(trustgov)
+trustgov <- ifelse(trustgov <= 3,0, 1)
+HH$trustgov <- trustgov
+```
+
+### Sum all Household Variables
+
+```{r SumHouseholdVariables}
+#mean of all household variables
+summ <- HH[,-1] %>%
+  colMeans(na.rm=T) %>%
+  round(2) %>%
+  as.data.frame()
+#same as:summ <- as.data.frame(round(colMeans(HH[,-1], na.rm=T), 2))
+
+colnames(summ) <- "Mean"
+kable(summ)
+```
+
+Finally, we combine all the variables used in the study into a single data.frame. 
+
+```{r}
+#This function will only combine hhldid observations that exist in both PlotVar and HH
+AllVar <- merge(PlotVar, HH, by="hhldid")
+AllVar$ID <- as.numeric(AllVar$ID)
+AllVar <- na.omit(AllVar)
+```
+
+
+## Part 2: Summary Statistics and Data Analysis
+
+Now that we have cleaned up the data, we have several variables with which we can run various analytical techniques, such as ANOVA and regresssions. We will begin with summary statistics and visualization of the data, then move on to data analysis through models. While this study in particular uses a multivariate probit model, we will first demonstrate a number of simpler regression methods that could be used on this data. 
+
+### Correlation
+
+We can begin by computing correlation coefficients and plotting the data. In order to find correlation between the variables, we can use the function 'cor', accompanied by an argument that tells us how to treat NAs. 
+```{r correlation}
+#to compute correlation coefficient between all variables 
+cor <- cor(AllVar[,-c(1:2)], use="complete.obs")
+library(knitr)
+#only plot a few of the correlations, since there are so many variables
+kable(cor[1:8,1:8])
+#to compute the correlation coefficient between just two specific variables
+cor(AllVar$manure, AllVar$livestock, use="complete.obs")
+
+```
+
+### Plotting the data
+
+Plotting the data can give significant insight into trends and patterns that will become apparent in the models. For example, this box plot below shows us that housholds that use manure on average have more livestock than households that don't. We can assess relationships between other variables in the dataset in a similar way. Here, we use the ggplot2 package
+
+```{r plots}
+library(ggplot2)
+#We also use the tidyverse package for pipes
+library(tidyverse)
+library(dplyr)
+
+graph <- data.frame(AllVar$livestock, as.factor(AllVar$manure))
+colnames(graph) <- c("livestock", "manure")
+#to compare the two groups, we make two levels from this factor variable
+levels(graph$manure) <-  c("no.manure", "manure")
+
+
+graph %>% 
+  filter(is.na(manure)==FALSE)%>%
+  ggplot(aes(y=livestock, x=manure)) +
+  geom_boxplot()
+
+
+```
+
+### SIP Adoption
+First, we look at the number of SIPs adopted per household, which we can visualize with a barplot as is done in figure 2 of the paper. 
+
+```{r number of SIPs adopted}
+adopt <-AllVar[,1:8]
+#first lets combine plot level information on adoption into household level
+adopt <- aggregate(adopt[,3:8], by=list(adopt$hhldid), FUN=sum)
+adopt[,2:7][adopt[,2:7]>1] <- 1
+#Then we add a column that tells us how many SIPs the household adopted
+adopt <- mutate(adopt, sum = diversity + notill + improvevar + fertilizer + manure + watercons)
+
+#plot figure 2, which tells us how many of the six SIPs were adopted by percentage of households
+ggplot(adopt, aes(adopt$sum, y=..prop..))+
+  geom_bar(color="blue", fill="darkblue") +
+  ggtitle("SIPs adoption intensity") +
+  xlab("Number of SIPs") +
+  ylab("Adoption rate, %")
+```
+
+Next, we can see how the yield for maize varies with the number of SIPs adopted. Unfortunately, we have limited observations for households who adopted more than three SIPs, so the pattern is unlikely to be very robust.
+
+```{r yield by SIPs}
+#to find average plot size for maize per household
+size <-x$Part6A[x$Part6A$cropgrwn1 == "1",c(1,22)]
+size[size<0] <- NA
+#to get total area per household
+size <- aggregate(size$areashare1, list(size$hhldid), sum)
+colnames(size) <- c("hhldid", "plotsize")
+
+yield <- x$Part6D[x$Part6D$cropgrwn==1,]
+#we only care about yield, so we extract production from column 8
+yield <- yield[,c(1,8)]
+#add the information on plot size to the production 
+yield <- left_join(yield, size, by="hhldid")
+yield$yield <- yield$prodn/yield$plotsize
+
+#next, add the column for yield to the adopt dataframe (here we use dplyr package but you could also use merge)
+adopt <- left_join(adopt, yield, by=c("Group.1" = "hhldid"))
+
+#then, we can plot the number of SIPs adopted against yield
+ggplot(adopt, aes(adopt$sum, adopt$yield)) +
+  geom_point()
+```
+
+### Simple Linear Regression
+
+First, we want to see if certain variables play a role in adoption of sustainable intensification practices through simple linear regression. Currently, all of the dependent variables are 0-1 dummy variables. Thus, the OLS regression will give us the linear probability model, which tells us that as our independent variable increases by 1, the probability that the dependent variable will be 1 increases by the value of the estimate. 
+
+We start with a simple example using two of the variables that are likely to be related: manure application and livestock ownership. For the multiple linear regression, we add "distance to plot"" as an additional independent variable.
+
+```{r}
+simple <- lm(manure ~ livestock, data= AllVar)
+summary(simple)
+  
+multlinear <- lm(manure ~ livestock + plotdist, data = AllVar)
+summary(multlinear)
+```
+
+### Probit and Logit
+Another approach to dealing with binomial depenent variables is to use the probit or logit models, which can be used in R with the function glm, for generalized linear models. Unlike the previous approach, these models never predict probabilities below 0 or above 1, and they are not linear.
+
+
+```{r}
+probit <- glm(manure ~ livestock + plotdist, family = binomial(link = "probit"), data = AllVar)
+summary(probit)
+logit <- glm(manure ~ livestock + plotdist, family = binomial(link = "logit"), data = AllVar)
+summary(logit)
+```
+
+### Linear Discriminate Analysis
+Linear Discriminate Analysis (LDA) LDA assesses the distribution of our independent variables in each group of our dependent variable--in this case, use of manure, and not using manure. Then, this approach generates estimates for the probability of y given x. Here, we use the LDA function from the package "MASS". The coefficient estimates are similar to those in the previous example, but not the same. 
+
+```{r}
+library(MASS)
+lda <- lda(manure ~ livestock + plotdist, data = AllVar)
+lda
+```
+
+### Multivariate Probit
+
+Finally, the authors of this article decide to use a multivariate probit (MVP) model to understand the influence of their chosen independent variables on whether or not households adopt the six sustainable intensification practices (SIPs). The MVP model is different from other probit models in that it incorporates the correlation of error terms and estimates the six probit models (one for each SIP) together. The authors justify this approach by stating that the technologies are interrelated, and thus univariate models are inefficient since "the same unobserved characteristics of farmers could influence the adoption of different SIPs"--especially through complementary and substitute SIPs (Kassie et al).
+
+We need to install a package made for this approach: "mvprobit". For purposes of simplicity in demonstrating the techique, we will reduce the number of independent and dependent variables from those used in the paper. Here, we show three simultaneous probit models, with dependent SIPs diversity, notill, and improvar, and just seven independent variables. 
+
+mvProbit is no longer on CRAN
+
+```{r, eval = FALSE}
+#convert to boolean and matrix
+dept <- as.matrix(AllVar[,c(3,4,7)]>0)
+
+#library(mvProbit)
+mvprobit <- mvProbit(cbind(diversity, notill, manure) ~ livestock + plotdist + subpltown + sex + age + education  + size, data = cbind(dept, AllVar))
+summary(mvprobit)
+```
+
+
+glm.fit: algorithm did not convergeglm.fit: fitted probabilities numerically 0 or 1 occurredglm.fit: fitted probabilities numerically 0 or 1 occurredthe correlation matrix is not positive definite

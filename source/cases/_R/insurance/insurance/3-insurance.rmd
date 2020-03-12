@@ -1,0 +1,249 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Insurance
+
+## Introduction
+
+By measuring the certainty equivalent income a household with or without insurance, we can evaluate insurance products. 
+
+## The basics of insurance 
+
+Let's consider household X, with this ten year stream of income.
+
+```{r ins3_10}
+income <- seq(100, 1000, 100)
+income
+round(mean(income))
+```
+
+Household X wants to insure itself against years in which income is below $450. The insurance would pay the difference between the actual income and $450. Here is a payout function that computes that.
+
+```{r ins3_20}
+payout <- function(income, threshold) {
+   pmax(0, threshold - income) 
+}
+```
+
+We can use the function and see its effect. 
+
+```{r ins3_30}
+pay <- payout(income, 450)
+pay
+```
+
+We can now compute the income with insurance 
+
+```{r ins3_40}
+income_with_insurance <- income + pay
+```
+
+And make a plot to compare the income with and without insurance.
+
+```{r ins3_50}
+plot(income, col="blue", cex=1.5, ylab="income", xlab="year", las=1)
+points(income_with_insurance, pch=3, col="red", cex=1.5)
+
+legend("topleft", c("income", "income with insurance"), pch=c(1, 3), col=c("blue", "red"))
+```
+
+Unfortunately, insurance does not come for free. The actuarially fair price (AFP) for insurance is the mean annual payout (that is, the sum of the payouts divided by the number of years). But the insurance company has to cover its costs, so let's say it charges a markup of $20 per year for that. Now we can compute the annual premium.
+
+```{r ins3_60}
+AFP <- mean(pay)
+AFP
+markup <- 20
+premium <- AFP + markup
+premium
+```
+
+And we compute the income with insurance again, now accounting for the cost of insurance (the premium)
+
+```{r ins3_70}
+income_with_insurance <- income + pay - premium
+```
+
+And make our plot again.
+
+```{r ins3_80}
+plot(income, col="blue", cex=1.5, ylab="income", xlab="year", las=1, ylim=c(0,1100))
+points(income_with_insurance, pch=3, col="red", cex=1.5)
+
+legend("topleft", c("income", "income with insurance"), pch=c(1, 3), col=c("blue", "red"))
+```
+
+So we see that income for houshold X now has a "floor" of `$450 - premium`. We also see that in the years that income is above $400. 
+
+Is this a good insurance product? Let's compare the certainty equivalent incomes. 
+
+```{r ins3_90, message=FALSE}
+library(reagrodata)
+ce_base <- ce_income(income, 1.5)
+round(ce_base)
+
+ce_insurance <- ce_income(income_with_insurance, 1.5)
+round(ce_insurance)
+
+round(ce_insurance - ce_base)
+```
+
+We see that (with rho=1.5) the certainty equivalent income with insurance is $85 higher, so it is worth buying the insurance if you have that level of risk aversion. 
+
+We do not know household X's level of rish aversion (rho). Reasonable value for rho are between 1.5 and 2.5, so if the insurance is worthwhile at rho=1.5, it is even more valuable at rho=2.5. Let's explore that a bit. 
+
+
+```{r ins3_100}
+rhos <- seq(0, 3, 0.1)
+ce_base <- sapply(rhos, function(r) ce_income(income, r))
+ce_insurance <- sapply(rhos, function(r) ce_income(income_with_insurance, r))
+dif <- ce_insurance - ce_base
+
+plot(rhos, dif, type="l", las=1, ylab="insurance benefit", lwd=2, col="blue")
+abline(h=0, col="red", lwd=2)
+```
+
+We see that insurance has a postive outcome on certainty equivalent income as long as rho is larger than (approximately) 0.4. Although the value is of course so small at that point that it is not worth the effort.  
+
+This is how you can find this value of rho.
+
+```{r ins3_110}
+i <- which.min(abs(dif))
+rho_min <- rhos[i]
+```
+
+This measure, that we will call $\rho_{min}$ (or rho-min), is a useful indicator of the value of an insurance contract.
+
+## Index insurance 
+
+Now let's assume that we cannot easily observe the income of household A. For example, the income of this household, and for the others in our insurance program, comes from farming. It would be too expensive to go the fields each year to determine the crop yield and compute income. Instead, we might use an `index` that a proxy for income. In the case of crop production we might use rainfall, and use a model that predicts lower crop yields when there is little rainfall, and higher crop yields in wet years. 
+
+This index will never be perfect. Let's consider a good index (with little prediction error) and a terrible index (a random guess).
+
+### good index
+
+We use draws from the normal distribution to simulate estimated income by adding some noise to the observed income. We use a mean of zero and a standard deviation of $100.
+
+```{r ins3_120}
+set.seed(123)
+sample <- rnorm(length(income), 0, 100)
+sample
+estimated_income <- pmax(1, income+sample)
+estimated_income
+
+plot(income, estimated_income, xlim=c(100,1100), ylim=c(100,1100), las=1, col="blue", pch=20, cex=1.5)
+abline(0, 1, col="red", lwd=2)
+```
+
+The income with insurance is now 
+
+```{r ins3_130}
+pay <- payout(estimated_income, 450)
+income_with_insurance <- income + pay - premium
+```
+
+And now we can compute the CEs again
+
+```{r ins3_140}
+rhos <- seq(0, 3, 0.1)
+ce_base <- sapply(rhos, function(r) ce_income(income, r))
+ce_insurance <- sapply(rhos, function(r) ce_income(income_with_insurance, r))
+
+dif <- ce_insurance - ce_base
+
+plot(rhos, dif, type="l", las=1, ylab="insurance benefit", lwd=2, col="blue")
+abline(h=0, col="red", lwd=2)
+
+```
+
+For this particular draw, it still looks like good insurance. In fact rho-min is smaller 
+
+```{r ins3_150}
+i <- which.min(abs(dif))
+rhos[i]
+```
+
+As this analsys is based on random sampling, we need to repeat it many times to get a good understanding. So let's repeat the above 1000 times. 
+
+A good way to do that is to first put the steps to compute our value of interest into a function, here called `sim_income`.
+
+```{r ins3_160}
+sim_income <- function(income, sd, premium) {
+  rhos <- seq(0, 3, 0.1)
+  sample <- rnorm(length(income), 0, sd)
+  estimated_income <- pmax(1, income+sample)
+  pay <- payout(estimated_income, 450)
+  income_with_insurance <- income + pay - premium
+  ce_base <- sapply(rhos, function(r) ce_income(income, r))
+  ce_insurance <- sapply(rhos, function(r) ce_income(income_with_insurance, r))
+  dif <- ce_insurance - ce_base
+  return(dif)
+}
+```
+
+Now we can use the function
+
+```{r ins3_170}
+set.seed(123)
+x <- replicate(1000, sim_income(income, 100, 100))
+dim(x)
+q <- apply(x, 1, function(i)quantile(i, probs = c(0.1, 0.5, 0.9)))
+q[, 1:3]
+i <- apply(abs(q), 1, which.min)
+rho_min <- rhos[i]
+rho_min
+```
+
+
+```{r ins3_180}
+plot(rhos, q[1,], ylim=c(-50, 250), type="l", col="gray", las=1, ylab="benefit from insurance ($)", lwd=2)
+lines(rhos, q[2,], lwd=2, col="blue")
+lines(rhos, q[3,], col="gray", lwd=2)
+points(rho_min, q[cbind(1:3, i)], col="red", pch=20)
+abline(h=1, lty=2, col="pink")
+```
+
+still good (more explantion to come)
+
+
+### bad index
+
+
+```{r ins3_190}
+sim_random_income_with_noise <- function(income, sd, premium) {
+  rhos <- seq(0, 3, 0.1)
+  sample <- rnorm(length(income), 0, sd)
+  estimated_income <- sample(pmax(1, income+sample))
+  pay <- payout(estimated_income, 450)
+  income_with_insurance <- income + pay - premium
+  ce_base <- sapply(rhos, function(r) ce_income(income, r))
+  ce_insurance <- sapply(rhos, function(r) ce_income(income_with_insurance, r))
+  dif <- ce_insurance - ce_base
+  return(dif)
+}
+```
+
+Now we can use the function
+
+```{r ins3_200}
+set.seed(123)
+x <- replicate(1000, sim_random_income_with_noise(income, 100, 100))
+dim(x)
+q <- apply(x, 1, function(i)quantile(i, probs = c(0.1, 0.5, 0.9)))
+q[, 1:3]
+i <- apply(abs(q), 1, which.min)
+rho_min <- rhos[i]
+rho_min
+```
+
+```{r ins3_210}
+plot(rhos, q[1,], ylim=c(-350, 50), type="l", col="gray", las=1, ylab="benefit from insurance ($)", lwd=2)
+lines(rhos, q[2,], lwd=2, col="blue")
+lines(rhos, q[3,], col="gray", lwd=2)
+points(rho_min, q[cbind(1:3, i)], col="red", pch=20)
+abline(h=1, lty=2, col="pink")
+```
+
+This is terrible!
+

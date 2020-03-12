@@ -1,0 +1,273 @@
+# Water use efficiency in potato
+
+## Introduction
+
+This case study replicates results from the study "Effect of partial root-zone drying irrigation timing on potato tuber yield and water use efficiency" by Yactayo et al (2013), which was published in Agricultral Water Management. You can access the [article on-line](https://www.sciencedirect.com/science/article/pii/S037837741300070X) (it is behind a paywall). The data can be [downloaded from the CIP dataverse](https://data.cipotato.org/dataset.xhtml?persistentId=doi:10.21223/P3/MIVGMU). 
+
+Partial root-zone drying (PRD) is an irrigation technique has been can improve the water use efficiency (WUE) without reducting crop yields. This study investigated the effect of the level and timing of water restriction. They testd two PRD treatments with 25% (PRD25) and 50% (PRD50) of total water used in full irrigation (FI, as control), and a deficit irrigation treatment with 50% of water restriction (DI50). Two water restriction initiation timings were tested at: 6 weeks (WRIT6w) and 8 weeks (WRIT8w) after planting. 
+
+## Data
+
+```{r download}
+library(agro)
+ff <- get_data_from_uri("https://doi.org/10.21223/P3/MIVGMU", ".")
+ff
+```
+
+The data is in an Excel spreadsheet with several sheets. The other Excel file has the data dictionary. Here we use the 'openxlsx' package to read the data. 
+
+```{r importdata1}
+library(openxlsx)
+getSheetNames(ff[1])
+```
+
+Read the sheets for tuber yield (TY), water use efficiency (WUE), and crop water demand (CWD)
+
+```{r importdata2}
+# tuber yield
+ty <- read.xlsx(ff[1], sheet="TY")
+
+# water use efficiency
+wue <- read.xlsx(ff[1], sheet = "WUE", startRow = 6)
+
+# crop water demand
+cwd <- read.xlsx(ff[1], sheet = "CWD", startRow = 2)
+
+```
+
+We also read relative water content (RWC). That is an ugly sheet as it has two tables in one sheet, one above the other. After some trial and error, we can read the two tables like this.  
+
+```{r}
+rwc6 <- read.xlsx(ff[1], sheet = "RWC", rows=2:20)
+rwc8 <- read.xlsx(ff[1], sheet = "RWC", startRow=22)
+```
+
+## Analyze data
+
+### Table 1
+
+F-value of ANOVA of tuber yield and irrigation water use efficiency (WUE). Water restriction initiation timing at 6 (WRIT6w) and 8 (WRIT8w) weeks after planting. IT = irrigation treatment.
+
+F-value of ANOVA of tuber yield for different water restriction initiation time at 6 (WRIT6w) and 8 weeks (WRIT8w) after planting. 
+
+Separate tuber yield data for two groups WRIT6w and WRIT8w as in the study
+
+```{r table1}
+ty_WRIT6W <- ty[ty$T == "WRIT6w", ]
+colnames(ty_WRIT6W)[4] <- "TY"
+
+ty_WRIT8W <- ty[ty$T == "WRIT8w", ]
+colnames(ty_WRIT8W)[4] <- "TY"
+```
+
+Some visual inspection of the distribution of the values is always a good start to see if everything looks reasonable.
+
+```{r tableout1}
+par(mfrow=c(2,2))
+boxplot(TY ~ TRT, ty_WRIT6W, outline = F, ylim=c(0,30))
+boxplot(TY ~ B, ty_WRIT6W, outline = F, ylim=c(0,30))
+boxplot(TY ~ TRT, ty_WRIT8W, outline = F, ylim=c(0,30))
+boxplot(TY ~ B, ty_WRIT8W, outline = F, ylim=c(0,30))
+```
+
+
+Analysis of Variance Table for two groups WRIT6w and WRIT8w. Multiple linear regression model with tuber yield (ty) as the response variable and irrigation treatment (TRT) and block (B) as the explanatory variables
+
+```{r tableout5}
+it6yield_analysis <- lm (ty_WRIT6W$TY ~ ty_WRIT6W$TRT + ty_WRIT6W$B)
+anova(it6yield_analysis) 
+
+it8yield_analysis <- lm (ty_WRIT8W$TY ~ ty_WRIT8W$TRT + ty_WRIT8W$B)
+anova(it8yield_analysis) 
+```
+
+2) F-value of ANOVA of WUE for different water restriction initiation time at 6 (WRIT6w) and 8 weeks (WRIT8w) after planting  
+
+Separate water use efficiency data for two groups WRIT6w and WRIT8w as in the study
+
+```{r tableout6}
+colnames(wue)[4]
+colnames(wue)[4] <- "WUE"
+
+wue_WRIT6W <- wue[wue$T == "WRIT6w", ]
+wue_WRIT8W <- wue[wue$T == "WRIT8w", ]
+```
+
+Analysis of Variance
+
+Multiple linear regression model with water use efficiency (WUE) as the response variable and irrigation treatment (TRT) and block (B) as the explanatory variables
+
+```{r tableout7}
+it6wue_analysis <- lm (wue_WRIT6W$WUE ~ wue_WRIT6W$TRT + wue_WRIT6W$B)
+anova(it6wue_analysis) 
+
+it8wue_analysis <- lm (wue_WRIT8W$WUE ~ wue_WRIT8W$TRT + wue_WRIT8W$B)
+anova(it8wue_analysis) 
+### Results are similar with table1 in paper 
+```
+
+### Table 2
+
+Average of total crop water demand (CWD, m^3/ha) in irrigation treatments at two water restriction initiation timing: 6 (WRIT6w) and 8 (WRIT8w) weeks after planting. 
+
+```{r table2}
+# Change the data colnames 
+colnames(cwd)[4] <- "CWD"
+
+# Read data for two groups WRIT6w and WRIT8w 
+cwd_WRIT6W <- cwd[cwd$T == "WRIT6w", ]
+
+cwd_WRIT8W <- cwd[cwd$T == "WRIT8w", ]
+```
+
+Delete outliers (which is 2 standard deviations away from the median value) and caculate mean values for each irrigation treatment (TRT) by each group (There is no need to delete the outliers)
+
+
+To get the results as in Table 2 in the paper
+
+```{r}
+CWD6_TRT <- tapply(cwd_WRIT6W$CWD, cwd_WRIT6W$TRT, mean)
+CWD6_TRT
+CWD8_TRT <- tapply(cwd_WRIT8W$CWD, cwd_WRIT8W$TRT, mean)
+CWD8_TRT
+```
+
+
+### Figure 1
+
+Average ± standard error (n = 4) of tuber yield in four irrigation treatments at two irrigation onset timing: 6 (WRIT6w) and 8 (WRIT8w) weeks after planting. Different letters indicate differences (P < 0.05).
+
+1) For WRIT6w group
+
+```{r figure1}
+# average yield for each irrigation treatment
+yield6_TRT <- tapply(ty_WRIT6W$TY, ty_WRIT6W$TRT, mean)
+
+# standard deviation
+yield6_TRT_sd <- tapply(ty_WRIT6W$TY, ty_WRIT6W$TRT, sd)
+
+# number of observation per irrigation treatment 
+yield6_TRT_n <- tapply(ty_WRIT6W$TY, ty_WRIT6W$TRT, length)
+
+# standard error
+yield6_TRT_sem <- yield6_TRT_sd / sqrt(yield6_TRT_n)
+```
+
+2) for the WRIT8w group
+
+```{r figure1b}
+# Mean
+yield8_TRT <- tapply(ty_WRIT8W$TY,ty_WRIT8W$TRT, mean)
+
+# Standard error
+yield8_TRT_sem <- tapply(ty_WRIT8W$TY,ty_WRIT8W$TRT,sd)/sqrt(tapply(ty_WRIT8W$TY,ty_WRIT8W$TRT, length))
+```
+
+
+Combine mean yield and standard error to make a plot
+
+```{r figure1c}
+yield_TRT <- cbind(WRIT6w=yield6_TRT, WRIT8w=yield8_TRT)
+yield_TRT_sem <- cbind(yield6_TRT_sem, yield8_TRT_sem)
+```
+
+Make a barplot 
+
+```{r figure1d}
+mids <- barplot(t(yield_TRT), beside=T, ylab="Tuber Yield (t/ha)", 
+          cex.names=0.8, las=1, ylim=c(0,30))
+
+# Add the bottom line
+box(bty="l")
+
+# Add legend
+legend("topright", fill = c("black", "grey"), c("WRIT6w", "WRIT8w"), horiz = F)
+
+# Add standard erros to the plot (only the postive part)
+arrows (mids, t(yield_TRT), mids, t(yield_TRT + yield_TRT_sem), code = 3, angle = 90, length = .1)
+```
+
+
+Check significance to plot, HSD.test and TukeyHSD both can be used.
+ 
+```{r}
+library(agricolae)
+yield6TRT_aov <- aov(ty_WRIT6W$TY ~ ty_WRIT6W$TRT)
+a <- HSD.test(yield6TRT_aov, trt = "ty_WRIT6W$TRT" )
+
+yield8TRT_aov <- aov(ty_WRIT8W$TY ~ ty_WRIT8W$TRT)
+
+# Method 1
+b <- TukeyHSD(yield8TRT_aov)
+
+# Method 2 
+b1 <- HSD.test(yield8TRT_aov, trt = "ty_WRIT8W$TRT" )
+
+### plot values are similar but not the siginificance. 
+```
+
+
+### Table 3
+
+F-values of ANOVA with repeated measurements in time corresponding to leaflet
+relative water content (RWC) obtained at two water restriction initiation timing: 6 (WRIT6w) and 8 (WRIT8w) weeks after planting. Take WRIT8w goup as an example. 
+
+```{r table3}
+
+# In the table, there are observations for different time, need to reorgnize the data, to make time as a factor
+rwc = reshape(rwc8[,-1], varying = c("10DAT", "28DAT", "39DAT", "52DAT"), idvar=c("B", "TRT"), direction="long", v.names="RWC", times=c(10, 28, 39, 52))
+
+rwc$time <- as.factor(rwc$time)
+```         
+
+Build a liner regression model and do ANOVA
+
+```{r}
+model <- lm(RWC ~ block + TRT + time + TRT*time, data = rwc)
+anova(model)
+```
+
+Similar resutls but not the same values. 
+
+### 3.5. figure 2
+
+Average ± standard error of relative water content (RWC) under four irrigation treatments at water restriction initiation timing 6 (WRIT6w) weeks after planting was shown as an exmple. ** P < 0.01, *P < 0.05, n.s. = no significant (P > 0.05). DAT = days after treatment.
+
+
+Effect irigation treatment on RWC for each date 
+
+```{r figure2}
+
+times <- c(10, 28, 39, 52)
+lapply(times, function(i) anova(lm(RWC ~ TRT, data=rwc[rwc$time==i, ])))
+
+f <- function(i) { 
+  d <- rwc[rwc$time==i, ]
+  anov <- aov(RWC ~ TRT, data=d)
+  HSD.test(anov, trt = "TRT")$groups
+}
+lapply(times, f)
+```
+
+No siginificance difference among irrigation treatments for each date 
+
+
+
+Use aggregate to caculate mean RWC for different time and irrigation treatement
+
+```{r agg}
+rwc_agg <- aggregate(rwc[, 'RWC', drop=FALSE], rwc[, c('time',"TRT")], function(i) cbind(mean(i), sd(i), length(i)))
+
+rwc_agg <- cbind(rwc_agg[,-3], rwc_agg[,3])
+colnames(rwc_agg)[3:5] <- c("mean", "sd", "n")
+dim(rwc_agg)
+
+# Standard error
+rwc_agg$sem <- rwc_agg$sd / sqrt(rwc_agg$n)
+
+# Make a qqplot this time
+library(ggplot2)
+qplot(data = rwc_agg, x = as.factor(time), y = mean, pch= TRT, xlab = "DAT", ylab = "RWC(%)", ylim = c(70,90))
+#+ geom_errorbar(aes(ymin = rwc_agg$mean - rwc_agg$sem, ymax = rwc_agg$sem + rwc_agg$mean), colour="black", width=.05)
+
+```

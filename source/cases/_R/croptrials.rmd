@@ -1,0 +1,165 @@
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# African maize trials
+
+Here we use data that was also used in a paper by [Lobell et al.](https://www.nature.com/nclimate/) [Nonlinear heat effects on African maize as evidenced by historical yield trials](https://dx.doi.org/10.1038/NCLIMATE1043).
+
+## Get the data
+
+The data is on CIMMYT's dataverse. 
+
+https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10548190
+
+The ID is "hdl:11529/10548190" and we can download the data with the "agro" package. This package is under development. You can install it like this (if need be):
+
+
+```{r}  
+if (!require(agro))  source("https://install-github.me/reagro/agro")
+```
+
+Now we can use the package to download the data
+
+
+```{r trials10}  
+ff <- agro::get_data_from_uri("hdl:11529/10548190", ".")
+ff
+```
+
+We have two "gz" (GNU zip) files. We can g-unzip these
+
+
+```{r trials20, message=FALSE}  
+print(R.utils::gunzip(ff[1], remove=FALSE, overwrite=TRUE))
+print(R.utils::gunzip(ff[2], remove=FALSE, overwrite=TRUE))
+```
+
+Now we have zip files that we can unzip
+
+```{r trials30}  
+unzip("hdl_11529_10548190/EIL_site_latlon.zip")
+unzip("hdl_11529_10548190/maizedata.lobell.sep2011.csv.zip")
+```
+
+Read the data
+
+```{r trials40}  
+location <- read.csv('EIL_site_latlon.csv', stringsAsFactors=FALSE)
+maize_all <- read.csv('maizedata.lobell.sep2011.csv', stringsAsFactors=FALSE)
+```
+
+## Explore 
+
+```{r trials50}
+head(location)
+dim(maize_all)
+```
+
+```{r trials60}
+maize <- maize_all[,c(1:9)]
+maize$yield <- round(exp(maize$logYield), 1)
+
+table(maize$Management)
+plot(sort(maize$yield))
+```
+
+
+```{r trials70, fig.width=10}
+par(mfrow=c(1,2))
+boxplot(yield ~ Management, data=maize, horizontal=TRUE, las=2)
+boxplot(yield ~ vargroup, data=maize, horizontal=TRUE, las=2)
+```
+
+```{r trials80}
+library(maptools)
+data(wrld_simpl)
+plot(location$Longitude, location$Latitude, col="red", pch=20)
+plot(wrld_simpl, add=TRUE)
+```
+
+## Combine 
+
+```{r trials90}
+d <- merge(location, maize, by.x="LocationID", by.y="sitecode")
+```
+
+
+```{r trials100}
+dsub <- d[, c("yield","Longitude", "Latitude", "Management", "vargroup", "Country" )]
+da <- aggregate(yield ~ ., data=dsub, median)
+#da <- aggregate(d[,"yield",drop=FALSE], d[,-1], data=dsub, median)
+da <- da[order(da[,1], da[,2]), ]
+head(da)
+table(da$Management, da$vargroup)
+dopt <- da[da$Management=="Optimal", ]
+```
+
+## Model
+
+```{r trials110, message=FALSE}
+head(da)
+library(randomForest)
+m <- randomForest(yield ~ Longitude + Latitude, data=da)
+m
+p = predict(m)
+plot(da$yield, p)
+abline(0,1)
+```
+
+```{r trials120}
+library(raster)
+e <- extent(c(-22, 60, -37, 24))
+aoi <- raster(ext=e, res=1/6)
+pp <- interpolate(aoi, m, xyNames=c('Longitude', 'Latitude'))
+pp <- mask(pp, wrld_simpl)
+plot(pp)
+points(da$Longitude, da$Latitude, col="blue")
+
+lon = init(aoi, "x")
+lat = init(aoi, "y")
+s <- stack(lon, lat)
+names(s) <- c("Longitude", "Latitude")
+p2 <- predict(s, m)
+```
+
+
+```{r trials130}
+bio <- getData("worldclim", var="bio", res="10")
+plot(bio)
+e <- extract(bio, da[, c("Longitude", "Latitude")])
+de <- cbind(da[,"yield",drop=FALSE], e)
+m <- randomForest(yield ~ ., data=de)
+x <- predict(bio, m, ext=aoi)
+plot(x)
+```
+
+```{r trials140}
+de <- cbind(da, e)
+head(de)
+de$Country = NULL
+de$Management <- as.factor(de$Management)
+de$vargroup <- as.factor(de$vargroup)
+m2 <- randomForest(yield~., data=de)
+m2
+varImpPlot(m2)
+```
+
+```{r trials150}
+afbio <- crop(bio, s)
+predictors <- stack(afbio, s)
+df <- data.frame(Management="Optimal", vargroup="EPOP", stringsAsFactors = F)
+df2 <- data.frame(Management="Optimal", vargroup="ILPO", stringsAsFactors = F)
+
+#df <- data.frame(Management=5, vargroup=2)
+pxd <- predict(predictors, m2, const=df2)
+plot(pxd)
+```
+
+Now determine which vargroup performs best where, on average?
+
+Do this for optimal and for drought?
+
+when done, make it better...
+

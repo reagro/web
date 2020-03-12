@@ -1,0 +1,195 @@
+# Sweetpotato Cultivar Selection
+
+## Introduction 
+
+This case study looks at data from a study on sweetpotato cultivars in Mozambique. Specifically, we will demonstrate methodology used in the article published in [Genotype x Environment interaction and selection for drought adaptation in sweetpotato in Mozambique](https://link.springer.com/article/10.1007/s10681-016-1684-4). In this study, 58 cultivars were evaluated over three years, looking at performance under both full irrigation and limited irrigation. Methods used include analysis of variance, regression, and additive main effects multiplicative interaction (AMMI), which will be shown in this case study. 
+
+The data used is available on [the CIP datavarse](https://data.cipotato.org/dataset.xhtml?persistentId=doi:10.21223/P3/M0HGJ4). Unfortunately, the dataset is missing data from the 2009 study, so we will use the same methodology with only 2006 and 2008 data. Results will differ from those reported in the paper. 
+
+
+## Download
+
+```{r download}
+library(agro)
+ff <- get_data_from_uri("https://data.cipotato.org/dataset.xhtml?persistentId=doi:10.21223/P3/M0HGJ4", ".")
+ff
+```
+
+## Read 
+
+The dataset consisits of three files, including the data itself, information on the clones, and a data dictionary. Two of the files are ".tab", and the third is an excel file. Below, we read in each of the files in the dataset. To read the excel file we use the `readxl` package.
+
+
+Now that we have the files, we can read them into R.
+
+```{r }
+cluster <- read.delim(ff[1], stringsAsFactors=FALSE)
+dict <- read.delim(ff[2], stringsAsFactors=FALSE)
+library(readxl)
+drought <- read_excel(ff[3])
+```
+
+We need to convert some our variables of interest to numeric. The reason is that some records for these variable have the odd values "*". I first set these to `NA` to avoid the warning `NAs introduced by coercion`. You need to treat warnings like errors, never ignore them, and make them go away if you can.
+
+```{r warn}
+drought$RYTHA[drought$RYTHA == "*"] <- NA
+drought$FYTHA[drought$FYTHA == "*"] <- NA
+drought$BIOM[drought$BIOM == "*"] <- NA
+```
+
+
+Now the conversion
+```{r convnumb}
+drought$RYTHA <- as.numeric(drought$RYTHA)
+drought$FYTHA <- as.numeric(drought$FYTHA)
+drought$BIOM  <- as.numeric(drought$BIOM)
+```
+
+Remove NAs
+
+```{r remna}
+drought <- drought[!is.na(drought$RYTHA),]
+```
+
+
+## Summary Statistics
+
+First, we will plot some graphs to demonstrate basic summary statistics of the data. We will use the package 'ggplot', which has more flexibility in the plots produced. We begin by adding an important variable to the data, environment (a combination of year and treatment), then plot a histogram and boxplot.
+
+To create a variable `environment` we combine the year and treatment (irrigated/non-irrigated)
+
+```{r cleaning}
+drought$env <- as.factor(paste(drought$YEAR, drought$TREATMENT))
+```
+
+First, we will represent the data with a histogram, using the argument 'geom_histogram'. This shows us the differences in distribution of observations in the four environments of interest. We can see that in both non-irrigated environments, the majority of observations fall in the smallest bin, while this is not the case for the irrigated environments. 
+```{r histogram}
+library(ggplot2)
+ggplot(drought, aes(x=RYTHA)) +
+  geom_histogram(bins=10) +
+  facet_wrap(~drought$env, nrow=1) 
+
+```
+
+Next, we can represent the data with a box plot. Here we graph the distribution of the two treatments, irrigated and non-irrigated. From initial observation, it appears that the irrigated plots had higher and less variable root yields than the non-irrigated plots. 
+
+```{r boxplottreatments}
+ggplot(drought, aes(y=RYTHA, x=TREATMENT, fill = REP)) + 
+  geom_boxplot() + 
+  theme_classic()
+```
+
+
+The article makes a distinction between farmer landraces and bred/modern cultivars. In the dataframe "cluster", we can split the cultivars between farmer landraces and modern varieties, following the distinction on table 5 of the paper. Here we show boxplots for four variables of interest: dry matter (DM), total biomass (BIOM), harvest index (HI), and geometric mean (GM). For more information on these variables, see the table 'dict'. We also use the package 'gridExtra' to plot all the graphs at once. 
+
+```{r boxplotcultivars}
+#New variable for type of cultivar
+cluster$type <- as.numeric(row.names(cluster))
+#The first 40 cultivars are landrace, the rest are modern (refer to table 5)
+cluster$type <- ifelse(cluster$type <41, "landrace", "modern")
+
+#Remove x-asis title (on first two) and legend (on all) to avoid repetition
+p1 <- ggplot(cluster, aes(y=DM, x=type, color=type)) +
+  geom_boxplot()+ 
+  theme(legend.position="none", axis.title.x=element_blank()) 
+
+p2 <- ggplot(cluster, aes(y=BIOM, x=type, color=type)) +
+  geom_boxplot()+ 
+  theme(legend.position="none", axis.title.x=element_blank())
+
+p3 <- ggplot(cluster, aes(y=HI, x=type, color=type)) +
+  geom_boxplot()+ 
+  theme(legend.position="none")
+
+p4 <- ggplot(cluster, aes(y=GM, x=type, color=type)) +
+  geom_boxplot()+ 
+  theme(legend.position="none")
+
+g_legend <- function(a.gplot) {
+  tpm <- ggplot_gtable(ggpl)
+}
+
+library(gridExtra)
+grid.arrange(p1, p2, p3, p4, nrow=2)
+```
+
+
+## Cluster Analysis
+
+The authors use cluser analysis to show linkages between the different cultivars, based on many of the variables of interest: geometric yield, drought sensitivity index, drought tolerance expression, percent reduction, harvest index, and root dry matter. Below, we do the same using the function 'hclust'.
+
+```{r cluster}
+row.names(cluster) <- cluster$Cultivar
+j <- hclust(dist(cluster[,c(2,3,5,7,8)]), method="average")
+plot(j, xlab="Cultivar", hang= -1, cex = 0.6)
+```
+
+
+## Analysis of Variance
+
+The performance of cultivars was assessed with analysis of variance. The three traits of interest were storage root yield, vine yield, and biomass, and were observed across variation in environment (E), genotype (G), and G x E. While the study reports 5 degrees of freedom for the environment, we will only have 3 since we are missing data from 2009. We will report the mean square, stability variance, and relative variance as shown in Table 3 of the paper.  In this section, we will use the function 'aov' for analysis of variance. 
+
+```{r ANOVA}
+#Storage Root Yield
+RYTHA.anova <- aov(RYTHA ~ env + CULTIVAR + CULTIVAR*env, data=drought)
+summary(RYTHA.anova)
+
+#Vine Yield
+FYTHA.anova <- aov(FYTHA ~ env + CULTIVAR + CULTIVAR*env, data=drought)
+summary(FYTHA.anova)
+
+#Biomass
+BIOM.anova <- aov(BIOM ~ env + CULTIVAR + CULTIVAR*env, data=drought)
+summary(BIOM.anova)
+```
+
+
+## Regression
+
+Next, we replicate table 4, which uses linear regression and takes into account interactions between environment and genotypes. 
+
+```{r regression}
+#create dummy variables for the different environments
+drought$IR6 <- ifelse(drought$env=="2006 Irrigation", 1, 0)
+drought$NI6 <- ifelse(drought$env=="2006 Non_Irrigation", 1, 0)
+drought$IR8 <- ifelse(drought$env=="2008 Irrigation", 1, 0)
+drought$NI8 <- ifelse(drought$env=="2008 Non_Irrigation", 1, 0)
+
+#To see the effect of each environment on root yield, we can use the linear model with root yield as the y axis, and each environment as the x-axis. 
+linear <- lm(RYTHA ~IR6 + NI6 + IR8, data=drought)
+summary(linear)  
+
+
+#Because we have so many cultivars, we can make them into dummy variables with the following code: 
+cultivar.f = factor(drought$CULTIVAR)
+dummies = model.matrix(~cultivar.f)
+
+linear2 <- lm(drought$RYTHA ~ dummies)
+#summary(linear2)
+
+```
+
+## AMMI Model
+
+The fourth step used in this article for the analysis of sweet potato cultivars is the additive main effects and multiplicative interactions model (AMMI). AMMI combines both ANOVA methodology (additive) and PCA (multiplicative) to better understand how environments and genotypes interact. Here, we will use the `AMMI` function from the `agricolae` package. 
+
+```{r ammi}
+library(agricolae)
+#To make for easier viewing, we will use the codes rather than cultivar names, as charactes.
+drought$CODE_CULTIVAR <- as.character(drought$CODE_CULTIVAR)
+#the function AMMI specifies the environment variable, genotype, and repition, as well as the y-variable of interest.
+ammi <- AMMI(ENV=drought$env, GEN=drought$CODE_CULTIVAR, REP=drought$REP, Y = drought$RYTHA, PC=T)
+ammi$ANOVA
+ammi$analysis
+```
+
+We can graph the results from the ammi model on a bi-plot. Below we plot two biplots. The first shows the first and second principal componenets plotted against each other, and the second shows the first principal component plotted against the yield variable. 
+
+```{r biplot}
+#The regular plot(ammi) will plot PC1 against PC2
+plot(ammi)
+#To graph the dependent variable against pc1, the following code is used. 0 is the y-dependent variable (RYTHA), and 1 is PC1. 
+plot(ammi, 0, 1, gcol="blue", ecol="green")
+```
+
+

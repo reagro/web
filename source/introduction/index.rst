@@ -1,15 +1,15 @@
 Introduction
 ============
 
-This book provides a practical introduction to the new discipline of *Regional Agronomy*. We present concepts, methods, tools, and workflows to study spatial and temporal variation in crop production across large areas. Understanding this type of variation is increasingly important in guiding business, research, development, and policy. For example, it provides the basis for location-based farmer advisory services; it essential to the operation of agricultural index insurance programs; and it can help in identifying research and development needs for, and potential benefit from, new technology. 
+This book provides a practical introduction to the new discipline of *Regional Agronomy*. We present concepts, methods, tools, and workflows to study spatial and temporal variation in agricultural production across large areas. Understanding this type of variation is increasingly important in guiding business, research, development, and policy. For example, it provides the basis for location-based farmer advisory services; it essential to the operation of agricultural index insurance programs; and it can help in identifying research and development needs for, and potential benefit from, new technology. 
 
-*Regional Agronomy* is the study of crop production across large regions. It is departure from the traditional *Field Agronomy* in which research focuses on variation between and within fields, using well-managed trials at experimental stations. *Field Agronomy* remains of fundamental importance, but it can be difficult to directly use the results of such research to solve practical problems across large areas. *Regional Agronomy* addresses this problem, by building on *FIeld Agronomy* and on other disciplines such as Economics and Spatial Data Science.
+*Regional Agronomy* is the study of agricultural production across large regions. It is departure from the traditional *Field Agronomy* in which research focuses on variation in crop production between and within fields, using well-managed trials at experimental stations. *Field Agronomy* clearly remains of fundamental importance, but it can be difficult to directly use the results of such research to solve practical problems across large areas. *Regional Agronomy* addresses this problem, by building on *Field Agronomy*, plant pathology, soil science, animal science, economics and other social sciences. 
 
 
 Agronomy at scale
 -----------------
 
-Oftentimes, what seem to be important agronomic advances, never get used on farms, and investments in research and development do not have the postive impact one might have expected. Why is that? Is it that the research results do not apply to the conditions that farmers face? Are we even doing the right research? Or is it a problem of communication? How can we be more efficient in reaching farmers? How can we make agronomy more effective *at scale*?
+Oftentimes, what seem to be important technological innovations, never get used on farms, and investments in research and development do not have the positive impact one might have expected. Why is that? Is it that the research results do not apply to the conditions that farmers face? Are we even doing the right research? Or is it a problem of communication? How can we be more efficient in reaching farmers? How can we make agronomy more effective *at scale*?
 
 A fundamental challenge is that agriculture is highly site-specific --- much more than any other economic activity. Car factories can look the same, no matter where they are. In contrast, every field and every farm is a little, or a lot, different from another in its abiotic, biotic, social and economic conditions. To understand problems and opportunities for crop production across large areas, we need to take into account the spatial and temporal variability that shapes farming. 
 
@@ -21,7 +21,7 @@ Big data for small farmers?
 
 What *has* changed is the availability of data and computational tools. This includes spatial data from satellites, and large quantities of farm household data from surveys. Much research data is now `openly available <https://gardian.bigdata.cgiar.org/>`__ and can be aggregated and used for new purposes. Computing tools like *R* allow for the easy integration of these data with more specialized algorithms, such as crop models, or machine learning.
 
-So there is a lot of promise. But there is also a lot of hype. Press-releases suggest that satellite images and "deep-learning" are to solve all our problems. While smart use of data has become an indispensable part of modern research and business --- there are major unanswered questions about how to best use these new tools, and when and where they are most appropriate, or not appropriate. How do we integrate these new approaches with time-tested existing practices? How do we make data science relevant for agricultural development?
+In other words, *data science* --- the developement of computer code to generate reproducible workflows that use  complex data and modern analytical tools, to answer questions in a particular field of study --- holds a lot of promise. But there is also a lot of hype. Press-releases suggest that satellite images and "deep-learning" are to solve all our problems. While smart use of data has become an indispensable part of modern research and business --- there are major unanswered questions about how to best use these new tools, and when and where they are most appropriate, or not appropriate. How do we integrate these new approaches with time-tested existing practices? How do we make data science relevant for agricultural development?
 
 Our aim is to help you acquire some of the skills you need to apply some of these new methods, but also to do the research needed to better understand their applications, shortcomings, and benefits. 
 
@@ -35,7 +35,9 @@ This book is intended for students, practitioners and researchers in agricultura
 
 You also need to have a basic understand of the *R* `computing language and environment <https://www.r-project.org/>`__. We use *R* in the examples throughout this book. If you are new to *R* you can look at this `introduction <https://rspatial.org/intr>`__. As we use a lot of spatial (geographic) data, we should first learn about the basics of that too, for example by going through `these materials <https://rspatial.org/terra/spatial>`__. 
 
-We use *R* because that is the most widely used computing environment in Regional Agronomy, and because it is free software. In some cases there would be alternative, and perhaps better ways to implement a particular workflow, but in our worked examples we mostly stick to *R* to keep it straightforward to understand and reproduce them. We generally do not refer to stand-alone software that must be used through a user-interface although we will have links to a few web-based visual apps. While such software is very useful, or even indispensable, for some types of work, we strive for fully reproducible workflows. That means that all data manipulation must be done with scripts. We do include a few examples about dealing with large quantities of (satellite) data using cloud computing services such as Google Earth Engine and Amazon Web Services. 
+We use *R* because that is the most widely used computing environment in Regional Agronomy, and because it is free software. In some cases there would be alternative, and perhaps better ways to implement a particular workflow, but in our worked examples we stick to *R* to keep it straightforward to understand and reproduce them. In some cases we may also provide some examples that use *Python*, the other main computing environment in this field of work.
+
+We generally do not refer to stand-alone software that must be used through a user-interface although we will have links to a few web-based visual apps. While such software is very useful, or even indispensable, for some types of work, we strive for fully reproducible workflows. That means that all data manipulation must be done with scripts. We also include a few examples that deal with large quantities of satellite data using Google Earth Engine, and we'll discuss the use of cloud computing services such as Amazon Web Services. 
 
 
 Authors
@@ -46,5 +48,13 @@ Contributing authors are `listed here </authors.html>`__ and at the top of each 
 Acknowledgments
 ---------------
 
-This work was partly supported by a grant to `CIMMYT <https://www.cimmyt.org/>`__ by the `Bill and Melinda Gates Foundation <https://www.gatesfoundation.org/>`__.
+This work was partly supported by a grant to `CIMMYT <https://www.cimmyt.org/>`__ by the `Bill and Melinda Gates Foundation <https://www.gatesfoundation.org/>`__ and by the `CGIAR platform for Big in Agriculture <a href="https://bigdata.cgiar.org/">`_ to the University of California, Davis.
+
+.. raw:: html
+
+    <embed>
+	<a href="https://bigdata.cgiar.org/"><img src="/_static/CGIAR_PforBD-Orange-logo220.png"  alt="BigData" width="200" height="40" align="left"></a>
+
+    <a href="https://www.cimmyt.org/"><img src="/_static/cimmyt.svg" alt="CIMMYT" width="200" height="40" align="right"></a>
+    </embed>
 

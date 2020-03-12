@@ -1,0 +1,326 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Yield Prediction
+
+## Introduction 
+
+In the previous chapters we have worked on identifying rice area, and the computations of vegetation metrics to predict rice yield. In this chapter we explore that relationship. The goal is to later use it to create an insurance product.
+
+
+## Yield data 
+
+We use a pre-prepared dataset with rice yield data that was collected through a farm survey. The numbers are based on the recollection of the farmers. 
+
+```{r a1, message=FALSE}
+library(reagrodata)
+d <- data_rice("yield")
+head(d, n=3)
+```
+
+We have rice yield, for individual farmers ("fid") by year.
+
+The number of farmers is 
+
+```{r y1}
+length(unique(d$fid))
+```
+
+There are no missing values in this data set, so we can tabulate the number of observations by year like this:
+
+```{r y10}
+table(d$year)
+```
+
+Farmers are grouped in zones 
+
+```{r y20}
+unique(d$zone)
+```
+
+We can look at the distribution of rice yield values (they are expressed in kg/ha)
+
+```{r y30}
+boxplot(d$y)
+```
+
+Some of the crop yields are extremely low. Here are the lowest 40 observations
+
+```{r y35}
+sort(d$y)[1:40]
+```
+
+We may want to check if these are reasonable; or perhaps errors?
+
+
+## Aggregation
+
+Regression models between yield and vegetation metrics may work better if we use average data for zones, rather than for individual farmers or fields; and that is what we do here. 
+
+Also, instead of the average yield, we could  consider using the yield deviation, that is the difference between the yield in a given year (for a farmer or for a zone) and the expected yield. 
+
+The expected yield would be the long term average (mean or median) yield. The median could be a good choice. If there are outliers, it may better represents a "typical" (expected) yield. A benefit of this approach could be that it accounts for inherent differences between zones. That is some zones will have higher average yields that others; but they may be very similar in relative terms. We could also do this for the vegetation metrics. 
+
+So let's create these aggregated variables for zones. 
+
+First the average yield for each zone/year combination: 
+
+```{r y50}
+yzt <- aggregate(d$y, d[, c("zone", "year")], median, na.rm=TRUE)
+colnames(yzt)[3] = "y_zt"
+head(yzt, 3)
+```
+
+And the average yield for a zone (over years):
+
+```{r y60}
+yz <- aggregate(d$y, d[, "zone", drop=FALSE], median, na.rm=TRUE)
+colnames(yz)[2] = "y_z"
+head(yz, 3)
+```
+
+We can also use `aggregate` to compute the number of farmers per zone per year (note that this would not give the correct result if there are no missing values --- as all records are counted).
+
+
+```{r y70}
+n <- aggregate(d$fid, d[,c("zone", "year")], length)
+colnames(n)[3] = "n"
+head(n, 3)
+```
+
+Merge the zone level aggregates. 
+
+```{r y77}
+z <- merge(n, yzt)
+z <- merge(z, yz)
+head(z, 3)
+```
+
+Zone level relative yield can be compute like this:
+
+```{r y90}
+z$y_dz <- z$y_zt / z$y_z
+head(z, 3)
+```
+
+Here are the variables we now have (in data.frames `d` for farmer level and `z` for zone level)
+
+```{r y95, echo=FALSE}
+x <- c("region", "Region", "zone", "zone name", "year", "year", "fid", "farmer ID", "y", "reported yield for a farmer (i) in a year (t)", "y_zt", "mean zone yield in a year t", "y_z", "long term average zone yield") 
+      
+m <- matrix(x, ncol=2, byrow=TRUE)
+colnames(m) <- c("variable", "description")
+knitr::kable(m)
+```
+
+We save the zonal yield data for future use. 
+
+```{r y75}
+saveRDS(z, "zonal_rice_yield.rds")
+```
+
+We also merge the individual level data with the zone level data for use in the next chapter. 
+
+```{r y79}
+dz <- merge(d, z)
+saveRDS(dz, "hh_rice_yield.rds")
+```
+
+## Vegetation metrics 
+
+First read the pre-computed vegetation metrics. 
+
+```{r a10, message=FALSE}
+idx <- data_rice("indices")
+head(idx, n=3)
+```
+
+We have 5 different metrics computed for the growing season from MODIS data. They are all aggregated by zone.
+
+```{r rice88, echo=FALSE}
+x = c("region", "Region", "zone", "zone name", "year", "year", "ndvi", "ndvi index", "evi index", "evi", "gpp", "Gross Primary Productivity index", "et", "evapo-transpiration index", "lai", "leaf area index")
+m <- matrix(x, ncol=2, byrow=TRUE)
+colnames(m) <- c("variable", "description")
+knitr::kable(m)
+```
+
+The values have been transformed, and some may look a little odd (for example, they can be negative) --- we are not going into these details here; let's just accept them as they are. 
+
+We can merge the zonal yield and satellite index data. 
+
+```{r a20}
+z <- merge(z, idx[,-1])
+head(z, 3)
+```
+
+
+## Explore 
+
+Let's do a quick exploration of the combined data to see if we seen any association. Here are the correlation coefficients:
+
+```{r a15}
+cr <- cor(z[,-c(1:3, 5)])
+cr[,1:2]
+```
+
+These suggest that we the strongest relationships are between `y_zt` and `gpp` and `evi`, and also with `ndvi`. 
+
+Let's plot the first two.
+
+```{r a25, fig.width=10}
+par(mfrow=c(1,2))
+plot(z$gpp, z$y_zt, xlab="GPP index", ylab="Yield (kg/ha)")
+plot(z$evi, z$y_zt, xlab="EVI index", ylab="Yield (kg/ha)")
+```
+
+## Regression 
+
+Now on the the creation of regression models. There are many differnt models that could be formulated. We try a few, and compare them. Feel free to try other models.
+
+First two single variable models. First zonal yield as a function of the gpp index.
+
+```{r reg10}
+m1 <- lm (y_zt ~ gpp, data=z) 
+cf <- coefficients(m1)
+cf
+plot(y_zt ~ gpp, data=z)
+abline(m1, col="red")
+summary(m1)
+```
+
+Have a good look at what is returned by `summary`.
+
+First it shows the model that we formulated. Then it shows the distribution of the "residuals". That is the differences between the observed values for `y_zt` and what the model would predict (the red line). You can get the residuals with `residuals(m1)`.
+
+Below that, the regression coefficients (under "Estimate") are shown. There is an intercept of `r round(cf[1], 1)` (that is the prediction when gpp=0), and a slope for gpp of `r round(cf[2], 3)`. The good news is that the slope is positive (we expect that a higher gpp index is associated with higher yields). You can get the coefficients with `coefficients(m1)`
+
+The standard error for each estimated coefficient is also shown. The `t value` is used to compute statistical signifiance. The p-values (the probabiliy to find, by chance, a t value that is higher then the ones we found) are very low and the coefficients are highly *significant*. In this context this means that is very unlikely that they are actually zero (no intercept, or no effect of evi).
+
+
+Let's try another model: zonal yield as a function of the evi index. 
+
+```{r reg20}
+m2 <- lm (y_zt ~ evi, data=z) 
+summary(m2)
+```
+
+The diagnistics for both models (as shown by `summary`) are very similar. Highly statistically significant, but a low R^2. Although p-values have information, we do not care that much about the significance --- we are not testing a hypothesis. We do care about the R^2 as that is a measure of how good the regression model fits the data; and for simple models also a good indicator of how good it can make predictions.
+
+Now to more complex (just a little) models. We can make a multiple regression model that explains y_zt from both gpp and evi. 
+
+```{r reg30}
+m3 <- lm (y_zt ~ gpp + evi, data=z) 
+summary(m3)
+```
+
+We can add quadratic or interaction terms. Here we use a quadractic term for gpp. There is also a "zone" effect. 
+
+```{r reg40}
+m4 <- lm (y_zt ~ gpp + evi +I(gpp^2) + zone, data=z) 
+summary(m4)
+```
+
+
+The "zone" paramter, allows for each zone to have its own intercept. Note that the R^2 is higher now, but that only the base intercept is highly significant.
+
+We can also something entirely different, such as Random Forest
+
+```{r rice99, message=FALSE}
+library(randomForest)
+rf <- randomForest(y_zt ~ gpp+evi+ndvi+gpp+et, data=z)
+rf
+```
+
+We see that the fit of the Random Forest model is not great. There is no magic machine learning here. Apparently there are not complex interactions to discover in this dataset. 
+
+
+## Model comarpison 
+
+We have made four models. Which one is the best? We can compare R^2, adjusted R^2 and AIC.
+
+```{r reg50}
+models <- list(m1, m2, m3, m4)
+r2 <- sapply(models, function(i) round(summary(i)$r.squared,  2))
+ar2 <- sapply(models, function(i) round(summary(i)$adj.r.squared, 2))
+aic <- sapply(models, AIC)
+r <- rbind(r2=r2, ar2=ar2, aic=round(aic, 2))
+colnames(r) <- c("m1", "m2", "m3", "m4")
+r
+```
+
+The R^2 values are between `r round(min(r2),2)` and `r round(max(r2) ,2)`. The problem with using R^2 on the model training data is that it will always get higher as you add parameters to the model. It is thus not surprising that the most complex model has the highest R^2.
+
+The Adjusted-R^2 corrects for this problem --- for each additional parameter in the model, the R^2 is penalized. Thus for it to go up, the benefit of the new variable must outweight the cost (because of this you can even get negative values --- wich seem very odd for a squared quantity). We see that the adjusted R^2 is much lower than the R^2 for thet complex model (`m4`) has a much reduced adjfit whereas the simpler . 
+
+AIC is a measure that can be used to find the most *parsimonious* model. That is, the simplest model that described the data well. 
+
+
+## Cross-validation
+
+We need a function that returns Root Mean Squared Error (or another statistic of interest)
+
+```{r rmse}
+rmse <- function(observed, predicted){
+  i <- observed < 1500
+  error <- observed[i] - predicted[i]
+  sqrt(mean(error^2))
+}
+```
+
+Now set up the "k-folds" and the output structure. 
+
+```{r reg60}
+library(agro)
+k <- 5
+set.seed(123)
+f <- agro::make_groups(z, k)
+result <- matrix(nrow=k, ncol=5)
+colnames(result) <- c("m1", "m2", "m3", "m4", "rf")
+```
+
+And run the actual cross-validation.
+
+```{r reg61}
+for (i in 1:k) {
+  train <- z[f!=i, ]
+  test  <- z[f==i, ]
+  cm1 <- lm (y_zt ~ gpp, data=train) 
+  cm2 <- lm (y_zt ~ evi, data=train) 
+  cm3 <- lm (y_zt ~ gpp + evi, data=train)  
+  cm4 <- lm (y_zt ~ gpp + evi +I(gpp^2) + zone, data=train) 
+
+  p <- predict(cm1, test)
+  result[i,"m1"] <- rmse(test$y_zt, p)
+  
+  result[i,"m2"] <- rmse(test$y_zt, predict(cm2, test))
+  result[i,"m3"] <- rmse(test$y_zt, predict(cm3, test))
+  result[i,"m4"] <- rmse(test$y_zt, predict(cm4, test))
+
+  crf <- randomForest(y_zt ~ gpp+evi+ndvi+gpp+et, data=train)
+  result[i,"rf"] <- rmse(test$y_zt, predict(crf, test))
+}
+
+colMeans(result)
+```
+
+Note that `m1` comes out as the best model (lowest RMSE), but `m2` and `m3` are very close. Of these three models, we should probably prefer `m1` for the contract design. 
+
+`m4` looked the best, but the cross-validation results now suggests that `m4` is overfitted and should not be used. 
+
+We can make a plot of osberved vs predicted values for the models. Here for `m1`.
+
+```{r rice100}
+plot(z$y_zt, predict(m1), xlim=c(750, 3000), ylim=c(750, 3000), xlab="observed yield (kg/ha)", ylab="predicted yield (kg/ha)")
+abline(a=0,b=1, col="red")
+```
+
+
+Saving the models
+```{r rice110}
+mods <- list(m1=m1, m2=m2, m3=m3, m4=m4)
+saveRDS(mods, "rice_models.rds")
+```
+

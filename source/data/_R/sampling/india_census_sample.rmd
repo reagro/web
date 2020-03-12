@@ -1,0 +1,140 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+# Census based cluster-sample in India
+
+Anurag Ajay, CIMMYT
+
+
+## Introduction
+
+With the intention of facilitating strategic investment in Indian agriculture, CSISA (www.csisa.org) conducts diagnostic survey at landscape level that captures current production practices of major cereal crops (wheat and rice). The survey is deployed through district-level extension wing of Indian Council of Agriculture Research (ICAR), the Krishi Vigyan Kendra (KVK). This is an electronically enabled survey that uses Open Data Kit (ODK) platform. Objectives of this survey are to fill existing data gaps, generate recent data-based evidences, derive better insights and facilitate informed decisions by policy makers.
+Survey results envisage to reliably portray district-level scenario. It captures geo-referenced plot level data around crop establishment techniques, cultivars planted, planting time, input uses, infesting weed flora, abiotic stresses, harvesting processes, market linkages, etc. So, the samples have to be distributed evenly across the district. To achieve such distribution of samples, CSISA uses census based cluster-sampling approach considering district as one survey unit. At the first stage, villages are selected applying probability proportionate-to-size method wherein size of the village was defined by ‘number of households’. Moving onto second stage for farmers’ selection in each selected villages, simple random method is applied. Adhering to this process, CSISA surveyed 210 farmers (30 villages X 7 farmers) in each target district.
+
+
+## Get data
+
+Population Census 2011 of India (http://censusindia.gov.in/2011-Common/CensusData2011.html) provided by Ministry of Home Affairs, Govt. of India in .xlsx version is used to construct sampling frame for village selection. Following R-script performs village selection as per described method and generates .csv file with 40 unique village names from a district. 
+
+
+```{r sampindia01}
+library(readxl)
+x <- read_excel("PCA1001_2011_MDDS.xlsx")[, 1:10]
+head(x)
+dim(x)
+table(x$Level)
+district <- unique(x[x$Level == "DISTRICT", "Name"])
+district
+```
+
+## I - Population weighted sample of villages
+
+```{r sampindia10}
+villages <- x[x$Level == "VILLAGE" & x$TRU == "Rural", ]
+dim(x)
+samplesize <- 40
+
+i <- sample(nrow(villages), samplesize, prob=villages$No_HH)
+sel_villages <- villages[i, c(1:4, 7:10)]
+```
+
+Put the sub-district names back in
+
+```{r sampindia20}
+subdist <- unique(x[x$Level == "SUB-DISTRICT", c("Subdistt", "Name")])
+subdist
+colnames(subdist)[2] <- "Subdist"
+sel_villages <- merge(sel_villages, subdist, by="Subdistt")
+head(sel_villages)
+```
+
+Write to .csv (for use in excel)
+
+```{r sampindia30}
+sel_villages <- sel_villages[, c("State", "District", "Subdistt", "Town/Village", "Subdist", "Name", "No_HH")]
+
+sel_villages <- sel_villages[order(sel_villages$Subdist, sel_villages$Name), ]
+
+filename <- paste0(district, "_selected-villages.csv")
+filename
+write.csv(sel_villages, filename, row.names = FALSE)
+head(read.csv(filename))
+```
+
+
+## II --- Farmer selection
+
+State Election Commission through its webpage provides voter list of village in .pdf version. For example, Bihar state voter lists can be fetched through http://sec.bihar.gov.in/SearchInFinalPdf.aspx. This forms the basis to construct sampling frame for farmer selection. Following R-script performs farmers’ selection as per described method and generates .csv file with 15 unique farmers from a village. 
+
+Attached here are two sample file – these are of same village. We use it for village level farmer selection. 
+
+Join multiple files to be read as one document
+ 
+```{r sampvoter01} 
+library(pdftools)
+
+extractVoters <- function(f, housepattern,  namepattern){
+  s <- pdf_text(f)
+  ss <- trimws(unlist(strsplit(s, "\r\n")))
+
+  i <- grep(paste0("^", namepattern), ss)
+  si <- trimws(unlist(strsplit(ss[i], namepattern)))
+
+  j <- grep(paste0("^", housepattern), ss)
+  sj <- trimws(unlist(strsplit(ss[j], housepattern)))
+  
+  stopifnot(length(si) == length(sj))
+  
+  x <- cbind(sj, si)
+  x <- x[x[,1] != "", ]
+  colnames(x) <- c("household", "name")
+  x
+}
+```
+
+
+Enlist voters
+
+```{r sampvoter10}
+files <- c("Bariyarpur-1.pdf", "Bariyarpur-2.pdf")
+namepat = "ननरचरचक कच नचम : "
+housepat = "गतह सपखयच : "
+
+hn <- lapply(files, function(i) extractVoters(i, housepat, namepat))
+hn <- do.call(rbind, hn)
+hn <- unique(hn)
+head(hn)
+```
+
+
+Randomly select 15 house numbers (if possible link one member name against selected house number)
+
+```{r sampvoter20} 
+uhh <- unique(hn[, "household"])
+hns <- sample(uhh, 15)
+hns
+```
+
+Get the selected hh and names
+
+```{r sampvoter30} 
+x <- hn[hn[, "household"] %in% hns, ]
+y <- tapply(x[,2], x[,1], function(i) paste(i, collapse=", "))
+z <- cbind(house=names(y), names=as.vector(y))
+```
+
+
+
+```{r sampvoter40} 
+knitr::kable(z[1:5,])
+```
+
+
+Write .csv with two columns – house number and member number
+```{r} 
+write.csv(z, "Bariyarpur.csv", row.names = FALSE)
+```
+
+
