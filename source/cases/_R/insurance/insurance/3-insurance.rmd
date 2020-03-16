@@ -79,7 +79,7 @@ So we see that income for houshold X now has a "floor" of `$450 - premium`. We a
 Is this a good insurance product? Let's compare the certainty equivalent incomes. 
 
 ```{r ins3_90, message=FALSE}
-library(reagrodata)
+library(agrodata)
 ce_base <- ce_income(income, 1.5)
 round(ce_base)
 

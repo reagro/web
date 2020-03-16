@@ -23,7 +23,7 @@ We use soil raster data from [SoilGrids](https://soilgrids.org/). We changed the
 
 ```{r Loading soil rfiles}
 
-library(reagrodata)
+library(agrodata)
 SOC <- reagro_data("TZA_ORC")
 Kex <- reagro_data("TZA_EXK")
 pH <- reagro_data("TZA_PH")

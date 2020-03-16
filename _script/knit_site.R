@@ -1,51 +1,5 @@
 #!/usr/bin/Rscript
 
-if (tolower(Sys.info()["sysname"])=="windows"){
-	sysfun <- shell
-} else {
-	sysfun <- system		  
-}
-
-args <- commandArgs(TRUE)
-
-if (length(args) < 2) {
-	print(args)
-	stop("there must be at least two arguments")
-}
-
-cmd <- args[1]
-stopifnot(cmd %in% c("knit", "build"))
-
-# "introduction" is rst only
-ch <- grep("_R$", list.dirs(recursive=T), value=TRUE)
-chapters <- gsub("\\./source/", "", gsub("/_R", "", ch))
-
-chapter <- tolower(args[2])
-print(chapter)
-print(chapters)
-if (chapter == "all") {
-	chapter <- chapters
-} else {
-	stopifnot(chapter %in% chapters)
-}
-
-option <- ifelse(length(args) > 2, args[3], "")
-oldpath <- getwd()
-
-do_build <- function(option) {
-	if (option=="pdf"){
-		x <- sysfun("make latexpdf", intern = TRUE)
-		return()
-	} else if (option=="clean"){
-		unlink("_build", recursive=TRUE)
-	} 
-	sysfun("make html")
-	ff1 <- list.files("txt", pattern="md\\.txt$", full=TRUE)
-	ff2 <- paste0("_build/html/_sources/", basename(ff1))
-	file.copy(ff1, ff2, overwrite=TRUE)
-}
-
-
 do_knit <- function(option, quiet=TRUE) {
 
 	ff <- list.files("_R", pattern='.Rmd$', ignore.case=TRUE, full.names=TRUE, recursive=TRUE)
@@ -131,16 +85,36 @@ do_knit <- function(option, quiet=TRUE) {
 }
 
 
+if (tolower(Sys.info()["sysname"])=="windows"){
+	sysfun <- shell
+} else {
+	sysfun <- system		  
+}
+
+args <- commandArgs(TRUE)
+ch <- grep("_R$", list.dirs(recursive=T), value=TRUE)
+chapters <- gsub("\\./source/", "", gsub("/_R", "", ch))
+
+if (length(args) < 1) {
+	chapter = chapters
+} else {
+	chapter <- tolower(args[1])
+	if (chapter == "all") {
+		chapter <- chapters
+	} else {
+		stopifnot(chapter %in% chapters)
+	}
+}
+print(chapter)
+
+option <- ifelse(length(args) > 1, args[2], "")
+oldpath <- getwd()
 
 for (ch in chapter) {
 	path <- file.path(oldpath, 'source', ch)
 	setwd(path)
 	cat(paste0("\n- ", basename(path), "\n"))
-	if (cmd == "build") {
-		do_build(option)
-	} else {
-		do_knit(option, quiet=TRUE)
-	}
+	do_knit(option, quiet=TRUE)
 }
 setwd(oldpath)
 warnings()

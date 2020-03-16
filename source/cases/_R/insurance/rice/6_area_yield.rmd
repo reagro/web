@@ -56,7 +56,7 @@ This shows that, thanks to insurance, income has a floor of $`r round(min(total_
 The certainty equivalent without this insurance (not considering the premium, or other sources of income) would be
 
 ```{r ins121, message=FALSE}
-library(reagrodata)
+library(agrodata)
 ce_income(rice_income, rho=1.5)
 ```
 

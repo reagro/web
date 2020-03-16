@@ -16,7 +16,7 @@ In the previous chapters we have worked on identifying rice area, and the comput
 We use a pre-prepared dataset with rice yield data that was collected through a farm survey. The numbers are based on the recollection of the farmers. 
 
 ```{r a1, message=FALSE}
-library(reagrodata)
+library(agrodata)
 d <- data_rice("yield")
 head(d, n=3)
 ```

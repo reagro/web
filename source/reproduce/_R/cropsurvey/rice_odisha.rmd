@@ -1,21 +1,17 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Rice Crop Cut Data
+# Crop-cut data: India
 
-In this chapter we analyze rice crop cut data from Odisha, collected by Iftikar et al., 2017:
+In this chapter we pre-process rice crop-cut data from Odisha, collected by Iftikar et al., 2017:
 
 *Wasim Iftikar; Nabakishore Parida; Vivek Kumar; Narayan Chandra Banik; Amit Mishra, 2017, "Odisha Rice Crop Cut Data 2013 - 2016", hdl:11529/11111, CIMMYT Research Data & Software Repository Network, V2*
 
 The data are avaialble on the CIMMYT data repository
 https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/11111
 
+We are not reproducing a paper here, we are just finding out how to pre-process the data so that they can be used for further analysis.
 
 ## Get the data
 
@@ -235,6 +231,49 @@ Now the yield data look plausible
 
 ```{r ym31}
 tapply(dm$yha, dm$Year, mean, na.rm=TRUE)
+```
+
+
+A final step is to correct for variation in moisture content. We can use the field `Gr_Moisture` but there are again missing values.
+
+```{r ym41}
+dm$Gr_Moisture[dm$Gr_Moisture == "-"] <- NA
+dm$Gr_Moisture <- as.numeric(dm$Gr_Moisture)
+table(dm$Year, is.na(dm$Gr_Moisture))
+boxplot(Gr_Moisture~Year, data=dm, col=rainbow(6), ylab="Yield (kg/ha)", cex.axis=1.25, cex.lab=1.25)
+```
+
+The table shows that there is 1 missing value in 2015, and 94 in 2014. The boxplot shows different moisture contents by years, so lets replace the missing values with the mean value for each year. Compute the mean values:
+
+```{r ym42}
+moisture <- aggregate(dm[, "Gr_Moisture", drop=FALSE], dm[, "Year", drop=FALSE], mean, na.rm=TRUE)
+colnames(moisture)[2] <- "avg_moisture"
+moisture
+```
+
+Merge with the data
+
+
+```{r ym44}
+dim(dm)
+dm <- merge(dm, moisture, by="Year")
+dim(dm)
+```
+
+Find and replace the missing values
+
+```{r ym45}
+i <- is.na(dm$Gr_Moisture)
+dm$Gr_Moisture[i] <- dm$avg_moisture[i]
+table(is.na(dm$Gr_Moisture))
+boxplot(Gr_Moisture~Year, data=dm, col=rainbow(6), ylab="Yield (kg/ha)", cex.axis=1.25, cex.lab=1.25)
+```
+
+The boxplot shows that the distribution has changed for 2014 --- as there are now 97 values with the same (mean) value.
+
+For rice, standard moisture content is 12%. We can compute it like this
+```{r}
+dm$yha <- 12 * dm$yha / dm$Gr_Moisture 
 boxplot(yha~Year, data=dm, col=rainbow(6), ylab="Yield (kg/ha)", cex.axis=1.25, cex.lab=1.25)
 ```
 
@@ -278,22 +317,3 @@ aggregate(df[, fert[1:3]], df[,"Year",drop=FALSE], mean, na.rm=TRUE)
 ```
 
 
-A quick model
-
-```{r f30}
-df <- na.omit(df[, c("Year", fert[1:3], "yha")])
-df$fert <- rowSums(df[, fert[1:3]])
-plot(yha~fert, data=df)
-m <- lm(yha ~ Year + fert, data=df)
-summary(m)
-
-mr <- randomForest::randomForest(yha ~ Year + DAP_Total + MoP_Total + Urea_Total, data=df)
-mr
-randomForest::partialPlot(mr, df, x.var="Urea_Total")
-
-
-mrs <- randomForest::randomForest(yha ~ Year + fert, data=df)
-mrs
-randomForest::partialPlot(mrs, df, x.var="fert")
-
-```

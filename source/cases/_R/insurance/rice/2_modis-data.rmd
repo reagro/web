@@ -47,7 +47,7 @@ Next we download MODIS tiles that we need. More details can be found [here](http
 ```{r downloadMODIS, message=FALSE}
 library(terra)
 library(luna)
-library(reagrodata)
+library(agrodata)
 
 # study area
 aoi <- data_rice("zones") 
@@ -72,13 +72,14 @@ pols <- project(aoi, prj)
 
 ### Create quality mask
 
-Now we remove pixels that are affected by clouds and cloud-shadow. We follow the same method described [here](https://rspatial.org/terra/modis/4-quality.html). First, specify matrix "se" with start and end of the quality assessment (QA) bits considered, and specify a list "reject" with the values to be rejected (in the image) matching the rows in "se".
+Now we remove pixels that are affected by clouds and cloud-shadow. We follow the method described [here](https://rspatial.org/terra/modis/4-quality.html). We specify a matrix in which each row has start and end of the quality assessment (QA) bits considered, and the values to be rejected (in the image).
 
 ```{r qcMat}
-se <- matrix(c(1,2,3,6,11,11,12,14,16,16), ncol=2, byrow=TRUE)
-reject <- list(c("10", "11"), c("1100","1101","1110","1111"), "1", c("000","110","111"), "11")
+from <- c(1,3,11,12) 
+to   <- c(2,6,11,14) 
+reject <- c("10,11", "1100,1101,1110,1111", "1", "000,110,111")
+qmat <- cbind(from, to, reject)
 ```
-
 
 ### Apply mask and compute vegetation indices
 
@@ -111,7 +112,7 @@ for(i in 1:length(fmod)){
   r <- crop(r, pols)
     
   # Generate quality mask
-  quality_mask <- modis_mask(r$quality, 16, se, reject)
+  quality_mask <- modis_mask(r$quality, 16, qmat)
     
   # remove ("mask") low quality pixels
   r <- mask(r, quality_mask)

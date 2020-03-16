@@ -1,0 +1,57 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Crop-cut Data: Nepal 
+
+In this chapter we read rice crop-cut data from Odisha, collected by Iftikar et al., 2017:
+
+*Gokul Paudel; Shashish Maharjan; David Guerena; Ashok Rai; Andrew James McDonald, 2017, "Nepal Rice Crop Cut and Survey Data 2016", hdl:11529/10968, CIMMYT Research Data & Software Repository Network, V4*
+
+The data are [avaialble on the CIMMYT data repository](https://data.cimmyt.org/dataset.xhtml?persistentId=hdl:11529/10968) and there they are described as follows: 
+
+The major objectives of this rice crop cuts and survey were to:
+(i) identify major rice yield determinants in western Terai districts of Nepal and
+
+(ii) to identify major determinants that describe the variability in rice yield across farms thereby linking with farm characteristics and socio-economic gradients.
+
+The study was done in six districts (Kanchanpur, Kailali, Bardyia, Banke, K apilbastu and Rupendhai). 
+The sample size for this survey is 1052 households and the inputs use were asked for largest rice grown plots as farms may have multiple plots and inputs use might be different in different plots. 
+
+Out of the total samples of 1052; a set of (~12%; 126 samples) households participated in optional modules to get the detail data on fertilizer use, irrigation dynamics, weed management and socio-economics parameters. For these households 4 m*2* crop cuts were done in three quadrants of each plot.
+
+
+## Get the data
+
+We use the `agro` package to download the data.
+```{r get}
+ff <- agro::get_data_from_uri("hdl:11529/10968", ".")
+basename(ff)
+```
+
+We have `r length(ff)` files. Each as as `.csv` and as a `dta` file. Here are the unique filenames
+
+```{r read}
+uf <- gsub(".csv", "", basename(ff))
+uf <- gsub(".dta", "", uf)
+length(unique(uf))
+uf
+```
+
+We'll use the `.csv` files -- but one always wonders if the `.dta` files are the same or not. Perhaps we should check.
+
+```{r}
+fcsv <- ff[grep(".csv", ff)]
+d <- lapply(fcsv, function(i) read.csv(i, stringsAsFactors = FALSE))
+names(d) <- gsub(".csv", "", basename(fcsv))
+```
+
+`d` is a list with `r length(d)` elements. Each element is a data.frame that was read from the `.csv files`. We can use `sapply` to loop over the elements of `d`, for example to find out what the dimensions are. 
+
+```{r}
+dims <- t(sapply(d, dim))
+colnames(dims) <- c("nrow", "ncol")
+dims
+```
+
+That's good, the number of rows (either 1052 or 126) matches the description on the data repository. 

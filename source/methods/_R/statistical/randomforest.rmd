@@ -13,7 +13,7 @@ RandomForest is one of the most widely used "machine-learning" regression method
 For this chapter you need the following *R* packages: `randomForest`, `rpart`, `reagro`, and `agro`. See [these instructions](/installation.html) about installing *R* packages.
 
 ```{r randfor_req, message=FALSE}
-library(reagrodata)
+library(agrodata)
 library(agro)
 library(randomForest)
 library(rpart)

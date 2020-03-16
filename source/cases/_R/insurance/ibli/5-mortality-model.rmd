@@ -11,15 +11,15 @@ To design and evaluate an index based insurance contract, we need to understand 
 Mortality was computed from [survey data](http://data.ilri.org/portal/dataset/ibli-marsabit-r1) collected in Marsabit between 2008 and 2015. First read the data.
 
 ```{r Household1, message=FALSE}
-library(reagrodata)
-mort <- data_ibli("marsabit_mortality.rds")
+mort <- agrodata::data_ibli("marsabit_mortality.rds")
 mort[1:5, 1:7]
 ```
 
 Load data with causes of death.
 
 ```{r loss1, message=FALSE}
-cause <- data_ibli("marsabit_losses")[,c("hhid", "sublocation", "cause","month", "year")]
+cause <- agrodata::data_ibli("marsabit_losses")
+cause <- cause[,c("hhid", "sublocation", "cause","month", "year")]
 colnames(cause)[4] <- "season"
 s <- cause$season
 cause$season <- "SRSD"

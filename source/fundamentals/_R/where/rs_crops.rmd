@@ -35,7 +35,7 @@ dir.create(datadir, showWarnings = FALSE, recursive=TRUE)
 Get the ground observations
 
 ```{r , message=FALSE}
-library(reagrodata)
+library(agrodata)
 ff <- data_crop("sentinel", datadir)
 head(ff)
 ```
