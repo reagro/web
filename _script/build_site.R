@@ -9,7 +9,7 @@ if (length(args) > 0) {
 
 shell("make html")
 
-fff <- list.files("build/html", patt='\\.html$', recursive=TRUE, full=TRUE)
+fff <- list.files("_build/html", patt='\\.html$', recursive=TRUE, full=TRUE)
 for (f in fff) {
 	d <- readLines(f, warn=FALSE)
 	dd <- trimws(d)
@@ -25,7 +25,7 @@ f <- list.files("source", patt='\\.txt$', recursive=TRUE, full=TRUE)
 f <- grep("/txt/", f, value=TRUE)
 g <- gsub("txt/", "", f)
 g <- gsub("source/", "", g)
-h <- file.path("build/html/_sources", g)
+h <- file.path("_build/html/_sources", g)
 h <- gsub("\\.txt$", ".R.txt", h)
 y <- file.copy(f, h, overwrite=TRUE)
 

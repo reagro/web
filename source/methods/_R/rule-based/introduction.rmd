@@ -1,0 +1,17 @@
+# Introduction
+
+In this section we discuss rule-based models. In our terminology these are models with a mathematical structure that is imposed by the model developer based a presumed partial understanding of the process of interest. Given the model structure, model parameters may be based on from experiments or from model tuning with observations on input and output. Under this definition, a linear regression model may be considered a very simple example of a rule-based model. 
+
+Here we concerned with models that are a bit more complex, and that are not used for statistical inference. Such models may still be relatively simple. We shows simple rule-based models used to forecase disease to inform crop management, and a more elaborate model *QUEFTS* that predicts the response of crops to variatons in soil fertility.
+
+At the other extreme are dynamic crop growth simulation models. The term *dynamic* refers to the fact that these models simulate a process over time. That is, the model computes values for many time steps (for example days) where the input at time *t* is the output what was computed for the previous time step (*t-1*). 
+
+These models provide a quantitative description of the mechanisms that cause the behavior of a system of interest (a system is a limited part of reality that contains interrelated elements). They are often referred to as *mechanistic* and *explanatory*. These terms refer to the idea that the model developer uses known mechanisms sub-system processes, such as leaf-level photosynthesis, to construct a model of the system of interest, such as crop growth. The prime benefit of such models is that we can use them to learn about (explain) the processes of interest. But crop growth models are also used for  prediction, and that is why we include them here. 
+
+[to do: discuss relation to statistical models]
+
+All the models presented here are *deterministic* in the sense that they always give the same output for a given input. 
+
+
+
+
