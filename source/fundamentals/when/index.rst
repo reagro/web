@@ -8,7 +8,6 @@ We show existing datasources and methods to estimate these events.
 Crop calendars
 
 .. toctree::
-   :maxdepth: 4
    :hidden:
 
    datasources

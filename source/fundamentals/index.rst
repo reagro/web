@@ -6,7 +6,6 @@ In this section we show the application of tools and methods to produce intermed
 In *Where* we determine where particular crops and crop varieties are.  *When* deals with determining crop calendars and crop phenology. Under *What* we discuss crop yield and the presence of crop diseases, and prices. Finally, in *Who* we discuss data about farmers and the population in general.
 
 .. toctree::
-   :maxdepth: 4
    :hidden:
  
    where/index

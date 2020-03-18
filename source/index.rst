@@ -41,7 +41,6 @@ The aim of this book is to teach practical data science skills in *Regional Agro
 
 
 .. toctree::
-   :maxdepth: 10
    :hidden:
 
    introduction/index.rst

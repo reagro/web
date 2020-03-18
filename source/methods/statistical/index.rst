@@ -25,8 +25,7 @@ Statistical models
 
 .. toctree::
    :hidden: 
-   :maxdepth: 3
-   
+
    prediction
    supervised
    randomforest

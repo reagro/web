@@ -33,8 +33,7 @@ Spatial models
 
 .. toctree::
    :hidden: 
-   :maxdepth: 4
-   
+
    modeling
    interpolation
    distribution

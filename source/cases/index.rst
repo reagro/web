@@ -6,7 +6,6 @@ In this section we present a number of case studies that implement and combine s
 
 .. toctree::
    :hidden:
-   :maxdepth: 5
 
    access
    fertresponse

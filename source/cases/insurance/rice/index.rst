@@ -5,8 +5,6 @@ Estimating rice yield loss and index insurance quality assessment in Tanzania
 
 
 .. toctree::
-   :maxdepth: 5
-   :caption: Contents:
 
    1_introduction
    2_modis-data

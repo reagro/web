@@ -11,9 +11,7 @@ We also discuss collection of ODK forms and written protocols.
 
 
 .. toctree::
-   :maxdepth: 4
    :hidden: 
-
 
    india_census_sample
    

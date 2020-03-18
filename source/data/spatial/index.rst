@@ -7,7 +7,7 @@ soilgrids, CHIRPS, worldclim, GADM, etc
 
 
 .. toctree::
-   :maxdepth: 4
+
 
    osm
    

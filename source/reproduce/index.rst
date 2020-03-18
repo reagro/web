@@ -11,7 +11,6 @@ The fifth chapter discussed general lessons learned and ways forward.
 
 
 .. toctree::
-   :maxdepth: 5
    :hidden:
 
    reproducibility.rst

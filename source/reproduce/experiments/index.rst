@@ -6,8 +6,6 @@ Case studies on reproducing the analysis of data from agricultural experiments.
 
 .. toctree::
    :hidden:
-   :maxdepth: 3
-   :caption: Contents:
 
    Cerealyield_WestAfrica
    NericaRice

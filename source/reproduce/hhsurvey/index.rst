@@ -5,8 +5,6 @@ Case studies on reproducing the analysis of data from agricultural household sur
 
 
 .. toctree::
-   :maxdepth: 3
-   :caption: Contents:
    :hidden:
    
    CSA_RA

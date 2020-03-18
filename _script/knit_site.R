@@ -92,7 +92,8 @@ if (tolower(Sys.info()["sysname"])=="windows"){
 }
 
 args <- commandArgs(TRUE)
-ch <- grep("_R$", list.dirs(recursive=T), value=TRUE)
+ch <- grep("_R$", list.dirs(recursive=TRUE), value=TRUE)
+chapters <- grep("/source/", ch, value=TRUE)
 chapters <- gsub("\\./source/", "", gsub("/_R", "", ch))
 
 if (length(args) < 1) {

@@ -25,7 +25,6 @@ This section introduces basic computational techniques to evaluate the benefit o
 
 
 .. toctree::
-   :maxdepth: 5
    :hidden:
 
    insurance/index

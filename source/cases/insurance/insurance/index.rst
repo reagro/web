@@ -4,8 +4,6 @@ Concepts and theory
 Agricultural index insurance. What is it, and how can it be evaluated? 
 
 .. toctree::
-   :maxdepth: 5
-   :caption: Contents:   
 
    1-introduction
    2-utility

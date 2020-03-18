@@ -4,8 +4,6 @@ Livestock insurance
 Livestock insurance in Northern Kenya
 
 .. toctree::
-   :maxdepth: 5
-   :caption: Contents:
 
    1-introduction
    2-modis
