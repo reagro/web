@@ -1,0 +1,53 @@
+group,variable,description,unit
+emergence,TBASEM,lower threshold temp. for emergence,°C
+emergence,TEFFMX,max. eff. temp. for emergence,°C
+emergence,TSUMEM,temperature sum from sowing to emergence,°Cd
+phenology,IDSL,"early development depends on temperature (0), daylength (1) , or both (2)?",-
+phenology,DLO,optimum daylength for development,hr
+phenology,DLC,critical daylength (lower threshold),hr
+phenology,TSUM1,temperature sum from emergence to anthesis,°C d
+phenology,TSUM2,temperature sum from anthesis to maturity,°C d
+phenology,DTSMTB,daily increase in temp. sum as function of average temperature (°C),°Cd
+phenology,DVSI,initial development stage (DVS),-
+phenology,DVSEND,development stage at harvest (= 2.0 at maturity),-
+initial,TDWI,initial total crop dry weight,kg ha-1
+initial,LAIEM,leaf area index at emergence,ha ha-1
+initial,RGRLAI,maximum relative increase in LAI,ha ha-1 d-1
+green area,SLATB,specific leaf area as a function of DVS,ha kg-1
+green area,SPA,specific pod area,ha kg-1
+green area,SSATB,specific stem area as function of DVS,ha kg-1
+green area,SPAN,life span of leaves growing at 35°C,d
+green area,TBASE,lower threshold temp. for ageing of leaves,°C
+assimilation,KDIFTB,extinction coefficient for diffuse visible light as function of DVS,- 
+assimilation,EFFTB,light-use effic. single leaf as function of daily mean temperature,kg ha-1 hr-1 j-1 m2 s
+assimilation,AMAXTB,maximum leaf CO2 assimilation rate as a function of DVS,kg ha-1 hr-1
+assimilation,TMPFTB,reduction factor of AMAX as function of average temperature,-
+assimilation,TMNFTB,reduction factor of gross assim. rate as function of low min. temperature,-
+conversion of assimilates into biomass,CVL,efficiency of conversion into leaves,-
+conversion of assimilates into biomass,CVO,efficiency of conversion into storage organ,-
+conversion of assimilates into biomass,CVR,efficiency of conversion into roots,-
+conversion of assimilates into biomass,CVS,efficiency of conversion into stems,-
+maintenance respiration,Q10,relative increase in respiration rate per 10°C temperature increase,-
+maintenance respiration,RML,rel. maint. resp. rate leaves,kg CH2O kg-1 d-1
+maintenance respiration,RMO,rel. maint. resp. rate storage organ.,kg CH2O kg-1 d-1
+maintenance respiration,RMR,rel. maint. resp. rate roots,kg CH2O kg-1 d-1
+maintenance respiration,RMS,rel. maint. resp. rate stems,kg CH2O kg-1 d-1
+maintenance respiration,RFSETB,red. factor for senescence as function of DVS,-
+partitioning,FRTB,fraction of total dry matter to roots as a function of DVS,-
+partitioning,FLTB,fraction of above-ground biomass to leaves as a function of DVS,-
+partitioning,FSTB,fraction of above-ground biomass to stems as a function of DVS,-
+partitioning,FOTB,fraction of above-ground biomass to storage organ as a function of DVS,-
+death rates,PERDL,max. relative death rate of leaves due to water stress,-
+death rates,RDRRTB,relative death rate of stems as a function of DVS,d-1
+death rates,RDRSTB,relative death rate of roots as a function of DVS,d-1
+water use,CFET,correction factor transpiration rate,-
+water use,DEPNR,crop group number for soil water depletion,-
+water use,IAIRDU,air ducts in roots present (=1 or TRUE) or not (=0 or FALSE),-
+rooting,RDI,initial rooting depth,cm
+rooting,RRI,maximum daily increase in rooting depth,cm d-1
+rooting,RDMCR,maximum rooting depth,cm
+rooting,DVSDR,development stage above which death of roots and stems starts,
+rooting,DVSDLT,development stage above which death of leaves starts in dependence of mean daily temperature,
+CO2,CO2AMAXTB,multiplication factor for AMAX to account for an increasing CO2 concentration,
+CO2,CO2EFFTB,multiplication factor for EFF to account for an increasing CO2 concentration,
+CO2,CO2TRATB,multiplication factor for maximum transpiration rate TRAMX to account for an increasing CO2 concentration,

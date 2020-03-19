@@ -1,2 +1,2 @@
-# Potato late blight simulation
+# Disease simulation
 

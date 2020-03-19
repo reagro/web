@@ -1,0 +1,23 @@
+# Principles
+
+## Introduction
+
+This chapter describes some of the basic principles and concepts of the WOFOST model. Like all models, WOFOST is a simplification of reality. In practice, crop yield is a result of the interaction of many ecological and crop management factors. In WOFOST, only a number of these are considered. It is thus important to understand what WOFOST does, and what it does not and cannot do. We provide only a brief introductory overview; see the *further reading* section below for references to more in-depth treatments. 
+
+## Production levels
+
+To be able to deal with the ecological diversity of agriculture, three theoretical levels of crop growth can be distinguished: potential growth, limited growth and reduced growth. Each of these growth levels corresponds to a level of crop production: potential, limited and reduced production.
+
+*Potential production* refers to a situation where crop growth is determined by irradiation, temperature, CO2 concentration, and plant characteristics. All other factors are assumed to be in ample supply. It represents the highest possible yield that can be achieved in a location, given a variety and a planting date. Usually, this ceiling can only be reached with a high input of fertilizers, irrigation and thorough pest control. In *limited production* levels, in addition to variables influencing potential production, the effect of the availability of water and plant nutrients is considered as well. Finally, *reduced production* also considers the effect of mostly biotic factors like weeds, pests and diseases on a crop. 
+
+Reality rarely corresponds exactly to one of these growth/production levels, but it is useful to reduce specific cases to one of them, because this enables you to  focus on the principal environmental constraints to crop production, such as light, temperature, water or the macro-nutrients nitrogen, phosphorus and potassium. 
+
+
+## Dynamic modeling
+
+Crop growth simulation models are *dynamic* meaning that they simulate a process over time using feedback mechanisms. At each time step *t*, **rate variables** (e.g. leaf biomass increase, or leaf area increase) are computed from **state variables** (e.g. total biomass, or leaf area index) driving variables such as temperature and solar radiation. After computing the rate variables, the state variables are updated, so that in the next time step *t+1* the conditions are different (there might be more leaf area). 
+
+
+## Further reading
+
+Have a look at `this document <https://wofost.readthedocs.io/en/latest/>`_ for a more in depth description of how WOFOST works.

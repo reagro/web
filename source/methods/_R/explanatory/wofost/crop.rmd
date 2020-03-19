@@ -2,4 +2,136 @@
 
 ## Introduction 
 
-In the [previous chapter](./wofost.html) we introduced the WOFOST model. Here we show how you can run it across regions. 
+
+## Parameter files 
+
+Available crops with Rwofost
+
+```{r wofost_crop1}
+library(Rwofost)
+crops <- wofost_crop()
+cat(crops)
+```
+
+Get parameters for a single crop
+
+```{r wofost_crop10}
+crop <- wofost_crop("barley")
+str(crop[1:5])
+```
+
+The object `crop` is a `list` with `r length(crop)` elements. Most are single numbers, but there are also two-row matrices (referred to as tables in the context of WOFOST).
+
+
+
+```{r wofost_crop_table, echo=FALSE}
+params <- read.csv("croppars.csv", stringsAsFactors=FALSE)
+rownames(params) <- NULL
+```
+
+## Parameter definitions
+
+The crop parameters
+	
+### emergence
+
+```{r wofost_crop_20, echo=FALSE}
+p <- params[params[,1] == "emergence", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### initial conditions
+
+```{r wofost_crop_40, echo=FALSE}
+p <- params[params[,1] == "initial", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+
+### phenology
+
+
+```{r wofost_crop_30, echo=FALSE}
+p <- params[params[,1] == "phenology", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+Other WOFOST implementations may also have `DVSI`, the initial development stage (DVS), and `DVSEND`	development stage at harvest; but Rwofost does not have these.
+
+
+### green area
+
+```{r wofost_crop_50, echo=FALSE}
+p <- params[params[,1] == "green area", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### assimilation
+
+```{r wofost_crop_60, echo=FALSE}
+p <- params[params[,1] == "assimilation", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### conversion of assimilates into biomass
+
+```{r wofost_crop_70, echo=FALSE}
+p <- params[params[,1] == "conversion of assimilates into biomass", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+
+### maintenance respiration
+
+```{r wofost_crop_80, echo=FALSE}
+p <- params[params[,1] == "maintenance respiration", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### partitioning
+
+```{r wofost_crop_90, echo=FALSE}
+p <- params[params[,1] == "partitioning", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### death rates
+
+```{r wofost_crop_100, echo=FALSE}
+p <- params[params[,1] == "death rates", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### water use
+
+```{r wofost_crop_110, echo=FALSE}
+p <- params[params[,1] == "water use", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### rooting
+
+```{r wofost_crop_120, echo=FALSE}
+p <- params[params[,1] == "rooting", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### CO2
+
+```{r wofost_crop_130, echo=FALSE}
+p <- params[params[,1] == "CO2", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+

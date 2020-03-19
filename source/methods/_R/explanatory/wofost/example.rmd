@@ -2,78 +2,68 @@
 
 ## Introduction
 
-In this chapter 
+With WOFOST, crop growth is simulated using daily weather data parameters describing the crop(s) and soil type(s) of interest, as well as the crop management (such as planting date). You can calculate potential and water-limited production. In the current version, nutrient-limited production and yield reducing factors are not taken into account. In each model run, WOFOST simulates the growth of a specific crop, given the selected soil and weather data. For each simulation, you must select initial conditions such as the as the soil's water status, and management decisions such as the crop planting date.
 
 ## Chapter requirements
 
-We use *R* package `Rwofost`. It has been submitted to CRAN (March 2020), so pretty soon you should be able  [install](/installation.html) it from there.
+We use *R* package `Rwofost`. has been submitted to CRAN (March 2020), so pretty soon you should be able  [install](/installation.html) it from there.
 
-## Weather data
+## Input data
  
-To run WOFOST, you need daily weather data. 
+To run WOFOST, you need daily [weather data](weather.html). Here we use an file that comes with the `meteor` package.
 
 ```{r wofost_0}
 library(Rwofost)
 f <- system.file("extdata/Netherlands_Swifterbant.csv", package="meteor")
-w <- read.csv(f)
-w$date <- as.Date(w$date)
-head(w)
+wth <- read.csv(f)
+wth$date <- as.Date(w$date)
+head(wth)
 ```
 
-Here we use an example file that comes with *R*. You can use any source of weather data you want (and deem reliable), but you have to create a `data.frame` with the following column names: `r paste(colnames(w), collapse=" ,")`. All variables should be numeric, except `date` which should contain `Date`s. We discuss weather data sources in the [next chapter](spatial-wofost.html) and also in the section on (spatial data)[/data/spatial/index.html]. 
-
-### Crop parameters
-
-A crop variety is described by a (rather lengthy) set of parameters. The `Rwofost` package comes with a set of examples that you can use or build on. 
-
-```{r wofost_10}
-print(wofost_crop())
-```
-
-Let's take barley
+A variety is described by a (rather lengthy) set of [crop parameters](crop.html). The `Rwofost` package comes with a set of examples that you can use or build on. Let's take barley
 
 ```{r wofost_11}
 crop <- wofost_crop("barley")
-str(crop)
 ```
 
-The object `crop` is a `list` with `r length(crop)` elements. Most are single numbers, but there are also two-row matrices
-
-
-## Soil parameters
+We can also use example [soil parameters](soil.html).
 
 ```{r wofost_20}
 soil <- wofost_soil('ec1')
-str(soil)
 ```
 
-
-## Control parameters
+And "[control](control.html)" parameters that set things like planting date. 
 
 ```{r wofost_30}
 contr <- wofost_control()
-str(contr)
 contr$modelstart <- as.Date("1976-02-06")
 ```
 
-## Create model
+## Model
+
+Now that we have the input data we can either run the model in one step 
+
 ```{r wofost_42}
-w <- wofost_model(crop, w, soil, contr)
+out <- wofost(crop, wth, soil, contr)
 ```
 
-## Run model 
+Or in two steps, by first creating the [model](model.html).
+
+```{r wofost_43}
+m <- wofost_model(crop, wth, soil, contr)
+```
+
+And then running it 
 
 ```{r wofost_45}
-d <- run(w)
+d <- run(m)
 ```
 
-
-## Inspect output
+A quick look at the [output](output.html).
 
 ```{r wofost_50}
 head(d)
 tail(d)
 plot(d[,'step'], d[, 'LAI'])
 ```
-
 

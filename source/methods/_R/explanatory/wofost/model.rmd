@@ -1,0 +1,12 @@
+# Model
+
+## Introduction 
+
+```{r wofost_10}
+print(wofost_crop())
+crop <- wofost_crop("barley")
+str(crop)
+```
+
+The object `crop` is a `list` with `r length(crop)` elements. Most are single numbers, but there are also two-row matrices
+

@@ -1,5 +1,110 @@
 # Weather data
 
-## Introduction 
+## Introduction
 
-In the [previous chapter](./wofost.html) we introduced the WOFOST model. Here we show how you can run it across regions. 
+Like other crop models, WOFOST requires daily weather data to simulate crop growth. And in many cases you will want to have data for many, perhaps 30, years for each location, so that you can look at variabillity. Obtaining daily weather data of sufficient quality, for a sufficient time lenght (let's say 30 years) and at a sufficient spatial density used to be an enourmous challange for almost every region of the world.
+
+There is much more daily weather data available now then ever before --- even though the quality of differnt data products is difficult to assess. See the [data section](/data/spatial/index.html) and the [spatial WOFOST chapter](spatial-wofost.html) for more discussion.
+
+
+## Example
+
+Here we use an example file that comes with the *R* package `meteor`. `Rwofost` depends on `meteor` so you should have it on your computer if you have `Rwofost`. 
+
+```{r wofost_wth_0}
+library(Rwofost)
+f <- system.file("extdata/Philippines_IRRI.csv", package="meteor")
+basename(f)
+```
+
+Note that the `system.file` bit is only used to find the `meteor` package on your computer. Do not use it with your own files. 
+
+Now that we have a filename, and we see it is "csv" (comma separated values) format, we can read it. 
+
+```{r wofost_wth_10}
+w <- read.csv(f, stringsAsFactors=FALSE)
+head(w)
+```
+
+You can use any source of weather data you want (and deem reliable), but you have to create a `data.frame` with the following column names: `r paste(colnames(w), collapse=" ,")`. All variables should be numeric (or integer), except `date` which should contain `Date`s. 
+
+Let's find out what data types we have.
+
+```{r wofost_wth_20}
+sapply(w, class)
+```
+
+And change the "date" column from "character" to "Date"
+
+```{r wofost_wth_30}
+w$date <- as.Date(w$date)
+```
+
+It is also very important to assure that the weather variables have the correct units. These are the units that Rwofost uses. 
+
+
+```{r wofost_wth_35, echo=FALSE}
+m <- matrix(c("variable", "description", "unit", "date", "Date class variable", "-", "srad", "Solar radiation", "kJ m-2 day-1", "tmin", "Minimum temperature", "°C", "tmax", "Maximum temperature", "°C", "vapr", "Vapor pressure", "kPa", "wind", "Wind speed", "m s-1", "prec", "Precipitation", "mm day-1"), ncol=3, byrow=TRUE)
+knitr::kable(m)
+```
+
+
+Let's find a little bit more about what we have. 
+
+```{r wofost_wth_40}
+nrow(w)
+head(w)
+tail(w)
+```
+We have `r nrow(w)` records, starting on `r w[1, "date"]` and ending on `r w[nrow(w), "date"]`. 
+
+Note that the weather data has to be consecutive --- the model does not check that, and will assume that 4 April follows 3 July if you present the data that way. We can check if this is the case.
+
+
+First, does the number of rows match the date range?
+
+```{r wofost_wth_50}
+w[nrow(w), "date"] - w[1, "date"] 
+nrow(w)
+```
+
+Are all the dates consecutive?
+
+```{r wofost_wth_60, error=TRUE}
+d <- diff(w$date)
+all(d == 1)
+```
+
+Uy, they are not! Let's see what is going on. 
+
+```{r wofost_wth_70}
+table(d)
+i <- which(d > 1)
+w[i:(i+1), ]
+```
+
+December 1989 is missing! Good to know...
+
+## Conversion
+
+If you have different weather data, or in other units, you may need to convert it. 
+
+To go from °F (Fahrenheit) to °C (Celsius; or, as Americans say, Centigrade) you can do 
+
+```{r wofost_wth_80}
+degC <- function(F) 5 * (F − 32) / 9
+
+dF <- 0:110
+dC <- degC(F)
+plot(dF, dC)
+```
+
+If you do not have vapor pressure you can compute it from another measure of air humidity, such as relative humidity or dew-point temperature. See the meteor package.
+
+
+## Weather simulation 
+
+[to be done]
+
+
+
