@@ -1,0 +1,20 @@
+soil water retention,SMTAB,vol. soil moisture content as function of pF,log10 (cm); –
+soil water retention,SMW,soil moisture content at wilting point,–
+soil water retention,SMFCF,soil moisture content at field capacity,–
+soil water retention,SM0,soil moisture content at saturation,–
+soil water retention,CRAIRC,critical soil air content for aeration,–
+hydraulic conductivity,CONTAB,10-log hydraulic conductivity as function of pF,log10 (cm); log10 (cm/day)
+hydraulic conductivity,K0,hydraulic conductivity of saturated soil,cm day-1
+hydraulic conductivity,SOPE,maximum percolation rate root zone,cm day-1
+hydraulic conductivity,KSUB,maximum percolation rate subsoil,cm day-1
+Water infiltration and surface storage,SSMAX,Maximum surface storage,cm
+Water infiltration and surface storage,IZT,groundwater present,–
+Water infiltration and surface storage,IFUNRN,Rain infiltration as function of storm size (0/1),–
+Water infiltration and surface storage,IDRAIN,presence (1) or absence (0) of drains,–
+Water infiltration and surface storage,WAV,"initial amount of water in excess of wilting point,  but not exceeding field capacity",cm
+Water infiltration and surface storage,ZTI,initial depth of groundwater table,cm
+Water infiltration and surface storage,DD,effective depth of drains (drainage base),cm
+Water infiltration and surface storage,RDMSOL,maximum rooting depth of the soil,cm
+Water infiltration and surface storage,NOTINF,non-infiltrating fraction of rainfall (FUNRAI=0) or maximum non-infiltrating fraction (FUNRAI=1),
+Water infiltration and surface storage,SSI,Initial surface storage,cm
+Water infiltration and surface storage,SMLIM,Limiting amount of volumetric moisture in upper soil layer,–

@@ -1,5 +1,48 @@
-# Control paramters
+# Control parameters
 
 ## Introduction 
 
-In the [previous chapter](./wofost.html) we introduced the WOFOST model. Here we show how you can run it across regions. 
+You can get a list of example control parameters
+
+```{r wofost_ctrl10}
+ctrl <- wofost_control()
+```
+
+
+## Parameters
+	
+### Site characteristics
+
+
+```{r wofost_ctrl_20, echo=FALSE}
+params <- read.csv("controlpars.csv", stringsAsFactors=FALSE)
+p <- params[params[,1] == "site", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+Optional site parameters
+
+```{r wofost_ctrl_30, echo=FALSE}
+p <- params[params[,1] == "siteopt", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### Timing
+
+
+```{r wofost_ctrl_40, echo=FALSE}
+p <- params[params[,1] == "timing", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### Water limitation
+
+```{r wofost_ctrl_50, echo=FALSE}
+p <- params[params[,1] == "water", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+

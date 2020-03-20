@@ -2,46 +2,73 @@
 
 ## Introduction 
 
+The crop parameters used are fundamental to using WOFOST. They can be difficult to navigate because there are so many of them (48 in the current version). Here we present them all, so you can evaluate which parameters are of most relevance to you. Unless you are a specialist, you should use default values for most parameters for a crop of interest. However, you could consider using different values for the phenology parameters.  
 
-## Parameter files 
+## List of crops
 
-Available crops with Rwofost
+Here is a list of the default crop parameter sets that come with Rwofost
 
 ```{r wofost_crop1}
 library(Rwofost)
 crops <- wofost_crop()
-cat(crops)
+cat(crops, "\n")
 ```
 
-Get parameters for a single crop
+You can get parameters for a single crop (variety) by like this. 
 
 ```{r wofost_crop10}
 crop <- wofost_crop("barley")
+```
+
+You can also provide a filename to `wofost_crop` to read parameters from a file you created yourself. Have a look at the files in the Rwofost package. On your computer they are installed on what is returned by *R* if you run this: `system.file("wofost/crop", package="Rwofost")`
+
+The object `crop` is a `list` with `r length(crop)` elements (some of the parameters are used to compute nutrient limitation but that has not been implemented yet --- so these can be ignored for now). 
+
+```{r wofost_crop12}
+class(crop)
+length(crop)
 str(crop[1:5])
 ```
 
-The object `crop` is a `list` with `r length(crop)` elements. Most are single numbers, but there are also two-row matrices (referred to as tables in the context of WOFOST).
+Most are single numbers, but there are also two-row matrices (referred to as tables in the context of WOFOST). The names of these matrix-parameters end on TB (for table). Here is an example. 
 
-
-
-```{r wofost_crop_table, echo=FALSE}
-params <- read.csv("croppars.csv", stringsAsFactors=FALSE)
-rownames(params) <- NULL
+```{r wofost_crop14}
+crop$FOTB
 ```
 
-## Parameter definitions
+You can get some (but not very informative) meta-data about the parameters by using the argument `describe=TRUE`.
 
-The crop parameters
+```{r wofost_crop18}
+crop <- wofost_crop("barley", describe=TRUE)
+```
+
+
+## Parameters
 	
-### emergence
+### Emergence
+
+These parameters help determine how long it takes for the crop to emerge. This is only relevant when the  simulation of the crop starts at sowing, and not at emergence. For emergence to occur, a thermal time `TSUMEM` has to be reached, but summing up the daily difference in between the average temperature and `TBASEM` --- if the temperature is > `TBASEM`; and by capping the average temperature at `TEFFMX`.
+
+
 
 ```{r wofost_crop_20, echo=FALSE}
+params <- read.csv("croppars.csv", stringsAsFactors=FALSE)
+params[,4] <- gsub("-1", "^-1^", params[,4])
+params[,4] <- gsub("2", "^2^", params[,4])
 p <- params[params[,1] == "emergence", -1]
 rownames(p) <- NULL
 knitr::kable(p)
 ```
 
-### initial conditions
+The default parameters for barley are: 
+
+```{r wofost_crop_22}
+crop$TSUMEM
+crop$TEFFMX
+crop$TBASEM
+```
+
+### Initial conditions
 
 ```{r wofost_crop_40, echo=FALSE}
 p <- params[params[,1] == "initial", -1]
@@ -49,9 +76,9 @@ rownames(p) <- NULL
 knitr::kable(p)
 ```
 
+### Phenology
 
-### phenology
-
+Phenology parameters are very important as they determine the "maturity type" (early, late) of the variety, and hence the length of the growing season. This can have a very strong effect of crop yield potential, but also on the risk to encounter drought stress. You can easily change the maturity type by changing the values for `TSUM1` and `TSUM2`
 
 ```{r wofost_crop_30, echo=FALSE}
 p <- params[params[,1] == "phenology", -1]
@@ -62,7 +89,7 @@ knitr::kable(p)
 Other WOFOST implementations may also have `DVSI`, the initial development stage (DVS), and `DVSEND`	development stage at harvest; but Rwofost does not have these.
 
 
-### green area
+### Green area
 
 ```{r wofost_crop_50, echo=FALSE}
 p <- params[params[,1] == "green area", -1]
@@ -70,7 +97,7 @@ rownames(p) <- NULL
 knitr::kable(p)
 ```
 
-### assimilation
+### Assimilation
 
 ```{r wofost_crop_60, echo=FALSE}
 p <- params[params[,1] == "assimilation", -1]
@@ -78,7 +105,7 @@ rownames(p) <- NULL
 knitr::kable(p)
 ```
 
-### conversion of assimilates into biomass
+### Conversion of assimilates into biomass
 
 ```{r wofost_crop_70, echo=FALSE}
 p <- params[params[,1] == "conversion of assimilates into biomass", -1]
@@ -87,7 +114,7 @@ knitr::kable(p)
 ```
 
 
-### maintenance respiration
+### Maintenance respiration
 
 ```{r wofost_crop_80, echo=FALSE}
 p <- params[params[,1] == "maintenance respiration", -1]
@@ -95,7 +122,7 @@ rownames(p) <- NULL
 knitr::kable(p)
 ```
 
-### partitioning
+### Partitioning of biomass
 
 ```{r wofost_crop_90, echo=FALSE}
 p <- params[params[,1] == "partitioning", -1]
@@ -103,7 +130,7 @@ rownames(p) <- NULL
 knitr::kable(p)
 ```
 
-### death rates
+### Death rates
 
 ```{r wofost_crop_100, echo=FALSE}
 p <- params[params[,1] == "death rates", -1]
@@ -111,7 +138,7 @@ rownames(p) <- NULL
 knitr::kable(p)
 ```
 
-### water use
+### Water use
 
 ```{r wofost_crop_110, echo=FALSE}
 p <- params[params[,1] == "water use", -1]
@@ -119,7 +146,7 @@ rownames(p) <- NULL
 knitr::kable(p)
 ```
 
-### rooting
+### Roots
 
 ```{r wofost_crop_120, echo=FALSE}
 p <- params[params[,1] == "rooting", -1]
@@ -127,7 +154,7 @@ rownames(p) <- NULL
 knitr::kable(p)
 ```
 
-### CO2
+### CO~2~
 
 ```{r wofost_crop_130, echo=FALSE}
 p <- params[params[,1] == "CO2", -1]

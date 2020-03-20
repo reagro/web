@@ -2,4 +2,65 @@
 
 ## Introduction 
 
-In the [previous chapter](./wofost.html) we introduced the WOFOST model. Here we show how you can run it across regions. 
+## List of soils
+
+Here is a list of the default soil parameter sets that come with Rwofost
+
+```{r wofost_soil1}
+library(Rwofost)
+soils <- wofost_soil()
+cat(soils, "\n")
+```
+
+You can get parameters for a single soil by like this. 
+
+```{r wofost_soil10}
+soil <- wofost_soil("ec1")
+```
+
+You can also specify a filename to read parameters from a file you created yourself. Have a look at the files in the Rwofost package. On your computer they are installed on what is returned by *R* if you run this: `system.file("wofost/soil", package="Rwofost")`
+
+The object `soil` is a `list` with `r length(soil)` elements (some of the parameters are used to compute nutrient limitation but that has not been implemented yet --- so these can be ignored for now). 
+
+```{r wofost_soil12}
+class(soil)
+length(soil)
+str(soil[1:5])
+```
+
+Most are single numbers, but there are also two-row matrices (referred to as tables in the context of WOFOST). The names of these matrix-parameters end on TAB (for table). Here is an example. 
+
+```{r wofost_soil14}
+soil$SMTAB
+```
+
+## Parameters
+	
+### Soil water retention
+
+
+```{r wofost_soil_20, echo=FALSE}
+params <- read.csv("soilpars.csv", stringsAsFactors=FALSE)
+params[,4] <- gsub("-1", "^-1^", params[,4])
+p <- params[params[,1] == "soil water retention", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### Hydraulic conductivity
+
+
+```{r wofost_soil_40, echo=FALSE}
+p <- params[params[,1] == "hydraulic conductivity", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+
+### Water infiltration and surface storage
+
+```{r wofost_soil_50, echo=FALSE}
+p <- params[params[,1] == "Water infiltration and surface storage", -1]
+rownames(p) <- NULL
+knitr::kable(p)
+```
+

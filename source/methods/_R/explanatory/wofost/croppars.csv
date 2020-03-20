@@ -9,15 +9,15 @@ phenology,TSUM1,temperature sum for vegatative phase,°C d
 phenology,TSUM2,temperature sum for generative phase,°C d
 phenology,DTSMTB,increase in temp. sum as function of avg. temp (°C),°Cd
 initial,TDWI,initial total crop dry weight,kg ha-1
-initial,LAIEM,leaf area index at emergence,ha ha-1
-initial,RGRLAI,maximum relative increase in LAI,ha ha-1 d-1
+initial,LAIEM,leaf area index at emergence,–
+initial,RGRLAI,maximum relative increase in LAI,d-1
 green area,SLATB,specific leaf area as a function of DVS,ha kg-1
 green area,SPA,specific pod area,ha kg-1
 green area,SSATB,specific stem area as function of DVS,ha kg-1
 green area,SPAN,life span of leaves growing at 35°C,d
 green area,TBASE,lower threshold temp. for ageing of leaves,°C
 assimilation,KDIFTB,ext. coefficient of diffuse visible light as function of DVS,–
-assimilation,EFFTB,light-use effic. single leaf as function of avg. temperature,kg ha-1 hr-1 j-1 m2 s
+assimilation,EFFTB,light-use effic. single leaf as function of avg. temperature,kg ha-1 hr-1 J-1 m2 s
 assimilation,AMAXTB,maximum leaf CO2 assimilation rate as a function of DVS,kg ha-1 hr-1
 assimilation,TMPFTB,red. factor of AMAX as function of average temperature,–
 assimilation,TMNFTB,red. Fact. of gross assim. rate as function of low min. temp.,–
@@ -44,8 +44,6 @@ water use,IAIRDU,air ducts in roots present (=1 or TRUE) or not (=0 or FALSE),–
 rooting,RDI,initial rooting depth,cm
 rooting,RRI,maximum daily increase in rooting depth,cm d-1
 rooting,RDMCR,maximum rooting depth,cm
-rooting,DVSDR,development stage above which death of roots and stems starts,–
-rooting,DVSDLT,DVS above which death of leaves dependent of avg temperature,–
 CO2,CO2AMAXTB,mult. factor for AMAX as a function of CO2 concentration,–
 CO2,CO2EFFTB,mult. factor for EFF as a function of CO2 concentration,–
 CO2,CO2TRATB,mult. factor for max transp rate TRAMX as a function of CO2 conc.,–

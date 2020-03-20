@@ -44,7 +44,7 @@ It is also very important to assure that the weather variables have the correct 
 
 
 ```{r wofost_wth_35, echo=FALSE}
-m <- matrix(c("variable", "description", "unit", "date", "Date class variable", "-", "srad", "Solar radiation", "kJ m-2 day-1", "tmin", "Minimum temperature", "°C", "tmax", "Maximum temperature", "°C", "vapr", "Vapor pressure", "kPa", "wind", "Wind speed", "m s-1", "prec", "Precipitation", "mm day-1"), ncol=3, byrow=TRUE)
+m <- matrix(c("variable", "description", "unit", "date", "'Date'", "–", "srad", "Solar radiation", "kJ m-2 day-1", "tmin", "Minimum temperature", "°C", "tmax", "Maximum temperature", "°C", "vapr", "Vapor pressure", "kPa", "wind", "Wind speed", "m s-1", "prec", "Precipitation", "mm day-1"), ncol=3, byrow=TRUE)
 knitr::kable(m)
 ```
 
@@ -68,11 +68,11 @@ w[nrow(w), "date"] - w[1, "date"]
 nrow(w)
 ```
 
-Are all the dates consecutive?
+Are all the dates consecutive? 
 
 ```{r wofost_wth_60, error=TRUE}
 d <- diff(w$date)
-all(d == 1)
+all(d)
 ```
 
 Uy, they are not! Let's see what is going on. 

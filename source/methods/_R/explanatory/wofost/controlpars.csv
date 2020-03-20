@@ -1,0 +1,14 @@
+group,variable,description,unit
+site,latitude,Latitude of site,°
+site,elevation,Elevation of site,m
+site,CO2,atmospheric CO2 concentration,ppm
+siteopt,output,Output options,–
+siteopt,ANGSTA,Ångström formula coefficient A (default is 0.18),–
+siteopt,ANGSTB,Ångström formula coefficient B (default is 0.55),–
+timing,modelstart,Start date of model,date
+timing,cropstart,Number of days that crop sub-model starts after modelstart,d
+timing,start_sowing,Start crop at emergence (0) or at sowing (1),–
+timing,max_duration,Maximum crop duration (days after cropstart),d
+timing,stop_maturity,Stop simulation at maturity (1) or continue until max_duration (0),–
+water,water_limited,"Production levels. 0 = potential, 1 = water-limited",–
+water,watlim_type,"Type of water-limitation: 0 (drought),  1 (drought and oxygen shortage)",–

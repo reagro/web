@@ -20,4 +20,5 @@ Crop growth simulation models are *dynamic* meaning that they simulate a process
 
 ## Further reading
 
-Have a look at `this document <https://wofost.readthedocs.io/en/latest/>`_ for a more in depth description of how WOFOST works.
+Have a look at [this document](https://wofost.readthedocs.io/en/latest/) for a more in depth description of how WOFOST works.
+
