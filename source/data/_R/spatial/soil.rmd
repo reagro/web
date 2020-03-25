@@ -1,0 +1,6 @@
+# Soil data
+
+[SoilGrids](http://files.isric.org/) gridded soils data 
+
+An inventory of available [spatial soil data](https://www.isric.org/explore/soil-geographic-databases).
+

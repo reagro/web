@@ -3,29 +3,38 @@
 R packages
 ==========
 
-Most of the R packages we used can be installed from `CRAN <https://cran.r-project.org/>__` with `install.packages`. For example, 
+Most of the R packages we used can be installed from `CRAN <https://cran.r-project.org/>`_ with `install.packages`. For example, 
 
 .. code:: r
 
+    install.packages("terra")
     install.packages("randomForest")
     install.packages("Rquefts")
+    install.packages("Rwofost")
 
 
-There is a number of packages that we use that have not been released to CRAN yet. These packages, including `terra`, `predicts`, `geodata`, and `reagro`, are on github and can be install from there as shown below. 
+We use a few packages that are not on CRAN yet: `luna`, `predicts`, `geodata`, and others that may never go there: `agro`, `agrodata`.  These packages are on github and can be installed from there with the `remotes` package, as shown below. 
+
+First install the `remotes` package if you do not have it
+
+.. code:: r
+
+	install.packages("remotes")
+
+Then use it to install the github packages as shown below.
 
 .. code:: r
 
-    source("https://install-github.me/reagro/reagro")
-    source("https://install-github.me/rspatial/predicts")
-    source("https://install-github.me/rspatial/geodata")
-	
+    Sys.setenv(R_REMOTES_UPGRADE="never")
+    remotes::install_github("reagro/agro")
+    remotes::install_github("reagro/agrodata)	
+    remotes::install_github("rspatial/luna")
+    remotes::install_github("reagro/agro")
+    remotes::install_github("reagro/agrodata)	
+    remotes::install_github("rspatial/luna")
+    remotes::install_github("rspatial/predicts")
+    remotes::install_github("rspatial/geodata")
 
-Installing the `terra` package can be more challanging because it needs to be compiled. That is not a problem on linux or mac, but on windows you first need to install `Rtools <https://cran.r-project.org/bin/windows/Rtools/>`__. This is for the time being. By the end of the year the packages that require compilation will be on CRAN. Or a compiled download will be made available. The package can be installed like this:
 
-
-.. code:: r
-    
-	library(devtools)
-	devtools::install_github("rspatial/terra")
 
 

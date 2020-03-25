@@ -1,0 +1,5 @@
+# Climate data
+
+[WorldClim](https://worldclim.org) has global climate and weather data. 
+
+CHIRPS
