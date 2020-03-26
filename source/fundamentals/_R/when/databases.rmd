@@ -2,24 +2,65 @@
 
 ## Introduction 
 
-
-
 ## Chapter requirements
 
-We use *R* package `geodata`. See these [installation](/installation.html) instructions.
-
+We use *R* package `agrodata`. See these [installation](/installation.html) instructions.
 
 ## Sacks data
 
+There are data for 20 crops, some are divided into two groups (winter / spring) or (main / 2nd season).
+
 ```{r sacks1, message=FALSE}
-library(geodata)
-crop_calendar_sacks
+library(agrodata)
+agrodata::crop_calendar_sacks()
 ```
 
-```{r sacks2, message=FALSE}
-r <- crop_calendar_sacks("Maize (main season)")
+We choose "Maize (main season)"
+
+```{r sacks15, message=FALSE}
+r <- agrodata::crop_calendar_sacks("Maize (main season)")
 r
+```
+
+Note that there are 13 variables in this dataset for each crop.
+
+```{r sacks20}
 names(r)
 ```
 
+The mean day of harvest 
 
+```{r sacks30, fig.width=8, fig.height=5}
+plot(r[["harvest"]])
+```
+
+But harvesting is not all done on one day. It is estimated to start on this day:
+
+```{r sacks35, fig.width=8, fig.height=5}
+plot(r["harvest.start"])
+```
+And end on
+
+```{r sacks40, fig.width=8, fig.height=5}
+plot(r["harvest.end"])
+```
+
+"harvest.range" is the difference between "harvest.start" and "harvest.end"
+
+The "harvest.*" variables are also avaiable for planting.
+
+```{r sacks45, fig.width=8, fig.height=5}
+plot(r["harvest.end"])
+```
+
+"tot.days" is the number of days between planting and harvest. 
+
+```{r sacks50, fig.width=8, fig.height=5}
+plot(r["tot.days"])
+```
+
+"harvested.area" has the crop area in ha, and "harvested.area.fraction" has it as a fraction of the grid cell. 
+
+```{r sacks60, fig.width=8, fig.height=5}
+plot(r["harvested.area.fraction"])
+```

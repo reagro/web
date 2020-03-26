@@ -1,9 +1,110 @@
-# Algorithm
+# Algorithmic approaches
 
 ## Introduction 
 
-Estimating crop calendars with a simple algorithm
+Here we show how you can estimate crop calendars with a simple algorithm based on rainfall. This approach, and similar approaches, should work particularly well in regions with a short and well-defined growing season, but it can be used under different conditions as well. 
+
+## Chapter requirements
+
+We use *R* package `agro`. See these [installation](/installation.html) instructions.
 
 
+## Function
+
+We use the function `agro::plant_harvest`. See `?agro::plant_harvest`. Here we show the source code of the function, including the comments that may help you understand what the function does. 
+
+```{r plantalgo1}
+plant_harvest <- function(x, min_prec=30, max_prec=90, max_len=5) {
+
+# must have 12 values (months)
+	stopifnot(length(x) == 12)
+# cannot have any NAs	
+	if (any(is.na(x))) return (rep(0, 12))
+
+# max_len is the number of months
+	stopifnot(max_len > 0 & max_len <= 12)
+# min precipitation threshold below max threshold
+	stopifnot(min_prec < max_prec)
+
+# compute actual threshold
+	med <- stats::median(x)
+# clamp it between min_prec and max_prec	
+	prec_threshold <- min(max_prec, max(min_prec, med))
+
+# make 12 months, from July to July, to make it easier 
+# to compute across year boundaries (from Dec to Jan)	
+	x24 <- c(x[7:12], x, x[1:6])
+	
+# which months are above the threshold?	
+	above_th <- x24 >= prec_threshold
+
+# cumulate successive months above the threshold
+	y <- cumsum(above_th)
+
+# remove months below the threshold and reset 
+# the beginning of a sequence to 1
+	wet <- (y - cummax(y * !above_th))
+
+# go back to 12 months (Jan to Dec)
+	wet <- wet[7:18]
+
+# set up output	
+	planting <- harvest <- rep(0, 12)	
+
+# find the length of the growing season
+	m <- min(max_len, max(wet))
+	
+# growing season must be at least 3 months	
+	if (m > 2) {
+	# harvest months	
+		harvest[wet >= m] <- 1
+	# planting months
+		p <- which(wet >= m) - m + 1
+	# 1 month before January -> December
+		p[p < 1] <- 12 + p[p < 1]
+		planting[p] <- 1
+	}
+	return( cbind(planting=planting, harvest=harvest) )
+}
+```
+
+## Try it 
+
+We try the function for four imaginary locations.
+
+A single rainy season
+
+```{r plantalgo10}
+rain <- c(0,1:10 * 10, 0)
+rain
+plant_harvest(rain)
+```
+
+Now a location with a bi-modal rainy season
+
+```{r plantalgo20}
+rain <- c(0,rep(50,4), 0, 0, rep(50,4), 0)
+rain
+plant_harvest(rain)
+```
+
+Wet year-round
+
+```{r plantalgo25}
+rain <- rep(50,12)
+rain
+plant_harvest(rain)
+```
+
+Too dry
+
+```{r plantalgo30}
+rain <- rep(10,12)
+rain
+plant_harvest(rain)
+```
 
 
+## Apply it 
+
+to do

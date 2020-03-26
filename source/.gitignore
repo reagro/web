@@ -8,6 +8,8 @@
 !surveys.rst
 !cropcuts.rst
 
+*.nc
+
 syncaws.bat
 
 .Rproj.user
