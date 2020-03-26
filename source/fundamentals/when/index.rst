@@ -1,8 +1,7 @@
 When?
 =====
 
-When are the key stages in crop development: planting, flowering, and harvest.
-We show existing datasources and methods to estimate these events.
+It is often important to know the timing of key stages in crop development: planting, flowering, and harvest. In this chapter we show existing databases and methods to estimate these events.
 
 
 Crop calendars
@@ -10,6 +9,7 @@ Crop calendars
 .. toctree::
    :hidden:
 
-   datasources
-   phenology
+   databases
+   algorithm
    simulation
+   remotesensing

@@ -1,0 +1,25 @@
+# Data bases
+
+## Introduction 
+
+
+
+## Chapter requirements
+
+We use *R* package `geodata`. See these [installation](/installation.html) instructions.
+
+
+## Sacks data
+
+```{r sacks1, message=FALSE}
+library(geodata)
+crop_calendar_sacks
+```
+
+```{r sacks2, message=FALSE}
+r <- crop_calendar_sacks("Maize (main season)")
+r
+names(r)
+```
+
+

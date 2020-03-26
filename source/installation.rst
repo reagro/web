@@ -13,9 +13,9 @@ Most of the R packages we used can be installed from `CRAN <https://cran.r-proje
     install.packages("Rwofost")
 
 
-We use a few packages that are not on CRAN yet: `luna`, `predicts`, `geodata`, and others that may never go there: `agro`, `agrodata`.  These packages are on github and can be installed from there with the `remotes` package, as shown below. 
+We use a few packages that are not on CRAN yet: `luna`, `predicts`, `geodata`, `agro`, and `agrodata`. These packages are on github and can be installed from there with the `remotes` package, as shown below. 
 
-First install the `remotes` package if you do not have it
+First install the `remotes` package if you do not have it.
 
 .. code:: r
 
@@ -29,12 +29,6 @@ Then use it to install the github packages as shown below.
     remotes::install_github("reagro/agro")
     remotes::install_github("reagro/agrodata)	
     remotes::install_github("rspatial/luna")
-    remotes::install_github("reagro/agro")
-    remotes::install_github("reagro/agrodata)	
-    remotes::install_github("rspatial/luna")
     remotes::install_github("rspatial/predicts")
     remotes::install_github("rspatial/geodata")
-
-
-
 
