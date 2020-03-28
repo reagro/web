@@ -1,7 +1,7 @@
 Data collection
 ===============
 
-This section covers data collection techniques. 
+This section covers some data collection techniques and presents some prime sources of data that is available for use. 
 
 
 .. toctree::

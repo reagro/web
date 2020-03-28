@@ -1,4 +1,4 @@
-# Open Street Map data
+# Open Street Map
 
 A good source of roads data is Open Street Map (OSM). (expand what it is, and limitations (completeness?))
 

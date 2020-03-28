@@ -29,9 +29,9 @@ The aim of this book is to teach practical data science skills in *Regional Agro
   | A primer of predictive modeling methods, and on using these methods with spatial data 
 
 
-.. topic:: *Part* V --- `Fundamentals <fundamentals/index.html>`__
+.. topic:: *Part* V --- `Building blocks <blocks/index.html>`__
 
-  | Creating intermediate data products that are fundamental inputs to further analysis
+  | Creating intermediate data products that are fundamental building blocks for further analysis
 
   
 .. topic:: *Part* VI ---  `Case studies <cases/index.html>`__
@@ -47,6 +47,6 @@ The aim of this book is to teach practical data science skills in *Regional Agro
    data/index.rst
    reproduce/index.rst
    methods/index.rst
-   fundamentals/index.rst
+   blocks/index.rst
    cases/index.rst
  
