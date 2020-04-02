@@ -1,0 +1,113 @@
+# Crop calendars
+
+## Introduction 
+
+To model regional crop growth we need to know *when* crops are actually grown. When are the crops planted, when are they harvested? Crop calendars describe planting and harvesting times. There have been some efforts to compile them into spatial databases. 
+
+In this chapter, we discuss three data sources on global crop calendars. ["Sacks"](https://nelson.wisc.edu/sage/data-and-models/crop-calendar-dataset/index.php) has calendars for 19 crops. Whereas ["MIRCA2000"](https://www.uni-frankfurt.de/45218023/MIRCA?legacy_request=1) has calendars for 26 irrigated and rainfed crops. Finally a third dataset ["RiceAtlas"](https://www.nature.com/articles/sdata201774) has global calendars for rice.
+
+Note that there is [another section](/blocks/when/index.html) on estimating crop calendars, in which we compare results with these databases and discuss what approach might be best to use.
+
+
+## Chapter requirements
+
+We use *R* packages `agro` and `agrodata`. See these [installation](/installation.html) instructions.
+
+
+## Sacks data
+
+We first have a look at the Sacks *et al.* data. [Global crop calendars](https://nelson.wisc.edu/sage/data-and-models/crop-calendar-dataset/index.php). The can be downloaded with the 	`agrodata` package. 
+
+```{r sacks1, message=FALSE}
+library(agrodata)
+agrodata::crop_calendar_sacks()
+```
+
+There are 25 choices, for 20 crops, as some are divided into two groups (winter / spring) or (main / 2nd season). We choose "Maize (main season)"
+
+
+### Maize, main season
+
+```{r sacks15, message=FALSE}
+r <- agrodata::crop_calendar_sacks("Maize (main season)")
+r
+```
+
+There are 13 variables in this dataset for each crop.
+
+```{r sacks20}
+names(r)
+```
+
+Note that there is "harvest", "harvest.start", "harvest.end", and "harvest.range", and that these "harvest.*" variables are also avaiable for planting ("plant.start", etc).
+
+Here is a plot "harvest", that is, the expected average day of harvest of maize in its main growing season. 
+
+```{r sacks30, fig.width=8, fig.height=5}
+plot(r[["harvest"]])
+```
+
+But harvesting is not all done on one day. It is estimated to start on `harvest.start`.
+
+```{r sacks35, fig.width=8, fig.height=5}
+plot(r["harvest.start"])
+```
+
+And end on `harvest.end`.
+
+```{r sacks40, fig.width=8, fig.height=5}
+plot(r["harvest.end"])
+```
+
+"harvest.range" is the difference between "harvest.start" and "harvest.end". 
+
+```{r sacks45}
+grep("plant", names(r), value=TRUE)
+```
+
+"tot.days" is the number of days between planting and harvest. 
+
+```{r sacks50, fig.width=8, fig.height=5}
+plot(r["tot.days"])
+```
+
+There are some more variables: "harvested.area" has the crop area in ha, and "harvested.area.fraction" has it as a fraction of the grid cell. We do not discuss the crop area data here, as that is a topic of [another chapter](crops.html). Variable "political.level" shows at what level of administrative boundaries data were available to create the planting and harvesting estimates. "index" is just an internal id that is not very relevant to end users. 
+
+### Maize, second season
+
+Now let's look at the second maize season
+
+```{r sacks105, message=FALSE}
+r2 <- agrodata::crop_calendar_sacks("Maize (2nd season)")
+r2
+```
+
+The harvest date for the second season
+
+```{r sacks130, fig.width=8, fig.height=5}
+plot(r2[["harvest"]])
+```
+
+A map showing where there are two seasons. We use the `!is.na` method. This works, because anywhere where there is a season, the values are not `NA`. 
+
+```{r sacks150, , fig.width=8, fig.height=5}
+h1 <- r[["harvest"]]
+h2 <- r2[["harvest"]]
+h12 <- !is.na(h1) + !is.na(h2) 
+plot(h12)
+```
+
+Here is another way in which you can compute this
+
+```{r sacks152}
+x <- c(h1 > 0, h2 > 0)
+h12b <- sum(x, na.rm=TRUE)
+```
+
+
+## Rice Atlas 
+
+```{r rice1}
+ff <- agro::get_data_from_uri("doi:10.7910/DVN/JE6R2R", ".")
+```
+

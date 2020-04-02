@@ -6,7 +6,6 @@ do_knit <- function(option, quiet=TRUE) {
 	kf <- list.files(".", pattern='\\.rst$', recursive=TRUE)
 	kf <- kf[-grep("index.rst", kf, ignore.case=TRUE)]
 
-
 	dir.create('figures/', showWarnings=FALSE)
 	dir.create('txt/', showWarnings=FALSE)
 	u <- unique(gsub("_R", "", dirname(ff)))
@@ -25,22 +24,24 @@ do_knit <- function(option, quiet=TRUE) {
 	} else { 
 		if (length(kf) > 0 ) {
 			stime <- file.info(ff)
-			fn <- gsub("_R/", "./", raster::extension((rownames(stime)), ""))
+			fn <- gsub("_R/", "", gsub("\\.rmd$", "", rownames(stime), ignore.case=TRUE))
 			stime <- data.frame(f=fn, stime = stime$mtime, stringsAsFactors=FALSE)
 
 			btime <- file.info(kf)
-			fn <- paste0("./", raster::extension((rownames(btime)), ""))
+			fn <- paste0("", gsub("\\.rst$", "", rownames(btime), ignore.case=TRUE))
 			btime <- data.frame(f=fn, btime = btime$mtime, stringsAsFactors=FALSE)
 
-			m <- merge(stime, btime, by=1, all.x=TRUE)
-			m[is.na(m$btime), 'btime'] <- as.POSIXct(as.Date('2000-01-01'))
+			m <- merge(stime, btime, by="f", all.x=TRUE)
+			m$btime[is.na(m$btime)] <- as.POSIXct(as.Date('2000-01-01'))
 
-			i <- which ( m$btime < m$stime ) 
-			ff <- ff[i]
+			i <- which( m$btime < m$stime ) 
+			
+			ff <- m$f[i]
 		}
 	}
 	if (length(ff) > 0) {
 		library(knitr)
+		ff <- paste0("_R/", ff, ".rmd")
 		outf <- gsub("_R/", "", ff)
 		md <-  raster::extension(outf, '.md')
 		rst <- raster::extension(outf, '.rst')

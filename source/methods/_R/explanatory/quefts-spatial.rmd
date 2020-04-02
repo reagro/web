@@ -1,25 +1,18 @@
-```{r setup, include=FALSE}
-library(knitr)
-```
-
 # Spatial QUEFTS
 
 Sebastian Palmas and Robert Hijmans
 
-
 ## Introduction 
 
-Here we show how to spatially model QUEFTS. We will run an example using data from Tanzania.
-
+In this chapter we show how to run QUEFTS with spatial data to make predictions. See the [previous](quefts.html) chapter for a description of the model itself. 
 
 ## Chapter requirements
 
 We use the *R* packages `Rquefts`, `terra` and `reagro`. See [these instructions](/installation.html) about installing these packages.
 
-
 ## Soil data
 
-We use soil raster data from [SoilGrids](https://soilgrids.org/). We changed the pH values from the original data source by dividing them by 10 to get the correct numbers.
+We use soil raster data for Tanzania from [SoilGrids](https://soilgrids.org/). We changed the pH values from the original data source by dividing them by 10 to get the correct numbers.
 
 ```{r Loading soil rfiles}
 
@@ -39,7 +32,7 @@ From these chemical soil properties, we can use QUEFTS to compute the soil nutri
 ```{r compute soil nutrient supply}
 library(Rquefts)
 supply <- rast(pH, nlyr=3)
-values(supply) <- nutSupply(pH, SOC, Kex, Polsen=15)
+values(supply) <- nutSupply1(pH, SOC, Kex, Polsen=15)
 supply
 ```
 

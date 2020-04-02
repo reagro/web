@@ -1,0 +1,64 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Ecocrop
+
+
+## Introduction 
+
+
+## Chapter requirements
+
+We use *R* packages `ecocrop` and `geodata`. See these [installation](/installation.html) instructions.
+
+
+## Ecocrop 
+
+
+
+
+## Run the model 
+
+As in the previous chapter, we use climate data for Senegal from [WorldClim](/data/spatial/climate.html) data to find . 
+
+```{r ecocrop100, message=FALSE}
+library(geodata)
+rain <- geodata::worldclim_country("Senegal", var="prec", path=".")
+tavg <- geodata::worldclim_country("Senegal", var="tavg", path=".")
+
+adm <- geodata::gadm("Senegal", level=1, path=".")
+rain <- mask(rain, adm)
+tavg <- mask(tavg, adm)
+```
+
+Create an ecocrop model for maize
+
+```{r ecocrop110}
+library(ecocrop)
+crop <- ecocrop::ecocropPars("maize")
+m <- ecocrop::ecocrop(crop)
+```
+
+Use the model to make predictions for Senegal
+
+```{r ecocrop120}
+plant <- runSpatial(m, prec=rain, tavg=tavg)
+p <- classify((plant > 0), cbind(0,NA)) * 1:12
+pm <- median(p, na.rm=TRUE)
+hv <- pm + m$duration
+hv <- ifel(hv > 12, hv - 12, hv)
+plot(hv)
+lines(adm)
+```
+Or like this
+
+```{r ecocrop150}
+control(m, which_max=TRUE)
+mplant <- runSpatial(m, prec=rain, tavg=tavg)
+mhv <- mplant + m$duration
+mhv <- ifel(mhv > 12, mhv - 12, mhv)
+plot(mhv)
+lines(adm)
+```

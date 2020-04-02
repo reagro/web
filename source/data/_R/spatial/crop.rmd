@@ -1,5 +1,10 @@
-# Crop data
+# Crop distribution data
 
+## Introduction 
+
+crop area, yield, and cropping system
+
+## Data sources
 
 [SPAM](https://www.mapspam.info/) has crop area and yield data for 42 crops, by production systems (irrigated and rainfed).
 
@@ -7,5 +12,4 @@
 
 [MIRCA2000](https://www.uni-frankfurt.de/45218023/MIRCA?legacy_request=1) monthly growing areas of 26 irrigated and rainfed crops 402 spatial units were compiled.
 
-[Global crop calendars](https://nelson.wisc.edu/sage/data-and-models/crop-calendar-dataset/index.php) for 19 crops. 
 

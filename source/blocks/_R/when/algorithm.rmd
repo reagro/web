@@ -1,12 +1,13 @@
 # Algorithmic approaches
 
+
 ## Introduction 
 
-Here we show how you can estimate crop calendars with a simple algorithm based on rainfall. This approach, and similar approaches, should work particularly well in regions with a short and well-defined growing season, but it can be used under different conditions as well. 
+Here we show how you can estimate crop calendars with a simple algorithm based on rainfall. This approach, and similar approaches, should work particularly well in regions with a short and well-defined growing season, but it can be used under different conditions as well. Note that we only use rainfall, and ignore temperature. This algorithm was developed for maize in Sub-Saharan Africa, and perhaps seasonal variation in temperature can be ignored there, but at high latitudes it must certainly be included. You can expand the algorithm used here to include temperature; or have a look at the `ecolim` approach, that uses both rainfal and temperature, and is described in the [next chapter](ecolim.html). 
 
 ## Chapter requirements
 
-We use *R* package `agro`. See these [installation](/installation.html) instructions.
+We use *R* packages `agro` and `geodata`. See these [installation](/installation.html) instructions.
 
 
 ## Function
@@ -16,23 +17,26 @@ We use the function `agro::plant_harvest`. See `?agro::plant_harvest`. Here we s
 ```{r plantalgo1}
 plant_harvest <- function(x, min_prec=30, max_prec=90, max_len=5) {
 
+## check input
 # must have 12 values (months)
 	stopifnot(length(x) == 12)
 # cannot have any NAs	
-	if (any(is.na(x))) return (rep(0, 12))
+	if (any(is.na(x))) return (matrix(NA, nrow=12, ncol=2))
 
 # max_len is the number of months
 	stopifnot(max_len > 0 & max_len <= 12)
 # min precipitation threshold below max threshold
 	stopifnot(min_prec < max_prec)
 
-# compute actual threshold
+## compute threshold 
+# median of the rainfall
 	med <- stats::median(x)
-# clamp it between min_prec and max_prec	
+# median clamped between min_prec and max_prec	
 	prec_threshold <- min(max_prec, max(min_prec, med))
 
-# make 12 months, from July to July, to make it easier 
-# to compute across year boundaries (from Dec to Jan)	
+# make a time series of 24 months, from July to July, to make it easier 
+# to do 'circular' computation across the year boundary. That is, we 
+# cannot ignore that (January comes after December)	
 	x24 <- c(x[7:12], x, x[1:6])
 	
 # which months are above the threshold?	
@@ -43,9 +47,10 @@ plant_harvest <- function(x, min_prec=30, max_prec=90, max_len=5) {
 
 # remove months below the threshold and reset 
 # the beginning of a sequence to 1
+# (perhaps the most obscure step)
 	wet <- (y - cummax(y * !above_th))
 
-# go back to 12 months (Jan to Dec)
+# go back to a single 12 months (Jan to Dec) year
 	wet <- wet[7:18]
 
 # set up output	
@@ -68,43 +73,154 @@ plant_harvest <- function(x, min_prec=30, max_prec=90, max_len=5) {
 }
 ```
 
-## Try it 
+## First try it 
 
-We try the function for four imaginary locations.
+It is often useful to try an algorithm on simple contrived data, before using it on real-world data. Here we look at four imaginary locations. First a location with a single rainy season.
 
-A single rainy season
+### Single season
+
+```{r plantalgo3}
+rain <- c(0,0,10,40,50,60,60,50,40,10,0,0)
+agro::plant_harvest(rain)
+```
+
+Here are two helper functions, both to display the results in a nicer way. 
+
+The below function makes printed output more readable. 
+
+```{r printfun}
+printSeason <- function(rain) {
+	x <- agro::plant_harvest(rain)
+	rownames(x) <- month.abb
+	t(x)
+}
+```
+
+Let's try it:
+
+```{r printfun1}
+printSeason(rain)
+```
+
+We can also make a barplot
+
+
+```{r plantalgofun}
+plotSeason <- function(rain) {
+	x <- agro::plant_harvest(rain)
+	barplot(rain, names.arg=month.abb, las=2)
+	barplot(x[,1]*rain, add=T, col="red", axes=FALSE, density=15)
+	barplot(x[,2]*rain, add=T, col="blue", axes=FALSE, density=15, angle=315)
+	legend("topright", c("rain", "plant", "harvest"), fill=c("gray", "red", "blue"), density=c(-1,25,25))
+}
+```
+
+Use the function with the rain defined above.
 
 ```{r plantalgo10}
-rain <- c(0,1:10 * 10, 0)
-rain
-plant_harvest(rain)
+plotSeason(rain)
 ```
+
+### Bi-modal season
 
 Now a location with a bi-modal rainy season
 
 ```{r plantalgo20}
 rain <- c(0,rep(50,4), 0, 0, rep(50,4), 0)
 rain
-plant_harvest(rain)
+printSeason(rain)
+plotSeason(rain)
 ```
 
-Wet year-round
+### Year-round rain
+
+In a place where rains year-round you may planting and harvesting every month of the year.
 
 ```{r plantalgo25}
-rain <- rep(50,12)
+rain <- c(4,4,5,5,6,6,6,5,5,4,4,4) * 10
 rain
-plant_harvest(rain)
+printSeason(rain)
+plotSeason(rain)
 ```
 
-Too dry
+### Arid conditions
+
+When it is too dry to grow much, you can never plant or harvest.
 
 ```{r plantalgo30}
-rain <- rep(10,12)
-rain
-plant_harvest(rain)
+rain <- c(1:6, 6:1)
+printSeason(rain)
+plotSeason(rain)
 ```
 
 
 ## Apply it 
 
-to do
+Now, let's apply this to Senegal. First we get [WorldClim](/data/spatial/climate.html) data. 
+
+```{r plantalgo100, message=FALSE}
+library(geodata)
+rain <- geodata::worldclim_country("Senegal", var="prec", path=".")
+adm <- geodata::gadm("Senegal", level=1, path=".")
+rain <- mask(rain, adm)
+names(rain) <- month.abb
+```
+
+Annual rainfall
+
+```{r plantalgo105}
+plot(sum(rain))
+lines(adm)
+```
+
+Monthly rainfall
+
+```{r plantalgo107, fig.width=10, fig.height=7}
+plot(rain)
+```
+
+Aggregate the data a bit to speed up computations 
+
+```{r plantalgo110}
+arain <- aggregate(rain, 10, mean, na.rm=TRUE)
+```
+
+Now "apply" the function "plant_harvest" to SpatRaster "rain"
+
+```{r plantalgo120}
+x <- app(arain, agro::plant_harvest)
+x
+```
+
+Output `x` has 24 layers, matching the output of plant_harvest (12 for planting, and 12 for harvest). Let's separate them.
+
+```{r plantalgo122}
+plant <- x[[1:12]]
+names(plant) <- month.abb
+harv <- x[[13:24]]
+names(harv) <- month.abb
+```
+
+And have a look
+ 
+```{r plantalgo130, fig.width=10, fig.height=7}
+plot(plant)
+```
+
+First month of planting
+
+```{r plantalgo160}
+plantna <- classify(plant, cbind(0, NA))
+p <- which.max(plantna)
+plot(p)
+```
+
+First month of harvest (note that `which` works here because the harvest is in the same calendar-year as planting. 
+
+```{r plantalgo180}
+harvna <- classify(harv, cbind(0, NA))
+h <- which.max(harvna)
+plot(h)
+```
+
+

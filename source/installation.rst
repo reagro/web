@@ -32,4 +32,5 @@ Then use it to install the packages from github as shown below.
     remotes::install_github("rspatial/luna")
     remotes::install_github("rspatial/predicts")
     remotes::install_github("rspatial/geodata")
+    remotes::install_github("cropmodels/ecocrop")
 
