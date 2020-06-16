@@ -28,9 +28,10 @@ Then use it to install the packages from github as shown below.
 
     Sys.setenv(R_REMOTES_UPGRADE="never")
     remotes::install_github("reagro/agro")
-    remotes::install_github("reagro/agrodata)	
+    remotes::install_github("reagro/agrodata")	
     remotes::install_github("rspatial/luna")
     remotes::install_github("rspatial/predicts")
     remotes::install_github("rspatial/geodata")
-    remotes::install_github("cropmodels/ecocrop")
+    remotes::install_github("cropmodels/Recocrop")
+    remotes::install_github("cropmodels/phenorice")
 

@@ -4,6 +4,7 @@
 
 To design and evaluate an index based insurance contract, we need to understand the relationship between the index and losses incurred. Here we develop such a relationship using the z-scored *NDVI* to predict livestock mortality, using survey data from Marsabit. 
 
+
 ## Data 
 
 ### Mortality

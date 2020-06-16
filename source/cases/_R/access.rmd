@@ -115,11 +115,11 @@ The OSM data is very detailed. Much more than we need in most analysis. We simpl
 library(rmapshaper)
 roads <- ms_simplify(roads, keep=0.01)
 ```
-The result was put in the reagro package, and that is where we get it from
+The result was put in the agro package, and that is where we get it from
 
 ```{r plotRoads}
-library(reagro)
-roads <- reagro_data("tza_roads")
+library(agrodata)
+roads <- agro_data("tza_roads")
 plot(tza_slope)
 lines(roads)
 lines(roads[roads$highway == "secondary", ], lwd=2, col="blue")
@@ -158,7 +158,7 @@ Environmental factors generally contribute to travel speeds off the transport ne
 In this example, we will use the GLOBCOVER 2009 Version 2.3 land cover classification for Tanzania. More information about this classification can be gound in the [ESA GlobCover portal](http://due.esrin.esa.int/page_globcover.php). We included these data the reagro package.
 
 ```{r}
-tza_lc <- reagro_data("TZA_globcover")
+tza_lc <- agro_data("TZA_globcover")
 plot(tza_lc, main = "GLOBCOVER 2009 v2.3 land classes")
 lines(adm)
 ```

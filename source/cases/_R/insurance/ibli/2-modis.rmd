@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 
 # MODIS data pre-processing
 
@@ -33,8 +38,8 @@ Here we show how to download and pre-process the data, but only for 1 month, to 
 Set up the download directory
 
 ```{r downloaddir}
-datadir <- file.path(dirname(tempdir()), "ibli/modis")
-dir.create(datadir, recursive=TRUE, showWarnings=FALSE)
+datadir <- "modis"
+dir.create(datadir)
 # datadir
 ```
 
@@ -45,10 +50,10 @@ start <- "2010-01-01"
 end <- "2010-01-07"
 ```
 
-To download the data you need to provide the username and password for your (free) EOSDIS account. If you do not have an account, you can sign up [here](https://urs.earthdata.nasa.gov/users/new). My passwords are stored in a file that I read below (sorry, I cannot show you the values).
+To download the data you need to provide the username and password for your (free) EOSDIS account. If you do not have an account, you can sign up [here](https://urs.earthdata.nasa.gov/users/new). Here we use passwords that are stored in a file that I read in below (sorry, we cannot show you the values).
 
 ```{r pwd}
-up <- readRDS("../../../../pwds.rds")
+up <- readRDS("../pwds.rds")
 up <- up[up$service == "EOSDIS", ]
 ```
 

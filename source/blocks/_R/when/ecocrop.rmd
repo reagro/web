@@ -36,7 +36,7 @@ tavg <- mask(tavg, adm)
 Create an ecocrop model for maize
 
 ```{r ecocrop110}
-library(ecocrop)
+library(Recocrop)
 crop <- ecocrop::ecocropPars("maize")
 m <- ecocrop::ecocrop(crop)
 ```

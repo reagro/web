@@ -7,6 +7,7 @@ editor_options:
 
 ## Introduction
 
+
 In this section we explore Marsabit [household survey data](http://data.ilri.org/portal/dataset/ibli-marsabit-r1) collected by ILRI in Marsabit between 2008 and 2015. 
 
 First let us explore losses table dataset.

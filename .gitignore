@@ -1,8 +1,10 @@
-
+pwds.rds
 # Ignore the sphinx build output
 /build
 _build
-
+*.tif
+*.zip
+*.hdf
 
 doi_*
 hdl_*

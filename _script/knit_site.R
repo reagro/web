@@ -41,7 +41,8 @@ do_knit <- function(option, quiet=TRUE) {
 	}
 	if (length(ff) > 0) {
 		library(knitr)
-		ff <- paste0("_R/", ff, ".rmd")
+		ff <- paste0("_R/", ff)
+		ff <- raster::extension(ff, ".rmd")
 		outf <- gsub("_R/", "", ff)
 		md <-  raster::extension(outf, '.md')
 		rst <- raster::extension(outf, '.rst')
@@ -92,6 +93,7 @@ if (tolower(Sys.info()["sysname"])=="windows"){
 	sysfun <- system		  
 }
 
+args <- ""
 args <- commandArgs(TRUE)
 ch <- grep("_R$", list.dirs(recursive=TRUE), value=TRUE)
 chapters <- grep("/source/", ch, value=TRUE)

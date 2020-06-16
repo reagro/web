@@ -4,11 +4,11 @@
 
 # Input and output prices
 
-
+fill in 
 
 ## fertilizer prices
 
-
+here
 
 
 ## maize prices 
