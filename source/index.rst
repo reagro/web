@@ -6,7 +6,7 @@ Regional Agronomy
 	a practical handbook
 
 
-The aim of this book is to teach practical data science skills in *Regional Agronomy*, the use of agronomy and related natural and social sciences *"at scale"*, to better understand and help improve agricultural production across large geographic regions. The material is divided into the following six parts.
+The aim of this book is to teach practical data science skills in *Regional Agronomy*. This is a newly developing discipline that builds on agronomy and related natural and social sciences, to better understand and help improve agricultural production across large geographic regions (*"at scale"*). The material coverd is divided into the following six parts.
 
 
 .. topic:: *Part* I  ---  `Introduction <introduction/index.html>`__  

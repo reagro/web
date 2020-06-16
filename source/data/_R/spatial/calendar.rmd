@@ -90,7 +90,7 @@ plot(r2[["harvest"]])
 
 A map showing where there are two seasons. We use the `!is.na` method. This works, because anywhere where there is a season, the values are not `NA`. 
 
-```{r sacks150, , fig.width=8, fig.height=5}
+```{r sacksf150, fig.width=8, fig.height=5}
 h1 <- r[["harvest"]]
 h2 <- r2[["harvest"]]
 h12 <- !is.na(h1) + !is.na(h2) 
@@ -106,6 +106,8 @@ h12b <- sum(x, na.rm=TRUE)
 
 
 ## Rice Atlas 
+
+Here is a data source with global rice crop calendars.
 
 ```{r rice1}
 ff <- agro::get_data_from_uri("doi:10.7910/DVN/JE6R2R", ".")
