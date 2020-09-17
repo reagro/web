@@ -1,17 +1,14 @@
-```{r setup, include=FALSE}
-
-```
-
 # Input and output prices
 
-fill in 
+fill this in 
 
 ## fertilizer prices
 
-here
+here some more
 
 
 ## maize prices 
 
+and here
 
 

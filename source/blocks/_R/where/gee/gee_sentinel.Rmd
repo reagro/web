@@ -1,25 +1,28 @@
-# Sentinel-1 for crop mapping
+# Using Sentinel-1 for crop mapping with Google Earth Engine
 
-*by* Anruddah Ghosh, University of California, Davis
-
+*by* Aniruddah Ghosh
 
 ## Introduction
 
 
-Here we show a thresholding based approach to map rice using [Sentinel-1SAR C-band Synthetic Aperture Radar data](https://sentinel.esa.int/web/sentinel/user-guides/sentinel-1-sar/). To learn more about the data that is available through [Google Earth Engine](https://developers.google.com/earth-engine/) read the [data description page](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD).
-
+In the chapter we show a thresholding based approach to map rice/crop using 
+[Sentinel-1SAR C-band Synthetic Aperture Radar data](https://sentinel.esa.int/web/sentinel/user-guides/sentinel-1-sar/). 
+For learning basics of radar visit [EO College](https://eo-college.org/resources/basics-of-sar/) or 
+[European Space tutorials](https://sentinel.esa.int/web/sentinel/toolboxes/sentinel-1/tutorials). 
+The images were acquired as ground range products with equidistant pixel spacing. To learn more about the data that is available through [Google Earth Engine](https://developers.google.com/earth-engine/) read the [data description page](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S1_GRD).
 
 ## Background
 
 First we will try to find the areas under crop and then attempt to find the rice areas. Usually during the transplanting phase, flooded fields cause lower backscatter. Backscatter signal continues to increase during the vegetative growth period and then decreases as the crop reaches towards maturity (harvesting). We use the differences in backscattering values during different stages of rice growing seasons to differentiate rice from other crops. This is a relatively simple approach and may not produce very accurate results. The results are sensitive some of the user provided input that requires local knowledge of crop growth.
 
-## Data import
+## Data import parameters
 
 At the begining of the script it is a good practice to include the parameters that depends on the user, for example, custom dataset, date range for analysis, user provided model parameters. This practice helps to quickly change the parameters.  
 
+
 ```{js search-parameters, eval = FALSE}
 // Import boundaries from asset
-var aoi = ee.FeatureCollection("users/lericnganga/LILIAN_RCMRD_2019/kirinyaga_embushp");   
+var aoi = ee.FeatureCollection('users/juliusadewopo/MzeTargetRegion_alt_dslv2'); 
 
 // Set map center to the aoi for making sure we have the correct study area
 Map.centerObject(aoi, 11)     
@@ -76,7 +79,6 @@ var composite = ee.Image.cat([
 Map.addLayer(composite, {min: [-25, -20, -25], max: [0, 10, 0]}, 'composite');
 ```
 
-
 All the tiles returned by the search are not mosaiced or stacked. We first combine ([reduce](https://developers.google.com/earth-engine/ic_reducing)) the tiles to create a single composite image representing one or multiple statistics (e.g. mean, median, standard deviation, percentiles) of the observations. 
 
 ```{js createComposite1, eval = FALSE}
@@ -103,7 +105,6 @@ var p10 = collection.reduce(ee.Reducer.percentile([10]));
 var p90 = collection.reduce(ee.Reducer.percentile([90]));
 
 ```
-
 Now we explore the differences in percentile composites to map areas under crop/paddy rice. If we know locations of few rice fields, we can use the [inspector tab](https://developers.google.com/earth-engine/playground#inspector-tab) to learn the range of values.  
 
 ```{js thresholding, eval = FALSE}
@@ -118,7 +119,6 @@ var th = 7; // Selecting this value is tricky;
 
 var crop_mask = nd_diff.gt(th); 
 var crop = crop_mask.updateMask(crop_mask);
-
 
 var cropViz = {palette:"yellow"};
 Map.addLayer(crop, cropViz, 'Potential crop areas');
@@ -170,9 +170,7 @@ Export.image.toAsset({
 ```
 
 
-## Exercise
-
-Repeat the rice mapping exercise for a different year with `VH` polarization data.
+*Exercise* Repeat the rice mapping exercise for a different year with `VH` polarization data.
 
 ```{js todo, eval = FALSE, echo = FALSE}
 // add slider to interactively select rice area

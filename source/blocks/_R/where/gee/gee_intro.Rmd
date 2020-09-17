@@ -1,28 +1,87 @@
-# Exploring data in Google Earth Engine
 
-*by* Anruddah Ghosh, University of California, Davis
+# Introduction to Google Earth Engine
 
+*by* Aniruddah Ghosh
 
 ## Introduction
 
 
-Here we show how you can search, find and visualize satellite data available through  [Google Earth Engine](https://developers.google.com/earth-engine/). We also describe different methods to mask clouds, create cloud free composites, calculate spectral indices, and finally export results. In this exercise we use Landsat data, but most of the examples can also be applied to any other satellite data available through Earth Engine. Learn more about the list of satellite data in [Earth Engine Data Catalog
-](https://developers.google.com/earth-engine/datasets/).
+This handbook describes how to utilize Google Earth Engine [(GEE)](https://developers.google.com/earth-engine) to develop and implement analytics for cropland 
+area mapping in Nigeria, using available dataset from various sources. GEE is a platform for analyzing large amounts of satellite data. It stores global satellite imagery from the past 40+ years in an organized fashion, facilitating large-scale data analysis. 
+For a very quick introduction to GEE, watch this [video](https://www.youtube.com/watch?v=4E6yQLoGO2o).
+
+This chapter is loosely based on contents of [GEE developer guide](https://developers.google.com/earth-engine/) 
+and various presentations and code shared by Google Earth Engine developer team and others. 
+
+Before we start, let’s take a simple quiz. If you have not heard about any of the following 
+“Vector”, “Raster”, “Landsat”, “Red-Near Infrared”, “NDVI” or “Reflectance”, consider first reading an introductory text on remote sensing. You can start with this [website](https://www.rspatial.org/raster/rs/index.html).
+
+The methods discussed in this handbook can also be applied for similar applications in different regions. 
 
 
-## Chapter requirements
+## Google Earth Engine Interface 
 
-You need to have a [Google Earth Engine account](https://code.earthengine.google.com/), or create one if you do not have one. You can [sign-up for a free account](https://signup.earthengine.google.com/#!/) using an existing Google account.
+### Setting Up Google Earth Engine
 
-## 5-min javascript
+The GEE platform is significantly different from traditional desktop remote sensing and GIS software. 
+Therefore it might take some time to get adjusted with the platform. First of all, there are no desktop installers. 
+The processing takes place in the cloud. You send your commands via an online interface with JavaScript. 
+All you need is a web-browser. [Google chrome](https://www.google.com/chrome/) is recommended, but you can also use 
+[Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/) or [Safari](https://www.apple.com/safari/). GEE uses Google's computational infrastructure for parallel processing, so it can process geospatial data much 
+faster than an ordinary personal computer. 
 
-You can use Earth Engine via an [online interface](https://code.earthengine.google.com/) that requires javascript or use [Python](https://developers.google.com/earth-engine/python_install). We will use the first option and learn some basic JavaScript necessary for the tutorials. 
+Next you need to create a developer account by filling [the form](https://signup.earthengine.google.com/#!/). 
+Its use is free for research, education, and nonprofit usage. After your account is approved, you can log in to the 
+[GEE interface](https://code.earthengine.google.com/). You can use Earth Engine either through the 
+[Explorer](https://explorer.earthengine.google.com/#workspace), a high-level point-and-click-only GUI or 
+through the [Playground](https://code.earthengine.google.com/), a more low-level IDE for writing custom scripts). 
+It is also possible to use Python language to interact with the API, but that is beyond the scope of this handbook. 
+Interested Python users can start [here](https://developers.google.com/earth-engine/python_install).
+
+*Optional reading*
+If you never heard of cloud computing, there are a lot of materials available on how cloud computing works. 
+Interested readers can start [here](https://www.explainthatstuff.com/cloud-computing-introduction.html). 
+
+### GEE online code editor
+
+After you login to your [GEE account](https://code.earthengine.google.com/), you will see an interface like the 
+following figure. You can write commands in JavaScript in the Code Editor and press run button to execute the commands. 
+The key point is that the Code Editor runs in the browser and all the actual data processing is done on Google Servers
+in the background. 
+
+![GEE code editor, source:https://developers.google.com](image/1_interface.png)
+
+*Optional reading*
+More technical details about the Code Editor is available [here](https://developers.google.com/earth-engine/playground).
+
+## Basic terminology
+
+The two fundamental geographic data structures in Earth Engine are     
+
+  1.[**Image**](https://developers.google.com/earth-engine/image_overview): This is how Google Earth Engine represents raster data types. They are composed of bands (each with its own name, data type, pixel resolution, and projection) and a dictionary of properties storing image metadata. Multiple images (covering multiple areas and/or the same area over time) can be grouped together into an ImageCollection.      
+  2.[**Feature**](https://developers.google.com/earth-engine/features): This is how Earth Engine represents vector data types. They are composed of a geometry and a dictionary of other properties of interest. Features can be grouped into a FeatureCollection.      
+
+Images are composed of georeferenced bands and a dictionary of properties. Features are composed of a geometry (point/line/polygons) and a dictionary of properties. Any collection is a bag of elements. 
+A stack of images (e.g. an image time series) or multiple images with similar properties (e.g. all Landsat tiles) is handled by an ImageCollection (https://developers.google.com/earth-engine/ic_creating). 
+A collection of features is handled by a FeatureCollection. 
+Other fundamental data structures in Earth Engine include Dictionary, List, Array, Date, Number and String. 
+If you are an R-user, you will find the following table useful to understand what we discussed above.
+
+**Finding help**      
+  1.[Google group Google Earth Engine Developers](https://groups.google.com/forum/#!forum/google-earth-engine-developers)              
+  2.[Stackexchange](https://gis.stackexchange.com/questions/tagged/google-earth-engine)        
 
 
-### The code editor
+## Using GEE online code editor
 
-Open your browser (Google Chrome preferred), go to [Earth Engine Editor](code.earthengine.google.com) and start typing the following and click Run. Please note that the code does not allow running single line or selected lines at a time. All the lines in the code editor will be executed at the same time. Therefore we will keep on adding/writing new lines and not remove the old ones.
+### Brief introduction to Javascript
 
+Javascript could be new to many of you. This guide will provide a quick introduction to the Earth Engine JavaScript API.
+You will learn how to create and print different data structures in GEE. Open your browser (Google Chrome preferred), 
+go to [Earth Engine Editor](code.earthengine.google.com) and start typing  the following and click Run. 
+Note that the code does not allow running single line or selected lines at a time. All the lines in the code editor 
+will be executed at the same time. Therefore we will keep on adding/writing new lines and not remove the old ones.
+ 
 ```{js javascript-intro,  eval = FALSE}
 print("Hello World!");
 
@@ -31,11 +90,11 @@ var season = "rain";
 
 print("I like ", season);
 
-// To comment use this
+// To comment use '//'
 // print("Hello Mars!")
 ```
 
-### Basic Javascript data types
+**Basic Javascript data types**
 
 Most of these are declared with `var`.
 
@@ -80,9 +139,9 @@ print('Print stuff:', object.crops);
 
 ```
 
-### Functions
+**Functions**
 
-Functions are helpful to reuse to same lines of code multiple times and improve code readability.
+Functions are helpful to reuse to same lines of codes multiple times and improve readability of codes.
 
 ```{js function,  eval = FALSE}
 
@@ -120,8 +179,7 @@ var sequence = ee.List.sequence(1, 5);
 print('Sequence:', sequence);
 ```
 
-#### Applying functions
-
+**Applying functions multiple times**
 
 We can apply the functions on the list of numbers.  
 
@@ -134,33 +192,71 @@ var sum2  = numbers.map(addnumber)
 print("EE client computed objects ", sum2)
 ```
 
-We will see the results are significantly different. `sum1` values are not human readable. This is depends on how Earth Engine works and sooner or later you may come across this kind of situations.   
+We will see the results are significantly different. `sum1` values are not human readable. This is related to Earth Engine internal working mechanism and sooner or later you may come across this kind of situations.   
 
 *Optional* To better understand what is happening here, you can read the section on [client vs server](https://developers.google.com/earth-engine/client_server).
 
 
-## Search, find and visualize image
+**Array**
+```{js array-intro, eval = FALSE}
+var array1 = ee.Array([1,2,3]) //1-D Array
+print(array1.length());
+var array2 = ee.Array([[1,2,3],[4,5,6]])
+//2-D Array; use length() to return the lengths of each axis
+print(array2.length());
+var first = array2D.slice({axis: 0,start: 0,end: 1,step: 1});
+print(first);
+```
+What is the closest `R`-object representation of `array`?
+
+We can also create geographic objects.
+
+**Image**
+```{js image-intro, eval = FALSE}
+var image = ee.Image(1);
+print(image);
+```
+
+**Geometry and Feature**
+```{js feature-intro, eval = FALSE}
+var point = ee.Geometry.Point([1.5, 1.5])
+print(point)
+var pointFeature = ee.Feature(point,
+{name: 'mypoint', location: 'no-idea'})
+print(pointFeature)
+```
+**Optional reading**
+For more details about the Earth Engine API, see the [tutorials](https://developers.google.com/earth-engine/tutorials.html).
+
+
+### Working with a Landsat Image and ImageCollection
+
+In this exercise, we show how you can search, find and visualize satellite data available through  [Google Earth Engine](https://developers.google.com/earth-engine/). We also describe different methods to mask clouds, create cloud free composites, calculate spectral indices, and finally export results. In this exercise we use Landsat data, but most of the examples can also be applied to any other satellite data available through Earth Engine. Learn more about the list of satellite data in [Earth Engine Data Catalog
+](https://developers.google.com/earth-engine/datasets/).
+
+
+### Creating Feature and Feature Collection
+
+#### Search, find and visualize image
 
 To inspect any image (also called a scene) covering the area of interest (AOI), first we define the aoi (it can be a set of coordinates, points or polygons). We use the aoi location to filter the any image collection (e.g. all scenes captured by Landsat 8) and then use specific date ranges to limit the searches. In the following steps we show how to achieve this: 
 
-**Search location:**	Search for 'Nairobi' in the [Earth Engine playground](https://developers.google.com/earth-engine/playground) search bar at the top and click the result to pan and zoom the map to Nairobi.  
+**Search location:**	Search for 'Ibadan' in the [Earth Engine playground](https://developers.google.com/earth-engine/playground) search bar at the top and click the result to pan and zoom the map to Ibadan.  
 
-**Use geometry tool:**	Use the geometry tools (upper right corner in the map) to make a point in Nairobi (*Important*: exit the drawing tool when you are finished).  Name the resultant import `point` by clicking on the import name (`geometry` by default).      
+**Use geometry tool:**	Use the geometry tools (upper right corner in the map) to make a point in Ibadan (*Important*: exit the drawing tool when you are finished).  Name the resultant import `point` by clicking on the import name (`geometry` by default).      
 
 **Import satellite data:**	Search `landsat 8 surface reflectance` and import the `USGS Landsat 8 Surface Reflectance Tier 1` ImageCollection.    
 
-**Spatial filter:** Use the point you just created to find the data only over Nairobi
+**Spatial filter:** Use the point you just created to find the data only over Ibadan
 
 **Temporal filter:** Use a range of dates to confine the search results within a specific time period: 
 
 ```{js Landsat-SR, eval = FALSE}
 var collection = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR');  
 
-
 // Construct start and end dates:
 var start = ee.Date('2018-01-01');
 var end = ee.Date('2018-12-31');     
-
 
 //Filter the Landsat 8 collection using the point and the dates
 var filteredCollection = collection.filterBounds(point).filterDate(start, end);    
@@ -168,19 +264,15 @@ var filteredCollection = collection.filterBounds(point).filterDate(start, end);
 // Inspect number of tiles returned after the search; we will use the one with more tiles
 print(filteredCollection.size());
 
-
 // Also Inspect one file
 var image = filteredCollection.first();
 print(image);
 
-
 // print the band names
 print(image.bandNames());
 
-
 // Center the map on the image.
 Map.centerObject(point, 9);   
-
 
 // Image display
 Map.addLayer(image, {}, "Landsat surface reflectance");    
@@ -214,15 +306,15 @@ print('Least cloudy Landsat scene of the year:', image2);
 Map.addLayer(image, visParams, "Landsat least cloudy image");  
 ```
 
-## Exercise 1
+**Exercise**  
 
 i. Visualize false color composite image (NIR:red:green).    
 
 ii. Create a dictionary of the image information and metadata properties including tile ID, resolution, projection, collection time and cloud cover.       
 
-## Spectral Indices
+#### Spectral Indices
 
-Next we compute different vegetation indices and use thresholds to find specific land covers.
+Next we learn how to compute different vegetation indices and use thresholds to find specific land covers.
 
 ```{js ndvi, eval = FALSE}
 // Method 1: Using available function
@@ -266,7 +358,7 @@ Map.addLayer(green, ndviViz, 'vegetations');
 ```
 
 
-## Exercise 2       
+**Exercise**       
 
 i. Use `image` to compute a spectral index for enhancing water (hint: NDWI = (green - NIR) / (green + NIR)) and built-up areas (hint: NDBI = (SWIR - NIR) / (SWIR + NIR)).   
 
@@ -275,9 +367,20 @@ ii. Visualize the results of `NDWI` and `NDBI`.
 iii. Use a threshold to find the water and built locations.    
 
 
-## Cloud Mask
+#### Cloud Mask
 
-So far we worked with the least cloudy image. But to Now we define a function for cloud-masking of Landsat surface reflectance data using the quality band supplied by USGS.
+So far we worked with the least cloudy image. We are using Landsat Surface Reflectance product for the analysis. 
+This dataset is the atmospherically corrected surface reflectance from the Landsat 8 OLI/TIRS sensors. 
+These images contain 5 visible and near-infrared (VNIR) bands and  2 short-wave infrared (SWIR) bands processed 
+to orthorectified surface reflectance, and two thermal infrared (TIR) bands processed to orthorectified 
+brightness temperature.
+
+These data have been atmospherically corrected using [LaSRC](link) and includes a cloud, shadow, water and snow mask 
+produced using [CFMASK](link), as well as a per-pixel saturation mask.
+
+Quality band, pixel_qa, contains Pixel quality attributes generated from the CFMASK algorithm. This is a bitmask and 
+various quality information is bit-encoded in it. We use the following function to mask cloud and cloud shadows 
+from the Landsat SR tiles.  
 
 ```{js Landat-SR-Cloud, eval = FALSE}
 /**
@@ -321,9 +424,19 @@ Map.addLayer(filteredCollection.median(), visParams, "Landsat composite with clo
 Map.addLayer(maskedCollection.median(), visParams, "Landsat composite cloud masked");
 ```
 
+Any one satellite image may have various problems that can obscure the surface--a cloudy day, 
+a plume of smoke--so creating a composite image can help give a better picture. By default, Earth Engine creates 
+the composite [using the most recent pixel](https://developers.google.com/earth-engine/tutorial_api_04) in each case, 
+but telling Earth Engine to choose the median value in the stack of possible pixel values can usually remove clouds, 
+as long as you have enough images in the collection. Clouds have a high reflectance value, and shadows have 
+a low reflectance value, so picking the median should give you a relatively cloudless composite image. 
+Since we have Landsat images for growing season of each year and Landsat satellites take pictures 
+of the same location about every two weeks, we can have multiple possible images to put together. 
 
-The tiles returned after cloud masking are not mosaiced or stacked, and there are gaps in them after due to the masking of clouds. We first combine ([reduce](https://developers.google.com/earth-engine/ic_reducing)) the tiles to create a single composite image representing one or multiple statistics (e.g. mean, median, standard deviation, percentiles) of the observations. This is same as `[app]` function in (https://rdrr.io/github/rspatial/terra/man/app.html) function in `terra` package.  
-
+The tiles returned after cloud masking are not mosaiced or stacked, and there are gaps in them after due to the 
+masking of clouds. We first combine ([reduce](https://developers.google.com/earth-engine/ic_reducing)) the tiles to 
+create a single composite image representing one or multiple statistics (e.g. mean, median, standard deviation, 
+percentiles) of the observations. This is same as `[app]` function in (https://rdrr.io/github/rspatial/terra/man/app.html) function in `terra` package.  
 
 ```{js createComposite1, eval = FALSE}
 // here we compute the following composites
@@ -341,7 +454,6 @@ var med = maskedCollection.reduce(ee.Reducer.median());
   
 // Standard Deviation
 var sd = maskedCollection.reduce(ee.Reducer.stdDev());
-
 ```
 
 **Exercise** Visualize different composites we created above to learn more about their differences.
@@ -357,7 +469,7 @@ mean = mean.select(["B2_mean","B3_mean","B4_mean","B5_mean"])
 Export.image.toDrive({
   image: mean,
   description: 'exporting-composite-to-drive',
-  fileNamePrefix: 'narirobi_landsat_composite', 
+  fileNamePrefix: 'ibadan_landsat_composite', 
   folder: 'GEE_export', // Name of the Google Drive folder
   scale: 30,
   maxPixels: 1e13,
@@ -367,9 +479,7 @@ Export.image.toDrive({
 ```
 
 
-## Exercise 3
-
-The following function can be used to mask cloud in [USGS Landsat 8 Collection TOA Reflectance](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T1_TOA). Use this function to mask cloud in TOA product and recreate the workflow above.     
+**Exercise** The following function can be used to mask cloud in [USGS Landsat 8 Collection TOA Reflectance](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C01_T1_TOA). Use this function to mask cloud in TOA product and recreate the workflow above.     
 
 ```{js createComposite2, eval = FALSE}
 
@@ -388,4 +498,12 @@ var maskCloudsTOA = function(image, th) {
 var toa_dataset = ee.ImageCollection('LANDSAT/LC08/C01/T1_TOA');
 
 ```
+
+
+
+
+
+
+
+
 

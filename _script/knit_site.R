@@ -41,8 +41,8 @@ do_knit <- function(option, quiet=TRUE) {
 	}
 	if (length(ff) > 0) {
 		library(knitr)
-		ff <- paste0("_R/", ff)
-		ff <- raster::extension(ff, ".rmd")
+		#ff <- paste0("_R/", ff)
+		#ff <- raster::extension(ff, ".rmd")
 		outf <- gsub("_R/", "", ff)
 		md <-  raster::extension(outf, '.md')
 		rst <- raster::extension(outf, '.rst')
