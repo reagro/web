@@ -31,8 +31,7 @@ cattle$tanzania_dp_id <- substr(cattle$tanzania_dp_id, 0, 1)
 bydistrict <- aggregate(cattle$cattle_keepers, list(cattle$tanzania_dp_id), sum, na.rm=T)
 bydistrict$Group.1 <- c("Lushoto", "Mvomero", "Handeni", "Kilosa")
 colnames(bydistrict) <- c("District", "No. of cattle keeping households")
-library(knitr)
-kable(bydistrict)
+knitr::kable(bydistrict)
 ```
 
 We can create a dataframe with basic information about the household heads from all ofthe districts. We chose certain variables to include in this dataframe based on summary information shown in the report, including age and education information. 

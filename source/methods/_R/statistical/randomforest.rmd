@@ -10,7 +10,7 @@ RandomForest is one of the most widely used "machine-learning" regression method
 
 ## Chapter requirements
 
-For this chapter you need the following *R* packages: `randomForest`, `rpart`, `reagro`, and `agro`. See [these instructions](/installation.html) about installing *R* packages.
+For this chapter you need the following *R* packages: `randomForest`, `rpart`, `reagro`, and `agro`. See [these instructions](/installation.html) for installing *R* packages.
 
 ```{r randfor_req, message=FALSE}
 library(agrodata)
@@ -43,10 +43,9 @@ d2 <- d[-i,]
 These are the variables we have.
 
 ```{r randfor_20, echo=FALSE}
-library(knitr)
 dtab <- data.frame(variable=c('temp', 'precip', 'ExchP', 'TotK', 'ExchAl', 'TotN', 'sand', 'clay', 'SOC', 'pH', 'AWC', 'fert'),
 description=c('Average temperature', 'Annual precipitation', 'Soil exchangeble P', 'Soil total K', 'Soil exchangeble Al', 'Soil total N', 'Soil franction sand (%)', 'Soil fraction clay (%)', 'Soil organic carbon (g/kg)', 'Soil pH', 'Soil water holding capacity', 'fertilizer (index) kg/ha'))
-kable(dtab)
+knitr::kable(dtab)
 ```
 
 
@@ -106,6 +105,7 @@ nulldev <- function(x) {
 }	
 nulldev(d1$SOC)	
 ``` 
+
 We can compare that with the deviance of the cart model.
 
 ```{r randfor_80}
@@ -138,7 +138,7 @@ agro::RMSE_null(d1$SOC, predict(cart2, d1))
 agro::RMSE_null(d2$SOC, predict(cart2, d2))
 ```
 
-The rmse with the training data is higher than with the testing data. That suggest that there is some overfitting, but it is not much. In this case we also seem to have low variance, in the sense that the models look similar (see below). That is not a general result --- CART models tend to have high variance. They can also overfit the data. A lot depends on how far you let the tree grow. In this case we used default stopping rules (nodes are not split if it has fewer than 20 observations or if any of the resulting nodes would get less than 7 observations), see `?rpart.control`, that avoided these problems. Trees that are grown very deep tend to overfit: they have low bias, but very high variance. 
+The rmse with the training data is higher than with the testing data. That suggest that there is some overfitting, but it is not much. In this case we also seem to have low variance, in the sense that the models look similar (see below). That is not a general result --- CART models tend to have high variance. They can also overfit the data. A lot depends on how far you let the tree grow. In this case we used default stopping rules (nodes are not split if it has fewer than 20 observations or if any of the resulting nodes would get less than 7 observations), see `?rpart.control`, that avoided these problems. Trees that are grown very deep tend to overfit: they have low bias, but very high variance.
 
 
 ```{r randfor_100, fig.width=10}
@@ -150,7 +150,7 @@ plot(cart2)
 text(cart2, cex=0.8)
 ```
 
-CART models can be relatively easily inspected, and can "learn" about complex interactions. Another great feature is that they are not affected by the scale or transformation of the predictor variables. But they are prone to overfitting and instability. They are seldom accurate (Hastie et al.). 
+CART models can be relatively easily inspected, and can "learn" about complex interactions. Another great feature is that they are not affected by the scale or transformation of the predictor variables. But they are prone to overfitting and instability. They are seldom accurate (Hastie et al.). 
 
 
 ## Random Forest 
@@ -212,7 +212,7 @@ And also higher than the original model (without bootstrapping)....
 agro::RMSE_null(d2$SOC, predict(cart, d2))
 ```
 
-In Rob Shapire's famous words: *"many weak learners can make a strong learner"*. (It seems that this is not only true for statistical models, but that it also holds for humans).
+In Rob Shapire's famous words: *"many weak learners can make a strong learner"*. (It would be nice if this is were not only true for statistical models, but that it would also hold for humans).
 	
 Random Forest has another randomization procedure. In a regression tree, the data is partitioned at each node using the best variable, that is, the variable that can most reduce the variance in the data. In Random Forest, only a random subset of all variables (for example one third) is available at each split (node). Although this further weakens the trees, it also makes them less correlated, which is a good feature (there is not much to gain from having many very similar trees). 
 	
@@ -303,7 +303,7 @@ An important purpose of cross-validation is to get a sense of the quality of the
 
 Using cross-validation results is more straighforward in the context of model comparison. It can be used to select the best model, or, often more appropriate, to average a set of good models --- perhaps a average weighted by the RMSE. 
 
-Finally, cross-valdiation is important to find optimal values for "nuisance parameters" that needt to be set to regularize or otherwise parametrize a model. Examples for the randomForest methods are parameters such as `ntry` and `nodesize`. See ?randomForest.
+Cross-valdiation is important to find optimal values for "nuisance parameters" that needt to be set to regularize or otherwise parametrize a model. Examples for the randomForest methods are parameters such as `ntry` and `nodesize`. See ?randomForest.
 
 
 ## Opening the box
@@ -365,7 +365,7 @@ dotchart(x)
 
 ### Partial response plots 
 
-Another interesting concept is the partial response plot. It shows the response of the model to one variable, with the other variables held constant.
+Another interesting concept is the partial response plot. It shows the response of the model to one variable, with the other variables held constant. (Although [ALE plots](https://christophm.github.io/interpretable-ml-book/ale.html) may be a superior approach)
 
 ```{r randfor_270}
 par(mfrow=c(2,2), mai=c(.75,rep(0.5,3)))
@@ -435,7 +435,6 @@ To do: show interactions
 - Other examples:  
 
 - Random Forest can also do unsupervised classification... 
-
 
 
 ## Citation

@@ -37,8 +37,8 @@ Create an ecocrop model for maize
 
 ```{r ecocrop110}
 library(Recocrop)
-crop <- ecocrop::ecocropPars("maize")
-m <- ecocrop::ecocrop(crop)
+crop <- Recocrop::ecocropPars("maize")
+m <- Recocrop::ecocrop(crop)
 ```
 
 Use the model to make predictions for Senegal
@@ -56,7 +56,7 @@ Or like this
 
 ```{r ecocrop150}
 control(m, which_max=TRUE)
-mplant <- runSpatial(m, prec=rain, tavg=tavg)
+mplant <- predict(m, prec=rain, tavg=tavg)
 mhv <- mplant + m$duration
 mhv <- ifel(mhv > 12, mhv - 12, mhv)
 plot(mhv)

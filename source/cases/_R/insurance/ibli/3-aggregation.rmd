@@ -35,6 +35,7 @@ Below we define a function for selecting MODIS files for a given year and season
 
 ```{r selectModFs, message=FALSE}
 library(luna)
+library(meteor)
 selectModisFiles <- function(files, startdate, enddate) {
   base_names <- basename(files)
   dates <- substr(base_names, 10, 16)

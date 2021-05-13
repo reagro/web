@@ -95,7 +95,7 @@ means[,c(3,6,9,12,15)] <- p_to_star(means[,c(3,6,9,12,15)])
 Finally, we can present the results in a table
 
 ```{r}
-library(knitr)
+#library(knitr)
 #kable(means)
 ```
 

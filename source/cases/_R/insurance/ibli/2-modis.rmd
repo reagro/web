@@ -39,7 +39,7 @@ Set up the download directory
 
 ```{r downloaddir}
 datadir <- "modis"
-dir.create(datadir)
+dir.create(datadir, FALSE)
 # datadir
 ```
 

@@ -39,7 +39,7 @@ We use the `geodata` package to download elevation data and then create a slope 
 ```{r slope, message=FALSE}
 library(geodata)
 tza_alt <- elevation_30s("Tanzania", path=".")
-tza_slope <- slope(tza_alt, unit="radians", neighbors=8)
+tza_slope <- terrain(tza_alt, "slope", unit="radians", neighbors=8)
 plot(tza_slope, main="Slope")
 ```
 
@@ -119,7 +119,7 @@ The result was put in the agro package, and that is where we get it from
 
 ```{r plotRoads}
 library(agrodata)
-roads <- agro_data("tza_roads")
+roads <- reagro_data("tza_roads")
 plot(tza_slope)
 lines(roads)
 lines(roads[roads$highway == "secondary", ], lwd=2, col="blue")
@@ -166,7 +166,6 @@ lines(adm)
 As mentioned above, creating a travel cost surface depending on land cover requires an associated travel cost for each land class. urveys, such as the one the Weiss et al., (2018) paper can be performed to obtain estimates of how long it takes individuals to traverse each land cover type. For now, we assign some travel cost values to the different land cover classes in Tanzania.
 
 ```{r, echo = FALSE}
-library(knitr)
 text_tbl <- data.frame(
   Value = c(40,50,70,160,170,190,200,210,220),
   LandClass = c("Closed to open (>15%) broadleaved evergreen or semi-deciduous forest (>5m)",
@@ -181,7 +180,7 @@ text_tbl <- data.frame(
   Travel_speed=c(0.04, 0.04, 0.04, 0.03, 0.05, 0.01, 0.01, 0.11, 0.13)
 )
 
-kable(text_tbl)
+knitr::kable(text_tbl)
 ```
 
 ```{r}

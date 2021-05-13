@@ -1,8 +1,4 @@
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # African maize trials
 
 Here we use data that was also used in a paper by [Lobell et al.](https://www.nature.com/nclimate/) [Nonlinear heat effects on African maize as evidenced by historical yield trials](https://dx.doi.org/10.1038/NCLIMATE1043).

@@ -157,8 +157,7 @@ colnames(bygender) <- c("male", "female")
 dem <- data.frame(dem, bygender)
 dem <- round(dem, 2)
 
-library(knitr)
-kable(dem, caption ="Household Demographics")
+knitr::kable(dem, caption ="Household Demographics")
 ```
 
 The summary statistics also demonstrate the household size in each district with a barplot. It is important for future research to understand if the different districts, as well as the different groups, are significantly different from eachother before the start of the program.

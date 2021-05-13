@@ -109,8 +109,7 @@ tamasa_HH$mem_gender <- ifelse(tamasa_HH$mem_gender=="female", 1, 0)
 colnames(tamasa_HH) <- c("hh_index", "hhid", "size", "age", "sex", "education", "marital")
 
 tamasa.mean <- apply(tamasa_HH[,3:5], 2, mean)
-library(knitr)
-kable(tamasa.mean)
+knitr::kable(tamasa.mean)
 ```
 
 Fertilizer data: 

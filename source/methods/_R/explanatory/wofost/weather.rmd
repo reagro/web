@@ -1,3 +1,4 @@
+
 # Weather data
 
 ## Introduction
@@ -44,7 +45,8 @@ It is also very important to assure that the weather variables have the correct 
 
 
 ```{r wofost_wth_35, echo=FALSE}
-m <- matrix(c("variable", "description", "unit", "date", "'Date'", "–", "srad", "Solar radiation", "kJ m-2 day-1", "tmin", "Minimum temperature", "°C", "tmax", "Maximum temperature", "°C", "vapr", "Vapor pressure", "kPa", "wind", "Wind speed", "m s-1", "prec", "Precipitation", "mm day-1"), ncol=3, byrow=TRUE)
+m <- matrix(c("date", "'Date'", "–", "srad", "Solar radiation", "kJ m-2 day-1", "tmin", "Minimum temperature", "°C", "tmax", "Maximum temperature", "°C", "vapr", "Vapor pressure", "kPa", "wind", "Wind speed", "m s-1", "prec", "Precipitation", "mm day-1"), ncol=3, byrow=TRUE)
+colnames(m) <- c("variable", "description", "unit")
 knitr::kable(m)
 ```
 
@@ -72,7 +74,7 @@ Are all the dates consecutive?
 
 ```{r wofost_wth_60, error=TRUE}
 d <- diff(w$date)
-all(d)
+all(d == 1)
 ```
 
 Uy, they are not! Let's see what is going on. 
@@ -95,8 +97,10 @@ To go from °F (Fahrenheit) to °C (Celsius; or, as Americans say, Centigrade) y
 degC <- function(F) 5 * (F − 32) / 9
 
 dF <- 0:110
-dC <- degC(F)
+dC <- degC(dF)
 plot(dF, dC)
+abline(h=0)
+abline(v=32)
 ```
 
 If you do not have vapor pressure you can compute it from another measure of air humidity, such as relative humidity or dew-point temperature. See the meteor package.
@@ -104,7 +108,7 @@ If you do not have vapor pressure you can compute it from another measure of air
 
 ## Weather simulation 
 
-[to be done]
+to be done
 
 
 

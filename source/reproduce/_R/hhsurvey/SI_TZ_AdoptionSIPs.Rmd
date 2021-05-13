@@ -545,9 +545,8 @@ We can begin by computing correlation coefficients and plotting the data. In ord
 ```{r correlation}
 #to compute correlation coefficient between all variables 
 cor <- cor(AllVar[,-c(1:2)], use="complete.obs")
-library(knitr)
 #only plot a few of the correlations, since there are so many variables
-kable(cor[1:8,1:8])
+knitr::kable(cor[1:8,1:8])
 #to compute the correlation coefficient between just two specific variables
 cor(AllVar$manure, AllVar$livestock, use="complete.obs")
 

@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Control parameters
 
 ## Introduction 
@@ -5,6 +10,7 @@
 You can get a list of example control parameters
 
 ```{r wofost_ctrl10}
+library(Rwofost)
 ctrl <- wofost_control()
 ```
 

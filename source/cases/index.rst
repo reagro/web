@@ -14,6 +14,5 @@ In this section we present a number of case studies that implement and combine s
    climatechange   
    croptrials
    insurance/index
-   rice_nepal
    
    

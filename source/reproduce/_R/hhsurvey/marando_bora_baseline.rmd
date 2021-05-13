@@ -86,8 +86,7 @@ allvar <- merge(allvar, belief, by = "hhid")
 
 #Now we can 
 means <- round(apply(allvar[,-1], 2, mean, na.rm=T), 2)
-library(knitr)
-kable(means)
+knitr::kable(means)
 ```
 
 Following the methodology used in the paper, the authors next step is to use exploratory factor analysis to create a scree plot of Eigen values. The results of this analysis showed that tthere is a one factor solution. The authors further found that the variable maturity should not be retained for analysis.

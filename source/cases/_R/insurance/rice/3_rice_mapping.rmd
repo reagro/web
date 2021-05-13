@@ -22,14 +22,7 @@ library(agrodata)
 datadir <- file.path(dirname(tempdir()), "agrins")
 vidir <- file.path(datadir, "vi")
 dir.create(vidir, recursive = TRUE, showWarnings = FALSE)
-
-localzip <- file.path(vidir,'tza_rice_MOD09A1_2000_2019_vi.zip')
-
-if (!file.exists(localzip)) {
-    download.file('https://data.spatial.ucdavis.edu/qweb/tza_rice_MOD09A1_2000_2019_vi.zip', dest=localzip)
-    unzip(localzip, exdir=vidir)
-}
-
+ff <- data_rice("MODIS", vidir)
 ```
 
 The rice growing season in our region of interest is between October and April. Note that the growing season is distributed across calendar years. When we talk about the rice area or yield in 2012,  we mean rice planted in 2011 and harvested in 2012. 

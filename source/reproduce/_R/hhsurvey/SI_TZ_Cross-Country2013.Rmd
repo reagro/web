@@ -133,8 +133,7 @@ out3$Variable <- c("Male headed households (%)", "Age (years)", "Education level
 #To rearrange the order to match the table in the report
 out3 <- out3[,c(6, 5, 3, 4, 2, 1)]
 
-library(knitr)
-kable(out3, caption="**Household head socioeconomic characteristics**", row.names=F)
+knitr::kable(out3, caption="**Household head socioeconomic characteristics**", row.names=F)
 ```
 
 
@@ -310,8 +309,7 @@ k2 <- k2[-1,]
 rownames(k2) <- c("Improved Maize Variety", "Fertilizer", "Maize/legume intercropping", "maize/legume rotation", "minimum tillage", "crop residue retention", "herbicides/pesticides", "conservation agriculture", "soil and water conservation")
 k2$code <- c("1", "2", "3", "4", "5", "6", "7", "8", "9")
 
-library(knitr)
-kable(k2)
+knitr::kable(k2)
 
 ```
 

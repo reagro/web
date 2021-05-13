@@ -6,6 +6,7 @@ do_knit <- function(option, quiet=TRUE) {
 	kf <- list.files(".", pattern='\\.rst$', recursive=TRUE)
 	kf <- kf[-grep("index.rst", kf, ignore.case=TRUE)]
 
+
 	dir.create('figures/', showWarnings=FALSE)
 	dir.create('txt/', showWarnings=FALSE)
 	u <- unique(gsub("_R", "", dirname(ff)))
@@ -24,32 +25,31 @@ do_knit <- function(option, quiet=TRUE) {
 	} else { 
 		if (length(kf) > 0 ) {
 			stime <- file.info(ff)
-			fn <- gsub("_R/", "", gsub("\\.rmd$", "", rownames(stime), ignore.case=TRUE))
+			fn <- gsub("_R/", "./", raster::extension((rownames(stime)), ""))
 			stime <- data.frame(f=fn, stime = stime$mtime, stringsAsFactors=FALSE)
 
 			btime <- file.info(kf)
-			fn <- paste0("", gsub("\\.rst$", "", rownames(btime), ignore.case=TRUE))
+			fn <- paste0("./", raster::extension((rownames(btime)), ""))
 			btime <- data.frame(f=fn, btime = btime$mtime, stringsAsFactors=FALSE)
 
-			m <- merge(stime, btime, by="f", all.x=TRUE)
-			m$btime[is.na(m$btime)] <- as.POSIXct(as.Date('2000-01-01'))
+			m <- merge(stime, btime, by=1, all.x=TRUE)
+			m[is.na(m$btime), 'btime'] <- as.POSIXct(as.Date('2000-01-01'))
 
-			i <- which( m$btime < m$stime ) 
-			
-			ff <- m$f[i]
+			i <- which ( m$btime < m$stime ) 
+			ff <- ff[i]
 		}
 	}
 	if (length(ff) > 0) {
-		library(knitr)
-		#ff <- paste0("_R/", ff)
-		#ff <- raster::extension(ff, ".rmd")
+		##library(knitr)
+		loadNamespace("knitr")
+
 		outf <- gsub("_R/", "", ff)
-		md <-  raster::extension(outf, '.md')
-		rst <- raster::extension(outf, '.rst')
+		md <-  gsub(".rmd$", '.md', outf)
+		rst <-  gsub(".rmd$", ".rst", outf)
 		txtp <- file.path(dirname(outf), "txt", basename(outf))
-		rcd <- raster::extension(txtp, '.txt')
+		rcd <- gsub(".rmd$", ".txt", txtp)
 		
-		opts_chunk$set(
+		knitr::opts_chunk$set(
 			dev        = 'png',
 			fig.width  = 6,	fig.height = 6,
 			fig.path = 'figures/',
@@ -63,16 +63,16 @@ do_knit <- function(option, quiet=TRUE) {
 		
 			dn <- dirname(rst[i])
 			if (dn != ".") {
-				opts_chunk$set(
+				knitr::opts_chunk$set(
 					fig.path = paste0(dn, '/figures/')
 				)
 				fdirclean <- TRUE
 			} else {
 				fdirclean <- FALSE
 			}
-			cat(paste("   ", raster::extension(outf[i], ""), "\n"))
-			knit(ff[i], md[i], envir = new.env(), encoding='UTF-8', quiet=quiet)
-			purl(ff[i], rcd[i], quiet=TRUE)
+			cat(paste("   ", tools::file_path_sans_ext(outf[i]), "\n"))
+			knitr::knit(ff[i], md[i], envir = new.env(), encoding='UTF-8', quiet=quiet)
+			knitr::purl(ff[i], rcd[i], quiet=TRUE)
 			if (fdirclean) {
 				x <- readLines(md[i])
 				j <- grep("png", x)
@@ -93,7 +93,6 @@ if (tolower(Sys.info()["sysname"])=="windows"){
 	sysfun <- system		  
 }
 
-args <- ""
 args <- commandArgs(TRUE)
 ch <- grep("_R$", list.dirs(recursive=TRUE), value=TRUE)
 chapters <- grep("/source/", ch, value=TRUE)

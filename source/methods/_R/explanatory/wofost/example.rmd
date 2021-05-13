@@ -16,7 +16,7 @@ To run WOFOST, you need daily [weather data](weather.html). Here we use an file 
 library(Rwofost)
 f <- system.file("extdata/Netherlands_Swifterbant.csv", package="meteor")
 wth <- read.csv(f)
-wth$date <- as.Date(w$date)
+wth$date <- as.Date(wth$date)
 head(wth)
 ```
 

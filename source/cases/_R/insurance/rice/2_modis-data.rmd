@@ -44,6 +44,14 @@ dir.create(vidir, recursive = TRUE, showWarnings = FALSE)
 Next we download MODIS tiles that we need. More details can be found [here](https://rspatial.org/terra/modis/2-download.html).   
 
 
+To download the data you need to provide the username and password for your (free) EOSDIS account. If you do not have an account, you can sign up [here](https://urs.earthdata.nasa.gov/users/new). Here we use passwords that are stored in a file that I read in below (sorry, we cannot show you the values).
+
+```{r pwd}
+up <- readRDS("../pwds.rds")
+up <- up[up$service == "EOSDIS", ]
+```
+
+
 ```{r downloadMODIS, message=FALSE}
 library(terra)
 library(luna)
@@ -55,7 +63,8 @@ aoi <- data_rice("zones")
 # download MODIS data; smaller time window to limit the download
 start <- "2010-01-01" 
 end <- "2010-01-07"
-fmod <- getModis(product="MOD09A1", start, end, aoi, download=TRUE, path=moddir)
+fmod <- getModis(product="MOD09A1", start, end, aoi, download=TRUE, path=moddir, username=up$user, password=up$pwd)
+fmod
 
 length(fmod)
 fmod[1:2]

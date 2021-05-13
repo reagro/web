@@ -77,8 +77,7 @@ tabled$Average  <- apply(na.omit(HH[,c(3,6, 19, 7)]), 2, mean)
 tabled[,5] <- round(tabled[,5], 2)
 
 rownames(tabled) <-c("Male headed household", "Age of Household Head (years)", "Household Size (number)", "Education of Household Head (years)")
-library(knitr)
-kable(tabled)
+knitr::kable(tabled)
 ```
 
 ###Main occupation of household head on average by district: 

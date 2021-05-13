@@ -1,12 +1,3 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
-```{r, global_options, echo=FALSE, message=FALSE}
-library(knitr)
-library(randomForest)
-```
 # Crop mapping with satellite data
 
 Benson Kenduiywo
@@ -29,7 +20,7 @@ Here is how you can get the Sentinel data for this tutorial.
 ```{r images}
 workdir <- file.path(dirname(tempdir()))
 datadir <- file.path(workdir, "reagro/sentinel")
-dir.create(datadir, showWarnings = FALSE, recursive=TRUE)
+dir.create(datadir, showWarnings=FALSE, recursive=TRUE)
 ```
 
 Get the ground observations
