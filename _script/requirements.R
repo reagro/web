@@ -15,6 +15,8 @@ pkgs <- sort(unique(c(pkgs, c("raster"))))
 pkgs <- gsub('\"', "", pkgs)
 #pkgs <- pkgs[!(pkgs=='rspatial')]
 
+if (!require("remotes", quietly = TRUE)) install.packages("remotes", repos="https://cloud.r-project.org/")
+
 ipkgs <- rownames(installed.packages())
 gpkgs <- c("luna", "geodata", "predicts", "rspat")
 for (pk in gpkgs) {
@@ -22,30 +24,24 @@ for (pk in gpkgs) {
 		remotes::install_github(paste0("rspatial/", pk))
 	}
 }
-ipkgs <- rownames(installed.packages())
-
-ipkgs <- rownames(installed.packages())
+gpkgs <- c("agro", "agrodata")
+for (pk in gpkgs) {
+	if (!(pk %in% ipkgs)) {
+		remotes::install_github(paste0("reagro/", pk))
+	}
+}
 gpkgs <- c("phenorice")
 for (pk in gpkgs) {
 	if (!(pk %in% ipkgs)) {
 		remotes::install_github(paste0("cropmodels/", pk))
 	}
 }
+
 ipkgs <- rownames(installed.packages())
-
-
 for (pk in pkgs) {
   if (!(pk %in% ipkgs)) {
 	print(paste("installing", pk))
     install.packages(pkgs=pk, repos="https://cloud.r-project.org/", quiet=TRUE)
-    library(pk, character.only=TRUE)
   }
 }
-
-#if (!("agscale" %in% ipkgs)) {
-#	devtools::install_github('rhijmans/agscale')
-#}
-
-
-
 
