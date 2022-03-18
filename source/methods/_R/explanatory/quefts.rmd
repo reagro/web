@@ -255,9 +255,9 @@ head(x)
 To display the results we can treat the values as a raster
 
 ```{r quefts_plotraster, fig.width=10}
-library(raster)
-r0 <- rasterFromXYZ(x[x$K==0, -3])
-r200 <- rasterFromXYZ(x[x$K==200, -3])
+library(terra)
+r0 <- rast(x[x$K==0, -3], type="xyz")
+r200 <- rast(x[x$K==200, -3], type="xyz")
 
 par(mfrow=c(1,2))
 plot(r0, xlab="N fertilizer", ylab="P fertilizer", las=1, main="K=0")

@@ -1,5 +1,11 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 ```{r setup, include=FALSE}
-
+setwd("C:/github/reagro/web/source/cases/_R")
+library(gdistance)
 ```
 # Market access
 
@@ -67,59 +73,23 @@ One source of roads (and many other geospatial attributes) data is Open Street M
 
 However, there are several cons of using OSM data. Because OSM depends on mapping volunteers, data quality and consistency is spotty. Places where there is a high concentration of mappers, the data can be very detailed and accurate (e.g. USA). However, areas such as sub-Saharan Africa, where there are less volunteers, the quality of data can be questionable and many areas can be without data coverage. A second con when using OSM is that the data is not authoritative. The data has not went through quality control and there is no statement of accuracy.
 
-You can download OSM data in *R* using the [osmdata](https://cran.r-project.org/web/packages/osmdata/index.html) package. You can only download a certain amount of data in a single request, so typically you need to a number of requests for adjacent regions and then combine the results. We used the first level administrative boundaries of Tanzania (also downloaded with the geodata package) for this. 
+You can download the current OSM data in *R* using the [osmdata](https://cran.r-project.org/web/packages/osmdata/index.html) package. But you can only download a relatively small amount of data in a single request, so typically you need to a number of requests for adjacent regions and then combine the results. Instead we use the road data that was preprocessed for the geodata package (and that may be a little bit out of date)
+
 
 ```{r gadm, message=FALSE, warning=FALSE}
 adm <- gadm("TZA", level = 1, path=".")
+roads <- geodata::osm("Tanzania", "highways", ".")
 ```
 
-We wanted data for primary, secondary and tertiary highways in Tanzania. Below is a helper function to accomplish this. 
-
-```{r rdtp}
-library(osmdata)
-
-getOSMlines <- function(obj, key, value) {
-    b <- sp::bbox(obj)  #returns the boundary box of the object
-    q <- osmdata::opq(b)  #Creates an Overpass query within the boundary box
-    q <- osmdata::add_osm_feature(q, key, value)  #queries the key and value atrributes
-    d <- osmdata::osmdata_sp(q)  #converts the data to a sp object
-    d$osm_lines[, key]   #returns only the lines found in the search
-}
-roadtypes <- c("primary", "secondary", "tertiary")
-
-```
-
-This code below applies the function to each polygon in the `adm` layer. It extracts the lines with highway as a key and perimary, secondary and tertiary values.
-
-The below takes a long time to run. It may also fail because of the relative fraility of the OSM servers (or rather the enourmous number of requests that they get).
-
-```{r getOSM, eval=FALSE}
-x <- lapply(seq_along(adm), function(i) getOSMlines(adm[i, ], "highway", roadtypes))
-```
-
-Now put the results together 
-
-
-```{r processOSM, eval=FALSE}
-# combine the results for each area
-rd <- do.call(bind, x)
-# remove anything outside of Tanzania
-rd <- crop(rd, adm)
-# aggregate by type, also removing duplicates line parts
-roads <- aggregate(rd, "highway")
-```
-
-The OSM data is very detailed. Much more than we need in most analysis. We simplified it with the `rmapshaper` package to store less data and so that the example runs faster. 
+The geometries in the OSM data is very detailed. Much more than we need in most analysis. We simplified the geometries to store less data and so that the example runs faster. You can also use the `rmapshaper` package for this type of tasks.
 
 ```{r simplr, eval=FALSE}
-library(rmapshaper)
-roads <- ms_simplify(roads, keep=0.01)
+roads <- simplifyGeom(roads, tolerance=0.01)
 ```
-The result was put in the agro package, and that is where we get it from
+
+Now let's have a look at the roads
 
 ```{r plotRoads}
-library(agrodata)
-roads <- reagro_data("tza_roads")
 plot(tza_slope)
 lines(roads)
 lines(roads[roads$highway == "secondary", ], lwd=2, col="blue")
@@ -135,6 +105,7 @@ We rasterize the roads reflecting the travel speeds (in min/m) of moving through
 
 ```{r rasterize}
 cfile <- "rdcost.tif"
+roadtypes <- c("primary", "secondary", "tertiary")
 
 if (!file.exists(cfile)) {
 
@@ -148,22 +119,25 @@ if (!file.exists(cfile)) {
 	rd_cost <- rast(cfile)
 } 
 
-plot(rd_cost, main="Travel cost (min/m)")
+# aggregate to improve visualization
+a <- aggregate(rd_cost, 3, min, na.rm=TRUE)
+plot(a, col=c("black", "blue", "red"), main="Travel cost (min/m)")
 ```
 
 
 ### Land Cover
-Environmental factors generally contribute to travel speeds off the transport network, such as land cover. Different types of land cover have different travel speeds depending on their "friction" or their easeness of movement. For example, overland (on foot) movement through a closed forest is slower than movement through croplands or bare areas. S
 
-In this example, we will use the GLOBCOVER 2009 Version 2.3 land cover classification for Tanzania. More information about this classification can be gound in the [ESA GlobCover portal](http://due.esrin.esa.int/page_globcover.php). We included these data the reagro package.
+Environmental factors generally contribute to travel speeds off the transport network, such as land cover. Different types of land cover have different travel speeds depending on their "friction" or their ease of movement. For example, overland (on foot) movement through a closed forest is slower than movement through croplands or bare areas. 
+
+In this example, we use the the GLOBCOVER 2009 Version 2.3 land cover classification for Tanzania. More information about this classification can be gound in the [ESA GlobCover portal](http://due.esrin.esa.int/page_globcover.php). We included these data the agrodata package.
 
 ```{r}
-tza_lc <- agro_data("TZA_globcover")
-plot(tza_lc, main = "GLOBCOVER 2009 v2.3 land classes")
+tza_lc <- agrodata::reagro_data("TZA_globcover")
+plot(tza_lc, main = "landcover classes")
 lines(adm)
 ```
 
-As mentioned above, creating a travel cost surface depending on land cover requires an associated travel cost for each land class. urveys, such as the one the Weiss et al., (2018) paper can be performed to obtain estimates of how long it takes individuals to traverse each land cover type. For now, we assign some travel cost values to the different land cover classes in Tanzania.
+As mentioned above, creating a travel cost surface depending on land cover requires an associated travel cost for each land class. See Weiss et al. (2018) for estimates of how long it takes individuals to traverse each land cover type. For now, we assign some travel cost values to the different land cover classes in Tanzania.
 
 ```{r, echo = FALSE}
 text_tbl <- data.frame(
@@ -183,8 +157,10 @@ text_tbl <- data.frame(
 knitr::kable(text_tbl)
 ```
 
+Create a reclassifiction matrix and use it to replace the landcover categories with travel-time estimates.
+
 ```{r}
-rc <- data.frame(from=as.vector(unique(tza_lc)), to=0.02)
+rc <- data.frame(from=unique(tza_lc)[,1], to=0.02)
 rc$to[rc$from %in% c(190,200)] <- 0.01
 rc$to[rc$from == 160] <- 0.03
 rc$to[rc$from %in% c(40,50,70)] <- 0.04
@@ -196,11 +172,15 @@ rc$to[rc$from == 220] <- 0.13
 tza_lc_cost <- classify(tza_lc, rc) 
 ```
 
+Transform the land-cover based travel-time estimates to the raster geometry that we are using. 
 
 ```{r}
 lcfname <- "lc_cost.tif"
 if (!file.exists(lcfname)) {
-  lc_cost <- warp(tza_lc_cost, tza_slope, filename=lcfname, wopt=list(names="lc_cost"))
+  # first aggregate to about the same spatial resolution
+  lc_cost <- aggregate(tza_lc_cost, 3, mean)
+  # then resample
+  lc_cost <- resample(lc_cost, tza_slope, filename=lcfname, wopt=list(names="lc_cost"), overwrite=TRUE)
 } else {
   lc_cost <- rast(lcfname)
 }
@@ -208,22 +188,21 @@ if (!file.exists(lcfname)) {
 
 
 ```{r}
-plot(lc_cost, main = "Travel costs (min/m) depending on land cover class")
+plot(lc_cost, main = "Off-road travel costs (min/m) based on land cover class")
 ```
 
 
-### Combining all travel costs
+### Combining travel costs
 
-Now that we have all travel cost surfaces what we will use, we then need to combine them into a single travel cost layer that keeps only the minimum cost associated of moving though each grid cell. In this case, we combine the three cost layers in a SpatRaster object and apply the `min` function to obtain the minimum value in each grid cell.
+Now that we have all travel cost surfaces what we will use, we then need to combine them into a single travel cost layer that keeps only the minimum cost associated of moving though each grid cell. In this case, we combine the the road and off-road cost layers in a SpatRaster and apply the `min` function to obtain the minimum value in each grid cell. We multiply these values with the additional cost due to slopes.
 
 ```{r}
 # Combine the cost layers
 all_cost <- c(rd_cost, lc_cost)
 
 #getting the minimum value of each grid cell
-cost <- min(all_cost, na.rm=TRUE)*slope_cost
-
-writeRaster(cost, filename = "cost.tif", overwrite=TRUE)
+cost <- min(all_cost, na.rm=TRUE)
+cost <- cost * slope_cost
 
 plot(cost, main="Final cost layer (min/m)")
 ```
@@ -233,7 +212,7 @@ plot(cost, main="Final cost layer (min/m)")
 
 With the cost surface, we can compute market access by calculating the accumulated least cost surface from market locations. In other words, each pixel will have an associated cost of getting to a market center.
 
-The minimum time to get to a city within a raster can be computed with the [gdistance](https://cran.r-project.org/web/packages/gdistance/index.html) R package using the  `accCost` function.
+The minimum time to get to a city within a raster can be computed with the [gdistance](https://cran.r-project.org/web/packages/gdistance/index.html) package using the  `accCost` function.
 
 When using least cost path analysis, the eight neighbors of a raster pixel are evaluated and the generated path moves to the cells with the smallest accumulated or cost value. This process is repeated multiple times until the source and destination are connected
 
@@ -243,28 +222,26 @@ We first need to install the package.
 install.packages("gdistance")
 ```
 
-We first need to create a transition object from the cost rasters using the `transition` function. The transition objects are the central object in the package. The transition object represent the weights given to each connection between pixels (nodes).
+We first need to create a transition matrix from the cost raster using the `transition` function. The transition objects are the central object in `the gDistance` package. They represent the weights given to each connection between grid cells (nodes).
 
-In `gdistance`, conductance rather than resistance values are expected in the transition matrix. (conductance is the inverse of resistance.)
-To create a transition object we need `RasterLayer` object with conductanve values, read using the `raster::raster` function.
+In `gdistance`, conductance rather than resistance values are expected in the transition matrix (conductance is the inverse of resistance.) To create a transition object we need `RasterLayer` object with conductance values. We create if from a `SpatRaster` using the `raster::raster` method.
 
 
 ```{r}
 # Combine the cost layers
 library(gdistance)
 
-cost <- raster("cost.tif")
-
+cost <- raster(cost)
 conductance <- 1/cost
 
 #Creating a transition object 
-trans <- transition(cost,transitionFunction=mean, directions= 8)
-
-
+tran <- transition(conductance, transitionFunction=mean, directions= 8)
 ```
-Because the transition layer is based on a lon-lat projection and covers a large area, it requires geocorrection for map distortion as well as for diagonal connections between grid cells.
+
+Because the transition layer is based on a lon-lat projection and covers a large area, it is important to apply the `geoCorrection` function to adjust for for map distortion and diagonal connections between grid cells.
+
 ```{r}
-trans <- geoCorrection(trans, type="c")
+tran <- geoCorrection(tran, type="c")
 ```
   
 With the transition object, we can now calculate access using the `accCost` function and supplying the coordinates from which to calulate.  
@@ -274,14 +251,21 @@ In this code below, we make create a spatialpoint object with locations of some 
 ```{r}
 lat=c(-6.17, -6.81, -5.02, -2.51, -3.65, -8.90, -3.34, -3.36, -10.67)
 lon=c(35.74, 37.66, 32.80, 32.90, 33.42, 33.46, 37.34, 36.68, 35.64)
-cities <- SpatialPoints(cbind(lon, lat))
+cities <- cbind(lon, lat)
+spCities <- sp::SpatialPoints(cities)
 
 #Estimating 
-A <- accCost(trans, fromCoords=cities)
+Ac <- accCost(tran, fromCoords=spCities)
+```
 
-plot(A, main="Access to markets in Tanzania ()")
-points(cities)
+Bring the values back to a SpatRaster, and clamp the hightest values for better display
 
+```{r}
+A <- rast(Ac) / 60
+AA <- clamp(A, 0, 24) |> mask(tza_slope)
+plot(AA, main="Access to markets in Tanzania ()")
+lines(roads)
+points(cities, col="blue", pch=20, cex=1.5)
 ```
 
 ## References {#references}
@@ -298,8 +282,6 @@ Weiss, D.J., et al., 2018. A global map of travel time to cities to assess inequ
 
 World Bank, 2016. Measuring rural access : using new technologies (English). Washington, D.C.: World Bank Group. http://documents.worldbank.org/curated/en/367391472117815229/Measuring-rural-access-using-new-technologies
 
-
- 
 
 ## Citation 
 

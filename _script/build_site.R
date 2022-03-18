@@ -45,6 +45,9 @@ if (!dopdf) {
 
 	ignore_errors <- c('Error in quefts_crop(name = "x"))')
 
+	txtin <-  'R.txt" rel="nofollow"> View page source</a>'
+	txtout <- 'R.txt" rel="nofollow"> <em>R</em> code</a>'
+
 	for (f in ff) {
 		x <- readLines(f, warn=FALSE)
 		i <- grep("## Error", x)
@@ -56,6 +59,9 @@ if (!dopdf) {
 			print(head(x[i]))
 			cat("----\n\n")
 		}
+		x <- gsub(txtin, txtout, x)
+		writeLines(x, f)	
+	
 	}
 
 

@@ -1,8 +1,3 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
 # Ecocrop
 
 
@@ -44,7 +39,7 @@ m <- Recocrop::ecocrop(crop)
 Use the model to make predictions for Senegal
 
 ```{r ecocrop120}
-plant <- runSpatial(m, prec=rain, tavg=tavg)
+plant <- predict(m, prec=rain, tavg=tavg)
 p <- classify((plant > 0), cbind(0,NA)) * 1:12
 pm <- median(p, na.rm=TRUE)
 hv <- pm + m$duration
@@ -56,7 +51,7 @@ Or like this
 
 ```{r ecocrop150}
 control(m, which_max=TRUE)
-mplant <- predict(m, prec=rain, tavg=tavg)
+mplant <- run(m, prec=rain, tavg=tavg)
 mhv <- mplant + m$duration
 mhv <- ifel(mhv > 12, mhv - 12, mhv)
 plot(mhv)

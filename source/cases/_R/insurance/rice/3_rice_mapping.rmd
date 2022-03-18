@@ -41,8 +41,8 @@ fevi  <- list.files(path=vidir, pattern= "^MOD09A1.*_evi.tif$", full.names=TRUE)
 fndfi <- list.files(path=vidir, pattern= "^MOD09A1.*_ndfi.tif$", full.names=TRUE)
 
 # clean date of collections
-fevi  <- getModisYMD(fevi)
-fndfi <- getModisYMD(fndfi)
+fevi  <- getModis(fevi)
+fndfi <- getModis(fndfi)
 
 # check what the function returns
 dim(fevi)

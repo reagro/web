@@ -2,8 +2,7 @@
 libfun <- function(x) {
 	d <- readLines(x, warn=FALSE)
 	i <- grep('^library\\(', d)
-	j <- grep('^require\\(', d)
-	d[unique(c(i,j))]
+	d[unique(i)]
 }
 
 f <- list.files("source", patt='\\.rmd$', recursive=TRUE, full=TRUE, ignore.case=TRUE)
@@ -11,13 +10,12 @@ pkgs <- unique(unlist(sapply(f, libfun)))
 pkgs <- pkgs[nchar(pkgs) < 100]
 pkgs <- gsub("library\\(", "", pkgs)
 pkgs <- trimws(gsub(")", "", pkgs))
-pkgs <- sort(unique(c(pkgs, c("raster"))))
+pkgs <- sort(unique(pkgs))
 pkgs <- gsub('\"', "", pkgs)
-#pkgs <- pkgs[!(pkgs=='rspatial')]
-
-if (!require("remotes", quietly = TRUE)) install.packages("remotes", repos="https://cloud.r-project.org/")
 
 ipkgs <- rownames(installed.packages())
+
+if (!require("remotes", quietly = TRUE)) install.packages("remotes", repos="https://cloud.r-project.org/")
 gpkgs <- c("luna", "geodata", "predicts", "rspat")
 for (pk in gpkgs) {
 	if (!(pk %in% ipkgs)) {
@@ -30,7 +28,7 @@ for (pk in gpkgs) {
 		remotes::install_github(paste0("reagro/", pk))
 	}
 }
-gpkgs <- c("phenorice")
+gpkgs <- "phenorice"
 for (pk in gpkgs) {
 	if (!(pk %in% ipkgs)) {
 		remotes::install_github(paste0("cropmodels/", pk))

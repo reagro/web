@@ -17,6 +17,7 @@ We use soil raster data for Tanzania from [SoilGrids](https://soilgrids.org/). W
 ```{r Loading soil rfiles}
 
 library(agrodata)
+library(terra)
 SOC <- reagro_data("TZA_ORC")
 Kex <- reagro_data("TZA_EXK")
 pH <- reagro_data("TZA_PH")

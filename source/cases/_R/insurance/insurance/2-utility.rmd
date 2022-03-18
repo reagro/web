@@ -96,17 +96,18 @@ agro::ce_income
 Back to households A and B. Let's compute their certainty equivalent incomes.
 
 ```{r ins_70}
-ceA <- ce_income(A, rho=1.5)
-ceB <- ce_income(B, rho=1.5)
+ceA <- agro::ce_income(A, rho=1.5)
+ceB <- agro::ce_income(B, rho=1.5)
 ceA
 ceB
 ```
 
 The certainty equivalent for B is $`r ceB` (because their income is always `r B`), but for household A it is $`r ceA`. 
 
-Let's see how this depends on rho. 
+Let's see how this depends on `rho`. 
 
 ```{r ins_80}
+library(agro)
 rho <- seq(0, 5, .1)
 cerho <- sapply(rho, function(i) ce_income(A, i))
 plot(rho, cerho, las=1, ylab="CE", type="l")

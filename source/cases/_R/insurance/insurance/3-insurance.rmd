@@ -80,6 +80,7 @@ Is this a good insurance product? Let's compare the certainty equivalent incomes
 
 ```{r ins3_90, message=FALSE}
 library(agrodata)
+library(agro)
 ce_base <- ce_income(income, 1.5)
 round(ce_base)
 
