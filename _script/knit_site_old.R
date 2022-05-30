@@ -1,5 +1,22 @@
 #!/usr/bin/Rscript
 
+
+detach_pkgs <- function() {
+	s <- sessionInfo()
+	pkgs <- names(s$otherPkgs)
+	#pkgs <- c(pkgs, names(s$loadedOnly))
+	if (length(pkgs) > 0) {
+		pkgs <- pkgs[!(pkgs %in% c(s$basePkgs, "tools", "Rcpp", "terra", "compiler"))]
+	}
+	if (length(pkgs) > 0) {
+		suppressWarnings(
+			suppressMessages(
+				invisible(lapply(paste0('package:', pkgs), detach, character.only=TRUE,unload=TRUE))
+			)
+		)
+	}
+}
+
 do_knit <- function(option, quiet=TRUE) {
 
 	ff <- list.files("_R", pattern='.Rmd$', ignore.case=TRUE, full.names=TRUE, recursive=TRUE)
@@ -25,7 +42,7 @@ do_knit <- function(option, quiet=TRUE) {
 	} else { 
 		if (length(kf) > 0 ) {
 			stime <- file.info(ff)
-			fn <- gsub("_R/", "./", tools::file_path_sans_ext(rownames(stime)))
+			fn <- gsub("_R/", "./", raster::extension((rownames(stime)), ""))
 			stime <- data.frame(f=fn, stime = stime$mtime, stringsAsFactors=FALSE)
 
 			btime <- file.info(kf)
@@ -41,23 +58,48 @@ do_knit <- function(option, quiet=TRUE) {
 	}
 	if (length(ff) > 0) {
 		##library(knitr)
+		loadNamespace("knitr")
 
 		outf <- gsub("_R/", "", ff)
 		md <-  gsub(".rmd$", '.md', outf)
 		rst <-  gsub(".rmd$", ".rst", outf)
+		txtp <- file.path(dirname(outf), "txt", basename(outf))
+		rcd <- gsub(".rmd$", ".txt", txtp)
 		
-#		rst <-  gsub(".rmd$", ".rst", outf)
-#		txtp <- file.path(dirname(outf), "txt", basename(outf))
-#		rcd <- gsub(".rmd$", ".txt", txtp)
+		knitr::opts_chunk$set(
+			dev        = 'png',
+			fig.width  = 6,	fig.height = 6,
+			fig.path = 'figures/',
+			fig.cap="",
+			collapse   = TRUE
+		)
+		#opts_chunk$set(tidy.opts=list(width.cutoff=60))
+
 		
 		for (i in 1:length(ff)) {
-			cat(paste("   ", tools::file_path_sans_ext(ff[i]), "\n"))
-		    ks <- paste("Rscript --vanilla ../../_script/knit_script.R", ff[i], quiet)
-			sysfun(ks)
-
+		
+			dn <- dirname(rst[i])
+			if (dn != ".") {
+				knitr::opts_chunk$set(
+					fig.path = paste0(dn, '/figures/')
+				)
+				fdirclean <- TRUE
+			} else {
+				fdirclean <- FALSE
+			}
+			cat(paste("   ", tools::file_path_sans_ext(outf[i]), "\n"))
+			knitr::knit(ff[i], md[i], envir = new.env(), encoding='UTF-8', quiet=quiet)
+			knitr::purl(ff[i], rcd[i], quiet=TRUE)
+			if (fdirclean) {
+				x <- readLines(md[i])
+				j <- grep("png", x)
+				x[j] = gsub(paste0(dn, "/"), "", x[j])
+				writeLines(x, md[i])
+			}
 			pc <- paste('pandoc',  md[i], '-f markdown -t rst -o', rst[i])
 			sysfun(pc)
-			file.remove(md[i])		
+			file.remove(md[i])
+			pdet <- lapply(1:5, function(i) detach_pkgs() )
 		}
 	} 
 }

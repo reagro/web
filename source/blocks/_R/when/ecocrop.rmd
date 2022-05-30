@@ -1,5 +1,8 @@
 # Ecocrop
 
+```{r, include=FALSE}
+library(terra)
+```
 
 ## Introduction 
 
@@ -10,8 +13,6 @@ We use *R* packages `ecocrop` and `geodata`. See these [installation](/installat
 
 
 ## Ecocrop 
-
-
 
 
 ## Run the model 

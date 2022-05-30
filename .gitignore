@@ -5,6 +5,7 @@ _build
 *.tif
 *.zip
 *.hdf
+*.gpkg
 
 doi_*
 hdl_*

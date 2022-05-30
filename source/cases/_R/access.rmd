@@ -260,7 +260,7 @@ Ac <- accCost(tran, fromCoords=spCities)
 
 Bring the values back to a SpatRaster, and clamp the hightest values for better display
 
-```{r}
+```{r costrast}
 A <- rast(Ac) / 60
 AA <- clamp(A, 0, 24) |> mask(tza_slope)
 plot(AA, main="Access to markets in Tanzania ()")
