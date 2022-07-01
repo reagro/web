@@ -1,8 +1,4 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
+
 # Area yield insurance
 
 ## Introduction 
@@ -57,12 +53,12 @@ The certainty equivalent without this insurance (not considering the premium, or
 
 ```{r ins121, message=FALSE}
 library(agrodata)
-ce_income(rice_income, rho=1.5)
+agro::ce_income(rice_income, rho=1.5)
 ```
 
 And with insurance it would be
 ```{r ins212, message=FALSE}
-ce_income(total_income, rho=1.5)
+agro::ce_income(total_income, rho=1.5)
 ```
 
 A more realistic situation might be a household that has additional income of $100 per year and that the insurance costs $50 per year.
@@ -71,8 +67,8 @@ A more realistic situation might be a household that has additional income of $1
 rice_income <- yields * price
 insurance_income <- payout - 50
 total_income <- rice_income + insurance_income
-ce_income(rice_income, rho=1.5)
-ce_income(total_income, rho=1.5)
+agro::ce_income(rice_income, rho=1.5)
+agro::ce_income(total_income, rho=1.5)
 ```
 
 The certainly-equivalent income with insurance is still higher. We can plot that:
@@ -88,8 +84,8 @@ CE depends on rho
 
 ```{r ins40}
 rho <- seq(0,3,.1)
-ce_rice <- sapply(rho, function(r) ce_income(rice_income, rho=r))
-ce_tot <- sapply(rho, function(r) ce_income(total_income, rho=r))
+ce_rice <- sapply(rho, function(r) agro::ce_income(rice_income, rho=r))
+ce_tot <- sapply(rho, function(r) agro::ce_income(total_income, rho=r))
 plot(rho, ce_rice, col="red", type="l", las=1, ylab="CE", lwd=2)
 lines(rho, ce_tot, col="blue", lwd=2)
 legend("topright", c("no inusrance", "insurance"), col=c("red", "blue"), lty=1, lwd=2 )
@@ -158,7 +154,7 @@ head(z)
 ## certainty equivalents by household
 
 ```{r ins06, out.width = '100%'}
-hh <- aggregate(z[, c("income", "income_with_ins")], z[,"fid", drop=FALSE], function(i) ce_income(i, 1.5))
+hh <- aggregate(z[, c("income", "income_with_ins")], z[,"fid", drop=FALSE], function(i) agro::ce_income(i, 1.5))
 
 hh$benefit <- (hh$income_with_ins - hh$income)
 hh$rel_benefit <- hh$benefit/ hh$income
@@ -175,7 +171,7 @@ So, at the individual level, the contract meets the welfare test if you use the 
 ## certainty equivalents by zone
 
 ```{r ins066, out.width = '100%'}
-zz <- aggregate(z[, c("income", "income_with_ins")], z[,"zone", drop=FALSE], function(i) ce_income(i, 1.5))
+zz <- aggregate(z[, c("income", "income_with_ins")], z[,"zone", drop=FALSE], function(i) agro::ce_income(i, 1.5))
 
 zz$benefit <- (zz$income_with_ins - zz$income)
 zz$rel_benefit <- zz$benefit/ zz$income

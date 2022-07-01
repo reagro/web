@@ -40,8 +40,6 @@ do_knit <- function(option, quiet=TRUE) {
 		}
 	}
 	if (length(ff) > 0) {
-		##library(knitr)
-
 		outf <- gsub("_R/", "", ff)
 		md <-  gsub(".rmd$", '.md', outf)
 		rst <-  gsub(".rmd$", ".rst", outf)

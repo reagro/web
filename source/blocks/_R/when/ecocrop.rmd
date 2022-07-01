@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Ecocrop
 
 ```{r, include=FALSE}
@@ -41,18 +46,19 @@ Use the model to make predictions for Senegal
 
 ```{r ecocrop120}
 plant <- predict(m, prec=rain, tavg=tavg)
-p <- classify((plant > 0), cbind(0,NA)) * 1:12
+p <- classify(plant > 0, cbind(0,NA)) * 1:12
 pm <- median(p, na.rm=TRUE)
 hv <- pm + m$duration
 hv <- ifel(hv > 12, hv - 12, hv)
 plot(hv)
 lines(adm)
 ```
+
 Or like this
 
 ```{r ecocrop150}
 control(m, which_max=TRUE)
-mplant <- run(m, prec=rain, tavg=tavg)
+mplant <- predict(m, prec=rain, tavg=tavg)
 mhv <- mplant + m$duration
 mhv <- ifel(mhv > 12, mhv - 12, mhv)
 plot(mhv)

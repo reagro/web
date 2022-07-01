@@ -1,9 +1,3 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
-
 # Computing vegetation metrics
 
 ## Introduction
@@ -15,9 +9,7 @@ We also used that information to calculate different vegetation indices from the
 ## Data
  
 ```{r load_rice_phenology, message=FALSE}
-# load packages
 library(luna)
-library(agrodata)
 
 # set directories
 datadir <- file.path(dirname(tempdir()), "agrins")
@@ -59,15 +51,14 @@ start <- p1[1]
 mature <- p1[5]
 
 # corresponding fitted time series
-v1 <- vi[s[1],]
+v1 <- unlist(vi[s[1],])
 
 # remove background signal
 v1 <- v1 - min(v1)
 
 # plots
 plot(v1, type = "l", col = "darkgreen", ylim = c(min(v1), max(v1)*1.25), 
-      ylab = "EVI", xlab = "date", xaxt = "n",
-      main = "EVI based index")
+      ylab = "EVI", xlab = "date", xaxt = "n", main = "EVI based index")
 
 at <- seq(1, length(v1), 4) 
 labs <- months(dates[at])
@@ -153,6 +144,7 @@ a1
 Now we apply this function to the raster data
 
 ```{r metrics_raster}
+library(terra)
 year <- 2012
 fevi <- rast(file.path(compdir, paste0("/filter_evi_", year, ".tif")))
 phenoraster <- rast(file.path(compdir, paste0("/phenorice_", year, ".tif")))
@@ -207,15 +199,14 @@ Let's plot the spatial distribution of zone level metrics values after removing 
 
 # remove zones with few pixels
 n <- extract(ricemask, z, fun=sum, na.rm=TRUE)
-n <- which(n > 10)
+n <- which(n[,2] > 10)
 mzv <- z[n,]
 
 # We only plot the first metrics ~ AUC under vegetative growth
 par(mfrow = c(1,2))
-plot(arm[["idx_evi_v"]], main = "idx_evi_v", col=topo.colors(25), leg.levels=10)
+plot(arm[["idx_evi_v"]], main = "idx_evi_v", col=topo.colors(25))
 plot(z, add = T)
-plot(mzv, "idx_evi_v", main = "zone metrics", 
-     col=topo.colors(25), leg.levels=10)
+plot(mzv, "idx_evi_v", main = "zone metrics", col=topo.colors(25))
 ```
 
 In the first 4 chapters we showed you how to compute metrics for yield index starting with downloading on MODIS data. The exercises use one year of MODIS EVI data. These steps can be applied for multiple years of data to create long term record of the metrics and also incorporate other MODIS products (such as GPP, ET). 

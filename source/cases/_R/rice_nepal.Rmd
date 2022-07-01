@@ -1,8 +1,4 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
+
 # Explaining rice yield variability in Western Nepal
 
 Author names

@@ -1,8 +1,4 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
+
 # Mapping rice area
 
 ## Introduction
@@ -18,11 +14,10 @@ We first further pre-process the MODIS data we obtained in the previous chapter,
 First download EVI and NDFI generated from all MOD09A1 data for the study area between 2010 and 2019.  
  
 ```{r download_data}
-library(agrodata)
 datadir <- file.path(dirname(tempdir()), "agrins")
 vidir <- file.path(datadir, "vi")
 dir.create(vidir, recursive = TRUE, showWarnings = FALSE)
-ff <- data_rice("MODIS", vidir)
+ff <- agrodata::data_rice("MODIS", vidir)
 ```
 
 The rice growing season in our region of interest is between October and April. Note that the growing season is distributed across calendar years. When we talk about the rice area or yield in 2012,  we mean rice planted in 2011 and harvested in 2012. 
@@ -41,8 +36,8 @@ fevi  <- list.files(path=vidir, pattern= "^MOD09A1.*_evi.tif$", full.names=TRUE)
 fndfi <- list.files(path=vidir, pattern= "^MOD09A1.*_ndfi.tif$", full.names=TRUE)
 
 # clean date of collections
-fevi  <- getModis(fevi)
-fndfi <- getModis(fndfi)
+fevi  <- luna::modisDate(fevi)
+fndfi <- luna::modisDate(fndfi)
 
 # check what the function returns
 dim(fevi)
@@ -52,6 +47,7 @@ head(fevi)
 The rice growing season is between October and April. For better smoothing, and to account for possible early or late planting, we add a buffer around the season. In this case we start in July 2011 and end in June 2012. 
 
 ```{r evi_subset_files}
+library(terra)
 year <- 2012
 startDate <- as.Date(paste0(year-1, "-07-01"))
 endDate <- as.Date(paste0(year, "-06-30"))
@@ -83,7 +79,7 @@ Next we use the `luna::filterVI` function for gap-filling/smoothing and save the
 First for one grid cell:
 
 ```{r evi_smooth}
-v <- as.vector(evi[200])
+v <- unlist(evi[200])
 plot(v, pch = "*", col = "red")
 s <- filterVI(v)
 lines(s, col = "darkgreen")
@@ -139,9 +135,9 @@ xy <- xyFromCell(evi, cells)
 s <- vect(xy, crs=crs(evi))
 
 # extract time series 
-ts_evi <- extract(evi, s, drop = TRUE)
-ts_fevi <- extract(fevi, s, drop = TRUE)
-ts_fndfi <- extract(fndfi, s, drop = TRUE)
+ts_evi <- extract(evi, s, drop = TRUE)[,-1]
+ts_fevi <- extract(fevi, s, drop = TRUE)[,-1]
+ts_fndfi <- extract(fndfi, s, drop = TRUE)[,-1]
 
 # Let's plot one sample that we already know is rice
 i <- 121
@@ -161,19 +157,19 @@ legend("topleft", legend = c("EVI (raw)", "EVI", "NDFI"),
 
 What we observe in the plot above is a short period with a high NDFI  --- this is indicative of a flooded area. Rice fields are typically flooded prior to transplanting. They will remain flooded, but as vegetation starts to grow and cover the water, the NDFI will go down. We see that here, as the the NDFI goes down with a strong increase in EVI. EVI reaches a plateau, and then drops again --- this is a typical pattern for annual crops.
 
-The following script can be used to plot phenology (EVI, NDFI) of each sample at a time. We find this is to be one of the best way to find `phenorice` parameters. Notice the use of `par(ask)` to control plotting.
+Below we plot phenology (EVI) of each sampling site at a time. We find this is to be one of the best way to find `phenorice` parameters. Notice the use of `par(ask)` to control plotting.
 
 ```{r phenoplot_ask, eval = FALSE, include=FALSE}
 par(ask=TRUE)
-for(i in nrow(sor)){
+for(i in 1:nrow(ts_evi)){
   # raw EVI
-  plot(dates, sor[i,], pch = 16, col = "red", cex = 0.8, ylim = c(0,0.7),
+  plot(dates, ts_evi[i,], pch = 16, col = "red", cex = 0.8, ylim = c(0,0.7),
        xlab = "vegetation indices", ylab = "dates",
        main = paste0("location_",i))
   # gap-filled and smoothed EVI
   lines(dates, ts_fevi[i,], col = "green")
   # gap-filled NDFI
-  lines(dates, ts_fndvi[i,], col = "blue")
+  lines(dates, ts_fndfi[i,], col = "blue")
   # legend
   legend("topleft", legend = c("raw_EVI", "fitted_EVI", "gap-filled_NDFI"),
          pch = c(16, NA, NA), lty = c(NA, 1, 1),
@@ -210,11 +206,13 @@ p$lst_th <- 15      # the minimum temperature for planting
 ```
 
 
-Now we can use phenorice for our sample of cells to find the cells that have rice.
+Now we can use 'phenorice' for our sample of cells to find the cells that have rice.
 
 ```{r phenorice2}
 rice <- matrix(nrow=nrow(ts_fevi), ncol=5)
 colnames(rice) <- c("start", "peak", "head", "flower", "mature")
+ts_fevi <- as.matrix(ts_fevi)
+ts_fndfi <- as.matrix(ts_fndfi)
 
 for(i in 1:nrow(ts_fevi)){
   rice[i, ] <- phenorice(evi = ts_fevi[i,], ndfi = ts_fndfi[i,], p)
@@ -246,19 +244,23 @@ names(ricepheno) <- c("evi_raw", "evi_fit", "ndfi", "dates", "phenorice")
 saveRDS(ricepheno, paste0(compdir, "/ricepheno_", year, "_samples.rds"))
 ```
 
-The 'phenorice' model can also be applied to the entire regions, that is the evi and ndfi raster datasets.
+The 'phenorice' model can also be applied to the entire regions, with the evi and ndfi raster datasets.
 
 ```{r rice_map_raster, fig.width=10}
 # save result to a file
 phenoraster <- file.path(compdir, paste0("/phenorice_", year, ".tif")) 
-r <- app(fevi, phenorice, ndfi=fndfi, p=p, 
-         filename=phenoraster, overwrite = TRUE,
+x <- sds(fevi, fndfi)
+phenomatrix <- function(x, y, p) {
+  sapply(1:nrow(x), \(i) phenorice(x[i,], y[i,], p=p)) |> t()
+}
+
+r <- lapp(x, phenomatrix, filename=phenoraster, overwrite = TRUE, p=p,
          wopt = list(names = paste0(c("start", "peak", "head", "flower", "mature"),"_",year)))
 plot(r)
 ```
 
 
-Based on the literature and our experience, phenorice works quite well in different environments. The great advantage is that you do need ground-truth data to train a supervised classification model with. However, these data should still be useful to evaluate the quality of the prediction in a particular region (and with a particular set of parameter values). It should be useful to have some data on the total rice area with regions; to help calibrate the model (by changing the parameters).
+phenorice appears to work quite well in different environments. The great advantage is that you do need ground-truth data to train a supervised classification model with. However, these data should still be useful to evaluate the quality of the prediction in a particular region (and with a particular set of parameter values). It should be useful to have some data on the total rice area with regions; to help calibrate the model (by changing the parameters).
 
 The additional benefit of the model is that it provides phenological stages. The algorithm could be adjusted to extract these stages for other crops as well (after detecting them with supervised classification).
 

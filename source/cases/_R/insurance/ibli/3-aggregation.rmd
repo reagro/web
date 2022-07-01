@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Spatio-temporal aggregation
 
 ## Temporal NDVI aggregate
@@ -5,6 +10,7 @@
 For the entire analysis we use precomputed NDVI for the period between 2008 to 2015. The next code block downloads the pre-processed data. The first time this takes a while. After that, it should be quick as the data won't be downloaded again if they are still on your disk.
 
 ```{r NDVIdownload, message=FALSE}
+library(terra)
 datadir <- "modis"
 files <- agrodata::data_ibli("marsabit_modis_ndvi", datadir)
 head(basename(files))
@@ -13,7 +19,7 @@ head(basename(files))
 Get the area of interest again. We project to the sinusoidial coordinate refrence system that the MODIS data are in 
 
 ```{r aoi}
-aoi <- data_ibli("marsabit")
+aoi <- agrodata::data_ibli("marsabit")
 sinprj <- "+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs "
 pols <- project(aoi, sinprj)
 ```
@@ -36,10 +42,10 @@ Below we define a function for selecting MODIS files for a given year and season
 ```{r selectModFs, message=FALSE}
 library(luna)
 library(meteor)
+
 selectModisFiles <- function(files, startdate, enddate) {
   base_names <- basename(files)
-  dates <- substr(base_names, 10, 16)
-  dates <- dateFromYearDoy(dates)
+  dates <- luna::dateFromYearDoy(substr(base_names, 10, 16)) 
   i <- (dates >= as.Date(startdate)) & (dates <= as.Date(enddate) )
   files[i]
 }
@@ -48,9 +54,9 @@ selectModisFiles <- function(files, startdate, enddate) {
 Let's try the function. First for a single year, and to make a plot
 
 ```{r NDVIs_Plots, fig.width=10, fig.height=10} 
-  season <- selectModisFiles(files, paste0(startyear, "-", startSeason), paste0(startyear, "-", endSeason))
-  sndvi <- rast(season)
-  plot(sndvi[[1:9]])
+season <- selectModisFiles(files, paste0(startyear, "-", startSeason), paste0(startyear, "-", endSeason))
+sndvi <- rast(season)
+plot(sndvi[[1:4]])
 ```
 
 
@@ -59,14 +65,14 @@ We can compute 8-day NDVI spatial aggregates by region.
 ```{r NDVIs_Plots2} 
 ndvi_val <- terra::extract(sndvi, pols, fun=mean, na.rm=TRUE)
 # the first region
-plot(ndvi_val[1,], ylab= "NDVI")
+plot(unlist(ndvi_val[1, -1]), ylab= "NDVI", pch=20, cex=2)
 ```
 
 
 Now, we process all files
 
 ```{r UseselectModFs}
-workdir <- file.path(dirname(tempdir()), "ibli/work")
+workdir <- "work"
 dir.create(workdir, recursive=TRUE, showWarnings=FALSE)
 
 for(year in startyear:endyear) {
@@ -76,14 +82,11 @@ for(year in startyear:endyear) {
   ndvimean <- mean(sndvi, na.rm = TRUE)
   
   # Shorten layer names 
-  names(sndvi) <- paste0("ndvi_",dateFromYearDoy(substr(names(sndvi), 10, 16)))
-  
+  names(sndvi) <- paste0("ndvi_", luna::dateFromYearDoy(substr(names(sndvi), 10, 16)))
   filename=file.path(workdir, paste0( 'MOD09A1.h21v08.',year,"_",sSeason,'_ndvit.tif'))
-
   writeRaster(ndvimean, filename = filename , overwrite=TRUE)
 }
 ```
-
 
 Here is an example of the files we have created.
 
@@ -94,7 +97,7 @@ plot(ndvimean, main = stitle)
 ```
 
 
-## Spatial aggregate
+## Spatial aggregation
 
 Above we computed the seasonal mean NDVI for each pixel. Next we compute spatially aggregated NDVI for each sub-location.
 
@@ -102,16 +105,14 @@ Above we computed the seasonal mean NDVI for each pixel. Next we compute spatial
 ```{r NDVISpatial}
 season <- "LRLD"
 files <- list.files(workdir, pattern=paste0(season,"_ndvit.tif$"), full.names=TRUE)
+ndvi <- rast(files)
 
-output <- matrix(nrow=nrow(pols), ncol=length(files))
+# Compute spatial aggregates by sub-location
+output <- extract(ndvi, pols, fun=mean, na.rm=TRUE)
+# remove the first column with IDs
+output <- output[,-1]
 colnames(output) <- substr(basename(files),16,19)
-
-for(i in 1:length(files)){
-	# read the NDVI rasters for each season
-	ndvi <- rast(files[i])
-	# Compute spatial aggregates by sub-location
-	output[,i] <- extract(ndvi, pols, fun=mean, na.rm=TRUE)
-}
+output[1:3, 1:6]
 ```
 
 
@@ -121,18 +122,17 @@ Now we combine the aggregated data with the polygon data, and we save it to disk
 ```{r comb}
 # Create a data.frame
 res <- data.frame(SLNAME=pols$SUB_LOCATION, IBLI_Zone=pols$IBLI_UNIT, output, stringsAsFactors = FALSE, check.names=FALSE)
-
 saveRDS(res, file.path(workdir, paste0(season,"_ndvi_st_mat.rds")))
 ```
 
 Now we can plot the seasonal mean NDVI over time, by region.
 
 ```{r NDVIls_Plots}
+output <- as.matrix(output)
 plot(output[1,], ylab="NDVI", xlab="Year", type="l", ylim=c(0,.6))
 for (i in 2:nrow(output)) {
   lines(output[i,])
 }
-
 ```
 
 
@@ -146,7 +146,6 @@ z-score computation function:
 zscore <- function(y){
   (y - mean(y, na.rm=TRUE) ) / (sd(y, na.rm=TRUE))
 }
-
 ```
 
 Now we can use this function to compute z-scores over the LRLD period. You can also make some plots to assess forage availablity. For instance, assume a threshold of zero and make payouts anytime the zonal mean deviates below the historical average. In addition, instead of simple line plot you can use linear regression and some local smoothing functions like moving average. 

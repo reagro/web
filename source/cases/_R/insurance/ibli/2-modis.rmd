@@ -11,7 +11,7 @@ These procedures are discussed in more detail [here](https://rspatial.org/terra/
 
 ## Area of interest
 
-First we get the area of interest. Normally you would get this from a file (e.g. a shapefile). See `?terra::vect` for reading such files.
+First we get the area of interest. Normally you would get this from a file (for example, a shapefile). See `?terra::vect` for reading such files.
 
 ```{r aoi, message=FALSE}
 library(agrodata)
@@ -19,7 +19,7 @@ aoi <- data_ibli("marsabit")
 aoi
 ```
 
-We can see that we have 58 polygons, representing 58 unique "sub-locations". Let's plot the polygons on top of a map of Kenya what we have.
+As you can see we have 58 polygons, each representing a "sub-location". Let's plot the polygons on top of a map of Kenya to see where they are.
 
 ```{r ken, message=FALSE}
 library(geodata)
@@ -29,7 +29,7 @@ plot(ken[ken$NAME_1 == "Marsabit", ], col="beige", border="gray", add=TRUE)
 lines(aoi, col="red")
 ```
 
-Clearly in northern Kenya. Note that some polygons are much smaller than others.
+So we are in Northe Kenya. Also note that some polygons (sub-locations) are much smaller than others.
 
 ## Get MODIS files
 
@@ -66,7 +66,7 @@ fmod <- getModis(product="MOD09A1", start, end, aoi, download=TRUE,
 fmod
 ```
 
-We only have two files here, each representing 8 days -- just to illustrate the processing.
+We only have four files here, each representing 8 days -- just to illustrate the processing.
 
 A single MODIS tile for extends well over the study area. We first crop the data to correspond to the study area, and then we remove bad pixels (clouds and shadow) and then .
 
@@ -95,12 +95,12 @@ We now compute NDVI for each month. First, produce a quality mask, mask out bad 
 We use a loop over all files (`fmod`).
 
 ```{r Preprocess}
-for(i in 1:length(fmod)) {
+for(i in seq_along(fmod)) {
   # Load a MODIS file
   r <- rast(fmod[i])
 
   # Generate quality mask (layer 12)
-  quality_mask <- modis_mask(r[[12]], 16, se, reject)
+  quality_mask <- modis_mask(r[[12]], 16, qmat)
 
   #Select only red and NIR
   r <- r[[1:2]]

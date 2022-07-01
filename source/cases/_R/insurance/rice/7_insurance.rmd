@@ -3,6 +3,7 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
+
 # Index insurance
 
 
@@ -14,10 +15,9 @@ Here we evaluate the same contract as in the previous chapter. But we use predic
 First we predict yield for all years.
 
 ```{r, message=FALSE}
-library(agrodata)
 mods <- readRDS("rice_models.rds")
 m1 <- mods$m1
-idx <- data_rice("indices")
+idx <- agrodata::data_rice("indices")
 idx$yield <- predict(m1, idx)
 head(idx)
 ```
@@ -57,7 +57,7 @@ head(z)
 On to the certainty equivalent income. We compute it with and without insurance in one step
 
 ```{r ins06}
-zz <- aggregate(z[, c("income", "income_with_ins")], z[,"zone", drop=FALSE], function(i) ce_income(i, 1.5))
+zz <- aggregate(z[, c("income", "income_with_ins")], z[,"zone", drop=FALSE], function(i) agro::ce_income(i, 1.5))
 ```
 
 Now compute the benefit of insurance

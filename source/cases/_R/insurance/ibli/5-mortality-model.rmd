@@ -54,8 +54,8 @@ amort$mortality_rate[amort$mortality_rate==0] <- NA
 Load the *zNDVI* data for 2000--2015 and income data for Marsabit that we computed in the previous section. We reshape the data from "wide" to "long" format. 
 
 ```{r hh2, message=FALSE}
-LR <- data_ibli("marsabit_zLRLD")
-SR <- data_ibli("marsabit_zSRSD")
+LR <- agrodata::data_ibli("marsabit_zLRLD")
+SR <- agrodata::data_ibli("marsabit_zSRSD")
 
 LR[1:3, 1:6]
 lr <- reshape(LR, direction="long", varying = 2:ncol(LR), v.names="NDVI", timevar="year", times=2000:2015)
